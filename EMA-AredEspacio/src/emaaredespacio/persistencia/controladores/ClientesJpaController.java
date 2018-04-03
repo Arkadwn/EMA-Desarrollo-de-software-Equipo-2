@@ -3,25 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package emaaredespacio.persistencia.controladores;
 
-import emaaredespacio.persistencia.controladorentidad.exceptions.NonexistentEntityException;
+import emaaredespacio.persistencia.controladores.exceptions.NonexistentEntityException;
 import emaaredespacio.persistencia.entidad.Clientes;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.EntityTransaction;
+import javax.persistence.RollbackException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- * 
- * @author Adrián Bustamante Zarate
- * @date 31/03/2018
- * @time 09:17:40 PM
+ *
+ * @author enriq
  */
 public class ClientesJpaController implements Serializable {
 
@@ -34,50 +34,50 @@ public class ClientesJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Clientes clientes) {
+    public boolean create(Clientes clientes) {
+        boolean creado = false;
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(clientes);
             em.getTransaction().commit();
+            creado = true;
         } finally {
             if (em != null) {
                 em.close();
             }
         }
+        return creado;
     }
 
-    public List<Clientes> buscarClientesRelacionados(String palabraClave){
-        EntityManager em = getEntityManager();
-            palabraClave = "%" + palabraClave + "%";
-            String s = "SELECT c FROM Clientes c WHERE c.nombre like :palabraClave";
-            Query q = em.createQuery(s).setParameter("palabraClave", palabraClave);
-            List result = q.getResultList();
-            return result;
-    }
-    
-    public void edit(Clientes clientes) throws NonexistentEntityException, Exception {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            clientes = em.merge(clientes);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = clientes.getIdCliente();
-                if (findClientes(id) == null) {
-                    throw new NonexistentEntityException("The clientes with id " + id + " no longer exists.");
-                }
+    public boolean edit(Clientes cliente) {
+        boolean validacion = true;
+        EntityManager conexion = getEntityManager();
+        EntityTransaction transaccion = null;
+        Clientes clienteActual;
+        
+        try{
+            transaccion = conexion.getTransaction();
+            transaccion.begin();
+            clienteActual = conexion.find(Clientes.class, cliente.getIdCliente());
+
+            clienteActual.setNombre(cliente.getNombre());
+            clienteActual.setCorreo(cliente.getCorreo());
+            clienteActual.setDireccion(cliente.getDireccion());
+            clienteActual.setEstado(cliente.getEstado());
+            clienteActual.setImagen(cliente.getImagen());
+            clienteActual.setTelefono(cliente.getTelefono());
+            
+            transaccion.commit();
+        }catch(RollbackException ex){
+            if(transaccion.isActive()){
+                transaccion.rollback();
             }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+            validacion = false;
         }
+        
+        return validacion;
     }
 
     public void destroy(Integer id) throws NonexistentEntityException {
@@ -99,6 +99,25 @@ public class ClientesJpaController implements Serializable {
                 em.close();
             }
         }
+    }
+    
+    public List<Clientes> buscarClientesRelacionados(String palabraClave){
+        EntityManager em = getEntityManager();
+            palabraClave = "%" + palabraClave + "%";
+            String s = "SELECT c FROM Clientes c WHERE c.nombre like :palabraClave";
+            Query q = em.createQuery(s).setParameter("palabraClave", palabraClave);
+            List result = q.getResultList();
+            return result;
+    }
+    
+    public List<Clientes> buscarCliente(String palabraClave) {
+        List<Clientes> clientes = new ArrayList();
+        
+        EntityManager conexion = getEntityManager();
+    
+        clientes = conexion.createQuery("SELECT a FROM Clientes a WHERE a.nombre LIKE '%"+palabraClave+"%'").getResultList();
+        
+        return clientes;
     }
 
     public List<Clientes> findClientesEntities() {
@@ -146,5 +165,5 @@ public class ClientesJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

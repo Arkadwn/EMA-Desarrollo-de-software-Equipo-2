@@ -5,13 +5,16 @@
  */
 package emaaredespacio.modelo;
 
+import emaaredespacio.persistencia.entidad.Clientes;
 import java.util.List;
 
 /**
  *
- * @author Adrián Bustamante Zarate
+ * @author enriq
  */
 public interface ICliente {
     public boolean guardarDatos(Cliente cliente);
-    public List<Cliente> buscarClienteRelacionados(String palabraClave);
+    public List<Cliente> buscarClienteRelacionado(String nombre);
+    public boolean guardarCliente(Cliente cliente);
+    public List<Cliente> buscarCliente(String nombre);
 }
