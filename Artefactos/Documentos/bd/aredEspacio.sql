@@ -23,15 +23,15 @@ DROP TABLE IF EXISTS `alumnos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `alumnos` (
-  `matricula` varchar(10) NOT NULL,
+  `matricula` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `apellidoP` varchar(50) NOT NULL,
-  `apellidoM` varchar(50) NOT NULL,
+  `apellidos` varchar(100) NOT NULL,
   `direccion` varchar(50) DEFAULT NULL,
   `correo` varchar(50) DEFAULT NULL,
   `telefono` varchar(10) DEFAULT NULL,
   `estado` varchar(1) DEFAULT NULL,
-  PRIMARY KEY (`matricula`)
+  `imagen` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`matricula`)	
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -53,14 +53,12 @@ DROP TABLE IF EXISTS `clientes`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `clientes` (
   `idCliente` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
-  `apellidoP` varchar(50) NOT NULL,
-  `apellidoM` varchar(50) NOT NULL,
+  `nombre` varchar(400) NOT NULL,
   `direccion` varchar(50) DEFAULT NULL,
   `correo` varchar(50) DEFAULT NULL,
   `telefono` varchar(10) DEFAULT NULL,
   `estado` varchar(1) DEFAULT NULL,
-  `imagen` longblob,
+  `imagen` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idCliente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -84,12 +82,13 @@ DROP TABLE IF EXISTS `colaboradores`;
 CREATE TABLE `colaboradores` (
   `idColaborador` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `apellidoP` varchar(50) NOT NULL,
-  `apellidoM` varchar(50) NOT NULL,
+  `apellidos` varchar(100) NOT NULL,
   `correo` varchar(50) DEFAULT NULL,
   `direccion` varchar(50) DEFAULT NULL,
   `telefono` varchar(10) DEFAULT NULL,
-  `imagen` longblob,
+  `imagen` varchar(1000) DEFAULT NULL,
+  `montoApagar` varchar(1000) DEFAULT NULL,
+  `tipoPago` varchar(50) DEFAULT NULL,
   `estado` varchar(1) DEFAULT NULL,
   `idUsuario` int(11) DEFAULT NULL,
   PRIMARY KEY (`idColaborador`),
@@ -116,13 +115,12 @@ DROP TABLE IF EXISTS `directores`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `directores` (
   `idDirector` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
-  `apellidoP` varchar(50) NOT NULL,
-  `apellidoM` varchar(50) NOT NULL,
+  `nombre` varchar(400) NOT NULL,
   `correo` varchar(50) DEFAULT NULL,
   `direccion` varchar(50) DEFAULT NULL,
   `telefono` varchar(10) DEFAULT NULL,
   `idUsuario` int(11) DEFAULT NULL,
+  `imagen` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`idDirector`),
   KEY `idUsuario` (`idUsuario`),
   CONSTRAINT `directores_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`)
@@ -176,7 +174,7 @@ DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
   `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
   `nombreUsuario` varchar(30) NOT NULL,
-  `contrasenia` varchar(30) NOT NULL,
+  `contrasenia` varchar(100) NOT NULL,
   `tipo` int(1) DEFAULT NULL,
   PRIMARY KEY (`idUsuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -190,6 +188,38 @@ LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `rentas`
+--
+
+DROP TABLE IF EXISTS `rentas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rentas` (
+  `idRenta` int(11) NOT NULL AUTO_INCREMENT,
+  `monto` int(11) DEFAULT NULL,
+  `fecha` varchar(15) DEFAULT NULL,
+  `horaIni` int(11) DEFAULT NULL,
+  `horaFin` int(11) DEFAULT NULL,
+  `idCliente` int(11) DEFAULT NULL,
+  `estado` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`idRenta`),
+  KEY `idCliente` (`idCliente`),
+  CONSTRAINT `rentas_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `clientes` (`idCliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rentas`
+--
+
+LOCK TABLES `rentas` WRITE;
+/*!40000 ALTER TABLE `rentas` DISABLE KEYS */;
+INSERT INTO `rentas` VALUES (6,15000,'2/06/2018',100,100,2,''),(7,16000,'7/12/2018',100,100,2,'');
+/*!40000 ALTER TABLE `rentas` ENABLE KEYS */;
+UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
