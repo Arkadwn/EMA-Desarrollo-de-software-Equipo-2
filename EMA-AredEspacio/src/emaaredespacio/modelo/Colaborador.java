@@ -1,10 +1,10 @@
 package emaaredespacio.modelo;
 
+import emaaredespacio.utilerias.Utileria;
 import emaaredespacio.persistencia.controladores.ColaboradoresJpaController;
 import emaaredespacio.persistencia.controladores.IControladorColaborador;
 import emaaredespacio.persistencia.entidad.Colaboradores;
 import emaaredespacio.persistencia.entidad.Usuarios;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -158,7 +158,7 @@ public class Colaborador implements IColaborador{
         boolean validacion = false;
         String ecriptada = "";
         try {
-            ecriptada = encriptarContrasena(colaborador.getContraseña());
+            ecriptada = Utileria.encriptarContrasena(colaborador.getContraseña());
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Colaborador.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -275,7 +275,7 @@ public class Colaborador implements IColaborador{
         
         if(nuevaContraseña){
             try {
-                encriptada = encriptarContrasena(colaborador.getContraseña());
+                encriptada = Utileria.encriptarContrasena(colaborador.getContraseña());
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(Colaborador.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -307,14 +307,5 @@ public class Colaborador implements IColaborador{
         return validacion;
     }
     
-    private static String encriptarContrasena(String contrasena) throws NoSuchAlgorithmException {
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-        byte[] hash = messageDigest.digest(contrasena.getBytes());
-        StringBuilder stringBuilder = new StringBuilder();
 
-        for (int i = 0; i < hash.length; i++) {
-            stringBuilder.append(Integer.toString((hash[i] & 0xff) + 0x100, 16).substring(1));
-        }
-        return stringBuilder.toString();
-    }
 }
