@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLAdministarRentasController">
+   <children>
+      <GridPane layoutY="52.0" prefHeight="550.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="52.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="489.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="489.0" minHeight="10.0" prefHeight="412.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <JFXTextField fx:id="txtBusqueda" focusColor="#854c5d" labelFloat="true" prefHeight="35.0" prefWidth="400.0" promptText="Buscar cliente por nombre o apellidos:" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="5.0" right="70.0" />
+               </GridPane.margin>
+            </JFXTextField>
+            <JFXButton fx:id="btnBuscar" onAction="#buscarCliente" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: black;" text="Buscar" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXButton>
+            <JFXListView fx:id="listaBusqueda" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </JFXListView>
+            <ToggleButton fx:id="btnToggleModificar" mnemonicParsing="false" onAction="#cambiarModificar" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: lightpink; -fx-text-fill: black;" text="Modificar renta" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+               <toggleGroup>
+                  <ToggleGroup fx:id="rentasGroup" />
+               </toggleGroup>
+            </ToggleButton>
+            <ToggleButton fx:id="btnToggleCrear" mnemonicParsing="false" onAction="#cambiarCrearRenta" prefHeight="35.0" prefWidth="200.0" selected="true" style="-fx-background-color: #854c5d; -fx-base: lightblue;" text="Crear renta" textFill="WHITE" toggleGroup="$rentasGroup" GridPane.columnIndex="1" GridPane.halignment="LEFT">
+               <GridPane.margin>
+                  <Insets right="201.0" />
+               </GridPane.margin>
+            </ToggleButton>
+            <DatePicker fx:id="itemFecha" prefHeight="25.0" prefWidth="195.0" promptText="--/--/----" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="15.0" top="200.0" />
+               </GridPane.margin>
+            </DatePicker>
+            <Label text="Fecha:" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="15.0" top="180.0" />
+               </GridPane.margin>
+            </Label>
+            <JFXTextField fx:id="txtMonto" focusColor="#854c5d" labelFloat="true" prefHeight="25.0" prefWidth="195.0" promptText="Monto: $" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="15.0" right="185.0" top="125.0" />
+               </GridPane.margin>
+            </JFXTextField>
+            <TableView fx:id="tableHorario" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+              <columns>
+                <TableColumn fx:id="columnHorario" prefWidth="115.0" resizable="false" text="Horario" />
+                <TableColumn fx:id="columnDisponibilidad" prefWidth="274.0" resizable="false" text="Disponibilidad" />
+              </columns>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </TableView>
+            <JFXButton fx:id="btnRegresar" cancelButton="true" onAction="#regresarMenuPrincipal" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: #854c5d;" text="Regresar" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="300.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></JFXButton>
+            <JFXButton fx:id="btnGuardar" defaultButton="true" onAction="#guardarDatos" style="-fx-background-color: lightpink;" text="Guardar" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="50.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <JFXButton fx:id="btnCancelarRenta" onAction="#cancelarRenta" style="-fx-background-color: black;" text="Cancelar renta" textFill="WHITE" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="160.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <ListView fx:id="listRentas" prefHeight="200.0" prefWidth="200.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
+               <GridPane.margin>
+                  <Insets bottom="35.0" left="10.0" right="10.0" top="5.0" />
+               </GridPane.margin>
+               <effect>
+                  <DropShadow color="#00000080" height="255.0" radius="101.8575" width="154.43" />
+               </effect>
+            </ListView>
+            <JFXButton fx:id="btnSeleccionarRentaVentana" onAction="#guardarSeleccionRenta" prefHeight="25.0" prefWidth="113.0" style="-fx-background-color: lightblue;" text="Seleccionar renta" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <JFXButton fx:id="btnSeleccionarRenta" onAction="#seleccionarRentaListaEmergente" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: lightblue;" text="Seleccionar renta" visible="false" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="10.0" top="75.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <JFXButton fx:id="btnCerrarRentaVentana" onAction="#cerrarVentanaEmergente" prefHeight="25.0" prefWidth="35.0" style="-fx-background-color: red;" text="X" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="10.0" right="10.0" />
+               </GridPane.margin>
+            </JFXButton>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

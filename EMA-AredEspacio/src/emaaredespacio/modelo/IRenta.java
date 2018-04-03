@@ -5,10 +5,17 @@
  */
 package emaaredespacio.modelo;
 
+import java.util.List;
+
 /**
  *
  * @author Adrián Bustamante Zarate
  */
 public interface IRenta {
-    
+    public boolean cancelarRenta(int idRenta);
+    public Renta cargarRenta(String id);
+    public List<Renta> cargarRentas();
+    public List<Renta> cargarRentas(Cliente cliente);
+    public boolean guardarCambios(Renta renta);
+    public boolean guardarNuevaRenta(Renta renta);
 }

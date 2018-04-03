@@ -5,8 +5,14 @@
  */
 package emaaredespacio.gui.controlador;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+import emaaredespacio.modelo.UsuarioSistema;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 /**
@@ -16,12 +22,37 @@ import javafx.fxml.Initializable;
  */
 public class FXMLIniciarSesionController implements Initializable {
 
+    @FXML
+    private JFXButton btnCancelar;
+    @FXML
+    private JFXButton btnIniciarSesion;
+    @FXML
+    private JFXPasswordField txtContrasenia;
+    @FXML
+    private JFXTextField txtUsuario;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
+
+    @FXML
+    private void btnCerrar(ActionEvent event) {
+        System.exit(0);
+    }
+
+    @FXML
+    private void autenticar(ActionEvent event) {
+        UsuarioSistema user = new UsuarioSistema();
+        user.setContrasenia(txtContrasenia.getText());
+        user.setUsuario(txtUsuario.getText());
+        if(new UsuarioSistema().autenticarSesion(user)){
+            System.out.println("Inicio sesión");
+            //Entrar a menu principal
+        }
+    }
     
 }

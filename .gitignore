@@ -25,3 +25,5 @@ EMA-AredEspacio/manifest.mf
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/EMA-AredEspacio/build/
+/EMA-AredEspacio/dist/

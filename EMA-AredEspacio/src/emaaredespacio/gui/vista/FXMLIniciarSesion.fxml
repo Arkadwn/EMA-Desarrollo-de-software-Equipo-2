@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.paint.*?>
@@ -11,36 +12,71 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLIniciarSesionController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLIniciarSesionController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="1247.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../imagenes/FondoDegradado1200X600Logo.jpg" />
-         </image>
-      </ImageView>
-      <Pane layoutX="354.0" layoutY="15.0" prefHeight="570.0" prefWidth="495.0" style="-fx-background-color: #FFD7F1; -fx-background-radius: 10; -fx-padding: 10;">
-         <effect>
-            <DropShadow blurType="GAUSSIAN" color="#000000ac" height="20.0" offsetX="3.0" offsetY="3.0" radius="9.5" width="20.0" />
-         </effect>
+      <GridPane prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="394.0" minWidth="10.0" prefWidth="334.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="10.0" prefWidth="533.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="333.0" minWidth="10.0" prefWidth="330.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <ImageView fitHeight="339.0" fitWidth="495.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../imagenes/LogoEdit.png" />
-               </image>
-            </ImageView>
-            <JFXButton buttonType="RAISED" defaultButton="true" focusTraversable="false" layoutX="128.0" layoutY="492.0" ripplerFill="BLACK" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Iniciar sesión">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </JFXButton>
-            <JFXButton buttonType="RAISED" cancelButton="true" focusTraversable="false" layoutX="279.0" layoutY="492.0" prefHeight="29.0" prefWidth="89.0" ripplerFill="BLACK" style="-fx-border-color: #ff0000; -fx-border-radius: 5; -fx-border-width: 2;" text="Cerrar">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </JFXButton>
-            <JFXTextField focusColor="#b94e8a" layoutX="128.0" layoutY="339.0" prefHeight="25.0" prefWidth="240.0" promptText="Usuario" unFocusColor="BLACK" />
-            <JFXPasswordField focusColor="#b94e8a" layoutX="128.0" layoutY="400.0" prefHeight="25.0" prefWidth="240.0" promptText="Contraseña" unFocusColor="BLACK" />
+            <GridPane prefHeight="580.0" prefWidth="524.0" style="-fx-background-color: lightpink; -fx-background-radius: 8;" GridPane.columnIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="340.0" minHeight="10.0" prefHeight="340.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="188.0" minHeight="10.0" prefHeight="87.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <JFXTextField fx:id="txtUsuario" focusColor="#b94e8a" labelFloat="true" prefHeight="25.0" prefWidth="240.0" promptText="Usuario:" unFocusColor="BLACK" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets left="140.0" right="140.0" top="30.0" />
+                     </GridPane.margin>
+                  </JFXTextField>
+                  <JFXPasswordField fx:id="txtContrasenia" focusColor="#b94e8a" labelFloat="true" prefHeight="25.0" prefWidth="240.0" promptText="Contraseña:" unFocusColor="BLACK" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="140.0" right="140.0" />
+                     </GridPane.margin>
+                  </JFXPasswordField>
+                  <JFXButton fx:id="btnCancelar" buttonType="RAISED" cancelButton="true" focusTraversable="false" onAction="#btnCerrar" prefHeight="29.0" prefWidth="89.0" ripplerFill="BLACK" style="-fx-border-color: #ff0000; -fx-border-radius: 5; -fx-border-width: 2;" text="Cerrar" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="150.0" />
+                     </GridPane.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="btnIniciarSesion" buttonType="RAISED" defaultButton="true" focusTraversable="false" onAction="#autenticar" ripplerFill="BLACK" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Iniciar sesión" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="150.0" />
+                     </GridPane.margin>
+                  </JFXButton>
+                  <ImageView fitHeight="339.0" fitWidth="495.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <image>
+                        <Image url="@../../imagenes/LogoEdit.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+               </GridPane.margin>
+               <effect>
+                  <DropShadow offsetX="3.0" offsetY="3.0" />
+               </effect>
+            </GridPane>
          </children>
-      </Pane>
+         <effect>
+            <InnerShadow choke="0.41" height="18.03" radius="67.7575" width="255.0" />
+         </effect>
+      </GridPane>
    </children>
 </AnchorPane>
