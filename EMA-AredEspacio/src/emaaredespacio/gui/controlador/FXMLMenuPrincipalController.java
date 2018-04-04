@@ -1,11 +1,14 @@
 package emaaredespacio.gui.controlador;
 
 import com.jfoenix.controls.JFXButton;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -24,6 +27,8 @@ public class FXMLMenuPrincipalController implements Initializable {
     private AnchorPane barraMenu;
     @FXML
     private AnchorPane panelPrincipal;
+    @FXML
+    private JFXButton btnAdministrarColaboradores;
 
     /**
      * Initializes the controller class.
@@ -36,9 +41,11 @@ public class FXMLMenuPrincipalController implements Initializable {
         panelPrincipal.setStyle("-fx-background-image: url('emaaredespacio/imagenes/fondo.jpg');"
                 + "-fx-background-position: center center; -fx-background-repeat: stretch;");
         btnInicio.setStyle("-fx-background-image: url('emaaredespacio/imagenes/inicio.png');"
-                + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 30px 30px 30px 30px;");
+                + "-fx-background-position: center center; -fx-background-repeat: stretch; "
+                + "-fx-background-size: 30px 30px 30px 30px;");
         btnSalir.setStyle("-fx-background-image: url('emaaredespacio/imagenes/salir.png');"
-                + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 30px 30px 30px 30px;");
+                + "-fx-background-position: center center; -fx-background-repeat: stretch;"
+                + " -fx-background-size: 30px 30px 30px 30px;");
     }
     
     @FXML
@@ -53,4 +60,53 @@ public class FXMLMenuPrincipalController implements Initializable {
         menuDesplegado = false;
     }
     
+    @FXML
+    private void desplegarVentanaAdministrarColaboradores(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarColaborador.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void limpiar(ActionEvent evento){
+        panelPrincipal.getChildren().clear();
+    }
+    
+    @FXML
+    public void desplegarVentana(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLEditarColaborador.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarAdminstrarAlumnos(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarAlumno.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarEditarAlumno(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLEditarAlumno.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarAdministrarRentas(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLAdministrarRentas.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
 }

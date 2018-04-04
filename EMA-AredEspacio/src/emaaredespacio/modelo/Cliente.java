@@ -6,8 +6,6 @@
 package emaaredespacio.modelo;
 
 import emaaredespacio.persistencia.controladores.ClientesJpaController;
-import emaaredespacio.persistencia.controladores.ClientesJpaController2;
-import emaaredespacio.persistencia.controladores.ClientesJpaController2;
 import emaaredespacio.persistencia.controladores.IControladorCliente;
 import emaaredespacio.persistencia.entidad.Clientes;
 import java.util.ArrayList;
@@ -35,6 +33,10 @@ public class Cliente implements ICliente{
     private Cliente(String nombre, String idCliente) {
         this.id = idCliente;
         this.nombre = nombre;
+    }
+
+    public Cliente(String id) {
+        this.id = id;
     }
 
     public Cliente() {

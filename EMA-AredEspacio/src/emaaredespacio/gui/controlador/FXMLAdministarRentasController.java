@@ -57,13 +57,6 @@ public class FXMLAdministarRentasController implements Initializable {
     private JFXButton btnGuardar;
     @FXML
     private JFXButton btnCancelarRenta;
-    @FXML
-    private JFXButton btnSalir;
-    @FXML
-    private JFXButton btnInicio;
-    @FXML
-    private Label labelNombreUsuario;
-    @FXML
     private AnchorPane barraMenu;
     @FXML
     private TableView<?> tableHorario;
@@ -91,11 +84,6 @@ public class FXMLAdministarRentasController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         modificar = false;
         menuDesplegado = false;
-
-        btnInicio.setStyle("-fx-background-image: url('emaaredespacio/imagenes/inicio.png');"
-                + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 30px 30px 30px 30px;");
-        btnSalir.setStyle("-fx-background-image: url('emaaredespacio/imagenes/salir.png');"
-                + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 30px 30px 30px 30px;");
     }
 
     @FXML
@@ -103,7 +91,7 @@ public class FXMLAdministarRentasController implements Initializable {
         listaBusqueda.setItems(FXCollections.observableArrayList());
         ObservableList<String> lista = listaBusqueda.getItems();
         if (!"".equals(txtBusqueda.getText())) {
-            List<Cliente> clientes = new Cliente().buscarClienteRelacionados(txtBusqueda.getText());
+            List<Cliente> clientes = new Cliente().buscarClienteRelacionado(txtBusqueda.getText());
             int c = 0;
             for (Cliente cliente : clientes) {
                 String string = cliente.getId() + " | " + cliente.getNombre();
@@ -181,13 +169,11 @@ public class FXMLAdministarRentasController implements Initializable {
         }
     }
 
-    @FXML
     private void mostrarMenu(ActionEvent event) {
         menuDesplegado = !menuDesplegado;
         barraMenu.setVisible(menuDesplegado);
     }
 
-    @FXML
     private void ocultarMenu(MouseEvent event) {
         barraMenu.setVisible(false);
         menuDesplegado = false;

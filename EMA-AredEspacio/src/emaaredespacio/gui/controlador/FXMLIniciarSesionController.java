@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.UsuarioSistema;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -45,7 +46,7 @@ public class FXMLIniciarSesionController implements Initializable {
     }
 
     @FXML
-    private void autenticar(ActionEvent event) {
+    private void autenticar(ActionEvent event) throws NoSuchAlgorithmException {
         UsuarioSistema user = new UsuarioSistema();
         user.setContrasenia(txtContrasenia.getText());
         user.setUsuario(txtUsuario.getText());
