@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 1/04/2018
- * @time 12:44:02 PM
+ * @date 6/04/2018
+ * @time 10:51:51 PM
  */
 @Entity
 @Table(name = "colaboradores")
@@ -41,13 +41,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Colaboradores.findByDireccion", query = "SELECT c FROM Colaboradores c WHERE c.direccion = :direccion")
     , @NamedQuery(name = "Colaboradores.findByTelefono", query = "SELECT c FROM Colaboradores c WHERE c.telefono = :telefono")
     , @NamedQuery(name = "Colaboradores.findByImagen", query = "SELECT c FROM Colaboradores c WHERE c.imagen = :imagen")
+    , @NamedQuery(name = "Colaboradores.findByMontoApagar", query = "SELECT c FROM Colaboradores c WHERE c.montoApagar = :montoApagar")
+    , @NamedQuery(name = "Colaboradores.findByTipoPago", query = "SELECT c FROM Colaboradores c WHERE c.tipoPago = :tipoPago")
     , @NamedQuery(name = "Colaboradores.findByEstado", query = "SELECT c FROM Colaboradores c WHERE c.estado = :estado")})
 public class Colaboradores implements Serializable {
-
-    @Column(name = "montoApagar")
-    private String montoApagar;
-    @Column(name = "tipoPago")
-    private String tipoPago;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -69,6 +66,10 @@ public class Colaboradores implements Serializable {
     private String telefono;
     @Column(name = "imagen")
     private String imagen;
+    @Column(name = "montoApagar")
+    private String montoApagar;
+    @Column(name = "tipoPago")
+    private String tipoPago;
     @Column(name = "estado")
     private String estado;
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
@@ -146,6 +147,22 @@ public class Colaboradores implements Serializable {
         this.imagen = imagen;
     }
 
+    public String getMontoApagar() {
+        return montoApagar;
+    }
+
+    public void setMontoApagar(String montoApagar) {
+        this.montoApagar = montoApagar;
+    }
+
+    public String getTipoPago() {
+        return tipoPago;
+    }
+
+    public void setTipoPago(String tipoPago) {
+        this.tipoPago = tipoPago;
+    }
+
     public String getEstado() {
         return estado;
     }
@@ -194,22 +211,6 @@ public class Colaboradores implements Serializable {
     @Override
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Colaboradores[ idColaborador=" + idColaborador + " ]";
-    }
-
-    public String getMontoApagar() {
-        return montoApagar;
-    }
-
-    public void setMontoApagar(String montoApagar) {
-        this.montoApagar = montoApagar;
-    }
-
-    public String getTipoPago() {
-        return tipoPago;
-    }
-
-    public void setTipoPago(String tipoPago) {
-        this.tipoPago = tipoPago;
     }
 
 }

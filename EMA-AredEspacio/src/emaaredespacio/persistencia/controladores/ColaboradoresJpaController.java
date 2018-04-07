@@ -49,7 +49,6 @@ public class ColaboradoresJpaController implements IControladorColaborador{
             
             transaccion.commit();
         }catch(RollbackException ex){
-            Logger.getLogger(ColaboradoresJpaController.class.getName()).log(Level.SEVERE, null, ex);
             if(transaccion.isActive()){
                 transaccion.rollback();
             }

@@ -21,10 +21,10 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * 
- * @author Adrián Bustamante Zarate
- * @date 3/04/2018
- * @time 06:20:00 PM
+ *
+ * @author Miguel Leonardo Jimenez Jimenez
+ * @date 6/04/2018
+ * @time 10:51:51 PM
  */
 @Entity
 @Table(name = "rentas")

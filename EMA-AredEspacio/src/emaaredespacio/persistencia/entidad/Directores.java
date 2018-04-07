@@ -21,10 +21,10 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * 
- * @author Adrián Bustamante Zarate
- * @date 1/04/2018
- * @time 11:18:21 PM
+ *
+ * @author Miguel Leonardo Jimenez Jimenez
+ * @date 6/04/2018
+ * @time 10:51:52 PM
  */
 @Entity
 @Table(name = "directores")
@@ -33,15 +33,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Directores.findAll", query = "SELECT d FROM Directores d")
     , @NamedQuery(name = "Directores.findByIdDirector", query = "SELECT d FROM Directores d WHERE d.idDirector = :idDirector")
     , @NamedQuery(name = "Directores.findByNombre", query = "SELECT d FROM Directores d WHERE d.nombre = :nombre")
-    , @NamedQuery(name = "Directores.findByApellidoP", query = "SELECT d FROM Directores d WHERE d.apellidoP = :apellidoP")
-    , @NamedQuery(name = "Directores.findByApellidoM", query = "SELECT d FROM Directores d WHERE d.apellidoM = :apellidoM")
     , @NamedQuery(name = "Directores.findByCorreo", query = "SELECT d FROM Directores d WHERE d.correo = :correo")
     , @NamedQuery(name = "Directores.findByDireccion", query = "SELECT d FROM Directores d WHERE d.direccion = :direccion")
-    , @NamedQuery(name = "Directores.findByTelefono", query = "SELECT d FROM Directores d WHERE d.telefono = :telefono")})
+    , @NamedQuery(name = "Directores.findByTelefono", query = "SELECT d FROM Directores d WHERE d.telefono = :telefono")
+    , @NamedQuery(name = "Directores.findByImagen", query = "SELECT d FROM Directores d WHERE d.imagen = :imagen")})
 public class Directores implements Serializable {
-
-    @Column(name = "imagen")
-    private String imagen;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,18 +48,14 @@ public class Directores implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @Basic(optional = false)
-    @Column(name = "apellidoP")
-    private String apellidoP;
-    @Basic(optional = false)
-    @Column(name = "apellidoM")
-    private String apellidoM;
     @Column(name = "correo")
     private String correo;
     @Column(name = "direccion")
     private String direccion;
     @Column(name = "telefono")
     private String telefono;
+    @Column(name = "imagen")
+    private String imagen;
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
     @ManyToOne
     private Usuarios idUsuario;
@@ -75,11 +67,9 @@ public class Directores implements Serializable {
         this.idDirector = idDirector;
     }
 
-    public Directores(Integer idDirector, String nombre, String apellidoP, String apellidoM) {
+    public Directores(Integer idDirector, String nombre) {
         this.idDirector = idDirector;
         this.nombre = nombre;
-        this.apellidoP = apellidoP;
-        this.apellidoM = apellidoM;
     }
 
     public Integer getIdDirector() {
@@ -96,22 +86,6 @@ public class Directores implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getApellidoP() {
-        return apellidoP;
-    }
-
-    public void setApellidoP(String apellidoP) {
-        this.apellidoP = apellidoP;
-    }
-
-    public String getApellidoM() {
-        return apellidoM;
-    }
-
-    public void setApellidoM(String apellidoM) {
-        this.apellidoM = apellidoM;
     }
 
     public String getCorreo() {
@@ -136,6 +110,14 @@ public class Directores implements Serializable {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public Usuarios getIdUsuario() {
@@ -169,14 +151,6 @@ public class Directores implements Serializable {
     @Override
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Directores[ idDirector=" + idDirector + " ]";
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
     }
 
 }

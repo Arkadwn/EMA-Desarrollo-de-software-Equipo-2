@@ -231,3 +231,8 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-03-29  0:22:11
+create user 'userAredEspacio'@'%' identified by 'limonhj2018';
+Grant insert on aredEspacio.* to 'userAredEspacio'@'%';
+Grant select on aredEspacio.* to 'userAredEspacio'@'%';
+Grant delete on aredEspacio.* to 'userAredEspacio'@'%';
+Grant update on aredEspacio.* to 'userAredEspacio'@'%';

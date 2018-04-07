@@ -23,26 +23,26 @@ public class ColaboradorTest {
     /**
      * Test of registrarColaborador method, of class Colaborador.
      */
-//    @Test
-//    public void testRegistrarColaborador_CP_01() {
-//        System.out.println("registrarColaborador-CP-01");
-//        
-//        Colaborador colaborador = new Colaborador();
-//        colaborador.setNombre("Manuel");
-//        colaborador.setApellidos("Jimenez Jimenez");
-//        colaborador.setContraseña("manuel64Mella");
-//        colaborador.setTelefono("2281301414");
-//        colaborador.setCorreo("manuel@gmail.com");
-//        colaborador.setDireccion("Rancho Viejo");
-//        colaborador.setImagenPerfil("20180319_094545.jpg");
-//        colaborador.setTipoPago("Quinsenal");
-//        colaborador.setMontoAPagar("400");
-//        colaborador.setNombreUsuario("Manu");
-//        boolean resultadoEsperado = true;
-//        boolean resultado = controlador.registrarColaborador(colaborador);
-//        assertEquals(resultadoEsperado, resultado);
-//        System.out.println(resultadoEsperado+" - " + resultado);
-//    }
+    @Test
+    public void testRegistrarColaborador_CP_01() {
+        System.out.println("registrarColaborador-CP-01");
+        
+        Colaborador colaborador = new Colaborador();
+        colaborador.setNombre("Manuel");
+        colaborador.setApellidos("Jimenez Jimenez");
+        colaborador.setContraseña("manuel64Mella");
+        colaborador.setTelefono("2281301414");
+        colaborador.setCorreo("manuel@gmail.com");
+        colaborador.setDireccion("Rancho Viejo");
+        colaborador.setImagenPerfil("20180319_094545.jpg");
+        colaborador.setTipoPago("Quinsenal");
+        colaborador.setMontoAPagar("400");
+        colaborador.setNombreUsuario("Manu");
+        boolean resultadoEsperado = true;
+        boolean resultado = controlador.registrarColaborador(colaborador);
+        assertEquals(resultadoEsperado, resultado);
+        System.out.println(resultadoEsperado+" - " + resultado);
+    }
     /**
      * Test of validarCampos method, of class Colaborador.
      */

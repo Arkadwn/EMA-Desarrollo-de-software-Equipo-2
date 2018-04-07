@@ -22,10 +22,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * 
- * @author Adrián Bustamante Zarate
- * @date 1/04/2018
- * @time 11:18:22 PM
+ *
+ * @author Miguel Leonardo Jimenez Jimenez
+ * @date 6/04/2018
+ * @time 10:51:52 PM
  */
 @Entity
 @Table(name = "clientes")
@@ -33,15 +33,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Clientes.findAll", query = "SELECT c FROM Clientes c")
     , @NamedQuery(name = "Clientes.findByIdCliente", query = "SELECT c FROM Clientes c WHERE c.idCliente = :idCliente")
+    , @NamedQuery(name = "Clientes.findByNombre", query = "SELECT c FROM Clientes c WHERE c.nombre = :nombre")
     , @NamedQuery(name = "Clientes.findByDireccion", query = "SELECT c FROM Clientes c WHERE c.direccion = :direccion")
     , @NamedQuery(name = "Clientes.findByCorreo", query = "SELECT c FROM Clientes c WHERE c.correo = :correo")
     , @NamedQuery(name = "Clientes.findByTelefono", query = "SELECT c FROM Clientes c WHERE c.telefono = :telefono")
     , @NamedQuery(name = "Clientes.findByEstado", query = "SELECT c FROM Clientes c WHERE c.estado = :estado")
-    , @NamedQuery(name = "Clientes.findByNombre", query = "SELECT c FROM Clientes c WHERE c.nombre = :nombre")})
+    , @NamedQuery(name = "Clientes.findByImagen", query = "SELECT c FROM Clientes c WHERE c.imagen = :imagen")})
 public class Clientes implements Serializable {
-
-    @Column(name = "imagen")
-    private String imagen;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,6 +47,9 @@ public class Clientes implements Serializable {
     @Basic(optional = false)
     @Column(name = "idCliente")
     private Integer idCliente;
+    @Basic(optional = false)
+    @Column(name = "nombre")
+    private String nombre;
     @Column(name = "direccion")
     private String direccion;
     @Column(name = "correo")
@@ -57,8 +58,8 @@ public class Clientes implements Serializable {
     private String telefono;
     @Column(name = "estado")
     private String estado;
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "imagen")
+    private String imagen;
     @OneToMany(mappedBy = "idCliente")
     private List<Rentas> rentasList;
 
@@ -69,12 +70,25 @@ public class Clientes implements Serializable {
         this.idCliente = idCliente;
     }
 
+    public Clientes(Integer idCliente, String nombre) {
+        this.idCliente = idCliente;
+        this.nombre = nombre;
+    }
+
     public Integer getIdCliente() {
         return idCliente;
     }
 
     public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDireccion() {
@@ -109,13 +123,12 @@ public class Clientes implements Serializable {
         this.estado = estado;
     }
 
-
-    public String getNombre() {
-        return nombre;
+    public String getImagen() {
+        return imagen;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     @XmlTransient
@@ -150,14 +163,6 @@ public class Clientes implements Serializable {
     @Override
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Clientes[ idCliente=" + idCliente + " ]";
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
     }
 
 }
