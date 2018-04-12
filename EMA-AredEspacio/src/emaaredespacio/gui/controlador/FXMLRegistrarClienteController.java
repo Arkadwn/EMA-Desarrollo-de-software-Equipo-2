@@ -12,11 +12,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,6 +33,7 @@ import javafx.stage.FileChooser;
  * @author enriq
  */
 public class FXMLRegistrarClienteController implements Initializable {
+
     @FXML
     private JFXTextField tfNombre;
     @FXML
@@ -44,49 +48,60 @@ public class FXMLRegistrarClienteController implements Initializable {
     private ImageView imgPerfil;
     private String nombreImagen;
     private static final String PATRON_CORREO = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    
+    DecimalFormat format = new DecimalFormat("#.0");
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Image imagen = new Image("emaaredespacio/imagenes/perfil.jpg",300, 300, false, true, true);
+        Image imagen = new Image("emaaredespacio/imagenes/perfil.jpg", 300, 300, false, true, true);
         imgPerfil.setImage(imagen);
         nombreImagen = "No";
+        tfTelefono.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                    String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    tfTelefono.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
     }
-    
+
     private boolean validarFormatoCorreo(String email) {
         Pattern patron = Pattern.compile(PATRON_CORREO);
         Matcher concordancia = patron.matcher(email);
         return concordancia.matches();
     }
-    
+
     public boolean[] validarCampos() {
         boolean[] validaciones = new boolean[7];
-        
+
         //Nombre
-        validaciones[0] = tfNombre.getLength() >= 2;
+        validaciones[0] = tfNombre.getText().trim().length() >= 2;
         //Apellidos
-        validaciones[1] = tfApellidos.getLength() >= 2;
+        validaciones[1] = tfApellidos.getText().trim().length() >= 2;
         //Nombre y Apellidos
-        validaciones[2] = tfNombre.getLength() + tfApellidos.getLength() <=400;
+        validaciones[2] = tfNombre.getText().trim().length() + tfApellidos.getLength() <= 400;
         //Correo
         validaciones[3] = validarFormatoCorreo(tfCorreo.getText());
         //Direccion
-        validaciones[4] = tfDireccion.getLength() >= 2 && tfDireccion.getLength() <= 50;
+        validaciones[4] = tfDireccion.getText().trim().length() >= 2 && tfDireccion.getLength() <= 50;
         //Telefono
-        validaciones[5] = tfTelefono.getLength() >= 2 && tfTelefono.getLength() <= 10;
-        
+        validaciones[5] = tfTelefono.getLength() == 10;
+
         validaciones[6] = validaciones[0] && validaciones[1] && validaciones[2] && validaciones[3] && validaciones[4] && validaciones[5];
-        
+
         return validaciones;
     }
-    
+
     @FXML
-    private void accionGuardar(ActionEvent evento){
-        if(validarCamposVacios()){
+    private void accionGuardar(ActionEvent evento) {
+        if (validarCamposVacios()) {
             System.out.println("Hay campos vacios");
-        }else{
+        } else {
             ICliente metodosCliente = new Cliente();
             Cliente cliente = new Cliente();
             cliente.setNombre(tfNombre.getText() + " " + tfApellidos.getText());
@@ -94,25 +109,25 @@ public class FXMLRegistrarClienteController implements Initializable {
             cliente.setDireccion(tfDireccion.getText());
             cliente.setImagenPerfil(nombreImagen);
             cliente.setTelefono(tfTelefono.getText());
-            
+
             boolean[] validacion = validarCampos();
-            if(validacion[6]){
-                if(metodosCliente.guardarCliente(cliente)){
+            if (validacion[6]) {
+                if (metodosCliente.guardarCliente(cliente)) {
                     System.out.println("Cliente guardado");
-                }else{
-                    System.out.println("No se pudo");
+                } else {
+                    System.out.println("No se pudo guardar el cliente");
                 }
-            }else{
+            } else {
                 System.out.println("Campos invalidos");
             }
         }
     }
-    
-    private boolean validarCamposVacios(){
-        return tfNombre.getText().isEmpty() || tfApellidos.getText().isEmpty() || tfTelefono.getText().isEmpty()
-                || tfDireccion.getText().isEmpty() || tfCorreo.getText().isEmpty() || nombreImagen.equals("No");
+
+    private boolean validarCamposVacios() {
+        return tfNombre.getText().trim().isEmpty() || tfApellidos.getText().trim().isEmpty() || tfTelefono.getText().trim().isEmpty()
+                || tfDireccion.getText().trim().isEmpty() || tfCorreo.getText().trim().isEmpty() || nombreImagen.equals("No");
     }
-    
+
     @FXML
     private void elegirImagen() throws IOException {
         FileChooser elegir = new FileChooser();
@@ -131,8 +146,8 @@ public class FXMLRegistrarClienteController implements Initializable {
             String rutaNueva = System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos";
             String rutaOringen = rutaImagen.getAbsolutePath();
             StringBuilder comando = new StringBuilder();
-            comando.append("copy ").append('"'+rutaOringen+'"').append(" ").append('"'+rutaNueva+'"');
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe","/c",comando.toString());
+            comando.append("copy ").append('"' + rutaOringen + '"').append(" ").append('"' + rutaNueva + '"');
+            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", comando.toString());
             builder.redirectErrorStream(true);
             Process proceso = builder.start();
             try {
@@ -144,6 +159,5 @@ public class FXMLRegistrarClienteController implements Initializable {
             nombreImagen = rutaImagen.getName();
         }
     }
-    
-    
+
 }

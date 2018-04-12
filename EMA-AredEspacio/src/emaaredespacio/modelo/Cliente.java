@@ -21,7 +21,8 @@ import javax.persistence.Persistence;
  *
  * @author enriq
  */
-public class Cliente implements ICliente{
+public class Cliente implements ICliente {
+
     private String nombre;
     private String imagenPerfil;
     private String direccion;
@@ -29,7 +30,8 @@ public class Cliente implements ICliente{
     private String estado;
     private String correoElectronico;
     private String id;
-    
+    private static final String PATRON_CORREO = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
     private Cliente(String nombre, String idCliente) {
         this.id = idCliente;
         this.nombre = nombre;
@@ -40,7 +42,7 @@ public class Cliente implements ICliente{
     }
 
     public Cliente() {
-        
+
     }
 
     public String getId() {
@@ -50,7 +52,7 @@ public class Cliente implements ICliente{
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
@@ -98,29 +100,30 @@ public class Cliente implements ICliente{
     public void setCorreoElectronico(String correo) {
         this.correoElectronico = correo;
     }
-    
-    
 
     @Override
     public boolean guardarDatos(Cliente cliente) {
         boolean guardado = false;
-         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
-        ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
-        
-        Clientes nuevoCliente = new Clientes();
-        nuevoCliente.setIdCliente(Integer.valueOf(cliente.getId()));
-        nuevoCliente.setNombre(cliente.getNombre());
-        nuevoCliente.setEstado(cliente.getEstado());
-        nuevoCliente.setTelefono(cliente.getTelefono());
-        nuevoCliente.setCorreo(cliente.getCorreoElectronico());
-        nuevoCliente.setImagen(cliente.getImagenPerfil());
-        nuevoCliente.setDireccion(cliente.getDireccion());
-        
-        try {
-            guardado = controlador.edit(nuevoCliente);
-        } catch (Exception ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        if (cliente.getNombre().length() > 0 && cliente.getNombre().length() <= 400 && cliente.getDireccion().length() > 0 && cliente.getDireccion().length() <= 50 && cliente.getImagenPerfil() != null && cliente.getTelefono().length() == 10 && validarFormatoCorreo(cliente.getCorreoElectronico())) {
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+            ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
+
+            Clientes nuevoCliente = new Clientes();
+            nuevoCliente.setIdCliente(Integer.valueOf(cliente.getId()));
+            nuevoCliente.setNombre(cliente.getNombre());
+            nuevoCliente.setEstado(cliente.getEstado());
+            nuevoCliente.setTelefono(cliente.getTelefono());
+            nuevoCliente.setCorreo(cliente.getCorreoElectronico());
+            nuevoCliente.setImagen(cliente.getImagenPerfil());
+            nuevoCliente.setDireccion(cliente.getDireccion());
+
+            try {
+                guardado = controlador.edit(nuevoCliente);
+            } catch (Exception ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
         return guardado;
     }
 
@@ -137,24 +140,25 @@ public class Cliente implements ICliente{
             }
         }
         return resultadosBusqueda;
-    
+
     }
-    
-    public List<Cliente> buscarCliente(String nombre){
+
+    public List<Cliente> buscarCliente(String nombre) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
         ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
         List<Cliente> clientes = null;
-        
+
         List<Clientes> lista = controlador.buscarCliente(nombre);
-        
+
         clientes = convertirLista(lista);
-        
+
         return clientes;
     }
-    private List<Cliente> convertirLista(List<Clientes> lista){
+
+    private List<Cliente> convertirLista(List<Clientes> lista) {
         List<Cliente> clientes = new ArrayList();
-        
-        for(Clientes cliente: lista){
+
+        for (Clientes cliente : lista) {
             Cliente nuevoCliente = new Cliente();
             nuevoCliente.setId(String.valueOf(cliente.getIdCliente()));
             nuevoCliente.setNombre(cliente.getNombre());
@@ -165,30 +169,38 @@ public class Cliente implements ICliente{
             nuevoCliente.setTelefono(cliente.getTelefono());
             clientes.add(nuevoCliente);
         }
-        
+
         return clientes;
     }
-    
-    
-    
 
     @Override
     public boolean guardarCliente(Cliente cliente) {
         boolean guardado = false;
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
-         ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
-         Clientes nuevoCliente = new Clientes();
-         nuevoCliente.setNombre(cliente.getNombre());
-         nuevoCliente.setDireccion(cliente.getDireccion());
-         nuevoCliente.setCorreo(cliente.getCorreoElectronico());
-         nuevoCliente.setImagen(cliente.getImagenPerfil());
-         nuevoCliente.setEstado("A");
-         
-        if(controlador.create(nuevoCliente)){
-            guardado = true;
+        if (cliente.getNombre() != null && cliente.getTelefono() != null && cliente.getDireccion() != null && cliente.getImagenPerfil() != null && cliente.getCorreoElectronico() != null) {
+            if (cliente.getNombre().length() > 0 && cliente.getNombre().length() <= 400 && cliente.getDireccion().length() > 0 && cliente.getDireccion().length() <= 50 && cliente.getImagenPerfil() != null && cliente.getTelefono().length() == 10 && validarFormatoCorreo(cliente.getCorreoElectronico())) {
+                EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+                ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
+                Clientes nuevoCliente = new Clientes();
+                nuevoCliente.setNombre(cliente.getNombre());
+                nuevoCliente.setDireccion(cliente.getDireccion());
+                nuevoCliente.setCorreo(cliente.getCorreoElectronico());
+                nuevoCliente.setImagen(cliente.getImagenPerfil());
+                nuevoCliente.setTelefono(cliente.getTelefono());
+                nuevoCliente.setEstado("A");
+                if (controlador.create(nuevoCliente)) {
+                    guardado = true;
+                }
+            }
         }
-         
+
         return guardado;
     }
-    
+
+    @Override
+    public boolean validarFormatoCorreo(String email) {
+        Pattern patron = Pattern.compile(PATRON_CORREO);
+        Matcher concordancia = patron.matcher(email);
+        return concordancia.matches();
+    }
+
 }

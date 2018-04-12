@@ -6,6 +6,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="549.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLModificarGrupoController">
+<AnchorPane id="AnchorPane" prefHeight="549.0" prefWidth="1200.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLModificarGrupoController">
     <children>
       <GridPane layoutX="93.0" layoutY="58.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="473.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -32,22 +33,22 @@
           <RowConstraints maxHeight="122.0" minHeight="10.0" prefHeight="122.0" valignment="TOP" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Colaborador a cargo:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label text="Colaborador a cargo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label text="Tipo de baile:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label text="Tipo de baile:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label text="Cupo:" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Label text="Cupo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="tfNombre" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <JFXTextField fx:id="tfNombre" disable="true" editable="false" prefHeight="25.0" prefWidth="242.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
@@ -57,12 +58,7 @@
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </JFXTextField>
-            <JFXTextField fx:id="tfCupo" GridPane.columnIndex="2" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
-            </JFXTextField>
-            <CheckBox fx:id="checkEstado" mnemonicParsing="false" text="Activo" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <CheckBox fx:id="checkEstado" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <font>
                   <Font size="18.0" />
                </font>
@@ -80,6 +76,17 @@
                   <Insets left="20.0" top="30.0" />
                </GridPane.margin>
             </JFXButton>
+            
+            <Spinner fx:id="spinnerCupo" prefHeight="25.0" prefWidth="72.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                <GridPane.margin>
+                  <Insets left="20.0" right="80.0" />
+               </GridPane.margin>
+            </Spinner>
+            <Label text="Activo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
       <GridPane layoutX="14.0" layoutY="26.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="727.0" AnchorPane.topAnchor="0.0">
@@ -93,10 +100,9 @@
          <children>
             <TableView fx:id="tbListaGrupos" editable="true" onMouseClicked="#posicion" onMouseExited="#quitaSeleccion" GridPane.rowIndex="1">
                <columns>
-                  <TableColumn fx:id="columnaNombre" editable="false" prefWidth="144.99996948242188" sortable="false" text="Nombre" />
-                  <TableColumn fx:id="columnaTipoBaile" prefWidth="130.0" text="Tipo de baile" />
-                  <TableColumn fx:id="columnaCupo" prefWidth="75.0" text="Cupo" />
-                  <TableColumn fx:id="columnaEstado" prefWidth="82.0" text="Estado" />
+                  <TableColumn fx:id="columnaTipoBaile" prefWidth="268.9999694824219" text="Tipo de baile" />
+                  <TableColumn fx:id="columnaCupo" prefWidth="87.0" text="Cupo" />
+                  <TableColumn fx:id="columnaEstado" prefWidth="76.0" text="Estado" />
                </columns>
                <cursor>
                   <Cursor fx:constant="HAND" />

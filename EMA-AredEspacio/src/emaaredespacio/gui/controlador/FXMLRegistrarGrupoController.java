@@ -26,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -39,7 +40,8 @@ import javafx.scene.input.MouseEvent;
  */
 public class FXMLRegistrarGrupoController implements Initializable {
 
-    int idColaborador = 0;
+    @FXML
+    private JFXTextField tfNombre;
     @FXML
     private JFXTextField tfTipoBaile;
     @FXML
@@ -48,6 +50,8 @@ public class FXMLRegistrarGrupoController implements Initializable {
     private TableView<Colaborador> tbListaColaboradores;
     @FXML
     private TableColumn<Colaboradores, String> columnaNombre;
+    @FXML
+    private TableColumn<Colaboradores, String> columnaApellidos;
     private List<Colaborador> lista;
     @FXML
     private JFXButton btnGuardar;
@@ -57,11 +61,7 @@ public class FXMLRegistrarGrupoController implements Initializable {
     private JFXTextField tfPalabraClave;
     @FXML
     private JFXButton btnBuscar;
-    @FXML
-    private JFXTextField tfCupo;
-
-    @FXML
-    private ComboBox comboBoxCupo;
+    
     private Colaborador seleccion;
 
     /**
@@ -70,7 +70,10 @@ public class FXMLRegistrarGrupoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        columnaApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
         lista = new ArrayList();
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, 25);
+        spinnerCupo.setValueFactory(valueFactory);
     }
 
     @FXML
@@ -87,8 +90,7 @@ public class FXMLRegistrarGrupoController implements Initializable {
     private void posicion(MouseEvent event) {
         if (tbListaColaboradores.getSelectionModel().getSelectedIndex() >= 0) {
             seleccion = tbListaColaboradores.getSelectionModel().getSelectedItem();
-            idColaborador = seleccion.getIdColaborador();
-            System.out.println(idColaborador);
+            tfNombre.setText(seleccion.getNombre() + " " + seleccion.getApellidos());
         }
     }
 
@@ -100,9 +102,9 @@ public class FXMLRegistrarGrupoController implements Initializable {
             IGrupo metodosGrupo = new Grupo();
             Grupo grupo = new Grupo();
             grupo.setTipoDeBaile(tfTipoBaile.getText());
-            grupo.setCupo(Integer.valueOf(tfCupo.getText()));
-            grupo.setIdColaborador(String.valueOf(idColaborador));
-            if (tfTipoBaile.getLength() >= 2 && tfTipoBaile.getLength() <= 30 && cupoEsNumero()) {
+            grupo.setCupo(Integer.valueOf(spinnerCupo.getValue().toString()));
+            grupo.setIdColaborador(seleccion.getIdColaborador());
+            if (tfTipoBaile.getLength() >= 2 && tfTipoBaile.getLength() <= 30) {
                 if (metodosGrupo.guardarGrupo(grupo)) {
                     System.out.println("Grupo guardado");
                 } else {
@@ -114,17 +116,8 @@ public class FXMLRegistrarGrupoController implements Initializable {
         }
     }
 
-    private boolean cupoEsNumero() {
-        try {
-            double d = Double.parseDouble(tfCupo.getText());
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
     private boolean validarCamposVacios() {
-        return tfTipoBaile.getText().isEmpty() || cupoEsNumero() || idColaborador == 0;
+        return tfTipoBaile.getText().trim().isEmpty() || seleccion.getIdColaborador().equals(0);
     }
 
     @FXML
@@ -135,6 +128,9 @@ public class FXMLRegistrarGrupoController implements Initializable {
             IColaborador metodosColaborador = new Colaborador();
             lista.clear();
             lista = metodosColaborador.buscarColaborador(tfPalabraClave.getText());
+            if(lista.isEmpty()){
+                System.out.println("Maestro no encontrado");
+            }
             llenarTabla();
         }
     }

@@ -20,11 +20,12 @@ import javax.persistence.Persistence;
  * @author enriq
  */
 public class Grupo implements IGrupo {
-    private int idGrupo=0;
-    private String idColaborador="";
-    private String tipoDeBaile="";
-    private int cupo=0;
-    private String estado="";
+
+    private int idGrupo = 0;
+    private int idColaborador = 0;
+    private String tipoDeBaile = "";
+    private int cupo = 0;
+    private String estado = "";
 
     public int getIdGrupo() {
         return idGrupo;
@@ -34,11 +35,11 @@ public class Grupo implements IGrupo {
         this.idGrupo = idGrupo;
     }
 
-    public String getIdColaborador() {
+    public int getIdColaborador() {
         return idColaborador;
     }
 
-    public void setIdColaborador(String idColaborador) {
+    public void setIdColaborador(int idColaborador) {
         this.idColaborador = idColaborador;
     }
 
@@ -65,47 +66,52 @@ public class Grupo implements IGrupo {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
 
     @Override
-    public List<Grupo> buscarGrupo(int idColaborador) {
-        List<Grupo> grupos=null;
+    public List<Grupo> buscarGrupos() {
+        List<Grupo> grupos = null;
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
         GruposJpaController controlador = new GruposJpaController(entityManagerFactory);
-        
-        List<Grupos> lista = controlador.buscarGrupo(idColaborador);
-        
+
+        List<Grupos> lista = controlador.buscarGrupos();
+
         grupos = convertirLista(lista);
-        
+
         return grupos;
     }
-    
-    private List<Grupo> convertirLista(List<Grupos> lista){
+
+    private List<Grupo> convertirLista(List<Grupos> lista) {
         List<Grupo> grupos = new ArrayList();
-        
-        for(Grupos grupo: lista){
+
+        for (Grupos grupo : lista) {
             Grupo nuevoGrupo = new Grupo();
-            nuevoGrupo.setIdColaborador(String.valueOf(grupo.getIdColaborador()));
+            Colaboradores nuevoC = new Colaboradores();
+            nuevoC = grupo.getIdColaborador();
+            nuevoGrupo.setIdColaborador(nuevoC.getIdColaborador());
             nuevoGrupo.setTipoDeBaile(grupo.getTipoDeBaile());
             nuevoGrupo.setCupo(grupo.getCupo());
             nuevoGrupo.setEstado(grupo.getEstado());
+            nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
             grupos.add(nuevoGrupo);
         }
-        
+
         return grupos;
     }
 
     @Override
     public boolean guardarCambios(Grupo grupo) {
         boolean guardado = false;
-         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
         GruposJpaController controlador = new GruposJpaController(entityManagerFactory);
-        
+
         Grupos nuevoGrupo = new Grupos();
+        Colaboradores colaborador = new Colaboradores();
+        colaborador.setIdColaborador(grupo.getIdColaborador());
         nuevoGrupo.setTipoDeBaile(grupo.getTipoDeBaile());
         nuevoGrupo.setEstado(grupo.getEstado());
         nuevoGrupo.setCupo(grupo.getCupo());
         nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
+        nuevoGrupo.setIdColaborador(colaborador);
         try {
             guardado = controlador.edit(nuevoGrupo);
         } catch (Exception ex) {
@@ -117,22 +123,23 @@ public class Grupo implements IGrupo {
     @Override
     public boolean guardarGrupo(Grupo grupo) {
         boolean guardado = false;
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
-         GruposJpaController controlador = new GruposJpaController(entityManagerFactory);
-         Grupos nuevoGrupo = new Grupos();
-         Colaboradores colaborador = new Colaboradores();
-         colaborador.setIdColaborador(Integer.valueOf(grupo.getIdColaborador()));
-         nuevoGrupo.setIdColaborador(colaborador);
-         nuevoGrupo.setTipoDeBaile(grupo.getTipoDeBaile());
-         nuevoGrupo.setCupo(grupo.getCupo());
-         nuevoGrupo.setEstado("A");
-         
-        if(controlador.create(nuevoGrupo)){
-            guardado = true;
+        if (grupo.getCupo() != 0 && grupo.getTipoDeBaile() != "" && grupo.getIdColaborador() != 0) {
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+            GruposJpaController controlador = new GruposJpaController(entityManagerFactory);
+            Grupos nuevoGrupo = new Grupos();
+            Colaboradores colaborador = new Colaboradores();
+            colaborador.setIdColaborador(Integer.valueOf(grupo.getIdColaborador()));
+            nuevoGrupo.setIdColaborador(colaborador);
+            nuevoGrupo.setTipoDeBaile(grupo.getTipoDeBaile());
+            nuevoGrupo.setCupo(grupo.getCupo());
+            nuevoGrupo.setEstado("A");
+
+            if (controlador.create(nuevoGrupo)) {
+                guardado = true;
+            }
         }
-         
+
         return guardado;
     }
-        
-    
+
 }

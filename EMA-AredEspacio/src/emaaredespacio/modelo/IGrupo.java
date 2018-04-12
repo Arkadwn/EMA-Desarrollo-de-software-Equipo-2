@@ -12,7 +12,7 @@ import java.util.List;
  * @author enriq
  */
 public interface IGrupo {
-    public List<Grupo> buscarGrupo(int idcolaborador);
+    public List<Grupo> buscarGrupos();
     public boolean guardarCambios(Grupo grupo);
     public boolean guardarGrupo(Grupo grupo);
 }

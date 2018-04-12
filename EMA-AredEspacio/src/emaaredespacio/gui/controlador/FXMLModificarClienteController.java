@@ -21,6 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,6 +42,7 @@ import javafx.stage.FileChooser;
  * @author enriq
  */
 public class FXMLModificarClienteController implements Initializable {
+
     @FXML
     private JFXTextField tfNombre;
 
@@ -70,6 +73,7 @@ public class FXMLModificarClienteController implements Initializable {
     private JFXButton btnBuscar;
     private Cliente seleccion;
     private static final String PATRON_CORREO = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
     /**
      * Initializes the controller class.
      */
@@ -80,7 +84,17 @@ public class FXMLModificarClienteController implements Initializable {
         lista = new ArrayList();
         Image imagen = new Image("emaaredespacio/imagenes/perfil.jpg", 300, 300, false, true, true);
         imgPerfil.setImage(imagen);
-    }    
+        tfTelefono.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                    String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    tfTelefono.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+    }
+
     @FXML
     private void quitaSeleccion(MouseEvent event) {
         tbListaClientes.getSelectionModel().clearSelection();
@@ -90,19 +104,17 @@ public class FXMLModificarClienteController implements Initializable {
         tbListaClientes.getItems().clear();
         tbListaClientes.setItems(FXCollections.observableArrayList(lista));
     }
-    
-    String id="";
+
     @FXML
     private void posicion(MouseEvent event) {
         if (tbListaClientes.getSelectionModel().getSelectedIndex() >= 0) {
             Image imagen = null;
             seleccion = tbListaClientes.getSelectionModel().getSelectedItem();
-            id=seleccion.getId();
             tfNombre.setText(seleccion.getNombre());
             tfTelefono.setText(seleccion.getTelefono());
             tfDireccion.setText(seleccion.getDireccion());
             tfCorreo.setText(seleccion.getCorreoElectronico());
-            
+
             File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos\\" + seleccion.getImagenPerfil());
             try {
                 imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
@@ -114,6 +126,7 @@ public class FXMLModificarClienteController implements Initializable {
             checkEstado.setSelected(seleccion.getEstado().equals("A"));
         }
     }
+
     @FXML
     private void accionBuscar() {
         if (tfPalabraClave.getText().isEmpty()) {
@@ -125,65 +138,63 @@ public class FXMLModificarClienteController implements Initializable {
             llenarTabla();
         }
     }
-    
+
     private boolean validarFormatoCorreo(String email) {
         Pattern patron = Pattern.compile(PATRON_CORREO);
         Matcher concordancia = patron.matcher(email);
         return concordancia.matches();
     }
-    
+
     public boolean[] validarCampos() {
         boolean[] validaciones = new boolean[5];
-        
+
         //Nombre
-        validaciones[0] = tfNombre.getLength() >= 2 && tfNombre.getLength() <=400;
+        validaciones[0] = tfNombre.getText().trim().length() >= 2 && tfNombre.getText().trim().length() <= 400;
         //Correo
         validaciones[1] = validarFormatoCorreo(tfCorreo.getText());
         //Direccion
-        validaciones[2] = tfDireccion.getLength() >= 2 && tfDireccion.getLength() <= 50;
+        validaciones[2] = tfDireccion.getText().trim().length() >= 2 && tfDireccion.getText().trim().length() <= 50;
         //Telefono
-        validaciones[3] = tfTelefono.getLength() >= 2 && tfTelefono.getLength() <= 10;
-        
+        validaciones[3] = tfTelefono.getText().trim().length() == 10;
+
         validaciones[4] = validaciones[0] && validaciones[1] && validaciones[2] && validaciones[3];
-        
+
         return validaciones;
     }
-    
+
     @FXML
     private void accionGuardarCambios(ActionEvent event) {
-        if(validarCamposVacios()){
+        if (validarCamposVacios()) {
             System.out.println("Campos vacios");
-        }else{
+        } else {
             ICliente metodosClientes = new Cliente();
             Cliente cliente = new Cliente();
-            cliente.setId(id);
+            cliente.setId(seleccion.getId());
             cliente.setNombre(tfNombre.getText());
             cliente.setCorreoElectronico(tfCorreo.getText());
             cliente.setDireccion(tfDireccion.getText());
             cliente.setImagenPerfil(nombreImagen);
             cliente.setTelefono(tfTelefono.getText());
-            if(checkEstado.isSelected()){
+            if (checkEstado.isSelected()) {
                 cliente.setEstado("A");
-            }else{
+            } else {
                 cliente.setEstado("B");
             }
-            
-            
-            
+
             boolean[] validacion = validarCampos();
-            if(validacion[4]){
-                if(metodosClientes.guardarDatos(cliente)){
+            if (validacion[4]) {
+                if (metodosClientes.guardarDatos(cliente)) {
                     System.out.println("Cliente guardado");
-                }else{
+                } else {
                     System.out.println("No se pudo");
                 }
-            }else{
+            } else {
                 System.out.println("Campos invaldios");
             }
         }
     }
-    
-     @FXML
+
+    @FXML
     public void elegirImagen(ActionEvent elegirImagen) throws IOException {
         FileChooser elegir = new FileChooser();
         FileChooser.ExtensionFilter extension = new FileChooser.ExtensionFilter("Add Files(*.jpg)", "*.jpg");
@@ -214,9 +225,9 @@ public class FXMLModificarClienteController implements Initializable {
             nombreImagen = rutaImagen.getName();
         }
     }
-    
+
     private boolean validarCamposVacios() {
-        return tfNombre.getText().isEmpty() || tfTelefono.getText().isEmpty()
-                || tfDireccion.getText().isEmpty() || tfCorreo.getText().isEmpty();
+        return tfNombre.getText().trim().isEmpty() || tfTelefono.getText().trim().isEmpty()
+                || tfDireccion.getText().trim().isEmpty() || tfCorreo.getText().trim().isEmpty();
     }
 }
