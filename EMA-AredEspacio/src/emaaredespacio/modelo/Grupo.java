@@ -26,7 +26,42 @@ public class Grupo implements IGrupo {
     private String tipoDeBaile = "";
     private int cupo = 0;
     private String estado = "";
+    private String dias="";
+    private String horas="";
+    private String fecha_inicio="";
+    private String fecha_fin="";
 
+    public String getFecha_inicio() {
+        return fecha_inicio;
+    }
+
+    public void setFecha_inicio(String fecha_inicio) {
+        this.fecha_inicio = fecha_inicio;
+    }
+
+    public String getFecha_fin() {
+        return fecha_fin;
+    }
+
+    public void setFecha_fin(String fecha_fin) {
+        this.fecha_fin = fecha_fin;
+    }
+
+    public String getDias() {
+        return dias;
+    }
+
+    public void setDias(String dias) {
+        this.dias = dias;
+    }
+
+    public String getHoras() {
+        return horas;
+    }
+
+    public void setHoras(String horas) {
+        this.horas = horas;
+    }
     public int getIdGrupo() {
         return idGrupo;
     }
@@ -92,6 +127,10 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setCupo(grupo.getCupo());
             nuevoGrupo.setEstado(grupo.getEstado());
             nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
+            nuevoGrupo.setDias(grupo.getDias());
+            nuevoGrupo.setHoras(grupo.getHoras());
+            nuevoGrupo.setFecha_inicio(grupo.getFechaInicio());
+            nuevoGrupo.setFecha_fin(grupo.getFechaFin());
             grupos.add(nuevoGrupo);
         }
 
@@ -133,7 +172,10 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setTipoDeBaile(grupo.getTipoDeBaile());
             nuevoGrupo.setCupo(grupo.getCupo());
             nuevoGrupo.setEstado("A");
-
+            nuevoGrupo.setDias(grupo.getDias());
+            nuevoGrupo.setHoras(grupo.getHoras());
+            nuevoGrupo.setFechaInicio(grupo.getFecha_inicio());
+            nuevoGrupo.setFechaFin(grupo.getFecha_fin());
             if (controlador.create(nuevoGrupo)) {
                 guardado = true;
             }
