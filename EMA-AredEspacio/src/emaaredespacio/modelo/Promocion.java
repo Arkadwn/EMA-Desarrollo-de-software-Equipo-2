@@ -5,7 +5,6 @@
  */
 package emaaredespacio.modelo;
 
-
 import emaaredespacio.persistencia.controladores.PromocionesJpaController;
 import emaaredespacio.persistencia.entidad.Colaboradores;
 import emaaredespacio.persistencia.entidad.Promociones;
@@ -21,6 +20,7 @@ import javax.persistence.Persistence;
  * @author enriq
  */
 public class Promocion implements IPromocion {
+
     private String nombrePromocion;
     private boolean aplicaDescuento;
     private String porcentajeDescuento;
@@ -88,24 +88,27 @@ public class Promocion implements IPromocion {
     @Override
     public boolean crearPromocion(Promocion promocion) {
         boolean guardadoExitoso = false;
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
-        PromocionesJpaController controlador = new PromocionesJpaController(entityManagerFactory);
-        Promociones nuevapromocion = new Promociones();
-        Colaboradores colaborador = new Colaboradores();
-        colaborador.setIdColaborador(promocion.getIdColaborador());
-        nuevapromocion.setNombrePromocion(promocion.getNombrePromocion());
-        if(promocion.aplicaDescuento){
-            nuevapromocion.setAplicaDescuento(1);
-        }else{
-            nuevapromocion.setAplicaDescuento(0);
+        if (promocion.getFechaInicio() != null && promocion.getFechaFin() != null && promocion.getNombrePromocion() != null) {
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+            PromocionesJpaController controlador = new PromocionesJpaController(entityManagerFactory);
+            Promociones nuevapromocion = new Promociones();
+            Colaboradores colaborador = new Colaboradores();
+            colaborador.setIdColaborador(promocion.getIdColaborador());
+            nuevapromocion.setNombrePromocion(promocion.getNombrePromocion());
+            if (promocion.aplicaDescuento) {
+                nuevapromocion.setAplicaDescuento(1);
+            } else {
+                nuevapromocion.setAplicaDescuento(0);
+            }
+            nuevapromocion.setPorcentajeDescuento(promocion.getPorcentajeDescuento());
+            nuevapromocion.setFechaIni(promocion.getFechaInicio());
+            nuevapromocion.setFechaFin(promocion.getFechaFin());
+            nuevapromocion.setIdColaborador(promocion.getIdColaborador());
+            if (controlador.create(nuevapromocion)) {
+                guardadoExitoso = true;
+            }
         }
-        nuevapromocion.setPorcentajeDescuento(promocion.getPorcentajeDescuento());
-        nuevapromocion.setFechaIni(promocion.getFechaInicio());
-        nuevapromocion.setFechaFin(promocion.getFechaFin());
-        nuevapromocion.setIdColaborador(promocion.getIdColaborador());
-        if(controlador.create(nuevapromocion)){
-            guardadoExitoso = true;
-        }
+
         return guardadoExitoso;
     }
 
@@ -118,18 +121,18 @@ public class Promocion implements IPromocion {
         promociones = convertirLista(listaPromociones);
         return promociones;
     }
-    
-    public List<Promocion> convertirLista(List<Promociones> listaPromociones){
+
+    public List<Promocion> convertirLista(List<Promociones> listaPromociones) {
         List<Promocion> promociones = new ArrayList();
-        for(Promociones promocion:listaPromociones){
+        for (Promociones promocion : listaPromociones) {
             Promocion nuevaPromocion = new Promocion();
             nuevaPromocion.setNombrePromocion(promocion.getNombrePromocion());
             nuevaPromocion.setPorcentajeDescuento(promocion.getPorcentajeDescuento());
             nuevaPromocion.setFechaInicio(promocion.getFechaIni());
             nuevaPromocion.setFechaFin(promocion.getFechaFin());
-            if(promocion.getAplicaDescuento()==1){
+            if (promocion.getAplicaDescuento() == 1) {
                 nuevaPromocion.setAplicaDescuento(true);
-            }else{
+            } else {
                 nuevaPromocion.setAplicaDescuento(false);
             }
             nuevaPromocion.setIdPromocion(promocion.getIdPromocion());
@@ -147,29 +150,32 @@ public class Promocion implements IPromocion {
     @Override
     public boolean modificarPromocion(Promocion promocion) {
         boolean modificada = false;
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
-        PromocionesJpaController controlador = new PromocionesJpaController(entityManagerFactory);
-        Promociones nuevapromocion = new Promociones();
-        Colaboradores colaborador = new Colaboradores();
-        colaborador.setIdColaborador(promocion.getIdColaborador());
-        nuevapromocion.setNombrePromocion(promocion.getNombrePromocion());
-        if(promocion.aplicaDescuento){
-            nuevapromocion.setAplicaDescuento(1);
-        }else{
-            nuevapromocion.setAplicaDescuento(0);
-        }
-        nuevapromocion.setPorcentajeDescuento(promocion.getPorcentajeDescuento());
-        nuevapromocion.setFechaIni(promocion.getFechaInicio());
-        nuevapromocion.setFechaFin(promocion.getFechaFin());
-        nuevapromocion.setIdColaborador(promocion.getIdColaborador());
-        nuevapromocion.setIdPromocion(promocion.getIdPromocion());
-        try {
-            if(controlador.edit(nuevapromocion)){
-                modificada = true;
+        if (promocion.getFechaInicio() != null && promocion.getFechaFin() != null && promocion.getNombrePromocion() != null) {
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+            PromocionesJpaController controlador = new PromocionesJpaController(entityManagerFactory);
+            Promociones nuevapromocion = new Promociones();
+            Colaboradores colaborador = new Colaboradores();
+            colaborador.setIdColaborador(promocion.getIdColaborador());
+            nuevapromocion.setNombrePromocion(promocion.getNombrePromocion());
+            if (promocion.aplicaDescuento) {
+                nuevapromocion.setAplicaDescuento(1);
+            } else {
+                nuevapromocion.setAplicaDescuento(0);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(Promocion.class.getName()).log(Level.SEVERE, null, ex);
+            nuevapromocion.setPorcentajeDescuento(promocion.getPorcentajeDescuento());
+            nuevapromocion.setFechaIni(promocion.getFechaInicio());
+            nuevapromocion.setFechaFin(promocion.getFechaFin());
+            nuevapromocion.setIdColaborador(promocion.getIdColaborador());
+            nuevapromocion.setIdPromocion(promocion.getIdPromocion());
+            try {
+                if (controlador.edit(nuevapromocion)) {
+                    modificada = true;
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Promocion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
         return modificada;
     }
 
