@@ -109,4 +109,22 @@ public class FXMLMenuPrincipalController implements Initializable {
         barraMenu.setVisible(false);
         menuDesplegado = false;
     }
+    
+    @FXML
+    private void desplegarRegistrarEgresoFacebook(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarEgresoFacebook.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarEditarEgresoFacebook(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLEditarEgresoFacebook.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
 }

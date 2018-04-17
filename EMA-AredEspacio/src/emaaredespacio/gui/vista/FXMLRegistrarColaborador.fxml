@@ -140,12 +140,12 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXPasswordField fx:id="tfContrasena" GridPane.columnIndex="2" GridPane.rowIndex="6">
+            <JFXPasswordField fx:id="tfContrasena" onKeyTyped="#restringirEspacios" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="20.0" right="243.0" />
                </GridPane.margin>
             </JFXPasswordField>
-            <JFXPasswordField fx:id="tfRecontrasena" GridPane.columnIndex="2" GridPane.rowIndex="7">
+            <JFXPasswordField fx:id="tfRecontrasena" onKeyTyped="#restringirEspacios" GridPane.columnIndex="2" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets left="20.0" right="243.0" />
                </GridPane.margin>

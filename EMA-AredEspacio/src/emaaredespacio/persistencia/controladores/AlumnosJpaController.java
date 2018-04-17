@@ -94,10 +94,10 @@ public class AlumnosJpaController implements IControladorAlumnos{
     @Override
     public List<Alumnos> buscarAlumno(String palabraClave) {
         List<Alumnos> colaboradores = new ArrayList();
-        
+        String palabra = "%"+palabraClave+"%";
         EntityManager conexion = getEntityManager();
     
-        colaboradores = conexion.createQuery("SELECT a FROM Alumnos a WHERE a.nombre LIKE '%"+palabraClave+"%' OR a.apellidos LIKE '%"+palabraClave+"%'").getResultList();
+        colaboradores = conexion.createQuery("SELECT a FROM Alumnos a WHERE a.nombre LIKE :palabra OR a.apellidos LIKE :palabra").setParameter("palabra", palabra).getResultList();
         
         return colaboradores;
     }

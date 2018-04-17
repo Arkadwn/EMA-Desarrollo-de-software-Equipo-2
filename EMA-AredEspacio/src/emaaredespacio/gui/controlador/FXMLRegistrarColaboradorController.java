@@ -20,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -153,6 +154,15 @@ public class FXMLRegistrarColaboradorController implements Initializable {
             }
             imgPerfil.setImage(image);
             nombreImagen = rutaImagen.getName();
+        }
+    }
+    
+    @FXML
+    private void restringirEspacios(KeyEvent evento) {
+        char caracter = evento.getCharacter().charAt(0);
+
+        if (caracter == ' ') {
+            evento.consume();
         }
     }
 }

@@ -63,9 +63,10 @@ public class ColaboradoresJpaController implements IControladorColaborador{
     public List<Colaboradores> buscarColaborador(String palabraClave) {
         List<Colaboradores> colaboradores = new ArrayList();
         
+        String palabra = "%"+palabraClave+"%";
         EntityManager conexion = getEntityManager();
     
-        colaboradores = conexion.createQuery("SELECT c FROM Colaboradores c WHERE c.nombre LIKE '%"+palabraClave+"%' OR c.apellidos LIKE '%"+palabraClave+"%'").getResultList();
+        colaboradores = conexion.createQuery("SELECT c FROM Colaboradores c WHERE c.nombre LIKE :palabra OR c.apellidos LIKE :palabra").setParameter("palabra", palabra).getResultList();
         
         return colaboradores;
     }

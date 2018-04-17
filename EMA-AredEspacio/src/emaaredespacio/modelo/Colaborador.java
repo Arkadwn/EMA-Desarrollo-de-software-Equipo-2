@@ -194,17 +194,17 @@ public class Colaborador implements IColaborador{
         boolean validacion[] = new boolean[9];
         
         //Nombre
-        validacion[0] = colaborador.getNombre().length() >= 2 && colaborador.getNombre().length() <= 50;
+        validacion[0] = colaborador.getNombre().trim().length() >= 2 && colaborador.getNombre().trim().length() <= 50;
         //Apellidos
-        validacion[1] = colaborador.getApellidos().length() >=2 && colaborador.getApellidos().length() <= 100;
+        validacion[1] = colaborador.getApellidos().trim().length() >=2 && colaborador.getApellidos().trim().length() <= 100;
         //Telefono
-        validacion[2] = colaborador.getTelefono().length() == 10;
+        validacion[2] = colaborador.getTelefono().trim().length() == 10;
         //Correo
         validacion[3] = validarFormatoCorreo(colaborador.getCorreo());
         //Direccion
-        validacion[4] = colaborador.getDireccion().length() >= 2 && colaborador.getDireccion().length() <= 50;
+        validacion[4] = colaborador.getDireccion().trim().length() >= 2 && colaborador.getDireccion().trim().length() <= 50;
         //Nombre usuario
-        validacion[5] = colaborador.getNombreUsuario().length() >= 2 && colaborador.getNombreUsuario().length() <= 50;
+        validacion[5] = colaborador.getNombreUsuario().trim().length() >= 2 && colaborador.getNombreUsuario().trim().length() <= 50;
         //Contraseña
         
         validacion[6] = colaborador.getContraseña().equals(contraseña);
