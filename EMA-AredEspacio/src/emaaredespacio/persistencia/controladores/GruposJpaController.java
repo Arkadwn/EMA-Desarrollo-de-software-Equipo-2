@@ -59,6 +59,7 @@ public class GruposJpaController implements Serializable{
             grupoActual.setTipoDeBaile(grupo.getTipoDeBaile());
             grupoActual.setEstado(grupo.getEstado());
             grupoActual.setCupo(grupo.getCupo());
+            grupoActual.setIdColaborador(grupo.getIdColaborador());
            
             transaccion.commit();
         }catch(RollbackException ex){
@@ -70,15 +71,11 @@ public class GruposJpaController implements Serializable{
         
         return validacion;
     }
-
     
-    public List<Grupos> buscarGrupo(int palabraClave) {
+    public List<Grupos> buscarGrupos(){
         List<Grupos> grupos = new ArrayList();
-        
         EntityManager conexion = getEntityManager();
-    
-        grupos = conexion.createQuery("SELECT a FROM grupos a WHERE a.idColaborador LIKE '%"+palabraClave+"%'").getResultList();
-        
+        grupos = conexion.createQuery("SELECT a FROM Grupos a").getResultList();
         return grupos;
     }
     
