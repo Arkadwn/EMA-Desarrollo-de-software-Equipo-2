@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -96,13 +97,13 @@ public class FXMLEditarColaboradorController implements Initializable {
         if (tbListaColaboradores.getSelectionModel().getSelectedIndex() >= 0) {
             Image imagen = null;
             seleccion = tbListaColaboradores.getSelectionModel().getSelectedItem();
-            tfNombre.setText(seleccion.getNombre());
-            tfApellidos.setText(seleccion.getApellidos());
-            tfTelefono.setText(seleccion.getTelefono());
-            tfDireccion.setText(seleccion.getDireccion());
-            tfMonto.setText(seleccion.getMontoAPagar());
-            tfUsuario.setText(seleccion.getNombreUsuario());
-            tfCorreo.setText(seleccion.getCorreo());
+            tfNombre.setText(seleccion.getNombre().trim());
+            tfApellidos.setText(seleccion.getApellidos().trim());
+            tfTelefono.setText(seleccion.getTelefono().trim());
+            tfDireccion.setText(seleccion.getDireccion().trim());
+            tfMonto.setText(seleccion.getMontoAPagar().trim());
+            tfUsuario.setText(seleccion.getNombreUsuario().trim());
+            tfCorreo.setText(seleccion.getCorreo().trim());
             File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesColaboradores\\" + seleccion.getImagenPerfil());
             try {
                 imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
@@ -241,5 +242,14 @@ public class FXMLEditarColaboradorController implements Initializable {
         return tfNombre.getText().isEmpty() || tfApellidos.getText().isEmpty() || tfTelefono.getText().isEmpty()
                 || tfCorreo.getText().isEmpty() || tfDireccion.getText().isEmpty() || tfUsuario.getText().isEmpty()
                 || tfMonto.getText().isEmpty();
+    }
+    
+    @FXML
+    private void restringirEspacios(KeyEvent evento) {
+        char caracter = evento.getCharacter().charAt(0);
+
+        if (caracter == ' ') {
+            evento.consume();
+        }
     }
 }
