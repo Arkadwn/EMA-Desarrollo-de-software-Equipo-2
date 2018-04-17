@@ -23,7 +23,7 @@
         <rowConstraints>
           <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="489.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="489.0" minHeight="10.0" prefHeight="412.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="412.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <JFXTextField fx:id="txtBusqueda" focusColor="#854c5d" labelFloat="true" prefHeight="35.0" prefWidth="400.0" promptText="Buscar cliente por nombre o apellidos:" GridPane.rowIndex="1">
@@ -51,7 +51,7 @@
                   <Insets right="201.0" />
                </GridPane.margin>
             </ToggleButton>
-            <DatePicker fx:id="itemFecha" prefHeight="25.0" prefWidth="195.0" promptText="--/--/----" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <DatePicker fx:id="itemFecha" editable="false" prefHeight="25.0" prefWidth="195.0" promptText="--/--/----" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="15.0" top="200.0" />
                </GridPane.margin>
@@ -66,15 +66,6 @@
                   <Insets left="15.0" right="185.0" top="125.0" />
                </GridPane.margin>
             </JFXTextField>
-            <TableView fx:id="tableHorario" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-              <columns>
-                <TableColumn fx:id="columnHorario" prefWidth="115.0" resizable="false" text="Horario" />
-                <TableColumn fx:id="columnDisponibilidad" prefWidth="274.0" resizable="false" text="Disponibilidad" />
-              </columns>
-               <GridPane.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </GridPane.margin>
-            </TableView>
             <JFXButton fx:id="btnRegresar" cancelButton="true" onAction="#regresarMenuPrincipal" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: #854c5d;" text="Regresar" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="20.0" left="300.0" />
@@ -115,6 +106,28 @@
                   <Insets bottom="10.0" right="10.0" />
                </GridPane.margin>
             </JFXButton>
+            <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+              <content>
+                <AnchorPane prefHeight="40.0" prefWidth="390.0">
+                     <children>
+                        <GridPane fx:id="gridPaneTabla" prefHeight="40.0" prefWidth="399.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Horario:" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Label text="Disponibilidad:" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
          </children>
       </GridPane>
    </children>

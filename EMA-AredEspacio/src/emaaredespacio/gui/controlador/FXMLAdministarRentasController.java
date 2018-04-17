@@ -9,8 +9,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Cliente;
+import emaaredespacio.modelo.HorarioGlobal;
 import emaaredespacio.modelo.Renta;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -18,15 +20,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
 /**
  * FXML Controller class
@@ -58,12 +61,6 @@ public class FXMLAdministarRentasController implements Initializable {
     @FXML
     private JFXButton btnCancelarRenta;
     private AnchorPane barraMenu;
-    @FXML
-    private TableView<?> tableHorario;
-    @FXML
-    private TableColumn<?, ?> columnHorario;
-    @FXML
-    private TableColumn<?, ?> columnDisponibilidad;
     private boolean modificar;
     private boolean menuDesplegado;
     @FXML
@@ -76,6 +73,8 @@ public class FXMLAdministarRentasController implements Initializable {
     private Cliente cliente;
     @FXML
     private JFXButton btnCerrarRentaVentana;
+    @FXML
+    private GridPane gridPaneTabla;
 
     /**
      * Initializes the controller class.
@@ -84,6 +83,7 @@ public class FXMLAdministarRentasController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         modificar = false;
         menuDesplegado = false;
+        llenarTablaHorarioGlobal();
     }
 
     @FXML
@@ -148,12 +148,16 @@ public class FXMLAdministarRentasController implements Initializable {
             if (seleccion != null) {
                 String[] parts = seleccion.split("|");
                 Cliente cliente = new Cliente(parts[0]);
-                new Renta().guardarNuevaRenta(new Renta(0, Integer.parseInt(txtMonto.getText()), itemFecha.getEditor().getText(), 0, 100, cliente, true));
+                Calendar fechaCalendar = Calendar.getInstance();
+                fechaCalendar.set(Integer.parseInt(itemFecha.getEditor().getText().split("/")[2]), Integer.parseInt(itemFecha.getEditor().getText().split("/")[1]) - 1, Integer.parseInt(itemFecha.getEditor().getText().split("/")[0]));
+                new Renta().guardarNuevaRenta(new Renta(0, Integer.parseInt(txtMonto.getText()), fechaCalendar, 0, 100, cliente, true));
                 vaciarCampos();
             }
         } else {
             if (renta != null) {
-                new Renta().guardarCambios(new Renta(renta.getId(), Integer.parseInt(txtMonto.getText()), itemFecha.getEditor().getText(), 100, 100, renta.getCliente(), true));
+                Calendar fechaCalendar = Calendar.getInstance();
+                fechaCalendar.set(Integer.parseInt(itemFecha.getEditor().getText().split("/")[2]), Integer.parseInt(itemFecha.getEditor().getText().split("/")[1]) - 1, Integer.parseInt(itemFecha.getEditor().getText().split("/")[0]));
+                new Renta().guardarCambios(new Renta(renta.getId(), Integer.parseInt(txtMonto.getText()), fechaCalendar, 100, 100, renta.getCliente(), true));
                 vaciarCampos();
             }
         }
@@ -184,10 +188,11 @@ public class FXMLAdministarRentasController implements Initializable {
         //guardarSeleccionRenta
         String seleccion = listRentas.getSelectionModel().getSelectedItem();
         if (seleccion != null) {
-            String[] parts = seleccion.split("|");
+            String[] parts = seleccion.split(" | ");
             this.renta = new Renta().cargarRenta(parts[0]);
             txtMonto.setText(String.valueOf(renta.getMonto()));
-            itemFecha.getEditor().setText(renta.getFecha());
+            String fecha = renta.getFecha().get(Calendar.DAY_OF_MONTH) +"/"+ renta.getFecha().get(Calendar.MONTH) +"/"+ renta.getFecha().get(Calendar.YEAR);
+            itemFecha.getEditor().setText(fecha);
             //Llenado de tablas de horario
 
             listRentas.setVisible(false);
@@ -221,7 +226,7 @@ public class FXMLAdministarRentasController implements Initializable {
                 List<Renta> rentas = new Renta().cargarRentas(new Cliente(parts[0]));
                 int c = 0;
                 for (Renta renta : rentas) {
-                    String string = renta.getId() + " | " + renta.getFecha()
+                    String string = renta.getId() + " | " + renta.getFecha().get(Calendar.DAY_OF_MONTH) +"/"+ renta.getFecha().get(Calendar.MONTH) +"/"+ renta.getFecha().get(Calendar.YEAR)
                             + " de " + renta.getHoraInicio() + " a las " + renta.getHoraFin() + " de $" + renta.getMonto();
                     c++;
                     lista.add(string);
@@ -244,6 +249,34 @@ public class FXMLAdministarRentasController implements Initializable {
         btnCerrarRentaVentana.setVisible(false);
         listRentas.setItems(FXCollections.observableArrayList());
 
+    }
+    
+    private void llenarTablaHorarioGlobal() {
+        for (int j = 1; j < 49; j++) {
+            HorarioGlobal hora = new HorarioGlobal(j);
+            for (int i = 0; i < 2; i++) {
+                StackPane panel = new StackPane();
+                Label lb;
+                if (i != 0) {
+                    lb = new Label();
+                    lb.setText("");
+                    //lb.setPrefWidth(74.1327);
+                    panel.getChildren().add(lb);
+                    StackPane.setAlignment(lb, Pos.CENTER);
+                } else {
+                    lb = new Label();
+                    lb.setText(hora.getHora());
+                    panel.getChildren().add(lb);
+                    StackPane.setAlignment(lb, Pos.CENTER);
+                }
+                if (j % 2 != 0) {
+                    panel.setStyle("-fx-background-color: #FFF; -fx-border-color: #a2a2a2;");
+                } else {
+                    panel.setStyle("-fx-background-color: #f1f1f1; -fx-border-color: #a2a2a2;");
+                }
+                gridPaneTabla.add(panel, i, j);
+            }
+        }
     }
 
 }

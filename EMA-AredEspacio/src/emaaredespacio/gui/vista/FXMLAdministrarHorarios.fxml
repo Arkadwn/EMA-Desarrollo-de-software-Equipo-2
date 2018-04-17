@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLAdministrarHorariosController">
+   <children>
+      <GridPane layoutY="52.0" prefHeight="600.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="52.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="645.0" minWidth="10.0" prefWidth="645.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="534.0" minWidth="10.0" prefWidth="517.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <DatePicker fx:id="itemDate" editable="false" prefHeight="25.0" prefWidth="278.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="15.0" />
+               </GridPane.margin>
+            </DatePicker>
+            <Label fx:id="lbIdentificador" text="Identificador" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="372.0" top="200.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Clase o renta: " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="390.0" top="220.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="lbClaseRenta" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="280.0" top="220.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Encargado: " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="380.0" top="240.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="lbEncargado" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="280.0" top="240.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Descripción: " GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="40.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="lbDescripcion" text="Label" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="113.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Horario: " GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="62.0" top="30.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="lbHorario" text="Label" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="113.0" top="30.0" />
+               </GridPane.margin></Label>
+            <JFXButton fx:id="btnEditar" text="Editor horario" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="150.0" top="350.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <JFXButton text="Cancelar" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                  <Insets right="150.0" top="350.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <ScrollPane fx:id="root" hbarPolicy="NEVER" pannable="true" prefHeight="548.0">
+               <content>
+                  <AnchorPane prefHeight="40.0" prefWidth="630.0">
+                     <children>
+                        <GridPane fx:id="gridHorario" alignment="CENTER" prefHeight="40.0" prefWidth="630.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="65.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Hora:" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Label fx:id="lbLunes" text="Lunes" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbMartes" text="Martes" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbMiercoles" text="Miercoles" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbJueves" text="Jueves" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbViernes" text="Viernes" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbSabado" text="Sabado" GridPane.columnIndex="6" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbDomingo" text="Domingo" GridPane.columnIndex="7" GridPane.halignment="CENTER" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+            <JFXButton fx:id="btnActualizarTabla" onAction="#actualizarTablaHorario" text="Actualizar tabla" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="15.0" top="15.0" />
+               </GridPane.margin>
+            </JFXButton>
+         </children>
+      </GridPane>
+      <GridPane layoutX="244.0" layoutY="93.0" prefHeight="472.0" prefWidth="802.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="244.0" AnchorPane.rightAnchor="154.0" AnchorPane.topAnchor="93.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="630.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ScrollPane fx:id="root1" hbarPolicy="NEVER" pannable="true" prefHeight="548.0">
+               <content>
+                  <AnchorPane prefHeight="40.0" prefWidth="630.0">
+                     <children>
+                        <GridPane fx:id="gridHorario1" alignment="CENTER" prefHeight="40.0" prefWidth="630.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label text="Hora:" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Label fx:id="lbLunes1" text="Lunes" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbMartes1" text="Martes" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbMiercoles1" text="Miercoles" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbJueves1" text="Jueves" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbViernes1" text="Viernes" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbSabado1" text="Sabado" GridPane.columnIndex="6" GridPane.halignment="CENTER" />
+                              <Label fx:id="lbDomingo1" text="Domingo" GridPane.columnIndex="7" GridPane.halignment="CENTER" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="65.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

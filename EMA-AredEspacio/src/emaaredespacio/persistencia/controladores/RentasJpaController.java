@@ -6,14 +6,14 @@
 package emaaredespacio.persistencia.controladores;
 
 import emaaredespacio.modelo.Renta;
-import emaaredespacio.persistencia.controladorentidad.exceptions.NonexistentEntityException;
+import emaaredespacio.persistencia.controladores.exceptions.NonexistentEntityException;
 import emaaredespacio.persistencia.entidad.Clientes;
 import emaaredespacio.persistencia.entidad.Rentas;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import javax.persistence.criteria.CriteriaQuery;
@@ -52,8 +52,8 @@ public class RentasJpaController {
         try {
             entidad.getTransaction().begin();
             Rentas nuevaRenta = new Rentas();
-
-            nuevaRenta.setFecha(renta.getFecha());
+            nuevaRenta.setFecha(renta.getFecha().get(Calendar.DAY_OF_MONTH)+"/"+renta.getFecha().get(Calendar.MONTH)+"/"+renta.getFecha().get(Calendar.YEAR));
+            
             nuevaRenta.setHoraFin(renta.getHoraFin());
             nuevaRenta.setHoraIni(renta.getHoraInicio());
             nuevaRenta.setIdCliente(cliente);
@@ -82,7 +82,7 @@ public class RentasJpaController {
         boolean modificoRenta = true;
         Rentas rentaModificada = buscarRenta(renta.getId());
         rentaModificada.setHoraFin(renta.getHoraFin());
-        rentaModificada.setFecha(renta.getFecha());
+        rentaModificada.setFecha(renta.getFecha().get(Calendar.DAY_OF_MONTH)+"/"+renta.getFecha().get(Calendar.MONTH)+"/"+renta.getFecha().get(Calendar.YEAR));
         rentaModificada.setHoraIni(renta.getHoraInicio());
         rentaModificada.setMonto(renta.getMonto());
         

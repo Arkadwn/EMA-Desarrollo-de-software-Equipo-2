@@ -6,7 +6,7 @@
 package emaaredespacio.persistencia.controladores;
 
 import emaaredespacio.modelo.UsuarioSistema;
-import emaaredespacio.persistencia.controladorentidad.exceptions.NonexistentEntityException;
+import emaaredespacio.persistencia.controladores.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;

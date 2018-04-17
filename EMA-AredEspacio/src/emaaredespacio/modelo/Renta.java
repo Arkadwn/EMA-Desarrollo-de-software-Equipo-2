@@ -7,10 +7,11 @@ package emaaredespacio.modelo;
 
 import emaaredespacio.persistencia.controladores.ClientesJpaController;
 import emaaredespacio.persistencia.controladores.RentasJpaController;
-import emaaredespacio.persistencia.controladorentidad.exceptions.NonexistentEntityException;
+import emaaredespacio.persistencia.controladores.exceptions.NonexistentEntityException;
 import emaaredespacio.persistencia.entidad.Clientes;
 import emaaredespacio.persistencia.entidad.Rentas;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -25,7 +26,7 @@ public class Renta implements IRenta {
 
     private int id;
     private int monto;
-    private String fecha;
+    private Calendar fecha;
     private int horaInicio;
     private int horaFin;
     private Cliente cliente;
@@ -39,7 +40,7 @@ public class Renta implements IRenta {
         this.estado = estado;
     }
 
-    public Renta(int id, int monto, String fecha, int horaInicio, int horaFin, Cliente cliente, boolean estado) {
+    public Renta(int id, int monto, Calendar fecha, int horaInicio, int horaFin, Cliente cliente, boolean estado) {
         this.id = id;
         this.monto = monto;
         this.fecha = fecha;
@@ -65,11 +66,11 @@ public class Renta implements IRenta {
         this.monto = monto;
     }
 
-    public String getFecha() {
+    public Calendar getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Calendar fecha) {
         this.fecha = fecha;
     }
 
@@ -100,32 +101,40 @@ public class Renta implements IRenta {
     @Override
     public boolean cancelarRenta(int idRenta) {
         boolean banderaGuardado = false;
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
         try {
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
             banderaGuardado = new RentasJpaController(entityManagerFactory).cancelarRenta(idRenta);
-        } catch (NonexistentEntityException ex) {
-            System.out.println("Error en cancelar renta dom: " + ex.getMessage());
-        }finally{
             entityManagerFactory.close();
+        } catch (NonexistentEntityException ex) {
+            System.out.println("Error en metodo cancelarRenta de entidad Renta: " + ex.getMessage());
+        } catch (Exception ex){
+            System.out.println("Renta inexistente");
+            banderaGuardado = false;
         }
-
         return banderaGuardado;
     }
 
     @Override
     public Renta cargarRenta(String id) {
         Renta rentaCargada = new Renta();
+        if(!"".equals(id)){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
         Rentas renta = new RentasJpaController(entityManagerFactory).buscarRenta(Integer.parseInt(id));
-
+        
         rentaCargada.setCliente(new Cliente(String.valueOf(renta.getIdCliente().getIdCliente())));
         rentaCargada.setEstado(true);
-        rentaCargada.setFecha(renta.getFecha());
+        Calendar fechaCalendar = Calendar.getInstance();
+        fechaCalendar.set(Integer.parseInt(renta.getFecha().split("/")[2]), Integer.parseInt(renta.getFecha().split("/")[1]), Integer.parseInt(renta.getFecha().split("/")[0]));
+        //Date fechaRecibida = new Date(Integer.parseInt(renta.getFecha().split("/")[2]) - 1900, Integer.parseInt(renta.getFecha().split("/")[1]), Integer.parseInt(renta.getFecha().split("/")[0]));
+        rentaCargada.setFecha(fechaCalendar);
         rentaCargada.setHoraFin(renta.getHoraFin());
         rentaCargada.setHoraInicio(renta.getHoraIni());
         rentaCargada.setId(Integer.parseInt(id));
         rentaCargada.setMonto(renta.getMonto());
         entityManagerFactory.close();
+        }else{
+            rentaCargada = null;
+        }
         return rentaCargada;
     }
 
@@ -137,14 +146,16 @@ public class Renta implements IRenta {
         for (Rentas renta : rentas) {
             Renta rentaCargada = new Renta();
             if (renta.getEstado()) {
-            rentaCargada.setCliente(new Cliente(String.valueOf(renta.getIdCliente().getIdCliente())));
-            rentaCargada.setEstado(true);
-            rentaCargada.setFecha(renta.getFecha());
-            rentaCargada.setHoraFin(renta.getHoraFin());
-            rentaCargada.setHoraInicio(renta.getHoraIni());
-            rentaCargada.setId(renta.getIdRenta());
-            rentaCargada.setMonto(renta.getMonto());
-            rentasCargadas.add(rentaCargada);
+                rentaCargada.setCliente(new Cliente(String.valueOf(renta.getIdCliente().getIdCliente())));
+                rentaCargada.setEstado(true);
+                Calendar fechaCalendar = Calendar.getInstance();
+                fechaCalendar.set(Integer.parseInt(renta.getFecha().split("/")[2]), Integer.parseInt(renta.getFecha().split("/")[1]), Integer.parseInt(renta.getFecha().split("/")[0]));
+                rentaCargada.setFecha(fechaCalendar);
+                rentaCargada.setHoraFin(renta.getHoraFin());
+                rentaCargada.setHoraInicio(renta.getHoraIni());
+                rentaCargada.setId(renta.getIdRenta());
+                rentaCargada.setMonto(renta.getMonto());
+                rentasCargadas.add(rentaCargada);
             }
         }
         entityManagerFactory.close();
@@ -154,23 +165,29 @@ public class Renta implements IRenta {
     @Override
     public List<Renta> cargarRentas(Cliente cliente) {
         List<Renta> rentasCliente = new ArrayList<>();
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
-        List<Rentas> rentas = new RentasJpaController(entityManagerFactory).buscarRentasSegunCliente(Integer.parseInt(cliente.getId()));
-        for (Rentas renta : rentas) {
-            Renta rentaCargada = new Renta();
-            
-            if (renta.getEstado()) {
-                rentaCargada.setCliente(new Cliente(String.valueOf(renta.getIdCliente().getIdCliente())));
-                rentaCargada.setEstado(true);
-                rentaCargada.setFecha(renta.getFecha());
-                rentaCargada.setHoraFin(renta.getHoraFin());
-                rentaCargada.setHoraInicio(renta.getHoraIni());
-                rentaCargada.setId(renta.getIdRenta());
-                rentaCargada.setMonto(renta.getMonto());
-                rentasCliente.add(rentaCargada);
+        if(cliente == null){
+            rentasCliente = null;
+        }else{
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+            List<Rentas> rentas = new RentasJpaController(entityManagerFactory).buscarRentasSegunCliente(Integer.parseInt(cliente.getId()));
+            for (Rentas renta : rentas) {
+                Renta rentaCargada = new Renta();
+
+                if (renta.getEstado()) {
+                    rentaCargada.setCliente(new Cliente(String.valueOf(renta.getIdCliente().getIdCliente())));
+                    rentaCargada.setEstado(true);
+                    Calendar fechaCalendar = Calendar.getInstance();
+                    fechaCalendar.set(Integer.parseInt(renta.getFecha().split("/")[2]), Integer.parseInt(renta.getFecha().split("/")[1]), Integer.parseInt(renta.getFecha().split("/")[0]));
+                    rentaCargada.setFecha(fechaCalendar);
+                    rentaCargada.setHoraFin(renta.getHoraFin());
+                    rentaCargada.setHoraInicio(renta.getHoraIni());
+                    rentaCargada.setId(renta.getIdRenta());
+                    rentaCargada.setMonto(renta.getMonto());
+                    rentasCliente.add(rentaCargada);
+                }
             }
+            entityManagerFactory.close();
         }
-        entityManagerFactory.close();
         return rentasCliente;
     }
 
@@ -178,24 +195,30 @@ public class Renta implements IRenta {
     public boolean guardarCambios(Renta renta) {
         boolean banderaCambiosGuardados = false;
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        System.out.println(renta);
         try {
-            System.out.println(renta);
             banderaCambiosGuardados = new RentasJpaController(entityManagerFactory).modificarRenta(renta);
-            
         } catch (NonexistentEntityException ex) {
-            System.out.println("Error al guardar cambios dom: "+ex.getMessage());
+            System.out.println("Error en metodo guardarCambios en entidad Renta: " + ex.getMessage());
+        } catch (Exception ex) {
+            System.out.println("La renta viene vacia: "+ex.getMessage());
+        } finally {
+            entityManagerFactory.close();
         }
-        entityManagerFactory.close();
         return banderaCambiosGuardados;
     }
 
     @Override
     public boolean guardarNuevaRenta(Renta renta) {
         boolean banderaGuardarNuevaRenta = false;
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
-        Clientes cliente = new ClientesJpaController(entityManagerFactory).findClientes(Integer.parseInt(renta.getCliente().getId()));
-        banderaGuardarNuevaRenta = new RentasJpaController(entityManagerFactory).crearRenta(renta, cliente);
-        entityManagerFactory.close();
+        if(renta == null){
+            banderaGuardarNuevaRenta = false;
+        }else{
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+            Clientes cliente = new ClientesJpaController(entityManagerFactory).findClientes(Integer.parseInt(renta.getCliente().getId()));
+            banderaGuardarNuevaRenta = new RentasJpaController(entityManagerFactory).crearRenta(renta, cliente);
+            entityManagerFactory.close();
+        }
         return banderaGuardarNuevaRenta;
     }
 
