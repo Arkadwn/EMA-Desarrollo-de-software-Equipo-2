@@ -70,7 +70,7 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
 
                 boolean[] validaciones = metodos.validarCampos(egreso);
 
-                if (validaciones[3]) {
+                if (validaciones[4]) {
                     if (metodos.registrarEgreso(egreso)) {
                         System.out.println("Egreso registrado");
                     } else {

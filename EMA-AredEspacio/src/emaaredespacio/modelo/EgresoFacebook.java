@@ -152,12 +152,18 @@ public class EgresoFacebook implements IEgresoFacebook {
 
     @Override
     public boolean[] validarCampos(EgresoFacebook egreso) {
-        boolean[] validaciones = new boolean[4];
+        boolean[] validaciones = new boolean[5];
 
+        //Descripcion
         validaciones[0] = egreso.getDescripcion().trim().length() >= 2 && egreso.getDescripcion().trim().length() <= 40000;
+        //Link
         validaciones[1] = egreso.getLink().trim().length() >= 10 && egreso.getFechaInicio().trim().length() <= 10000;
+        //Creador
         validaciones[2] = egreso.getCreador().trim().length() >= 2 && egreso.getCreador().trim().length() <= 200;
-        validaciones[3] = validaciones[0] && validaciones[1] && validaciones[2];
+        //Costo mayor a 0
+        validaciones[3] = egreso.getCosto() >= 0;
+        //
+        validaciones[4] = validaciones[0] && validaciones[1] && validaciones[2] && validaciones[3];
 
         return validaciones;
     }
@@ -173,7 +179,7 @@ public class EgresoFacebook implements IEgresoFacebook {
         return fecha;
     }
 
-    private boolean validarDisponibilidadDelEgreso(String fechaFin) {
+    public boolean validarDisponibilidadDelEgreso(String fechaFin) {
         boolean validacion = false;
 
         //String[] partesInicio = fechaInicio.split("/");
