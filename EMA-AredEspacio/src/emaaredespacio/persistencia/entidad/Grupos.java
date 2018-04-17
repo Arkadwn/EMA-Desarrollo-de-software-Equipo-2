@@ -37,6 +37,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Grupos.findByEstado", query = "SELECT g FROM Grupos g WHERE g.estado = :estado")})
 public class Grupos implements Serializable {
 
+    @Column(name = "fecha_inicio")
+    private String fechaInicio;
+    @Column(name = "fecha_fin")
+    private String fechaFin;
+
+    @Column(name = "dias")
+    private String dias;
+    @Column(name = "horas")
+    private String horas;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -123,6 +133,38 @@ public class Grupos implements Serializable {
     @Override
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Grupos[ idGrupo=" + idGrupo + " ]";
+    }
+
+    public String getDias() {
+        return dias;
+    }
+
+    public void setDias(String dias) {
+        this.dias = dias;
+    }
+
+    public String getHoras() {
+        return horas;
+    }
+
+    public void setHoras(String horas) {
+        this.horas = horas;
+    }
+
+    public String getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(String fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public String getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(String fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
 }
