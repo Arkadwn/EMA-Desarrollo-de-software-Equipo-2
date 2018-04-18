@@ -33,7 +33,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></JFXButton>
-            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="600.0" prefHeight="51.0" text="Miguel Leonardo Jiménez Jiménez" textAlignment="RIGHT" textFill="WHITE" GridPane.columnIndex="1">
+            <Label fx:id="labelNombreSesion" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="600.0" prefHeight="51.0" text="Miguel Leonardo Jiménez Jiménez" textAlignment="RIGHT" textFill="WHITE" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="51.0" />
                </GridPane.margin>
@@ -58,20 +58,36 @@
          <children>
             <Accordion layoutY="183.0" maxHeight="549.0" maxWidth="245.0" opacity="0.8" prefHeight="357.0" prefWidth="245.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="183.0">
               <panes>
-                <TitledPane animated="false" text="Pagos">
+                <TitledPane text="Pagos">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane layoutX="14.0" layoutY="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar promocion" />
+                                    <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar promocion" GridPane.rowIndex="1" />
+                                 </children>
+                              </GridPane>
+                           </children></AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" text="Egresos">
+                <TitledPane text="Egresos">
                   <content>
                         <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
@@ -81,12 +97,27 @@
                         </GridPane>
                   </content>
                 </TitledPane>
-                  <TitledPane animated="false" text="Grupos y Rentas">
+                  <TitledPane text="Grupos y Rentas">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <GridPane layoutY="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <JFXButton onAction="#desplegarAdministrarRentas" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar rentas" />
+                              <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar grupo" GridPane.rowIndex="1" />
+                              <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Modificar grupo" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
                     </content>
                   </TitledPane>
-                  <TitledPane animated="false" text="Cliente y Colaboradores">
+                  <TitledPane text="Cliente y Colaboradores">
                     <content>
                         <GridPane prefHeight="240.0" prefWidth="247.0">
                           <columnConstraints>
@@ -95,19 +126,19 @@
                           <rowConstraints>
                             <RowConstraints maxHeight="28.0" minHeight="8.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="28.0" minHeight="8.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="28.0" minHeight="8.0" prefHeight="28.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <JFXButton onAction="#desplegarVentanaAdministrarColaboradores" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar colaborador" />
                               <JFXButton onAction="#desplegarVentana" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar colaborador" GridPane.rowIndex="1" />
-                              <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar clientes" GridPane.rowIndex="2" />
-                              <JFXButton onAction="#desplegarAdministrarRentas" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar rentas" GridPane.rowIndex="3" />
+                              <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar cliente" GridPane.rowIndex="2" />
+                              <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Modificar cliente" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                     </content>
                   </TitledPane>
-                <TitledPane animated="false" text="Alumnos">
+                <TitledPane text="Alumnos">
                   <content>
                         <GridPane prefHeight="240.0" prefWidth="245.0">
                           <columnConstraints>
@@ -119,7 +150,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton onAction="#desplegarAdminstrarAlumnos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar alumnos" />
+                              <JFXButton onAction="#desplegarAdminstrarAlumnos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar alumnos" />
                               <JFXButton onAction="#desplegarEditarAlumno" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar alumnos" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
@@ -130,7 +161,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Accordion>
-            <ImageView fitHeight="120.0" fitWidth="183.0" layoutX="27.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="27.0">
+            <ImageView fitHeight="156.0" fitWidth="242.0" layoutX="11.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="10.054794311523438" AnchorPane.topAnchor="14.0">
                <image>
                   <Image url="@../../imagenes/Logo.png" />
                </image>

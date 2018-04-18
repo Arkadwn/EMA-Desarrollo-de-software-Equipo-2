@@ -112,7 +112,7 @@
           <RowConstraints maxHeight="443.0" minHeight="10.0" prefHeight="420.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TableView fx:id="tbListaAlumnos" editable="true" onMouseClicked="#posicion" onMouseExited="#quitaSeleccion" GridPane.rowIndex="1">
+            <TableView fx:id="tbListaAlumnos" editable="true" onMouseClicked="#cargarAlumno" onMouseExited="#quitaSeleccion" GridPane.rowIndex="1">
                <columns>
                   <TableColumn fx:id="columnaNombre" editable="false" prefWidth="202.0" sortable="false" text="Nombre" />
                   <TableColumn fx:id="columnaApellidos" editable="false" prefWidth="230.0" sortable="false" text="Apellidos" />

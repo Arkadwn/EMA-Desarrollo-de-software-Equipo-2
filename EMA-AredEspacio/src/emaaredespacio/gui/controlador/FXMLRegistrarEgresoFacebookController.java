@@ -33,7 +33,6 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
     private JFXTextField tfLink;
     @FXML
     private JFXTextArea tfDescripcion;
-    private LocalDate fechaActual;
 
     /**
      * Initializes the controller class.
@@ -43,13 +42,13 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        fechaActual = LocalDate.now();
+        
     }
 
     @FXML
     private void accionRegistrarEgreso(ActionEvent evento) {
         if (validarCampos()) {
-            System.out.println("Hay campos vacios");
+            MensajeController.mensajeAdvertencia("Hay campos vacios");
         } else {
             LocalDate fechaInicio = cFechaInicio.getValue();
             LocalDate fechaFin = cFenchaFin.getValue();
@@ -72,16 +71,16 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
 
                 if (validaciones[4]) {
                     if (metodos.registrarEgreso(egreso)) {
-                        System.out.println("Egreso registrado");
+                        MensajeController.mensajeInformacion("El egreso ha sido guardado exitosamente");
                     } else {
-                        System.out.println("No se pudo guardar el egreso");
+                        MensajeController.mensajeAdvertencia("Ha ocurrido un error al guardar el egreso");
                     }
                 } else {
                     System.out.println("Campos invalidos");
                 }
 
             } else {
-                System.out.println("La fecha inicio debe de ser antes que la fecha fin");
+                MensajeController.mensajeAdvertencia("Hay campos invalidos, cheque los datos ingresados");
             }
 
         }

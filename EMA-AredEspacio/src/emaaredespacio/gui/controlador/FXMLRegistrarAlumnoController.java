@@ -53,7 +53,7 @@ public class FXMLRegistrarAlumnoController implements Initializable {
     @FXML
     private void accionGuardar(ActionEvent evento){
         if(validarCamposVacios()){
-            System.out.println("Hay campos vacios");
+            MensajeController.mensajeAdvertencia("Hay campos vacios o no ha seleccionado una imagen");
         }else{
             IAlumno metodosAlumnos = new Alumno();
             Alumno alumno = new Alumno();
@@ -67,12 +67,12 @@ public class FXMLRegistrarAlumnoController implements Initializable {
             boolean[] validacion = metodosAlumnos.validarCampos(alumno);
             if(validacion[5]){
                 if(metodosAlumnos.guardarAlumno(alumno)){
-                    System.out.println("Alumno guardado");
+                    MensajeController.mensajeInformacion("El alumno ha sido guardado exitosamente");
                 }else{
-                    System.out.println("No se pudo");
+                    MensajeController.mensajeAdvertencia("Ha ocurrido un error al guardar el alumno");
                 }
             }else{
-                System.out.println("Campos invaldios");
+                MensajeController.mensajeAdvertencia("Hay campos invalidos, cheque los datos ingresados");
             }
         }
     }

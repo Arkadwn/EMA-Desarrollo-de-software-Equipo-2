@@ -9,8 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="549.0" prefWidth="1200.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="emaaredespacio.gui.controlador.FXMLEditarEgresoFacebookController">
+<AnchorPane id="AnchorPane" prefHeight="549.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLEditarEgresoFacebookController">
    <children>
       <GridPane maxWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -42,7 +41,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <TableView fx:id="tbEgresos" onMouseClicked="#cargarSeleccion" onMouseExited="#quitarSeleccion" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <TableView fx:id="tbEgresos" onMouseClicked="#cargarDatosDeEgreso" onMouseExited="#quitarSeleccion" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
               <columns>
                 <TableColumn fx:id="clEstado" editable="false" prefWidth="48.0" sortable="false" text="Estado" />
                 <TableColumn fx:id="clCreador" editable="false" prefWidth="213.0" sortable="false" text="Creador" />

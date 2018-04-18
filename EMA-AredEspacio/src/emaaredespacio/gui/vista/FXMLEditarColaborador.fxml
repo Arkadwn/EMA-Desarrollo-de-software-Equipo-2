@@ -172,7 +172,7 @@
           <RowConstraints minHeight="10.0" prefHeight="445.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TableView fx:id="tbListaColaboradores" editable="true" onMouseClicked="#posicion" onMouseExited="#quitaSeleccion" GridPane.rowIndex="1">
+            <TableView fx:id="tbListaColaboradores" editable="true" onMouseClicked="#cargarDatosColaborador" onMouseExited="#quitaSeleccion" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" />
                </GridPane.margin>

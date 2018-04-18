@@ -5,6 +5,7 @@
  */
 package emaaredespacio.modelo;
 
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -119,36 +120,102 @@ public class ColaboradorTest {
         assertEquals(resultadoEsperado, resultado[3]);
         System.out.println(resultadoEsperado + " - " + resultado[3]);
     }
+    
+    /**
+     * Test of registrarColaborador method, of class Colaborador.
+     */
+    @Test
+    public void testRegistrarColaborador_CP_05() {
+        System.out.println("registrarColaborador-CP-05");
+        
+        Colaborador colaborador = new Colaborador();
+        colaborador.setNombre("Andres");
+        colaborador.setApellidos("Zarate Flores");
+        colaborador.setContraseña("s150qweqasda");
+        colaborador.setTelefono("2281301414213121231");
+        colaborador.setCorreo("arkwn@gmail.com");
+        colaborador.setDireccion("Xalapa");
+        colaborador.setImagenPerfil("20180319_094545.jpg");
+        colaborador.setTipoPago("Quinsenal");
+        colaborador.setMontoAPagar("400");
+        colaborador.setNombreUsuario("Andres");
+        boolean resultadoEsperado = false;
+        boolean resultado = controlador.registrarColaborador(colaborador);
+        assertEquals(resultadoEsperado, resultado);
+        System.out.println(resultadoEsperado+" - " + resultado);
+    }
 
-//    /**
-//     * Test of buscarColaborador method, of class Colaborador.
-//     */
-//    @Test
-//    public void testBuscarColaborador_CP_02() {
-//        System.out.println("buscarColaborador");
-//        String palabraClave = "ma";
-//        Colaborador colaborador = new Colaborador();
-//        colaborador.setNombre("Manuel");
-//        colaborador.setApellidos("Jimenez Jimenez");
-//        colaborador.setContraseña("051e03aa38842ac83909cc8962a33f22d761b2f8bf8416ecc4c21d6ee6142075");
-//        colaborador.setTelefono("2281301414");
-//        colaborador.setCorreo("manuel@gmail.com");
-//        colaborador.setDireccion("Rancho Viejo");
-//        colaborador.setImagenPerfil("20180319_094545.jpg");
-//        colaborador.setTipoPago("Quinsenal");
-//        colaborador.setMontoAPagar("400");
-//        colaborador.setNombreUsuario("Manu");
-//        colaborador.setIdUsuario(1);
-//        colaborador.setIdColaborador(1);
-//        colaborador.setEstado("A");
-//        boolean resultadoEsperado = true;
-//        List<Colaborador> resultado = controlador.buscarColaborador(palabraClave);
-//        System.out.println(resultado.size());
-//        assertEquals(resultadoEsperado, resultado.contains(colaborador));
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of registrarColaborador method, of class Colaborador.
+     */
+    @Test
+    public void testRegistrarColaborador_CP_06() {
+        System.out.println("registrarColaborador-CP-06");
+        
+        Colaborador colaborador = new Colaborador();
+        colaborador.setNombre("Andres");
+        colaborador.setApellidos("Zarate Flores");
+        colaborador.setContraseña("s150qweqasda");
+        colaborador.setTelefono("2281301414");
+        colaborador.setCorreo("arkwn@gmail.com");
+        colaborador.setDireccion("Xalapa");
+        colaborador.setImagenPerfil("20180319_094545.jpg");
+        colaborador.setTipoPago("Quinsenal");
+        colaborador.setMontoAPagar("400");
+        colaborador.setNombreUsuario("Andres");
+        boolean resultadoEsperado = true;
+        boolean resultado = controlador.registrarColaborador(colaborador);
+        assertEquals(resultadoEsperado, resultado);
+        System.out.println(resultadoEsperado+" - " + resultado);
+    }
+    
+    /**
+     * Test of registrarColaborador method, of class Colaborador.
+     */
+    @Test
+    public void testRegistrarColaborador_CP_07() {
+        System.out.println("registrarColaborador-CP-07");
+        
+        Colaborador colaborador = new Colaborador();
+        colaborador.setNombre("Sarai");
+        colaborador.setApellidos("Castillo Hernandez");
+        colaborador.setContraseña("Amarillo123");
+        colaborador.setTelefono("2281152023");
+        colaborador.setCorreo("zara@gmail.com");
+        colaborador.setDireccion("Miradores");
+        colaborador.setImagenPerfil("20180319_094545.jpg");
+        colaborador.setTipoPago("Mensual");
+        colaborador.setMontoAPagar("1200");
+        colaborador.setNombreUsuario("Zara");
+        boolean resultadoEsperado = true;
+        boolean resultado = controlador.registrarColaborador(colaborador);
+        assertEquals(resultadoEsperado, resultado);
+        System.out.println(resultadoEsperado+" - " + resultado);
+    }
+    
+    /**
+     * Test of buscarColaborador method, of class Colaborador.
+     */
+    @Test
+    public void testBuscarColaborador_CP_01() {
+        System.out.println("buscarColaborador_CP_01");
+        
+        boolean resultadoEsperado = true;
+        List<Colaborador> resultado = controlador.buscarColaborador("lksdjflsdklnsdjksjdnks");
+        assertEquals(resultadoEsperado, resultado.isEmpty());
+    }
 
+    /**
+     * Test of buscarColaborador method, of class Colaborador.
+     */
+    @Test
+    public void testBuscarColaborador_CP_02() {
+        System.out.println("buscarColaborador_CP_01");
+        
+        boolean resultadoEsperado = true;
+        List<Colaborador> resultado = controlador.buscarColaborador("Manu");
+        assertEquals(resultadoEsperado, !resultado.isEmpty());
+    }
     /**
      * Test of editarColaborador method, of class Colaborador.
      */
@@ -180,16 +247,16 @@ public class ColaboradorTest {
     public void testEditarColaborador_CP_02() {
         System.out.println("editarColaborador-CP-02");
         Colaborador colaborador = new Colaborador();
-        colaborador.setNombre("Manuel");
-        colaborador.setApellidos("Jiménez Jimenez");
+        colaborador.setNombre("Andres");
+        colaborador.setApellidos("Zarate Flores");
         colaborador.setContraseña("Mexico63Libre");
         colaborador.setTelefono("2281301414");
-        colaborador.setCorreo("manuel@gmail.com");
-        colaborador.setDireccion("Rancho Viejo");
+        colaborador.setCorreo("arkwn@gmail.com");
+        colaborador.setDireccion("Xalapa");
         colaborador.setImagenPerfil("20180319_094545.jpg");
         colaborador.setTipoPago("Quinsenal");
         colaborador.setMontoAPagar("400");
-        colaborador.setNombreUsuario("Melchi");
+        colaborador.setNombreUsuario("Andres121");
         colaborador.setIdUsuario(2);
         colaborador.setIdColaborador(2);
         colaborador.setEstado("A");
@@ -204,45 +271,21 @@ public class ColaboradorTest {
     public void testEditarColaborador_CP_03() {
         System.out.println("editarColaborador-CP-03");
         Colaborador colaborador = new Colaborador();
-        colaborador.setNombre("Manuel");
-        colaborador.setApellidos("Jiménez Jimenez");
-        colaborador.setContraseña("Mexico63Libre");
-        colaborador.setTelefono("2281301414");
-        colaborador.setCorreo("manuel@gmail.com");
-        colaborador.setDireccion("Rancho Viejo");
+        colaborador.setNombre("Sarai");
+        colaborador.setApellidos("Castillo Hernandez");
+        colaborador.setContraseña("Dorado25612");
+        colaborador.setTelefono("2281152023123124232");
+        colaborador.setCorreo("zara@gmail.com");
+        colaborador.setDireccion("Miradores");
         colaborador.setImagenPerfil("20180319_094545.jpg");
         colaborador.setTipoPago("Mensual");
-        colaborador.setMontoAPagar("500");
-        colaborador.setNombreUsuario("Manu");
+        colaborador.setMontoAPagar("1200");
+        colaborador.setNombreUsuario("Zara");
         colaborador.setIdUsuario(3);
         colaborador.setIdColaborador(3);
         colaborador.setEstado("A");
         boolean nuevaContraseña = true;
-        boolean resultadoEsperado = true;
-        boolean resultado = controlador.editarColaborador(colaborador, nuevaContraseña);
-        assertEquals(resultadoEsperado, resultado);
-        System.out.println(resultadoEsperado+" - " + resultado);
-    }
-
-    @Test
-    public void testEditarColaborador_CP_04() {
-        System.out.println("editarColaborador-CP-04");
-        Colaborador colaborador = new Colaborador();
-        colaborador.setNombre("Manuel");
-        colaborador.setApellidos("Jiménez Jimenez");
-        colaborador.setContraseña("Mexico63Libre");
-        colaborador.setTelefono("2281301414");
-        colaborador.setCorreo("manuel@gmail.com");
-        colaborador.setDireccion("Rancho Viejo");
-        colaborador.setImagenPerfil("20180319_094545.jpg");
-        colaborador.setTipoPago("Quinsenal");
-        colaborador.setMontoAPagar("400");
-        colaborador.setNombreUsuario("Manu");
-        colaborador.setIdUsuario(4);
-        colaborador.setIdColaborador(4);
-        colaborador.setEstado("B");
-        boolean nuevaContraseña = true;
-        boolean resultadoEsperado = true;
+        boolean resultadoEsperado = false;
         boolean resultado = controlador.editarColaborador(colaborador, nuevaContraseña);
         assertEquals(resultadoEsperado, resultado);
         System.out.println(resultadoEsperado+" - " + resultado);

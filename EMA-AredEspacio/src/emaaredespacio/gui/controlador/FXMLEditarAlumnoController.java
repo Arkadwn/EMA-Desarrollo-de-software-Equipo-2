@@ -83,13 +83,13 @@ public class FXMLEditarAlumnoController implements Initializable {
         tbListaAlumnos.getSelectionModel().clearSelection();
     }
 
-    private void llenarTabla() {
+    private void cargarResultadoDeBusqueda() {
         tbListaAlumnos.getItems().clear();
         tbListaAlumnos.setItems(FXCollections.observableArrayList(lista));
     }
 
     @FXML
-    private void posicion(MouseEvent event) {
+    private void cargarAlumno(MouseEvent event) {
         if (tbListaAlumnos.getSelectionModel().getSelectedIndex() >= 0) {
             Image imagen = null;
             seleccion = tbListaAlumnos.getSelectionModel().getSelectedItem();
@@ -114,47 +114,49 @@ public class FXMLEditarAlumnoController implements Initializable {
     @FXML
     private void accionBuscar() {
         if (tfPalabraClave.getText().isEmpty()) {
-            System.out.println("No ha ingersado ningun caracter");
+            MensajeController.mensajeAdvertencia("No ha ingresado nada para realizar la busqueda");
         } else {
             IAlumno metodosAlumno = new Alumno();
             lista.clear();
             lista = metodosAlumno.buscarAlumno(tfPalabraClave.getText());
-            llenarTabla();
+            cargarResultadoDeBusqueda();
         }
     }
 
     @FXML
     private void accionGuardarCambios(ActionEvent event) {
-        if(validarCamposVacios()){
-            System.out.println("Campos vacios");
-        }else{
-            IAlumno metodosAlumnos = new Alumno();
-            Alumno alumno = new Alumno();
-            alumno.setNombre(tfNombre.getText());
-            alumno.setApellidos(tfApellidos.getText());
-            alumno.setCorreo(tfCorreo.getText());
-            alumno.setDireccion(tfDireccion.getText());
-            alumno.setImagenPerfil(nombreImagen);
-            alumno.setTelefono(tfTelefono.getText());
-            alumno.setMatricula(seleccion.getMatricula());
-            if(checkEstado.isSelected()){
-                alumno.setEstado("A");
-            }else{
-                alumno.setEstado("B");
-            }
-            
-            
-            
-            boolean[] validacion = metodosAlumnos.validarCampos(alumno);
-            if(validacion[5]){
-                if(metodosAlumnos.editarAlumo(alumno)){
-                    System.out.println("Alumno guardado");
-                }else{
-                    System.out.println("No se pudo");
+        if (seleccion != null) {
+            if (validarCamposVacios()) {
+                MensajeController.mensajeAdvertencia("Hay campos vacios");
+            } else {
+                IAlumno metodosAlumnos = new Alumno();
+                Alumno alumno = new Alumno();
+                alumno.setNombre(tfNombre.getText());
+                alumno.setApellidos(tfApellidos.getText());
+                alumno.setCorreo(tfCorreo.getText());
+                alumno.setDireccion(tfDireccion.getText());
+                alumno.setImagenPerfil(nombreImagen);
+                alumno.setTelefono(tfTelefono.getText());
+                alumno.setMatricula(seleccion.getMatricula());
+                if (checkEstado.isSelected()) {
+                    alumno.setEstado("A");
+                } else {
+                    alumno.setEstado("B");
                 }
-            }else{
-                System.out.println("Campos invaldios");
+
+                boolean[] validacion = metodosAlumnos.validarCampos(alumno);
+                if (validacion[5]) {
+                    if (metodosAlumnos.editarAlumo(alumno)) {
+                        MensajeController.mensajeInformacion("Cambios guardados");
+                    } else {
+                        MensajeController.mensajeAdvertencia("No se han podido guardar los cambios");
+                    }
+                } else {
+                    MensajeController.mensajeAdvertencia("Hay campos invalidos, cheque los datos ingresados");
+                }
             }
+        } else {
+            MensajeController.mensajeInformacion("No ha seleccionado un alumno");
         }
     }
 

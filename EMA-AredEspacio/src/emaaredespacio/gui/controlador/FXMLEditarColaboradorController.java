@@ -93,7 +93,7 @@ public class FXMLEditarColaboradorController implements Initializable {
     }
 
     @FXML
-    private void posicion() {
+    private void cargarDatosColaborador() {
         if (tbListaColaboradores.getSelectionModel().getSelectedIndex() >= 0) {
             Image imagen = null;
             seleccion = tbListaColaboradores.getSelectionModel().getSelectedItem();
@@ -127,16 +127,16 @@ public class FXMLEditarColaboradorController implements Initializable {
     @FXML
     private void accionBuscar(ActionEvent evento) {
         if (tfPalabraClave.getText().isEmpty()) {
-            System.out.println("No ha ingersado ningun caracter");
+            MensajeController.mensajeAdvertencia("No ha ingresado nada para realizar la busqueda");
         } else {
             IColaborador metodosColaborador = new Colaborador();
             lista.clear();
             lista = metodosColaborador.buscarColaborador(tfPalabraClave.getText());
-            llenarTabla();
+            cargarResultadosDeBusqueda();
         }
     }
 
-    private void llenarTabla() {
+    private void cargarResultadosDeBusqueda() {
         tbListaColaboradores.getItems().clear();
         tbListaColaboradores.setItems(FXCollections.observableArrayList(lista));
     }
@@ -176,7 +176,7 @@ public class FXMLEditarColaboradorController implements Initializable {
     private void accionGuardarCambios(ActionEvent evento) {
         if (seleccion != null) {
             if (validarCamposVacios()) {
-                System.out.println("Campos invalidos");
+                MensajeController.mensajeAdvertencia("Hay campos vacios");
             } else {
                 IColaborador metodosColaborador = new Colaborador();
                 Colaborador colaborador = new Colaborador();
@@ -221,15 +221,17 @@ public class FXMLEditarColaboradorController implements Initializable {
                     }
                     
                     if(metodosColaborador.editarColaborador(colaborador, nuevaContraseña)){
-                        System.out.println("Cambios guardados");
+                        MensajeController.mensajeInformacion("Cambios guardados");
                     }else{
-                        System.out.println("Cambios no guardados");
+                        MensajeController.mensajeAdvertencia("No se han podido guardar los cambios");
                     }
                     
+                }else{
+                    MensajeController.mensajeAdvertencia("Hay campos invalidos, cheque los datos ingresados");
                 }
             }
         } else {
-            System.out.println("No ha seleccionado un colaborador");
+            MensajeController.mensajeInformacion("No ha seleccionado un colaborador");
         }
     }
 

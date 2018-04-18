@@ -84,63 +84,67 @@ public class FXMLEditarEgresoFacebookController implements Initializable {
     @FXML
     private void accionBuscar(ActionEvent evento) {
         if (tfBusqueda.getText().isEmpty()) {
-            System.out.println("Ingrese el nombre del creador de la publicidad");
+            MensajeController.mensajeAdvertencia("Ingrese el nombre del creador de la publicidad");
         } else {
             IEgresoFacebook metodos = new EgresoFacebook();
             lista.clear();
             lista = metodos.buscarEgresosDeFacebook(tfCreador.getText(), !checkEstado.isSelected());
-            llenarTabla();
+            cargarResultadosDeBusqueda();
         }
     }
 
-    private void llenarTabla() {
+    private void cargarResultadosDeBusqueda() {
         tbEgresos.getItems().clear();
         tbEgresos.setItems(FXCollections.observableArrayList(lista));
     }
 
     @FXML
     private void accionEditarEgreso(ActionEvent event) {
-        if (validarCampos()) {
-            System.out.println("Campos Vacios");
-        } else {
-            LocalDate fechaInicio = cFechaInicio.getValue();
-            LocalDate fechaFin = cFechaFin.getValue();
-            
-            if (fechaInicio.isBefore(fechaFin) || fechaInicio.isEqual(fechaFin)) {
-                EgresoFacebook egreso = new EgresoFacebook();
-                IEgresoFacebook metodos = new EgresoFacebook();
-
-                DecimalFormat digitos = new DecimalFormat("#.00");
-                Double costo = Double.parseDouble(tfCosto.getText());
-                
-                egreso.setIdEgresoFacebook(seleccion.getIdEgresoFacebook());
-                egreso.setCosto(Double.parseDouble(digitos.format(costo)));
-                egreso.setDescripcion(tfDescripcion.getText().trim());
-                egreso.setFechaFin(editarFecha(fechaFin));
-                egreso.setFechaInicio(editarFecha(fechaInicio));
-                egreso.setLink(tfLink.getText().trim());
-                egreso.setCreador(tfCreador.getText().trim());
-
-                boolean[] validaciones = metodos.validarCampos(egreso);
-
-                if (validaciones[4]) {
-                    if (metodos.editarEgresoFacebook(egreso)) {
-                        System.out.println("Egreso registrado");
-                    } else {
-                        System.out.println("No se pudo guardar el egreso");
-                    }
-                } else {
-                    System.out.println("Campos invalidos");
-                }
-
+        if (seleccion != null) {
+            if (validarCampos()) {
+                MensajeController.mensajeAdvertencia("Hay campos vacios");
             } else {
-                System.out.println("La fecha inicio debe de ser antes que la fecha fin");
+                LocalDate fechaInicio = cFechaInicio.getValue();
+                LocalDate fechaFin = cFechaFin.getValue();
+
+                if (fechaInicio.isBefore(fechaFin) || fechaInicio.isEqual(fechaFin)) {
+                    EgresoFacebook egreso = new EgresoFacebook();
+                    IEgresoFacebook metodos = new EgresoFacebook();
+
+                    DecimalFormat digitos = new DecimalFormat("#.00");
+                    Double costo = Double.parseDouble(tfCosto.getText());
+
+                    egreso.setIdEgresoFacebook(seleccion.getIdEgresoFacebook());
+                    egreso.setCosto(Double.parseDouble(digitos.format(costo)));
+                    egreso.setDescripcion(tfDescripcion.getText().trim());
+                    egreso.setFechaFin(editarFecha(fechaFin));
+                    egreso.setFechaInicio(editarFecha(fechaInicio));
+                    egreso.setLink(tfLink.getText().trim());
+                    egreso.setCreador(tfCreador.getText().trim());
+
+                    boolean[] validaciones = metodos.validarCampos(egreso);
+
+                    if (validaciones[4]) {
+                        if (metodos.editarEgresoFacebook(egreso)) {
+                            MensajeController.mensajeInformacion("Cambios guardados");
+                        } else {
+                            MensajeController.mensajeAdvertencia("No se han podido guardar los cambios");
+                        }
+                    } else {
+                        MensajeController.mensajeAdvertencia("Hay campos invalidos, cheque los datos ingresados");
+                    }
+
+                } else {
+                    MensajeController.mensajeAdvertencia("La fecha inicio debe de ser antes que la fecha fin");
+                }
             }
+        } else {
+            MensajeController.mensajeInformacion("No ha seleccionado un egreso");
         }
     }
 
     @FXML
-    private void cargarSeleccion() {
+    private void cargarDatosDeEgreso() {
         if (tbEgresos.getSelectionModel().getSelectedIndex() >= 0) {
             seleccion = tbEgresos.getSelectionModel().getSelectedItem();
 
@@ -161,7 +165,7 @@ public class FXMLEditarEgresoFacebookController implements Initializable {
 
         return fecha;
     }
-    
+
     private LocalDate crearFecha(String cadena) {
         String[] partes = cadena.split("/");
 

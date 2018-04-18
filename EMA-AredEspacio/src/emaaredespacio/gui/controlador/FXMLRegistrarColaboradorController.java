@@ -75,7 +75,7 @@ public class FXMLRegistrarColaboradorController implements Initializable {
     private void accionRegistrarUsuario(ActionEvent evento) {
 
         if (validarCamposVacios()) {
-            System.out.println("Campos vacios");
+            MensajeController.mensajeAdvertencia("Hay campos vacios o no ha seleccionado una imagen");
         } else {
             IColaborador metodosColaborador = new Colaborador();
             Colaborador colaborador = new Colaborador();
@@ -95,26 +95,20 @@ public class FXMLRegistrarColaboradorController implements Initializable {
             
             if(validaciones[8]){
                 if(metodosColaborador.registrarColaborador(colaborador)){
-                    System.out.println("Usuario guardado");
+                    MensajeController.mensajeInformacion("El colaborador ha sido guardado exitosamente");
                 }else{
-                    System.out.println("No se pudo guardar");
+                    MensajeController.mensajeAdvertencia("Ha ocurrido un error al guardar el colaborador");
                 }
             }else{
-                System.out.println("Campos invalidos");
+                MensajeController.mensajeAdvertencia("Hay campos invalidos, cheque los datos ingresados");
             }
         }
 
     }
 
     @FXML
-    private void as(ActionEvent evento) {
-        Image imagen = new Image("");
-        
-    }
-
-    @FXML
     private void rellenarComboboxTipoPago() {
-        ObservableList<String> fichas = FXCollections.observableArrayList("Quisenal", "Mensual");
+        ObservableList<String> fichas = FXCollections.observableArrayList("Quinsenal", "Mensual");
         cbTipoPago.setItems(fichas);
     }
 
