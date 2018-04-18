@@ -101,7 +101,7 @@ public class PromocionTest {
     public void testBuscarPromocion_CP_01() {
         System.out.println("buscarPromocion-CP_01");
         int idColaborador = 1;
-        int expResult = 6;
+        int expResult = 1;
         List<Promocion> result = controlador.buscarPromocion(idColaborador);
         assertEquals(expResult, result.size());
         System.out.println(expResult+"-"+result);

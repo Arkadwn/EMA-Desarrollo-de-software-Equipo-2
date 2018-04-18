@@ -5,7 +5,9 @@
  */
 package emaaredespacio.persistencia.controladores;
 
+import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.persistencia.controladores.exceptions.NonexistentEntityException;
+import emaaredespacio.persistencia.entidad.Colaboradores;
 import emaaredespacio.persistencia.entidad.Promociones;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -143,9 +145,12 @@ public class PromocionesJpaController implements Serializable {
     }
     
     public List<Promociones> buscarPromociones(int idColabora){
+        String idColab = "%"+idColabora+"%";
+        Colaboradores colaborador = new Colaboradores();
+        colaborador.setIdColaborador(idColabora);
         List<Promociones> promociones = new ArrayList();
         EntityManager em = getEntityManager();
-        promociones = em.createQuery("SELECT c FROM Promociones c WHERE c.idColaborador LIKE '%"+idColabora+"%'" ).getResultList();
+        promociones = em.createQuery("SELECT c FROM Promociones c WHERE c.idColaborador = :idColab").setParameter("idColab", colaborador).getResultList();
 
         return promociones;
     }

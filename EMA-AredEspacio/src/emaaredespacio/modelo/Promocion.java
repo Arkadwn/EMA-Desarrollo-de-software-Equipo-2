@@ -94,6 +94,7 @@ public class Promocion implements IPromocion {
             Promociones nuevapromocion = new Promociones();
             Colaboradores colaborador = new Colaboradores();
             colaborador.setIdColaborador(promocion.getIdColaborador());
+            nuevapromocion.setIdColaborador(colaborador);
             nuevapromocion.setNombrePromocion(promocion.getNombrePromocion());
             if (promocion.aplicaDescuento) {
                 nuevapromocion.setAplicaDescuento(1);
@@ -103,7 +104,7 @@ public class Promocion implements IPromocion {
             nuevapromocion.setPorcentajeDescuento(promocion.getPorcentajeDescuento());
             nuevapromocion.setFechaIni(promocion.getFechaInicio());
             nuevapromocion.setFechaFin(promocion.getFechaFin());
-            nuevapromocion.setIdColaborador(promocion.getIdColaborador());
+            
             if (controlador.create(nuevapromocion)) {
                 guardadoExitoso = true;
             }
@@ -136,7 +137,9 @@ public class Promocion implements IPromocion {
                 nuevaPromocion.setAplicaDescuento(false);
             }
             nuevaPromocion.setIdPromocion(promocion.getIdPromocion());
-            nuevaPromocion.setIdColaborador(promocion.getIdColaborador());
+            Colaborador colaborador = new Colaborador();
+//            colaborador.setIdColaborador(promocion.getIdColaborador());
+//            nuevaPromocion.setIdColaborador(colaborador);
             promociones.add(nuevaPromocion);
         }
         return promociones;
@@ -165,7 +168,7 @@ public class Promocion implements IPromocion {
             nuevapromocion.setPorcentajeDescuento(promocion.getPorcentajeDescuento());
             nuevapromocion.setFechaIni(promocion.getFechaInicio());
             nuevapromocion.setFechaFin(promocion.getFechaFin());
-            nuevapromocion.setIdColaborador(promocion.getIdColaborador());
+//            nuevapromocion.setIdColaborador(promocion.getIdColaborador());
             nuevapromocion.setIdPromocion(promocion.getIdPromocion());
             try {
                 if (controlador.edit(nuevapromocion)) {
