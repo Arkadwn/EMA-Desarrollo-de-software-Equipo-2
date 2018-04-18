@@ -24,8 +24,8 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 6/04/2018
- * @time 10:51:52 PM
+ * @date 17/04/2018
+ * @time 06:29:08 PM
  */
 @Entity
 @Table(name = "clientes")

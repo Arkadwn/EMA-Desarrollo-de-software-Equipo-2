@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
@@ -12,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -19,7 +22,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author enriq
+ * @author Miguel Leonardo Jimenez Jimenez
+ * @date 17/04/2018
+ * @time 06:29:08 PM
  */
 @Entity
 @Table(name = "promociones")
@@ -51,8 +56,9 @@ public class Promociones implements Serializable {
     private String fechaIni;
     @Column(name = "fecha_fin")
     private String fechaFin;
-    @Column(name = "idColaborador")
-    private Integer idColaborador;
+    @JoinColumn(name = "idColaborador", referencedColumnName = "idColaborador")
+    @ManyToOne
+    private Colaboradores idColaborador;
 
     public Promociones() {
     }
@@ -72,14 +78,6 @@ public class Promociones implements Serializable {
 
     public void setIdPromocion(Integer idPromocion) {
         this.idPromocion = idPromocion;
-    }
-
-    public Integer getIdColaborador() {
-        return idColaborador;
-    }
-
-    public void setIdColaborador(Integer idColaborador) {
-        this.idColaborador = idColaborador;
     }
 
     public String getNombrePromocion() {
@@ -120,6 +118,14 @@ public class Promociones implements Serializable {
 
     public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+    public Colaboradores getIdColaborador() {
+        return idColaborador;
+    }
+
+    public void setIdColaborador(Colaboradores idColaborador) {
+        this.idColaborador = idColaborador;
     }
 
     @Override

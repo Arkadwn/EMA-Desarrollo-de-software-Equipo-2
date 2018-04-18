@@ -136,10 +136,6 @@ LOCK TABLES `directores` WRITE;
 /*!40000 ALTER TABLE `directores` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `grupos`
---
-
 DROP TABLE IF EXISTS `grupos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -149,6 +145,10 @@ CREATE TABLE `grupos` (
   `tipoDeBaile` varchar(30) DEFAULT NULL,
   `cupo` int(11) DEFAULT NULL,
   `estado` varchar(1) DEFAULT NULL,
+  `horas` varchar(100) DEFAULT NULL,
+  `dias` varchar(100) DEFAULT NULL,
+  `fecha_inicio` varchar(10) DEFAULT NULL,
+  `fecha_fin` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`idGrupo`),
   KEY `idColaborador` (`idColaborador`),
   CONSTRAINT `grupos_ibfk_1` FOREIGN KEY (`idColaborador`) REFERENCES `colaboradores` (`idColaborador`)
@@ -163,6 +163,7 @@ LOCK TABLES `grupos` WRITE;
 /*!40000 ALTER TABLE `grupos` DISABLE KEYS */;
 /*!40000 ALTER TABLE `grupos` ENABLE KEYS */;
 UNLOCK TABLES;
+
 
 --
 -- Table structure for table `usuarios`
@@ -231,6 +232,62 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-03-29  0:22:11
+
+DROP TABLE IF EXISTS `egresosfacebook`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `egresosfacebook` (
+  `idEgresoFacebook` int(11) NOT NULL AUTO_INCREMENT,
+  `creador` varchar(200) DEFAULT NULL,
+  `fechaInicio` date DEFAULT NULL,
+  `fechaFin` date DEFAULT NULL,
+  `descripcion` varchar(40000) DEFAULT NULL,
+  `link` varchar(10000) DEFAULT NULL,
+  `costo` double(10,2) DEFAULT NULL,
+  `activa` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`idEgresoFacebook`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `egresosfacebook`
+--
+
+LOCK TABLES `egresosfacebook` WRITE;
+/*!40000 ALTER TABLE `egresosfacebook` DISABLE KEYS */;
+/*!40000 ALTER TABLE `egresosfacebook` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `promociones`
+--
+
+DROP TABLE IF EXISTS `promociones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `promociones` (
+  `idPromocion` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_promocion` varchar(50) NOT NULL,
+  `aplica_descuento` int(1) DEFAULT NULL,
+  `porcentaje_descuento` varchar(3) DEFAULT NULL,
+  `idColaborador` int(11) DEFAULT NULL,
+  `fecha_ini` varchar(15) DEFAULT NULL,
+  `fecha_fin` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`idPromocion`),
+  KEY `idColaborador` (`idColaborador`),
+  CONSTRAINT `promociones_ibfk_1` FOREIGN KEY (`idColaborador`) REFERENCES `colaboradores` (`idColaborador`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `promociones`
+--
+
+LOCK TABLES `promociones` WRITE;
+/*!40000 ALTER TABLE `promociones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `promociones` ENABLE KEYS */;
+UNLOCK TABLES;
+
 create user 'userAredEspacio'@'%' identified by 'limonhj2018';
 Grant insert on aredEspacio.* to 'userAredEspacio'@'%';
 Grant select on aredEspacio.* to 'userAredEspacio'@'%';

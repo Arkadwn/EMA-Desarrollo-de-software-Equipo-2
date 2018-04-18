@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 6/04/2018
- * @time 10:51:51 PM
+ * @date 17/04/2018
+ * @time 06:29:06 PM
  */
 @Entity
 @Table(name = "colaboradores")
@@ -77,6 +77,8 @@ public class Colaboradores implements Serializable {
     private Usuarios idUsuario;
     @OneToMany(mappedBy = "idColaborador")
     private List<Grupos> gruposList;
+    @OneToMany(mappedBy = "idColaborador")
+    private List<Promociones> promocionesList;
 
     public Colaboradores() {
     }
@@ -186,6 +188,15 @@ public class Colaboradores implements Serializable {
 
     public void setGruposList(List<Grupos> gruposList) {
         this.gruposList = gruposList;
+    }
+
+    @XmlTransient
+    public List<Promociones> getPromocionesList() {
+        return promocionesList;
+    }
+
+    public void setPromocionesList(List<Promociones> promocionesList) {
+        this.promocionesList = promocionesList;
     }
 
     @Override

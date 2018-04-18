@@ -23,8 +23,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 6/04/2018
- * @time 10:51:52 PM
+ * @date 17/04/2018
+ * @time 06:29:07 PM
  */
 @Entity
 @Table(name = "grupos")
@@ -34,18 +34,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Grupos.findByIdGrupo", query = "SELECT g FROM Grupos g WHERE g.idGrupo = :idGrupo")
     , @NamedQuery(name = "Grupos.findByTipoDeBaile", query = "SELECT g FROM Grupos g WHERE g.tipoDeBaile = :tipoDeBaile")
     , @NamedQuery(name = "Grupos.findByCupo", query = "SELECT g FROM Grupos g WHERE g.cupo = :cupo")
-    , @NamedQuery(name = "Grupos.findByEstado", query = "SELECT g FROM Grupos g WHERE g.estado = :estado")})
+    , @NamedQuery(name = "Grupos.findByEstado", query = "SELECT g FROM Grupos g WHERE g.estado = :estado")
+    , @NamedQuery(name = "Grupos.findByHoras", query = "SELECT g FROM Grupos g WHERE g.horas = :horas")
+    , @NamedQuery(name = "Grupos.findByDias", query = "SELECT g FROM Grupos g WHERE g.dias = :dias")
+    , @NamedQuery(name = "Grupos.findByFechaInicio", query = "SELECT g FROM Grupos g WHERE g.fechaInicio = :fechaInicio")
+    , @NamedQuery(name = "Grupos.findByFechaFin", query = "SELECT g FROM Grupos g WHERE g.fechaFin = :fechaFin")})
 public class Grupos implements Serializable {
-
-    @Column(name = "fecha_inicio")
-    private String fechaInicio;
-    @Column(name = "fecha_fin")
-    private String fechaFin;
-
-    @Column(name = "dias")
-    private String dias;
-    @Column(name = "horas")
-    private String horas;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,6 +53,14 @@ public class Grupos implements Serializable {
     private Integer cupo;
     @Column(name = "estado")
     private String estado;
+    @Column(name = "horas")
+    private String horas;
+    @Column(name = "dias")
+    private String dias;
+    @Column(name = "fecha_inicio")
+    private String fechaInicio;
+    @Column(name = "fecha_fin")
+    private String fechaFin;
     @JoinColumn(name = "idColaborador", referencedColumnName = "idColaborador")
     @ManyToOne
     private Colaboradores idColaborador;
@@ -102,6 +104,38 @@ public class Grupos implements Serializable {
         this.estado = estado;
     }
 
+    public String getHoras() {
+        return horas;
+    }
+
+    public void setHoras(String horas) {
+        this.horas = horas;
+    }
+
+    public String getDias() {
+        return dias;
+    }
+
+    public void setDias(String dias) {
+        this.dias = dias;
+    }
+
+    public String getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(String fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public String getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(String fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
     public Colaboradores getIdColaborador() {
         return idColaborador;
     }
@@ -133,38 +167,6 @@ public class Grupos implements Serializable {
     @Override
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Grupos[ idGrupo=" + idGrupo + " ]";
-    }
-
-    public String getDias() {
-        return dias;
-    }
-
-    public void setDias(String dias) {
-        this.dias = dias;
-    }
-
-    public String getHoras() {
-        return horas;
-    }
-
-    public void setHoras(String horas) {
-        this.horas = horas;
-    }
-
-    public String getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(String fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public String getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(String fechaFin) {
-        this.fechaFin = fechaFin;
     }
 
 }

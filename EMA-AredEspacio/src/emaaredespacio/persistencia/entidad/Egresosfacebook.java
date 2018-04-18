@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
@@ -18,8 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 15/04/2018
- * @time 06:38:56 PM
+ * @date 17/04/2018
+ * @time 06:29:07 PM
  */
 @Entity
 @Table(name = "egresosfacebook")
@@ -32,11 +38,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Egresosfacebook.findByFechaFin", query = "SELECT e FROM Egresosfacebook e WHERE e.fechaFin = :fechaFin")
     , @NamedQuery(name = "Egresosfacebook.findByDescripcion", query = "SELECT e FROM Egresosfacebook e WHERE e.descripcion = :descripcion")
     , @NamedQuery(name = "Egresosfacebook.findByLink", query = "SELECT e FROM Egresosfacebook e WHERE e.link = :link")
-    , @NamedQuery(name = "Egresosfacebook.findByCosto", query = "SELECT e FROM Egresosfacebook e WHERE e.costo = :costo")})
+    , @NamedQuery(name = "Egresosfacebook.findByCosto", query = "SELECT e FROM Egresosfacebook e WHERE e.costo = :costo")
+    , @NamedQuery(name = "Egresosfacebook.findByActiva", query = "SELECT e FROM Egresosfacebook e WHERE e.activa = :activa")})
 public class Egresosfacebook implements Serializable {
-
-    @Column(name = "activa")
-    private Boolean activa;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,6 +63,8 @@ public class Egresosfacebook implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "costo")
     private Double costo;
+    @Column(name = "activa")
+    private Boolean activa;
 
     public Egresosfacebook() {
     }
@@ -123,6 +129,14 @@ public class Egresosfacebook implements Serializable {
         this.costo = costo;
     }
 
+    public Boolean getActiva() {
+        return activa;
+    }
+
+    public void setActiva(Boolean activa) {
+        this.activa = activa;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -146,14 +160,6 @@ public class Egresosfacebook implements Serializable {
     @Override
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Egresosfacebook[ idEgresoFacebook=" + idEgresoFacebook + " ]";
-    }
-
-    public Boolean getActiva() {
-        return activa;
-    }
-
-    public void setActiva(Boolean activa) {
-        this.activa = activa;
     }
 
 }
