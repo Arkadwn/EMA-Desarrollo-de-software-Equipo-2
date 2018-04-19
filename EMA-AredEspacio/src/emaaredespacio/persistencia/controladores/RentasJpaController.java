@@ -141,7 +141,7 @@ public class RentasJpaController {
         return canceloRenta;
     }
 
-    public Rentas buscarRenta(Integer idRenta) {
+    public Rentas buscarRenta(int idRenta) {
         EntityManager entidad = getEntityManager();
         try {
             return entidad.find(Rentas.class, idRenta);

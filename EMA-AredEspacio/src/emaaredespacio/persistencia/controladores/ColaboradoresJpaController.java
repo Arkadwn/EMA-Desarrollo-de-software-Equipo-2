@@ -18,9 +18,9 @@ import javax.persistence.RollbackException;
  * @date 31/03/2018
  * @time 05:45:14 PM
  */
-public class ColaboradoresJpaController implements IControladorColaborador{
+public class ColaboradoresJpaController implements IControladorColaborador {
 
-    public ColaboradoresJpaController(){
+    public ColaboradoresJpaController() {
         this.fabricaEntidad = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
     }
     private EntityManagerFactory fabricaEntidad = null;
@@ -33,27 +33,27 @@ public class ColaboradoresJpaController implements IControladorColaborador{
     private EntityManager getEntityManager() {
         return fabricaEntidad.createEntityManager();
     }
-    
+
     @Override
     public boolean guardarColaborador(Colaboradores colaborador, Usuarios usuario) {
         boolean validacion = true;
         EntityManager conexion = getEntityManager();
         EntityTransaction transaccion = null;
-        try{
-            transaccion  = conexion.getTransaction();
-            
+        try {
+            transaccion = conexion.getTransaction();
+
             transaccion.begin();
-            
+
             conexion.persist(usuario);
             conexion.persist(colaborador);
-            
+
             transaccion.commit();
-        }catch(RollbackException ex){
-            if(transaccion.isActive()){
+        } catch (RollbackException ex) {
+            if (transaccion.isActive()) {
                 transaccion.rollback();
             }
             validacion = false;
-        }finally{
+        } finally {
             conexion.close();
         }
         return validacion;
@@ -62,12 +62,12 @@ public class ColaboradoresJpaController implements IControladorColaborador{
     @Override
     public List<Colaboradores> buscarColaborador(String palabraClave) {
         List<Colaboradores> colaboradores = new ArrayList();
-        
-        String palabra = "%"+palabraClave+"%";
+
+        String palabra = "%" + palabraClave + "%";
         EntityManager conexion = getEntityManager();
-    
+
         colaboradores = conexion.createQuery("SELECT c FROM Colaboradores c WHERE c.nombre LIKE :palabra OR c.apellidos LIKE :palabra").setParameter("palabra", palabra).getResultList();
-        
+
         return colaboradores;
     }
 
@@ -78,17 +78,16 @@ public class ColaboradoresJpaController implements IControladorColaborador{
         EntityTransaction transaccion = null;
         Usuarios usuarioActual;
         Colaboradores colaboradoresActual;
-        try{
-            transaccion  = conexion.getTransaction();
+        try {
+            transaccion = conexion.getTransaction();
             transaccion.begin();
-            
+
             usuarioActual = conexion.find(Usuarios.class, usuario.getIdUsuario());
             colaboradoresActual = conexion.find(Colaboradores.class, colaborador.getIdColaborador());
-            
-            
+
             usuarioActual.setContrasenia(usuario.getContrasenia());
             usuarioActual.setNombreUsuario(usuario.getNombreUsuario());
-            
+
             colaboradoresActual.setApellidos(colaborador.getApellidos());
             colaboradoresActual.setNombre(colaborador.getNombre());
             colaboradoresActual.setCorreo(colaborador.getCorreo());
@@ -98,20 +97,27 @@ public class ColaboradoresJpaController implements IControladorColaborador{
             colaboradoresActual.setTipoPago(colaborador.getTipoPago());
             colaboradoresActual.setMontoApagar(colaborador.getMontoApagar());
             colaboradoresActual.setImagen(colaborador.getImagen());
-            
+
             transaccion.commit();
-        }catch(RollbackException ex){
+        } catch (RollbackException ex) {
             Logger.getLogger(ColaboradoresJpaController.class.getName()).log(Level.SEVERE, null, ex);
-            if(transaccion.isActive()){
+            if (transaccion.isActive()) {
                 transaccion.rollback();
             }
             validacion = false;
-        }finally{
+        } finally {
             conexion.close();
         }
         return validacion;
     }
-    
-    
-    
+
+    public Colaboradores buscarColaborador(Integer idcolaborador) {
+        EntityManager entidad = getEntityManager();
+        try {
+            return entidad.find(Colaboradores.class, idcolaborador);
+        } finally {
+            entidad.close();
+        }
+    }
+
 }
