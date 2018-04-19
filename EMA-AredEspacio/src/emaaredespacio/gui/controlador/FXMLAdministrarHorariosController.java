@@ -8,21 +8,29 @@ import emaaredespacio.modelo.Grupo;
 import emaaredespacio.modelo.GrupoXML;
 import emaaredespacio.modelo.HorarioGlobal;
 import emaaredespacio.modelo.Renta;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
@@ -109,10 +117,9 @@ public class FXMLAdministrarHorariosController implements Initializable {
     private JFXButton btn7;
     @FXML
     private JFXButton btnActualizarHoras;
+    @FXML
+    private AnchorPane panelFondo;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fechaConsultada = Calendar.getInstance();
@@ -405,10 +412,23 @@ public class FXMLAdministrarHorariosController implements Initializable {
                     actualizarHoras(null);
                 }
             } else {
-                //Lanzar controladorRenta
+                try {
+                    panelFondo.getChildren().clear();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/emaaredespacio/gui/vista/FXMLAdministrarRentas.fxml"));
+                    Parent parent = (Parent) loader.load();
+                    FXMLAdministarRentasController control = loader.getController();
+                    Renta nuevaRenta = new Renta().cargarRenta(lbIdentificador.getText().split("R")[1]);
+                    control.setRentaLlegada(nuevaRenta);
+                    panelFondo.getChildren().addAll(parent.getChildrenUnmodifiable());
+                } catch (IOException ex) {
+                    System.out.println("Error al cargar rentas");
+                    Alert alerta = new Alert(Alert.AlertType.ERROR, "Error no verificado?", ButtonType.OK);
+                    alerta.show();
+                }
             }
         } else {
-            //mostrar mensaje seleccionar un grupo o renta
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Primero se debe seleccionar un grupo o una renta", ButtonType.OK);
+            alerta.show();
         }
     }
 
@@ -696,6 +716,8 @@ public class FXMLAdministrarHorariosController implements Initializable {
         grupo.setHoras(horas);
         GrupoXML.eliminarGrupoSegunID(lbIdentificador.getText().split("G")[1]);
         GrupoXML.guardarGrupo(grupo);
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Se guardaron los cambios correctamente", ButtonType.OK);
+        alerta.show();
     }
 
     @FXML
