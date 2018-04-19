@@ -155,6 +155,25 @@ public class Cliente implements ICliente {
         return clientes;
     }
 
+    public Cliente obtenerClienteID(String idCliente) {
+        Cliente cliente = new Cliente();
+        if (!"".equals(idCliente) && idCliente != null) {
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+            ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
+            Clientes clienteObtenido = controlador.findClientes(Integer.parseInt(idCliente));
+            cliente.setCorreoElectronico(clienteObtenido.getCorreo());
+            cliente.setDireccion(clienteObtenido.getDireccion());
+            cliente.setEstado(clienteObtenido.getEstado());
+            cliente.setId(idCliente);
+            cliente.setImagenPerfil(clienteObtenido.getImagen());
+            cliente.setNombre(clienteObtenido.getNombre());
+            cliente.setTelefono(clienteObtenido.getTelefono());
+        } else {
+            cliente = null;
+        }
+        return cliente;
+    }
+
     private List<Cliente> convertirLista(List<Clientes> lista) {
         List<Cliente> clientes = new ArrayList();
 
