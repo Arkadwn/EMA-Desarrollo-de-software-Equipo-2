@@ -5,6 +5,7 @@
  */
 package emaaredespacio.persistencia.controladores;
 
+import emaaredespacio.modelo.Grupo;
 import emaaredespacio.persistencia.entidad.Grupos;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -77,6 +78,14 @@ public class GruposJpaController implements Serializable{
         EntityManager conexion = getEntityManager();
         grupos = conexion.createQuery("SELECT a FROM Grupos a").getResultList();
         return grupos;
+    }
+    
+    public List<Grupos> buscarGrupoPorId(int id){
+        List<Grupos> grupo = new ArrayList<>();
+        System.out.println("id" + id);
+        EntityManager conexion = getEntityManager();
+        grupo = conexion.createNamedQuery("Grupos.findByIdGrupo").setParameter("idGrupo", id).getResultList();
+        return grupo;
     }
     
 }

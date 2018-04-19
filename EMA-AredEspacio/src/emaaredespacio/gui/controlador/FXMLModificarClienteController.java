@@ -130,7 +130,7 @@ public class FXMLModificarClienteController implements Initializable {
     @FXML
     private void accionBuscar() {
         if (tfPalabraClave.getText().isEmpty()) {
-            System.out.println("No ha ingersado ningun caracter");
+            MensajeController.mensajeInformacion("No se ha ingresado ningún caracter");
         } else {
             ICliente metodosCliente = new Cliente();
             lista.clear();
@@ -165,7 +165,7 @@ public class FXMLModificarClienteController implements Initializable {
     @FXML
     private void accionGuardarCambios(ActionEvent event) {
         if (validarCamposVacios()) {
-            System.out.println("Campos vacios");
+            MensajeController.mensajeAdvertencia("Hay campos vacíos");
         } else {
             ICliente metodosClientes = new Cliente();
             Cliente cliente = new Cliente();
@@ -184,12 +184,12 @@ public class FXMLModificarClienteController implements Initializable {
             boolean[] validacion = validarCampos();
             if (validacion[4]) {
                 if (metodosClientes.guardarDatos(cliente)) {
-                    System.out.println("Cliente guardado");
+                    MensajeController.mensajeInformacion("Cliente modificado exitosamente");
                 } else {
-                    System.out.println("No se pudo");
+                    MensajeController.mensajeAdvertencia("No se pudieron guardar los cambios");
                 }
             } else {
-                System.out.println("Campos invaldios");
+                MensajeController.mensajeAdvertencia("Hay campos inválidos");
             }
         }
     }
@@ -206,7 +206,7 @@ public class FXMLModificarClienteController implements Initializable {
         File rutaImagen = elegir.showOpenDialog(null);
 //    File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\perfil.jpg");
         if (rutaImagen == null) {
-            System.out.println("no es imagen");
+            MensajeController.mensajeAdvertencia("No es una imagen");
         } else {
             Image image = null;
             String rutaNueva = System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos";

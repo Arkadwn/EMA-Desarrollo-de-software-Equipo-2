@@ -75,8 +75,8 @@ public class ClienteTest {
     @Test
     public void testBuscarCliente_CP_01() {
         System.out.println("buscarCliente_CP_01");
-        String nombre = "maria";
-        String id = "1";
+        String nombre = "carla";
+        String id = "4";
         Cliente cliente = new Cliente();
         cliente.setNombre(nombre);
         cliente.setId(id);
@@ -229,5 +229,59 @@ public class ClienteTest {
         assertEquals(expResult, result);
         System.out.println(expResult + "-" + result);
     }
-
+    
+       /**
+     * Test of buscarClienteRelacionado method, of class Cliente.
+     */
+    @Test
+    public void testBuscarClienteRelacionado_CP_01(){
+        System.out.println("buscarClienteRelacionado_CP_01");
+        Cliente cliente = new Cliente();
+        boolean expResult = true;
+        String nombre = "Daniel";
+        List<Cliente> result = controlador.buscarClienteRelacionado(nombre);
+        assertEquals(expResult,!result.isEmpty());
+        System.out.println(expResult+"-"+!result.isEmpty());
+    }
+    
+       /**
+     * Test of buscarClienteRelacionado method, of class Cliente.
+     */
+    @Test
+    public void testBuscarClienteRelacionado_CP_02(){
+        System.out.println("buscarClienteRelacionado_CP_02");
+        Cliente cliente = new Cliente();
+        boolean expResult = true;
+        String nombre = "aasddasdasd";
+        List<Cliente> result = controlador.buscarClienteRelacionado(nombre);
+        assertEquals(expResult,result.isEmpty());
+        System.out.println(expResult+"-"+result.isEmpty());
+    }
+    
+       /**
+     * Test of buscarClienteRelacionado method, of class Cliente.
+     */
+    @Test
+    public void testValidarFormatoCorreo_CP_01(){
+        System.out.println("validarFormatoCorreo_CP_01");
+        String correo = "oaskdaosd";
+        boolean expResult = false;
+        boolean result = controlador.validarFormatoCorreo(correo);
+        assertEquals(expResult,result);
+        System.out.println(expResult+"-"+result);
+    }
+    
+       /**
+     * Test of buscarClienteRelacionado method, of class Cliente.
+     */
+    @Test
+    public void testValidarFormatoCorreo_CP_02(){
+        System.out.println("validarFormatoCorreo_CP_02");
+        String correo = "emilio@gmail.com";
+        boolean expResult = true;
+        boolean result = controlador.validarFormatoCorreo(correo);
+        assertEquals(expResult,result);
+        System.out.println(expResult+"-"+result);
+    }
+    
 }

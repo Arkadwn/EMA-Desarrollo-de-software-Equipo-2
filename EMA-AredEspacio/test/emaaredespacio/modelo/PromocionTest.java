@@ -101,41 +101,24 @@ public class PromocionTest {
     public void testBuscarPromocion_CP_01() {
         System.out.println("buscarPromocion-CP_01");
         int idColaborador = 1;
-        int expResult = 1;
+        boolean expResult = true;
         List<Promocion> result = controlador.buscarPromocion(idColaborador);
-        assertEquals(expResult, result.size());
+        assertEquals(expResult, !result.isEmpty());
+        System.out.println(expResult+"-"+!result.isEmpty());
+    }
+    
+    /**
+     * Test of buscarPromocion method, of class Promocion.
+     */
+    @Test
+    public void testBuscarPromocion_CP_02() {
+        System.out.println("buscarPromocion-CP_02");
+        int idColaborador = 50;
+        boolean expResult = true ;
+        List<Promocion> result = controlador.buscarPromocion(idColaborador);
+        assertEquals(expResult, result.isEmpty());
         System.out.println(expResult+"-"+result);
     }
-
-//    /**
-//     * Test of convertirLista method, of class Promocion.
-//     */
-//    @Test
-//    public void testConvertirLista() {
-//        System.out.println("convertirLista");
-//        List<Promociones> listaPromociones = null;
-//        Promocion instance = new Promocion();
-//        List<Promocion> expResult = null;
-//        List<Promocion> result = instance.convertirLista(listaPromociones);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of darDeBajaPromocion method, of class Promocion.
-//     */
-//    @Test
-//    public void testDarDeBajaPromocion() {
-//        System.out.println("darDeBajaPromocion");
-//        Promocion promocion = null;
-//        Promocion instance = new Promocion();
-//        boolean expResult = false;
-//        boolean result = instance.darDeBajaPromocion(promocion);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
 
     /**
      * Test of modificarPromocion method, of class Promocion.

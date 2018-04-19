@@ -61,7 +61,6 @@ public class ClientesJpaController implements Serializable {
             transaccion = conexion.getTransaction();
             transaccion.begin();
             clienteActual = conexion.find(Clientes.class, cliente.getIdCliente());
-
             clienteActual.setNombre(cliente.getNombre());
             clienteActual.setCorreo(cliente.getCorreo());
             clienteActual.setDireccion(cliente.getDireccion());
