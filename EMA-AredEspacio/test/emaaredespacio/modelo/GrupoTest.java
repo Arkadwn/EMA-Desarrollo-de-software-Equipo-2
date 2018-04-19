@@ -22,34 +22,54 @@ public class GrupoTest {
         controlador = new Grupo();
     }
 
-//    /**
-//     * Test of buscarGrupos method, of class Grupo.
-//     */
-//    @Test
-//    public void testBuscarGrupos() {
-//        System.out.println("buscarGrupos");
-//        Grupo instance = new Grupo();
-//        List<Grupo> expResult = null;
-//        List<Grupo> result = instance.buscarGrupos();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        System.out.println(expResult + "-" + result);
-//    }
+    /**
+     * Test of buscarGrupos method, of class Grupo.
+     */
+    @Test
+    public void testBuscarGrupoPorId_CP_01() {
+        System.out.println("buscarGrupoPorId_CP_01");
+        int expResult = 1;
+        int id=1;
+        Grupo result = controlador.buscarGrupoPorId(id);
+        assertEquals(expResult, result.getIdGrupo());
+        // TODO review the generated test code and remove the default call to fail.
+        System.out.println(expResult + "-" + result);
+    }
 
-//    /**
-//     * Test of guardarCambios method, of class Grupo.
-//     */
-//    @Test
-//    public void testGuardarCambios() {
-//        System.out.println("guardarCambios");
-//        Grupo grupo = null;
-//        Grupo instance = new Grupo();
-//        boolean expResult = false;
-//        boolean result = instance.guardarCambios(grupo);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+
+    /**
+     * Test of guardarCambios method, of class Grupo.
+     */
+    @Test
+    public void testGuardarCambios_CP_01() {
+        System.out.println("guardarCambios_CP-01");
+        Grupo grupo = new Grupo();
+        grupo.setIdColaborador(1);
+        grupo.setTipoDeBaile("Salsa3");
+        grupo.setCupo(10);
+        grupo.setIdGrupo(1);
+        grupo.setEstado("B");
+        boolean expResult = true;
+        boolean result = controlador.guardarCambios(grupo);
+        assertEquals(expResult, result);
+        System.out.println(expResult+"-"+result);
+    }
+    
+    /**
+     * Test of guardarCambios method, of class Grupo.
+     */
+    @Test
+    public void testGuardarCambios_CP_02() {
+        System.out.println("guardarCambios_CP-02");
+        Grupo grupo = new Grupo();
+        grupo.setIdColaborador(1);
+        grupo.setIdGrupo(1);
+        grupo.setEstado("A");
+        boolean expResult = false;
+        boolean result = controlador.guardarCambios(grupo);
+        assertEquals(expResult, result);
+        System.out.println(expResult+"-"+result);
+    }
 
     /**
      * Test of guardarGrupo method, of class Grupo.

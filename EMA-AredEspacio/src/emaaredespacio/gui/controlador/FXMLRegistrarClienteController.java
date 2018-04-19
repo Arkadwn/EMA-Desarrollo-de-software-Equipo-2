@@ -100,7 +100,7 @@ public class FXMLRegistrarClienteController implements Initializable {
     @FXML
     private void accionGuardar(ActionEvent evento) {
         if (validarCamposVacios()) {
-            System.out.println("Hay campos vacios");
+            MensajeController.mensajeAdvertencia("Hay campos vacíos");
         } else {
             ICliente metodosCliente = new Cliente();
             Cliente cliente = new Cliente();
@@ -113,12 +113,12 @@ public class FXMLRegistrarClienteController implements Initializable {
             boolean[] validacion = validarCampos();
             if (validacion[6]) {
                 if (metodosCliente.guardarCliente(cliente)) {
-                    System.out.println("Cliente guardado");
+                    MensajeController.mensajeInformacion("Cliente guardado exitosamente");
                 } else {
-                    System.out.println("No se pudo guardar el cliente");
+                    MensajeController.mensajeAdvertencia("No se pudo guardar el cliente");
                 }
             } else {
-                System.out.println("Campos invalidos");
+                MensajeController.mensajeAdvertencia("Hay campos vacíos");
             }
         }
     }
@@ -140,7 +140,7 @@ public class FXMLRegistrarClienteController implements Initializable {
         File rutaImagen = elegir.showOpenDialog(null);
 //    File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\perfil.jpg");
         if (rutaImagen == null) {
-            System.out.println("no es imagen");
+            MensajeController.mensajeAdvertencia("No es imagen");
         } else {
             Image image = null;
             String rutaNueva = System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos";

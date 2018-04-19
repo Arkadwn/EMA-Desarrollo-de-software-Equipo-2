@@ -26,10 +26,12 @@ public class Grupo implements IGrupo {
     private String tipoDeBaile = "";
     private int cupo = 0;
     private String estado = "";
-    private String dias="";
-    private String horas="";
-    private String fecha_inicio="";
-    private String fecha_fin="";
+    private String dias = "";
+    private String horas = "";
+    private String hora_inicio = "";
+    private String hora_fin = "";
+    private String fecha_inicio = "";
+    private String fecha_fin = "";
 
     public String getFecha_inicio() {
         return fecha_inicio;
@@ -47,6 +49,22 @@ public class Grupo implements IGrupo {
         this.fecha_fin = fecha_fin;
     }
 
+    public String getHora_inicio() {
+        return hora_inicio;
+    }
+
+    public void setHora_inicio(String hora_inicio) {
+        this.hora_inicio = hora_inicio;
+    }
+
+    public String getHora_fin() {
+        return hora_fin;
+    }
+
+    public void setHora_fin(String hora_fin) {
+        this.hora_fin = hora_fin;
+    }
+
     public String getDias() {
         return dias;
     }
@@ -62,6 +80,7 @@ public class Grupo implements IGrupo {
     public void setHoras(String horas) {
         this.horas = horas;
     }
+
     public int getIdGrupo() {
         return idGrupo;
     }
@@ -115,6 +134,18 @@ public class Grupo implements IGrupo {
         return grupos;
     }
 
+    @Override
+    public Grupo buscarGrupoPorId(int id) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        GruposJpaController controlador = new GruposJpaController(entityManagerFactory);
+        List<Grupos> grupoBuscado = controlador.buscarGrupoPorId(id);
+        List<Grupo> grupos = null;
+        grupos = convertirLista(grupoBuscado);
+        Grupo grup = new Grupo();
+        grup = grupos.get(0);
+        return grup;
+    }
+
     private List<Grupo> convertirLista(List<Grupos> lista) {
         List<Grupo> grupos = new ArrayList();
 
@@ -129,8 +160,8 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
             nuevoGrupo.setDias(grupo.getDias());
             nuevoGrupo.setHoras(grupo.getHoras());
-            nuevoGrupo.setFecha_inicio(grupo.getFechaInicio());
-            nuevoGrupo.setFecha_fin(grupo.getFechaFin());
+            nuevoGrupo.setHora_inicio(grupo.getFechaInicio());
+            nuevoGrupo.setHora_fin(grupo.getFechaFin());
             grupos.add(nuevoGrupo);
         }
 
@@ -142,20 +173,23 @@ public class Grupo implements IGrupo {
         boolean guardado = false;
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
         GruposJpaController controlador = new GruposJpaController(entityManagerFactory);
-
-        Grupos nuevoGrupo = new Grupos();
-        Colaboradores colaborador = new Colaboradores();
-        colaborador.setIdColaborador(grupo.getIdColaborador());
-        nuevoGrupo.setTipoDeBaile(grupo.getTipoDeBaile());
-        nuevoGrupo.setEstado(grupo.getEstado());
-        nuevoGrupo.setCupo(grupo.getCupo());
-        nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
-        nuevoGrupo.setIdColaborador(colaborador);
-        try {
-            guardado = controlador.edit(nuevoGrupo);
-        } catch (Exception ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        if (grupo.getCupo() != 0 && grupo.getEstado() != null && grupo.getTipoDeBaile() != null) {
+            Grupos nuevoGrupo = new Grupos();
+            Colaboradores colaborador = new Colaboradores();
+            colaborador.setIdColaborador(grupo.getIdColaborador());
+            nuevoGrupo.setTipoDeBaile(grupo.getTipoDeBaile());
+            nuevoGrupo.setEstado(grupo.getEstado());
+            nuevoGrupo.setCupo(grupo.getCupo());
+            nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
+            nuevoGrupo.setIdColaborador(colaborador);
+            try {
+                guardado = controlador.edit(nuevoGrupo);
+                guardado = true;
+            } catch (Exception ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
         return guardado;
     }
 

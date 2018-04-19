@@ -117,7 +117,7 @@ public class FXMLModificarPromocionController implements Initializable {
     @FXML
     private void accionGuardar(ActionEvent evento) {
         if (validarCamposVacios()) {
-            System.out.println("Hay campos vacios");
+            MensajeController.mensajeAdvertencia("Hay campos vacíos");
         } else {
             if (datePickerFechaFin.getValue().isAfter(datePickerFechaIni.getValue())) {
                 IPromocion metodosPromocion = new Promocion();
@@ -136,13 +136,13 @@ public class FXMLModificarPromocionController implements Initializable {
                 promo.setIdColaborador(colaborador.getIdColaborador());
                 promo.setIdPromocion(promocionSeleccionada.getIdPromocion());
                 if (metodosPromocion.modificarPromocion(promo)) {
-                    System.out.println("Promoción guardada");
+                    MensajeController.mensajeInformacion("Promoción modificada exitosamente");
                 } else {
-                    System.out.println("No se pudo guardar la promoción");
+                    MensajeController.mensajeAdvertencia("No se pudo guardar la promoción");
                 }
 
             } else {
-                System.out.println("La fecha fin debe ser mayor a la fecha actual");
+                MensajeController.mensajeInformacion("La fecha fin debe ser mayor a la fecha actual");
             }
         }
     }
@@ -153,7 +153,7 @@ public class FXMLModificarPromocionController implements Initializable {
         lista.clear();
         lista = metodosColaborador.buscarColaborador(nombreColaborador);
         if (lista.isEmpty()) {
-            System.out.println("Maestro no encontrado");
+            MensajeController.mensajeInformacion("Colaborador no encontrado");
         } else {
             colaborador = lista.get(0);
             tfNombre.setText(colaborador.getNombre() + " " + colaborador.getApellidos());

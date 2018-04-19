@@ -78,7 +78,7 @@ public class FXMLRegistrarPromocionController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         lista = new ArrayList();
         if (!buscarColaborador()) {
-            System.out.println("Error al encontrar al colaborador");
+            MensajeController.mensajeAdvertencia("Error al encontrar al colaborador");
         }
 
         checkBoxDescuento.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -102,7 +102,7 @@ public class FXMLRegistrarPromocionController implements Initializable {
         lista.clear();
         lista = metodosColaborador.buscarColaborador(nombreColaborador);
         if (lista.isEmpty()) {
-            System.out.println("Maestro no encontrado");
+            MensajeController.mensajeInformacion("Maestro no encontrado");
         } else {
             seleccion = lista.get(0);
             tfNombre.setText(seleccion.getNombre() + " " + seleccion.getApellidos());
@@ -119,7 +119,7 @@ public class FXMLRegistrarPromocionController implements Initializable {
     @FXML
     private void accionGuardar(ActionEvent evento) {
         if (validarCamposVacios()) {
-            System.out.println("Hay campos vacios");
+            MensajeController.mensajeAdvertencia("Hay campos vacíos");
         } else {
             if (datePickerFechaFin.getValue().isAfter(datePickerFechaIni.getValue())) {
                 if (tfPromocion.getText().length() < 50) {
@@ -139,16 +139,16 @@ public class FXMLRegistrarPromocionController implements Initializable {
                     System.out.println(seleccion.getIdColaborador());
                     promo.setIdColaborador(seleccion.getIdColaborador());
                     if (metodosPromocion.crearPromocion(promo)) {
-                        System.out.println("Promoción guardada");
+                        MensajeController.mensajeInformacion("Promoción guardada");
                     } else {
-                        System.out.println("No se pudo guardar la promoción");
+                        MensajeController.mensajeAdvertencia("No se pudo guardar la información");
                     }
                 } else {
-                    System.out.println("Nombre de promoción inválido");
+                    MensajeController.mensajeInformacion("Nombre de promoción inválido");
                 }
 
             } else {
-                System.out.println("La fecha fin debe ser mayor a la fecha actual");
+                MensajeController.mensajeInformacion("La fecha fin debe ser mayor a la fecha actual");
             }
         }
     }

@@ -45,8 +45,12 @@ public class GrupoXML {
                             String[] horasDia = horasGrupo[i].split("-");
                             grupo.addElement("horaIni").addText(horasDia[0]);
                             grupo.addElement("horaFin").addText(horasDia[1]);
+                            grupo.addElement("fecha_inicio").addText(grupoGuardar.getFecha_inicio());
+                            grupo.addElement("fecha_fin").addText(grupoGuardar.getFecha_fin());
                             grupo.addElement("colaborador").addText("" + grupoGuardar.getIdColaborador());
                             grupo.addElement("noDia").addText(diasGrupo[i]);
+                            grupo.addElement("tipoDeBaile").addText(grupoGuardar.getTipoDeBaile());
+                            grupo.addElement("cupo").addText(String.valueOf(grupoGuardar.getCupo()));
                         }
                     }
                     con++;
@@ -145,6 +149,8 @@ public class GrupoXML {
             eliminarGrupoSegunID(id);
         }
     }
+    
+
 
     public static List<Grupo> obtenerGruposDiaSemana(int diaSemana) {
         List<Grupo> lista = new ArrayList();
@@ -167,15 +173,23 @@ public class GrupoXML {
                     Iterator<Element> iteratorID = elementosGrupo.elementIterator("id");
                     Iterator<Element> iteratorHoraIni = elementosGrupo.elementIterator("horaIni");
                     Iterator<Element> iteratorHoraFin = elementosGrupo.elementIterator("horaFin");
+                    Iterator<Element> iteratorFechaInicio = elementosGrupo.elementIterator("fecha_inicio");
+                    Iterator<Element> iteratorFechaFin = elementosGrupo.elementIterator("fecha_fin");
                     Iterator<Element> iteratorColaborador = elementosGrupo.elementIterator("colaborador");
+                    Iterator<Element> iteratorTipoDeBaile = elementosGrupo.elementIterator("tipoDeBaile");
+                    Iterator<Element> iteratorCupo = elementosGrupo.elementIterator("cupo");
                     while (iteratorID.hasNext()) {
                         Grupo grupo = new Grupo();
-                        grupo.setFecha_inicio(((Element) iteratorHoraIni.next()).getText());
-                        grupo.setFecha_fin(((Element) iteratorHoraFin.next()).getText());
-                        String idGrupo = ((Element) iteratorID.next()).getText();
+                        grupo.setHora_inicio(((Element) iteratorHoraIni.next()).getText());
+                        grupo.setHora_fin(((Element) iteratorHoraFin.next()).getText());
+                        grupo.setFecha_inicio(((Element) iteratorFechaInicio.next()).getText());
+                        grupo.setFecha_fin(((Element) iteratorFechaFin.next()).getText());
+                        String idGrupo = ((Element) iteratorID.next()).getText();                        
                         grupo.setIdGrupo(Integer.parseInt(idGrupo));
                         String idColaborador = ((Element) iteratorColaborador.next()).getText();
                         grupo.setIdColaborador(Integer.parseInt(idColaborador));
+                        grupo.setTipoDeBaile(((Element) iteratorTipoDeBaile.next()).getText());
+                        grupo.setCupo( Integer.parseInt(((Element) iteratorCupo.next()).getText()));
                         lista.add(grupo);
                     }
                 }

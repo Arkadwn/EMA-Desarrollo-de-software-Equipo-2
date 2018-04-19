@@ -15,4 +15,5 @@ public interface IGrupo {
     public List<Grupo> buscarGrupos();
     public boolean guardarCambios(Grupo grupo);
     public boolean guardarGrupo(Grupo grupo);
+    public Grupo buscarGrupoPorId(int id);
 }

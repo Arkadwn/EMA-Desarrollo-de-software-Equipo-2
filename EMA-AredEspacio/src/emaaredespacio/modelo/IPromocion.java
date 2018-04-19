@@ -14,6 +14,5 @@ import java.util.List;
 public interface IPromocion {
     public boolean crearPromocion(Promocion promocion);
     public List<Promocion> buscarPromocion(int idColaborador);
-    public boolean darDeBajaPromocion(Promocion promocion);
     public boolean modificarPromocion(Promocion promocion);
 }

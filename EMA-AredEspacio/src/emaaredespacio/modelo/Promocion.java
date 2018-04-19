@@ -146,11 +146,6 @@ public class Promocion implements IPromocion {
     }
 
     @Override
-    public boolean darDeBajaPromocion(Promocion promocion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public boolean modificarPromocion(Promocion promocion) {
         boolean modificada = false;
         if (promocion.getFechaInicio() != null && promocion.getFechaFin() != null && promocion.getNombrePromocion() != null) {

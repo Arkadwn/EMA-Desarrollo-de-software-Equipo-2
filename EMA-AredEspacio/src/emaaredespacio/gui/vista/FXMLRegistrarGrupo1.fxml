@@ -197,12 +197,12 @@
                   <Insets bottom="25.0" left="10.0" />
                </GridPane.margin>
             </Label>
-            <DatePicker fx:id="datePickerFechaIni" prefHeight="25.0" prefWidth="150.0" GridPane.columnIndex="2" GridPane.valignment="BOTTOM">
+            <DatePicker fx:id="datePickerFechaIni" editable="false" prefHeight="25.0" prefWidth="150.0" GridPane.columnIndex="2" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </DatePicker>
-            <DatePicker fx:id="datePickerFechaFin" prefHeight="25.0" prefWidth="152.0" GridPane.columnIndex="3" GridPane.valignment="BOTTOM">
+            <DatePicker fx:id="datePickerFechaFin" disable="true" editable="false" prefHeight="25.0" prefWidth="152.0" GridPane.columnIndex="3" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>

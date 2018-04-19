@@ -109,7 +109,7 @@ public class Cliente implements ICliente {
             ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
 
             Clientes nuevoCliente = new Clientes();
-            nuevoCliente.setIdCliente(Integer.valueOf(cliente.getId()));
+            nuevoCliente.setIdCliente(Integer.parseInt(cliente.getId()));
             nuevoCliente.setNombre(cliente.getNombre());
             nuevoCliente.setEstado(cliente.getEstado());
             nuevoCliente.setTelefono(cliente.getTelefono());

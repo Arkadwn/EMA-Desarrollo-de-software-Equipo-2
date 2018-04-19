@@ -79,7 +79,7 @@ public class FXMLModificarGrupoController implements Initializable {
     private void accionGuardarCambios(ActionEvent event) {
         if (seleccion != null) {
             if (tfTipoBaile.getText().trim().isEmpty()) {
-                System.out.println("Campos vacíos");
+                MensajeController.mensajeAdvertencia("Hay campos vacíos");
             } else {
                 if (tfTipoBaile.getText().length() > 0 && tfTipoBaile.getText().length() <= 30) {
                     Grupo grupoModificado = new Grupo();
@@ -93,12 +93,12 @@ public class FXMLModificarGrupoController implements Initializable {
                         grupoModificado.setEstado("B");
                     }
                     if(new Grupo().guardarCambios(grupoModificado)){
-                        System.out.println("Cambios realizados");
+                        MensajeController.mensajeInformacion("Grupo modificado exitosamente");
                     }else{
-                        System.out.println("Cambios no realizados");
+                        MensajeController.mensajeAdvertencia("No se pudieron guardar los cambios");
                     }
                 }else{
-                    System.out.println("Nombre del tipo de baile muy grande");
+                    MensajeController.mensajeInformacion("Nombre del tipo de nombre muy grande");
                 }
 
             }
@@ -130,13 +130,13 @@ public class FXMLModificarGrupoController implements Initializable {
     @FXML
     private void accionBuscar(ActionEvent event) {
         if (tfPalabraClave.getText().isEmpty()) {
-            System.out.println("No ha ingersado ningun caracter");
+            MensajeController.mensajeInformacion("No ha ingresado ningún caracter");;
         } else {
             List<Colaborador> listaColaborador = new ArrayList();;
             colaborador = new Colaborador();
             listaColaborador = colaborador.buscarColaborador(tfPalabraClave.getText());
             if (listaColaborador.isEmpty()) {
-                System.out.println("No se encontró el colaborador solicitado");
+                MensajeController.mensajeAdvertencia("No se encontró al colaborador solicitado");
             } else {
                 colaborador = listaColaborador.get(0);
                 IGrupo metodosGrupo = new Grupo();
