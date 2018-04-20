@@ -62,9 +62,7 @@ public class GrupoXML {
             }
         } else {
             guardarDocumento(null);
-            System.out.println("pase 1");
             bandera = guardarGrupo(grupoGuardar);
-            System.out.println(bandera);
         }
 
         return bandera;

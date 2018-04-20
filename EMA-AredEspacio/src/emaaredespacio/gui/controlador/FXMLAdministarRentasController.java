@@ -43,7 +43,7 @@ import javafx.scene.layout.StackPane;
  * @author Adrián Bustamante Zarate
  */
 public class FXMLAdministarRentasController implements Initializable {
-    
+
     @FXML
     private JFXTextField txtBusqueda;
     @FXML
@@ -104,16 +104,16 @@ public class FXMLAdministarRentasController implements Initializable {
         cargarRentasHorarioFlotante();
         reactivarDiaHorarioCheckBox(1, false);
     }
-    
+
     public void setRentaLlegada(Renta renta) {
         rentaLlegada = renta;
         cambiarModificar(null);
     }
-    
+
     public AnchorPane getAnchor() {
         return panelPrincipal;
     }
-    
+
     @FXML
     private void buscarCliente(ActionEvent event) {
         listaBusqueda.setItems(FXCollections.observableArrayList());
@@ -132,7 +132,7 @@ public class FXMLAdministarRentasController implements Initializable {
             alerta.show();
         }
     }
-    
+
     @FXML
     private void cambiarModificar(ActionEvent event) {
         if (!modificar) {
@@ -159,7 +159,7 @@ public class FXMLAdministarRentasController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void cambiarCrearRenta(ActionEvent event) {
         if (modificar) {
@@ -174,12 +174,12 @@ public class FXMLAdministarRentasController implements Initializable {
             cargarRentasHorarioFlotante();
         }
     }
-    
+
     @FXML
     private void regresarMenuPrincipal(ActionEvent event) {
-        
+
     }
-    
+
     private void vaciarCampos() {
         txtBusqueda.setText("");
         txtMonto.setText("");
@@ -187,7 +187,7 @@ public class FXMLAdministarRentasController implements Initializable {
         listRentas.setItems(FXCollections.observableArrayList());
         listaBusqueda.setItems(FXCollections.observableArrayList());
     }
-    
+
     @FXML
     private void guardarDatos(ActionEvent event) {
         if (!modificar) {
@@ -197,11 +197,22 @@ public class FXMLAdministarRentasController implements Initializable {
                 if (horas[1] != 0) {
                     String[] parts = seleccion.split("|");
                     Cliente cliente = new Cliente(parts[0]);
-                    new Renta().guardarNuevaRenta(new Renta(0, Integer.parseInt(txtMonto.getText()), calendario, horas[0], horas[1], cliente, true));
-                    vaciarCampos();
-                    cargarGruposHorarioFlotante();
-                    cargarRentasHorarioFlotante();
-                    vaciarHorarioCheckBox();
+                    if (txtMonto.getText() != "") {
+                        try {
+                            new Renta().guardarNuevaRenta(new Renta(0, Integer.parseInt(txtMonto.getText()), calendario, horas[0], horas[1], cliente, true));
+                            vaciarCampos();
+                            cargarGruposHorarioFlotante();
+                            cargarRentasHorarioFlotante();
+                            vaciarHorarioCheckBox();
+                        } catch (Exception ex) {
+                            Alert alerta = new Alert(Alert.AlertType.ERROR, "Se debe introducir un monto valid0", ButtonType.OK);
+                            alerta.show();
+                        }
+
+                    } else {
+                        Alert alerta = new Alert(Alert.AlertType.ERROR, "Se deeb introducir un monto para la renta", ButtonType.OK);
+                        alerta.show();
+                    }
                 } else {
                     Alert alerta = new Alert(Alert.AlertType.ERROR, "Debe seleccionar un horario para la renta", ButtonType.OK);
                     alerta.show();
@@ -220,7 +231,7 @@ public class FXMLAdministarRentasController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void cancelarRenta(ActionEvent event) {
         String seleccion = listRentas.getSelectionModel().getSelectedItem();
@@ -236,17 +247,17 @@ public class FXMLAdministarRentasController implements Initializable {
             alerta.show();
         }
     }
-    
+
     private void mostrarMenu(ActionEvent event) {
         menuDesplegado = !menuDesplegado;
         barraMenu.setVisible(menuDesplegado);
     }
-    
+
     private void ocultarMenu(MouseEvent event) {
         barraMenu.setVisible(false);
         menuDesplegado = false;
     }
-    
+
     @FXML
     private void guardarSeleccionRenta(ActionEvent event) {
         //guardarSeleccionRenta
@@ -274,9 +285,9 @@ public class FXMLAdministarRentasController implements Initializable {
             Alert alerta = new Alert(Alert.AlertType.ERROR, "Debe seleccionar una una renta para salir", ButtonType.OK);
             alerta.show();
         }
-        
+
     }
-    
+
     @FXML
     private void seleccionarRentaListaEmergente(ActionEvent event) {
         if (modificar) {
@@ -288,11 +299,12 @@ public class FXMLAdministarRentasController implements Initializable {
                 btnToggleCrear.setDisable(true);
                 listaBusqueda.setDisable(true);
                 btnBuscar.setDisable(true);
+                btnActualizarFechas.setVisible(false);
                 txtBusqueda.setDisable(true);
                 btnCerrarRentaVentana.setVisible(true);
                 listRentas.setItems(FXCollections.observableArrayList());
                 ObservableList<String> lista = listRentas.getItems();
-                
+
                 String[] parts = seleccion.split("|");
                 List<Renta> rentas = new Renta().cargarRentas(new Cliente(parts[0]));
                 int c = 0;
@@ -309,10 +321,10 @@ public class FXMLAdministarRentasController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void cerrarVentanaEmergente(ActionEvent event) {
-        
+
         listRentas.setVisible(false);
         btnSeleccionarRentaVentana.setVisible(false);
         btnSeleccionarRenta.setVisible(true);
@@ -321,10 +333,11 @@ public class FXMLAdministarRentasController implements Initializable {
         btnBuscar.setDisable(false);
         txtBusqueda.setDisable(false);
         btnCerrarRentaVentana.setVisible(false);
+        btnActualizarFechas.setVisible(true);
         listRentas.setItems(FXCollections.observableArrayList());
-        
+
     }
-    
+
     private void llenarTablaHorarioGlobal() {
         for (int j = 1; j < 49; j++) {
             //Mapear horas
@@ -363,7 +376,7 @@ public class FXMLAdministarRentasController implements Initializable {
             }
         }
     }
-    
+
     private void cargarGruposHorarioFlotante() {
         for (int i = 1; i < 2; i++) {
             int diaSemana;
@@ -389,17 +402,17 @@ public class FXMLAdministarRentasController implements Initializable {
             }
         }
     }
-    
+
     private void colocarGrupoHorarioFlotante(int j, Grupo grupo, boolean bandera) {
-        float ini = Float.valueOf(grupo.getFecha_inicio());
-        float fin = Float.valueOf(grupo.getFecha_fin());
+        float ini = Float.valueOf(grupo.getHora_inicio());
+        float fin = Float.valueOf(grupo.getHora_fin());
         String textCheck = "G" + grupo.getIdGrupo();
         ini = ((ini / 100) * 2) + 1;
         fin = (fin / 100) * 2;
         if (bandera) {
             for (int i = (int) ini; i < fin + 1; i++) {
                 JFXCheckBox check = (JFXCheckBox) gridPaneTabla.lookup("#" + j + "," + i);
-                
+
                 if (i == (int) ini || i == (int) fin) {
                     if (i == (int) ini) {
                         Node nodoCercano = gridPaneTabla.lookup("#" + j + "," + (i - 1));
@@ -422,7 +435,7 @@ public class FXMLAdministarRentasController implements Initializable {
                     check.setSelected(true);
                     check.setDisable(true);
                 }
-                
+
             }
         } else {
             for (int i = (int) ini; i < fin + 1; i++) {
@@ -433,7 +446,7 @@ public class FXMLAdministarRentasController implements Initializable {
             }
         }
     }
-    
+
     private void cargarRentasHorarioFlotante() {
         List<Renta> lista = new Renta().cargarRentas();
         String id = "R";
@@ -463,18 +476,18 @@ public class FXMLAdministarRentasController implements Initializable {
             }
         }
     }
-    
+
     private void colocarRentaHorarioFlotante(int j, Renta get, boolean bandera) {
         float ini = get.getHoraInicio();
         float fin = get.getHoraFin();
         String textCheck = "R" + get.getId();
         ini = ((ini / 100) * 2) + 1;
         fin = (fin / 100) * 2;
-        
+
         if (bandera) {
             for (int i = (int) ini; i < fin + 1; i++) {
                 JFXCheckBox check = (JFXCheckBox) gridPaneTabla.lookup("#" + j + "," + i);
-                
+
                 if (i == (int) ini || i == (int) fin) {
                     if (i == (int) ini) {
                         Node nodoCercano = gridPaneTabla.lookup("#" + j + "," + (i - 1));
@@ -497,7 +510,7 @@ public class FXMLAdministarRentasController implements Initializable {
                     check.setSelected(true);
                     check.setDisable(true);
                 }
-                
+
             }
         } else {
             for (int i = (int) ini; i < fin + 1; i++) {
@@ -508,7 +521,7 @@ public class FXMLAdministarRentasController implements Initializable {
             }
         }
     }
-    
+
     private void deshabilitarCheckBoxCercano(ActionEvent evento) {
         JFXCheckBox check = (JFXCheckBox) evento.getSource();
         String id = "R";
@@ -586,7 +599,7 @@ public class FXMLAdministarRentasController implements Initializable {
             reactivarDiaHorarioCheckBox(x, false);
         }
     }
-    
+
     private int comprobarDia(int dia) {
         //boolean bandera = false;
         int cont = 0;
@@ -614,7 +627,7 @@ public class FXMLAdministarRentasController implements Initializable {
         }
         return result;
     }
-    
+
     private void desactivarCheckBox(int dia) {
         int y = 0;
         String id = "R";
@@ -649,7 +662,7 @@ public class FXMLAdministarRentasController implements Initializable {
             }
         }
     }
-    
+
     private void reactivarDiaHorarioCheckBox(int dia, boolean bandera) {
         for (int i = 1; i < 49; i++) {
             JFXCheckBox check = (JFXCheckBox) gridPaneTabla.lookup("#" + dia + "," + i);
@@ -658,19 +671,19 @@ public class FXMLAdministarRentasController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void cambiarColorSale(MouseEvent event) {
         JFXButton btn = (JFXButton) event.getSource();
         btn.setStyle("-fx-background-color: white; -fx-text-fill: black;");
     }
-    
+
     @FXML
     private void cambiarColorPasa(MouseEvent event) {
         JFXButton btn = (JFXButton) event.getSource();
         btn.setStyle("-fx-background-color: red; -fx-text-fill: white;");
     }
-    
+
     private void vaciarDiaHorarioCheckBox(int dia) {
         String id = "R";
         if (renta != null) {
@@ -686,15 +699,15 @@ public class FXMLAdministarRentasController implements Initializable {
                 check.setText("     ");
             }
         }
-        
+
     }
-    
+
     @FXML
     private void limpiarSeleccion(ActionEvent event) {
         vaciarDiaHorarioCheckBox(1);
         reactivarDiaHorarioCheckBox(1, false);
     }
-    
+
     @FXML
     private void actualizarFechas(ActionEvent event) {
         if ("".equals(itemFecha.getEditor().getText())) {
@@ -736,11 +749,11 @@ public class FXMLAdministarRentasController implements Initializable {
                     reactivarDiaHorarioCheckBox(1, true);
                     cargarRentasHorarioFlotante();
                 }
-                
+
             }
         }
     }
-    
+
     private int[] retornarHoras(int x) {
         String id = "R";
         if (renta != null) {
@@ -767,7 +780,7 @@ public class FXMLAdministarRentasController implements Initializable {
         }
         return horas;
     }
-    
+
     private void vaciarHorarioCheckBox() {
         for (int j = 1; j < 2; j++) {
             for (int i = 1; i < 49; i++) {

@@ -237,15 +237,26 @@ public class FXMLAdministrarHorariosController implements Initializable {
     private void actualizarTablaHorario(ActionEvent event) {
         int dia, mes, annio;
         String fecha = itemDate.getEditor().getText();
-        dia = Integer.parseInt(fecha.split("/")[0]);
-        mes = Integer.parseInt(fecha.split("/")[1]);
-        annio = Integer.parseInt(fecha.split("/")[2]);
+        if (!"".equals(fecha)) {
+            dia = Integer.parseInt(fecha.split("/")[0]);
+            mes = Integer.parseInt(fecha.split("/")[1]);
+            annio = Integer.parseInt(fecha.split("/")[2]);
 
-        actualizarTablaSegunPicker(dia, mes, annio, false);
-        fechaConsultada.setTime(new Date(Integer.parseInt(itemDate.getEditor().getText().split("/")[2]) - 1900, Integer.parseInt(itemDate.getEditor().getText().split("/")[1]) - 1, Integer.parseInt(itemDate.getEditor().getText().split("/")[0])));
-        llenarTablaHorarioGlobal();
-        cargarRentasHorario();
-        cargarGrupos();
+            actualizarTablaSegunPicker(dia, mes, annio, false);
+            fechaConsultada.setTime(new Date(Integer.parseInt(itemDate.getEditor().getText().split("/")[2]) - 1900, Integer.parseInt(itemDate.getEditor().getText().split("/")[1]) - 1, Integer.parseInt(itemDate.getEditor().getText().split("/")[0])));
+            llenarTablaHorarioGlobal();
+            cargarRentasHorario();
+            cargarGrupos();
+        } else {
+            dia = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            mes = Calendar.getInstance().get(Calendar.MONTH);
+            annio = Calendar.getInstance().get(Calendar.YEAR);
+            actualizarTablaSegunPicker(dia, mes, annio, false);
+            fechaConsultada.setTime(new Date(annio - 1900, mes, dia));
+            llenarTablaHorarioGlobal();
+            cargarRentasHorario();
+            cargarGrupos();
+        }
     }
 
     private void colocarRenta(int j, Renta get) {
@@ -267,8 +278,8 @@ public class FXMLAdministrarHorariosController implements Initializable {
     }
 
     private void colocarGrupo(int j, Grupo grupo) {
-        float ini = Float.valueOf(grupo.getFecha_inicio());
-        float fin = Float.valueOf(grupo.getFecha_fin());
+        float ini = Float.valueOf(grupo.getHora_inicio());
+        float fin = Float.valueOf(grupo.getHora_fin());
         String textoBtn = "G" + grupo.getIdGrupo();
         ini = ((ini / 100) * 2) + 1;
         fin = (fin / 100) * 2;
@@ -297,15 +308,26 @@ public class FXMLAdministrarHorariosController implements Initializable {
             }
             horaConvertida += "0";
         } else {
-            horaConvertida += horaBase.charAt(0);
-            horaConvertida += horaBase.charAt(1);
-            horaConvertida += ":";
-            if (horaBase.charAt(2) == '5') {
-                horaConvertida += "3";
+            if (horaBase.length() > 3) {
+                horaConvertida += horaBase.charAt(0);
+                horaConvertida += horaBase.charAt(1);
+                horaConvertida += ":";
+                if (horaBase.charAt(2) == '5') {
+                    horaConvertida += "3";
+                } else {
+                    horaConvertida += "0";
+                }
+                horaConvertida += "0";
             } else {
+                horaConvertida += "00";
+                horaConvertida += ":";
+                if (horaBase.charAt(0) == '5') {
+                    horaConvertida += "3";
+                } else {
+                    horaConvertida += "0";
+                }
                 horaConvertida += "0";
             }
-            horaConvertida += "0";
         }
         return horaConvertida;
     }
@@ -339,7 +361,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
     private void actionBtnGrupo(JFXButton button) {
         String idGrupo = button.getText().split("G")[1];
         Grupo grupo = GrupoXML.obtenerGrupoSegunID(idGrupo);
-        System.out.println(grupo.getDias());
+        //System.out.println(grupo.getDias());
         lbIdentificador.setText(button.getText());
         lbClaseRenta.setText("Grupo");
         Colaborador nombreColaborador = new Colaborador().buscarColaboradorSegunID(grupo.getIdColaborador());
@@ -350,10 +372,14 @@ public class FXMLAdministrarHorariosController implements Initializable {
         String[] horasGrupos = grupo.getHoras().split("/");
         String horario = "";
         for (int i = 0; i < diasGrupo.length; i++) {
-            String[] horarioGrupo = horasGrupos[i].split("-");
-            horario += mapaDias[Integer.parseInt(diasGrupo[i])] + " de " + convertirHora(horarioGrupo[0]) + " a " + convertirHora(horarioGrupo[1]) + "\n";
-        }
 
+            String[] horarioGrupo = horasGrupos[i].split("-");
+            if (horarioGrupo.length > 1) {
+                horario += mapaDias[Integer.parseInt(diasGrupo[i])] + " de " + convertirHora(horarioGrupo[0]) + " a " + convertirHora(horarioGrupo[1]) + "\n";
+            } else {
+                horario += mapaDias[Integer.parseInt(diasGrupo[i])] + " a las " + convertirHora(horarioGrupo[0]) + "\n";
+            }
+        }
         lbHorario.setText(horario);
     }
 
@@ -605,8 +631,8 @@ public class FXMLAdministrarHorariosController implements Initializable {
     }
 
     private void colocarGrupoHorarioFlotante(int j, Grupo grupo, boolean bandera) {
-        float ini = Float.valueOf(grupo.getFecha_inicio());
-        float fin = Float.valueOf(grupo.getFecha_fin());
+        float ini = Float.valueOf(grupo.getHora_inicio());
+        float fin = Float.valueOf(grupo.getHora_fin());
         String textCheck = "G" + grupo.getIdGrupo();
         ini = ((ini / 100) * 2) + 1;
         fin = (fin / 100) * 2;
@@ -718,6 +744,8 @@ public class FXMLAdministrarHorariosController implements Initializable {
         GrupoXML.guardarGrupo(grupo);
         Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Se guardaron los cambios correctamente", ButtonType.OK);
         alerta.show();
+        cerrarGridFlotante(null);
+        actualizarTablaHorario(null);
     }
 
     @FXML
@@ -752,6 +780,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
     private int[] retornarHoras(int x) {
         int[] horas = new int[2];
         int cont = 0;
+        horas[1] = 0;
         int[] mapaHoras = new int[49];
         for (int i = 0; i < 49; i++) {
             mapaHoras[i] = i * 50;
