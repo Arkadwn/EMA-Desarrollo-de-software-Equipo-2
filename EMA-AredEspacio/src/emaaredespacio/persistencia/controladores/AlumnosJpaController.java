@@ -81,7 +81,7 @@ public class AlumnosJpaController implements IControladorAlumnos{
             alumnoActual.setTelefono(alumno.getTelefono());
             
             transaccion.commit();
-        }catch(RollbackException ex){
+        }catch(Exception ex){
             if(transaccion.isActive()){
                 transaccion.rollback();
             }

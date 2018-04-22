@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 
@@ -66,6 +68,11 @@ public class FXMLEditarEgresoFacebookController implements Initializable {
         clCreador.setCellValueFactory(new PropertyValueFactory<>("creador"));
         clLink.setCellValueFactory(new PropertyValueFactory<>("link"));
         clEstado.setCellValueFactory(new PropertyValueFactory<>("activa"));
+        clEstado.setCellValueFactory(cell -> {
+            EgresoFacebook p = cell.getValue();
+            return new ReadOnlyBooleanWrapper(p.getActiva());
+        });
+        clEstado.setCellFactory(CheckBoxTableCell.forTableColumn(clEstado));
 
         IEgresoFacebook metodos = new EgresoFacebook();
 

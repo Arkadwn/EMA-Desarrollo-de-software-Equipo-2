@@ -35,6 +35,15 @@ public class Colaborador implements IColaborador {
     private String estado;
     private Integer idUsuario;
     private Integer idColaborador;
+    private Integer cargo;
+
+    public Integer getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(Integer cargo) {
+        this.cargo = cargo;
+    }
 
     public Integer getIdUsuario() {
         return idUsuario;
@@ -58,6 +67,7 @@ public class Colaborador implements IColaborador {
         estado = "A";
         idColaborador = null;
         idUsuario = null;
+        cargo = 1;
     }
 
     public Colaborador(String imagenPerfil, String nombre, String apellidos) {
@@ -167,7 +177,7 @@ public class Colaborador implements IColaborador {
         Usuarios usuario = new Usuarios();
         usuario.setContrasenia(ecriptada);
         usuario.setNombreUsuario(colaborador.getNombreUsuario());
-        usuario.setTipo(1);
+        usuario.setTipo(colaborador.getCargo());
         usuario.setIdUsuario(colaborador.getIdUsuario());
 
         Colaboradores nuevoColaborador = new Colaboradores();
@@ -278,6 +288,7 @@ public class Colaborador implements IColaborador {
             nuevoColaborador.setDireccion(colaborador.getDireccion());
             nuevoColaborador.setEstado(colaborador.getEstado());
             nuevoColaborador.setIdUsuario(colaborador.getIdUsuario().getIdUsuario());
+            nuevoColaborador.setCargo(colaborador.getIdUsuario().getTipo());
             nuevoColaborador.setIdColaborador(colaborador.getIdColaborador());
             nuevoColaborador.setTelefono(colaborador.getTelefono());
             nuevoColaborador.setTipoPago(colaborador.getTipoPago());
@@ -308,7 +319,7 @@ public class Colaborador implements IColaborador {
         Usuarios usuario = new Usuarios();
         usuario.setContrasenia(encriptada);
         usuario.setNombreUsuario(colaborador.getNombreUsuario());
-        usuario.setTipo(1);
+        usuario.setTipo(colaborador.getCargo());
         usuario.setIdUsuario(colaborador.getIdUsuario());
 
         Colaboradores nuevoColaborador = new Colaboradores();
