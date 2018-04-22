@@ -118,7 +118,7 @@ public class FXMLRegistrarClienteController implements Initializable {
                     MensajeController.mensajeAdvertencia("No se pudo guardar el cliente");
                 }
             } else {
-                MensajeController.mensajeAdvertencia("Hay campos vacíos");
+                MensajeController.mensajeAdvertencia("Hay campos vacíos o erroneos");
             }
         }
     }

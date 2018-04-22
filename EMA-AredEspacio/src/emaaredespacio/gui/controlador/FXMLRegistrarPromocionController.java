@@ -71,15 +71,23 @@ public class FXMLRegistrarPromocionController implements Initializable {
     private CheckBox checkBoxDescuento;
     String nombreColaborador = "eduardo";
 
+    public Colaborador getSeleccion() {
+        return seleccion;
+    }
+
+    public void setSeleccion(Colaborador seleccion) {
+        this.seleccion = seleccion;
+        tfNombre.setText(seleccion.getNombre() + " " + seleccion.getApellidos());
+    }
+    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lista = new ArrayList();
-        if (!buscarColaborador()) {
-            MensajeController.mensajeAdvertencia("Error al encontrar al colaborador");
-        }
+        
 
         checkBoxDescuento.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -119,7 +127,7 @@ public class FXMLRegistrarPromocionController implements Initializable {
     @FXML
     private void accionGuardar(ActionEvent evento) {
         if (validarCamposVacios()) {
-            MensajeController.mensajeAdvertencia("Hay campos vacíos");
+            MensajeController.mensajeAdvertencia("Hay campos vacíos o erroneos");
         } else {
             if (datePickerFechaFin.getValue().isAfter(datePickerFechaIni.getValue())) {
                 if (tfPromocion.getText().length() < 50) {

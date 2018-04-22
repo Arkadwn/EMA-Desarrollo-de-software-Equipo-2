@@ -56,9 +56,20 @@ public class FXMLModificarPromocionController implements Initializable {
 
     private List<Colaborador> lista;
     private List<Promocion> listaPromociones;
-    Colaborador colaborador;
+    private Colaborador colaborador;
     Promocion promocionSeleccionada;
     String nombreColaborador = "eduardo";
+
+    public Colaborador getColaborador() {
+        return colaborador;
+    }
+
+    public void setColaborador(Colaborador colaborador) {
+        this.colaborador = colaborador;
+        tfNombre.setText(colaborador.getNombre() + " " + colaborador.getApellidos());
+        buscarPromociones();
+    }
+    
 
     /**
      * Initializes the controller class.
@@ -69,9 +80,7 @@ public class FXMLModificarPromocionController implements Initializable {
 
         listaPromociones = new ArrayList();
         lista = new ArrayList();
-        if (buscarColaborador()) {
-            buscarPromociones();
-        }
+        
         comboBoxPromocion.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {

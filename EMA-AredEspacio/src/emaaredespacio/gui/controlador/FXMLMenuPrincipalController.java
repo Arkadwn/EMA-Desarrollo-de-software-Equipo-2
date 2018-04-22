@@ -1,6 +1,7 @@
 package emaaredespacio.gui.controlador;
 
 import com.jfoenix.controls.JFXButton;
+import emaaredespacio.EMAAredEspacio;
 import emaaredespacio.modelo.Colaborador;
 import java.io.IOException;
 import java.net.URL;
@@ -32,6 +33,15 @@ public class FXMLMenuPrincipalController implements Initializable {
     @FXML
     private Label labelNombreSesion;
     private Colaborador colaborador;
+    private EMAAredEspacio main;
+
+    public EMAAredEspacio getMain() {
+        return main;
+    }
+
+    public void setMain(EMAAredEspacio main) {
+        this.main = main;
+    }
 
     /**
      * Initializes the controller class.
@@ -40,6 +50,10 @@ public class FXMLMenuPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        colaborador = new Colaborador();
+        colaborador.setNombre("Javier");
+        colaborador.setIdColaborador(1);
+        colaborador.setApellidos("Limon");
         menuDesplegado = false;
         panelPrincipal.setStyle("-fx-background-image: url('emaaredespacio/imagenes/fondo.jpg');"
                 + "-fx-background-position: center center; -fx-background-repeat: stretch;");
@@ -78,8 +92,77 @@ public class FXMLMenuPrincipalController implements Initializable {
     }
     
     @FXML
-    private void limpiar(ActionEvent evento){
+    private void desplegarVentanaAdministrarHorarios(ActionEvent evento) throws IOException{
         panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLAdministrarHorarios.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarVentanaRegistrarGrupo(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarGrupo1.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarVentanaModificarGrupo(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLModificarGrupo.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarVentanaRegistrarPromocion(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        FXMLLoader cargador = new FXMLLoader(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarPromocion.fxml"));
+        Parent fxml = (Parent) cargador.load();
+        FXMLRegistrarPromocionController controler = cargador.getController();
+        controler.setSeleccion(colaborador);
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarVentanaModificarPromocion(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        FXMLLoader cargador = new FXMLLoader(getClass().getResource("/emaaredespacio/gui/vista/FXMLModificarPromocion.fxml"));
+        Parent fxml = (Parent) cargador.load();
+        FXMLModificarPromocionController controler = cargador.getController();
+        controler.setColaborador(colaborador);
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarVentanaRegistrarCliente(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarCliente.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarVentanaModificarCliente(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLModificarCliente.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void limpiar(ActionEvent evento) throws IOException{
+        main.desplegarInicioDeSesion();
     }
     
     @FXML

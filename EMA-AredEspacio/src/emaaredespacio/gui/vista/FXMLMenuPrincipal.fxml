@@ -72,8 +72,8 @@
                                   <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar promocion" />
-                                    <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar promocion" GridPane.rowIndex="1" />
+                                    <JFXButton onAction="#desplegarVentanaRegistrarPromocion" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar promocion" />
+                                    <JFXButton onAction="#desplegarVentanaModificarPromocion" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar promocion" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                            </children></AnchorPane>
@@ -111,8 +111,9 @@
                           </rowConstraints>
                            <children>
                               <JFXButton onAction="#desplegarAdministrarRentas" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar rentas" />
-                              <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar grupo" GridPane.rowIndex="1" />
-                              <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Modificar grupo" GridPane.rowIndex="2" />
+                              <JFXButton onAction="#desplegarVentanaRegistrarGrupo" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar grupo" GridPane.rowIndex="1" />
+                              <JFXButton onAction="#desplegarVentanaModificarGrupo" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Modificar grupo" GridPane.rowIndex="2" />
+                              <JFXButton onAction="#desplegarVentanaAdministrarHorarios" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar horarios" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                     </content>
@@ -132,8 +133,8 @@
                            <children>
                               <JFXButton onAction="#desplegarVentanaAdministrarColaboradores" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar colaborador" />
                               <JFXButton onAction="#desplegarVentana" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar colaborador" GridPane.rowIndex="1" />
-                              <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar cliente" GridPane.rowIndex="2" />
-                              <JFXButton prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Modificar cliente" GridPane.rowIndex="3" />
+                              <JFXButton onAction="#desplegarVentanaRegistrarCliente" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar cliente" GridPane.rowIndex="2" />
+                              <JFXButton onAction="#desplegarVentanaModificarCliente" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Modificar cliente" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                     </content>
