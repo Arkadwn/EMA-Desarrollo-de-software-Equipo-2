@@ -36,7 +36,7 @@ public class EgresosfacebookJpaController implements Serializable {
             em.getTransaction().begin();
             em.persist(egresosfacebook);
             em.getTransaction().commit();
-        } catch(TransactionRequiredException ex){
+        } catch(Exception ex){
             validacion = false;
         }finally {
             if (em != null) {
