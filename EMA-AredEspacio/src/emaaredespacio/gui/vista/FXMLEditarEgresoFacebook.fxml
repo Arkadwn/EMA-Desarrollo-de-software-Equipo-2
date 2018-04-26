@@ -32,6 +32,9 @@
                <GridPane.margin>
                   <Insets left="30.0" top="80.0" />
                </GridPane.margin>
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
             </CheckBox>
             <JFXButton onAction="#accionBuscar" prefHeight="32.0" prefWidth="104.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Buscar">
                <GridPane.margin>
@@ -130,22 +133,39 @@
                <GridPane.margin>
                   <Insets left="20.0" right="50.0" />
                </GridPane.margin>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
             </JFXTextField>
             <JFXTextField fx:id="tfCosto" onKeyTyped="#soloNumeros" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="20.0" right="50.0" />
                </GridPane.margin>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
             </JFXTextField>
-            <JFXTextArea fx:id="tfDescripcion" scrollLeft="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <JFXTextArea fx:id="tfDescripcion" onKeyTyped="#restringirCampoDescripcion" scrollLeft="10.0" style="-fx-border-width: 1.5; -fx-border-color: black; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets bottom="10.0" left="20.0" right="50.0" top="10.0" />
                </GridPane.margin>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
             </JFXTextArea>
-            <JFXTextField fx:id="tfLink" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <JFXTextField fx:id="tfLink" onKeyTyped="#restringirCampoLink" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="20.0" right="50.0" />
                </GridPane.margin>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
             </JFXTextField>
+            <JFXButton fx:id="btnAgregarColaborador" onAction="#buscarColaborador" prefHeight="14.0" prefWidth="14.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="340.0" />
+               </GridPane.margin>
+            </JFXButton>
          </children>
       </GridPane>
    </children>

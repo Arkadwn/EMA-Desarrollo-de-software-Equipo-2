@@ -28,61 +28,57 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="imgPerfil" fitHeight="216.0" fitWidth="227.0" onMouseClicked="#elegirImagen" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+            <ImageView fx:id="imgPerfil" fitHeight="226.0" fitWidth="249.0" onMouseClicked="#elegirImagen" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="200.0" />
                </GridPane.margin>
-               <image>
-                  <Image url="@../../imagenes/perfil.jpg" />
-               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
-            <Label text="Nombre(s):" GridPane.columnIndex="1">
+            <Label text="Nombre(s):" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label text="Apellido(s):" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label text="Apellido(s):" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label text="Telefono:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label text="Telefono:" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label text="Correo:" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Label text="Correo:" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label text="Tipo de pago:" GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <Label text="Tipo de pago:" GridPane.columnIndex="1" GridPane.rowIndex="9">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label text="Monto a pagar:" GridPane.columnIndex="1" GridPane.rowIndex="9">
+            <Label text="Monto a pagar:" GridPane.columnIndex="1" GridPane.rowIndex="10">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label text="Dirección:" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <Label text="Dirección:" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label text="Nombre de usuario:" GridPane.columnIndex="1" GridPane.rowIndex="5">
-               <font>
-                  <Font name="Arial" size="14.0" />
-               </font>
-            </Label>
-            <Label text="Contraseña:" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <Label text="Nombre de usuario:" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -92,7 +88,12 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="tfNombre" GridPane.columnIndex="2">
+            <Label text="Confirmar contraseña:" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="tfNombre" onAction="#restringirCampoNombre" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="20.0" right="243.0" />
                </GridPane.margin>
@@ -100,7 +101,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfApellidos" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <JFXTextField fx:id="tfApellidos" onAction="#restringirCampoApellidos" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" right="243.0" />
                </GridPane.margin>
@@ -108,7 +109,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfTelefono" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <JFXTextField fx:id="tfTelefono" labelFloat="true" onAction="#restringirCampoTelefono" promptText="10 digitos de tu número" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" right="243.0" />
                </GridPane.margin>
@@ -116,7 +117,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfCorreo" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <JFXTextField fx:id="tfCorreo" onAction="#restringirCampoCorreo" promptText="ejemplo@correo.com" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="20.0" right="243.0" />
                </GridPane.margin>
@@ -124,7 +125,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfDireccion" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <JFXTextField fx:id="tfDireccion" onAction="#restringirCampoDireccion" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="20.0" right="243.0" />
                </GridPane.margin>
@@ -132,7 +133,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfUsuario" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <JFXTextField fx:id="tfUsuario" onAction="#restringirCampoNombreUsuario" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="20.0" right="243.0" />
                </GridPane.margin>
@@ -140,17 +141,17 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXPasswordField fx:id="tfContrasena" onKeyTyped="#restringirEspacios" GridPane.columnIndex="2" GridPane.rowIndex="6">
+            <JFXPasswordField fx:id="tfContrasena" labelFloat="true" onKeyTyped="#restringirEspacios" promptText="8 caracteres con al menos una mayúscula y un número" GridPane.columnIndex="2" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets left="20.0" right="243.0" />
                </GridPane.margin>
             </JFXPasswordField>
-            <JFXPasswordField fx:id="tfRecontrasena" onKeyTyped="#restringirEspacios" GridPane.columnIndex="2" GridPane.rowIndex="7">
+            <JFXPasswordField fx:id="tfRecontrasena" onKeyTyped="#restringirEspacios" GridPane.columnIndex="2" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets left="20.0" right="243.0" />
                </GridPane.margin>
             </JFXPasswordField>
-            <JFXTextField fx:id="tfMonto" GridPane.columnIndex="2" GridPane.rowIndex="9">
+            <JFXTextField fx:id="tfMonto" onAction="#restringirCampoPago" GridPane.columnIndex="2" GridPane.rowIndex="10">
                <GridPane.margin>
                   <Insets left="20.0" right="243.0" />
                </GridPane.margin>
@@ -158,17 +159,23 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXButton fx:id="btnCancelar" prefHeight="33.0" prefWidth="114.0" style="-fx-border-radius: 5; -fx-border-width: 2; -fx-border-color: #ff0066;" text="Cancelar" GridPane.columnIndex="2" GridPane.rowIndex="10">
+            <JFXButton fx:id="btnCancelar" prefHeight="33.0" prefWidth="114.0" style="-fx-border-radius: 5; -fx-border-width: 2; -fx-border-color: #ff0066;" text="Cancelar" GridPane.columnIndex="2" GridPane.rowIndex="11">
                <GridPane.margin>
                   <Insets left="200.0" />
                </GridPane.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
-            <JFXButton fx:id="btnRegistrar" onAction="#accionRegistrarUsuario" prefHeight="33.0" prefWidth="114.0" style="-fx-border-radius: 5; -fx-border-width: 2; -fx-border-color: #ff0066;" text="Registrar" GridPane.columnIndex="2" GridPane.rowIndex="10">
+            <JFXButton fx:id="btnRegistrar" onAction="#accionRegistrarUsuario" prefHeight="33.0" prefWidth="114.0" style="-fx-border-radius: 5; -fx-border-width: 2; -fx-border-color: #ff0066;" text="Registrar" GridPane.columnIndex="2" GridPane.rowIndex="11">
                <GridPane.margin>
                   <Insets left="40.0" />
                </GridPane.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
-            <JFXComboBox fx:id="cbTipoPago" onMouseClicked="#rellenarComboboxTipoPago" prefHeight="25.0" prefWidth="307.0" GridPane.columnIndex="2" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="8" GridPane.vgrow="SOMETIMES">
+            <JFXComboBox fx:id="cbTipoPago" onMouseClicked="#rellenarComboboxTipoPago" prefHeight="25.0" prefWidth="307.0" GridPane.columnIndex="2" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="9" GridPane.vgrow="SOMETIMES">
                <GridPane.margin>
                   <Insets left="20.0" right="80.0" />
                </GridPane.margin>

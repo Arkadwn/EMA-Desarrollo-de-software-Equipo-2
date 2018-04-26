@@ -54,7 +54,9 @@ public class ColaboradoresJpaController implements IControladorColaborador {
             }
             validacion = false;
         } finally {
-            conexion.close();
+            if(conexion != null){
+                conexion.close();
+            }
         }
         return validacion;
     }
@@ -65,9 +67,14 @@ public class ColaboradoresJpaController implements IControladorColaborador {
 
         String palabra = "%" + palabraClave + "%";
         EntityManager conexion = getEntityManager();
-
+        
+        try{
         colaboradores = conexion.createQuery("SELECT c FROM Colaboradores c WHERE c.nombre LIKE :palabra OR c.apellidos LIKE :palabra").setParameter("palabra", palabra).getResultList();
-
+        }finally{
+            if(conexion != null){
+                conexion.close();
+            }
+        }
         return colaboradores;
     }
 
@@ -106,7 +113,9 @@ public class ColaboradoresJpaController implements IControladorColaborador {
             }
             validacion = false;
         } finally {
-            conexion.close();
+            if(conexion != null){
+                conexion.close();
+            }
         }
         return validacion;
     }
@@ -116,8 +125,25 @@ public class ColaboradoresJpaController implements IControladorColaborador {
         try {
             return entidad.find(Colaboradores.class, idcolaborador);
         } finally {
-            entidad.close();
+            if(entidad != null){
+                entidad.close();
+            }
         }
+    }
+    
+    public List<Colaboradores> buscarColaboradorPorEstado(String estado){
+        List<Colaboradores> resultadoBusqueda = new ArrayList();
+        
+        EntityManager conexion = getEntityManager();
+        
+        try{
+        resultadoBusqueda = conexion.createQuery("SELECT c FROM Colaboradores c WHERE c.estado = :estado").setParameter("estado", estado).getResultList();
+        }finally{
+            if(conexion != null){
+                conexion.close();
+            }
+        }
+        return resultadoBusqueda;
     }
 
 }

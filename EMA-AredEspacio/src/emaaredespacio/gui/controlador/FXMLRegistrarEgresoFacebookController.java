@@ -1,16 +1,23 @@
 package emaaredespacio.gui.controlador;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.EgresoFacebook;
+import emaaredespacio.modelo.IColaborador;
 import emaaredespacio.modelo.IEgresoFacebook;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.DatePicker;
 import javafx.scene.input.KeyEvent;
 
@@ -33,6 +40,8 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
     private JFXTextField tfLink;
     @FXML
     private JFXTextArea tfDescripcion;
+    @FXML
+    private JFXButton btnAgregarColaborador;
 
     /**
      * Initializes the controller class.
@@ -42,10 +51,11 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        btnAgregarColaborador.setStyle("-fx-background-image: url('emaaredespacio/imagenes/Search.png');"
+                + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 42px 42px 42px 42px;");
+        tfCreador.setText(System.getProperty("colaborador"));
     }
 
-    @FXML
     private void accionRegistrarEgreso(ActionEvent evento) {
         if (validarCampos()) {
             MensajeController.mensajeAdvertencia("Hay campos vacios");
@@ -72,6 +82,7 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
                 if (validaciones[4]) {
                     if (metodos.registrarEgreso(egreso)) {
                         MensajeController.mensajeInformacion("El egreso ha sido guardado exitosamente");
+                        limpiarCampos();
                     } else {
                         MensajeController.mensajeAdvertencia("Ha ocurrido un error al guardar el egreso");
                     }
@@ -112,6 +123,52 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
         } else {
             evento.consume();
         }
+    }
+    
+    @FXML
+    private void restringirCampoLink(KeyEvent evento) {
+        if (tfLink.getText().length() > 9999) {
+            evento.consume();
+        }
+    }
+    
+    @FXML
+    private void restringirCampoDescripcion(KeyEvent evento) {
+        if (tfDescripcion.getText().length() > 39999) {
+            evento.consume();
+        }
+    }
+
+    @FXML
+    private void buscarColaborador() {
+        List<String> contenido = new ArrayList<>();
+        contenido.add(System.getProperty("colaborador"));
+
+        IColaborador metodos = new Colaborador();
+        List<Colaborador> colaboradores = metodos.buscarColaboradoresEstados("A");
+
+        if (colaboradores != null) {
+            for (Colaborador colaborador : colaboradores) {
+                contenido.add(colaborador.getNombre() + " " + colaborador.getApellidos());
+            }
+
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(System.getProperty("colaborador"), contenido);
+            dialog.setTitle(null);
+            dialog.setHeaderText(null);
+            dialog.setContentText("Elige un colaborador:");
+
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                tfCreador.setText(result.get());
+            }
+        }
+    }
+    
+    private void limpiarCampos(){
+        tfCosto.setText("");
+        tfCreador.setText(System.getProperty("colaborador"));
+        tfDescripcion.setText("");
+        tfLink.setText("");
     }
 
 }

@@ -68,6 +68,8 @@ public class FXMLRegistrarColaboradorController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
+        imgPerfil.setImage(imagen);
         nombreImagen = "No";
     }
 
@@ -96,6 +98,7 @@ public class FXMLRegistrarColaboradorController implements Initializable {
             if(validaciones[8]){
                 if(metodosColaborador.registrarColaborador(colaborador)){
                     MensajeController.mensajeInformacion("El colaborador ha sido guardado exitosamente");
+                    limpiarCampos();
                 }else{
                     MensajeController.mensajeAdvertencia("Ha ocurrido un error al guardar el colaborador");
                 }
@@ -158,5 +161,76 @@ public class FXMLRegistrarColaboradorController implements Initializable {
         if (caracter == ' ') {
             evento.consume();
         }
+    }
+    
+    @FXML
+    private void restringirCampoNombre(KeyEvent evento){
+        restringir50Caracteres(evento, tfNombre.getText());
+    }
+    
+    @FXML
+    private void restringirCampoCorreo(KeyEvent evento){
+        restringir50Caracteres(evento, tfCorreo.getText());
+    }
+    
+    @FXML
+    private void restringirCampoDireccion(KeyEvent evento){
+        restringir50Caracteres(evento, tfDireccion.getText());
+    }
+    
+    @FXML
+    private void restringirCampoApellidos(KeyEvent evento){
+        restringir50Caracteres(evento, tfApellidos.getText());
+    }
+    
+    @FXML
+    private void restringirCampoTelefono(KeyEvent evento){
+        char cadena = evento.getCharacter().charAt(0);
+        
+        if(Character.isDigit(cadena) && tfTelefono.getText().length() < 10){
+            
+        }else{
+            evento.consume();
+        }
+    }
+    
+    @FXML
+    private void restringirCampoNombreUsuario(KeyEvent evento){
+        if(tfUsuario.getText().length() < 30){
+            
+        }else{
+            evento.consume();
+        }
+    }
+    
+    @FXML
+    private void restringirCampoPago(KeyEvent evento){
+        char cadena = evento.getCharacter().charAt(0);
+        if(Character.isDigit(cadena) && tfMonto.getText().length() < 6){
+            
+        }else{
+            evento.consume();
+        }
+            
+    }
+    
+    private void restringir50Caracteres(KeyEvent evento, String cadena){
+        if(cadena.length() > 49){
+            evento.consume();
+        }
+    }
+    
+    private void limpiarCampos(){
+        tfTelefono.setText("");
+        tfCorreo.setText("");
+        tfContrasena.setText("");
+        tfRecontrasena.setText("");
+        tfMonto.setText("");
+        tfNombre.setText("");
+        tfApellidos.setText("");
+        tfUsuario.setText("");
+        tfDireccion.setText("");
+        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
+        imgPerfil.setImage(imagen);
     }
 }

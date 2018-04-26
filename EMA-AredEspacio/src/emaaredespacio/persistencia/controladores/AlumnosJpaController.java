@@ -54,7 +54,9 @@ public class AlumnosJpaController implements IControladorAlumnos{
             }
             validacion = false;
         }finally{
-            conexion.close();
+            if(conexion != null){
+                conexion.close();
+            }
         }
         
         return validacion;
@@ -86,6 +88,10 @@ public class AlumnosJpaController implements IControladorAlumnos{
                 transaccion.rollback();
             }
             validacion = false;
+        }finally{
+            if(conexion != null){
+                conexion.close();
+            }
         }
         
         return validacion;
@@ -96,9 +102,13 @@ public class AlumnosJpaController implements IControladorAlumnos{
         List<Alumnos> colaboradores = new ArrayList();
         String palabra = "%"+palabraClave+"%";
         EntityManager conexion = getEntityManager();
-    
+        try{
         colaboradores = conexion.createQuery("SELECT a FROM Alumnos a WHERE a.nombre LIKE :palabra OR a.apellidos LIKE :palabra").setParameter("palabra", palabra).getResultList();
-        
+        }finally{
+            if(conexion != null){
+                conexion.close();
+            }
+        }
         return colaboradores;
     }
     

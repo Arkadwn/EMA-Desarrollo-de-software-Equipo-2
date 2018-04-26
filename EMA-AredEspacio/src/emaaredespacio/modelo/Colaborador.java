@@ -70,12 +70,6 @@ public class Colaborador implements IColaborador {
         cargo = 1;
     }
 
-    public Colaborador(String imagenPerfil, String nombre, String apellidos) {
-        this.imagenPerfil = imagenPerfil;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-    }
-
     public String getEstado() {
         return estado;
     }
@@ -252,6 +246,7 @@ public class Colaborador implements IColaborador {
         return colaboradores;
     }
 
+    @Override
     public Colaborador buscarColaboradorSegunID(int idColaborador) {
         ColaboradoresJpaController controlador = new ColaboradoresJpaController();
         Colaboradores colaboradorObtendo = controlador.buscarColaborador(idColaborador);
@@ -340,6 +335,19 @@ public class Colaborador implements IColaborador {
         validacion = controlador.editarColborador(nuevoColaborador, usuario);
 
         return validacion;
+    }
+
+    @Override
+    public List<Colaborador> buscarColaboradoresEstados(String estado) {
+        List<Colaborador> colaboradores = null;
+        List<Colaboradores> resultadoBusqueda = null;
+        ColaboradoresJpaController controlador = new ColaboradoresJpaController();
+        
+        resultadoBusqueda = controlador.buscarColaboradorPorEstado(estado);
+        
+        colaboradores = convertirListas(resultadoBusqueda);
+        
+        return colaboradores;
     }
 
 }

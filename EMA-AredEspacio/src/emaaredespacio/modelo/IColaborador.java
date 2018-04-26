@@ -13,4 +13,6 @@ public interface IColaborador {
     public boolean[] validarCampos(Colaborador colaborador, String contraseña);
     public List<Colaborador> buscarColaborador(String palabraClave);
     public boolean editarColaborador(Colaborador colaborador, boolean nuevaContraseña);
+    public List<Colaborador> buscarColaboradoresEstados(String estado);
+    public Colaborador buscarColaboradorSegunID(int idColaborador);
 }

@@ -53,30 +53,45 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="tfNombre" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <JFXTextField fx:id="tfNombre" labelFloat="true" onKeyTyped="#restringirCampoNombre" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" right="40.0" />
                </GridPane.margin>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfApellidos" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <JFXTextField fx:id="tfApellidos" onKeyTyped="#restringirCampoApellidos" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" right="40.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfCorreo" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <JFXTextField fx:id="tfCorreo" onKeyTyped="#restringirCampoCorreo" promptText="ejemplo@correo.com" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" right="40.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfTelefono" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <JFXTextField fx:id="tfTelefono" labelFloat="true" onKeyTyped="#restringirCampoTelefono" promptText="Escriba los 10 digitos de su número" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="10.0" right="40.0" />
                </GridPane.margin>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfDireccion" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <JFXTextField fx:id="tfDireccion" onKeyTyped="#restringirCampoDireccion" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="10.0" right="40.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </JFXTextField>
             <ImageView fx:id="imgPerfil" fitHeight="200.0" fitWidth="227.0" onMouseClicked="#elegirImagen" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                <GridPane.margin>

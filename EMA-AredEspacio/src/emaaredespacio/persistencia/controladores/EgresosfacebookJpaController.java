@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.Persistence;
-import javax.persistence.TransactionRequiredException;
 import javax.persistence.criteria.CriteriaQuery;
 
 /**

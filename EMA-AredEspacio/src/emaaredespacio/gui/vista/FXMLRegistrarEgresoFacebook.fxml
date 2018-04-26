@@ -86,13 +86,19 @@
                   <Insets left="20.0" right="40.0" />
                </GridPane.margin>
             </DatePicker>
-            <JFXButton onAction="#accionRegistrarEgreso" prefHeight="33.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Registrar" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <JFXButton prefHeight="33.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Registrar" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
             <JFXButton prefHeight="33.0" prefWidth="114.0" style="-fx-border-width: 2; -fx-border-radius: 5; -fx-border-color: #ff0066;" text="Cancelar" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets left="150.0" />
                </GridPane.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
-            <JFXTextField fx:id="tfCreador" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <JFXTextField fx:id="tfCreador" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" right="200.0" />
                </GridPane.margin>
@@ -100,7 +106,7 @@
                   <Cursor fx:constant="TEXT" />
                </cursor>
                <font>
-                  <Font size="14.0" />
+                  <Font name="Arial Black" size="14.0" />
                </font>
             </JFXTextField>
             <JFXTextField fx:id="tfCosto" onKeyTyped="#soloNumeros" GridPane.columnIndex="1" GridPane.rowIndex="4">
@@ -111,18 +117,21 @@
                   <Cursor fx:constant="TEXT" />
                </cursor>
                <font>
-                  <Font size="14.0" />
+                  <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextArea fx:id="tfDescripcion" scrollLeft="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <JFXTextArea fx:id="tfDescripcion" onKeyTyped="#restringirCampoDescripcion" scrollLeft="10.0" style="-fx-border-width: 1.5; -fx-border-color: black; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets bottom="20.0" left="20.0" right="200.0" top="10.0" />
                </GridPane.margin>
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
             </JFXTextArea>
-            <JFXTextField fx:id="tfLink" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <JFXTextField fx:id="tfLink" onKeyTyped="#restringirCampoLink" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="20.0" right="200.0" />
                </GridPane.margin>
@@ -130,9 +139,14 @@
                   <Cursor fx:constant="TEXT" />
                </cursor>
                <font>
-                  <Font size="14.0" />
+                  <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
+            <JFXButton fx:id="btnAgregarColaborador" onAction="#buscarColaborador" prefHeight="42.0" prefWidth="42.0" style="-fx-background-radius: 18; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="530.0" />
+               </GridPane.margin>
+            </JFXButton>
          </children>
       </GridPane>
    </children>

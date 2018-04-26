@@ -23,6 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
@@ -67,6 +68,8 @@ public class FXMLEditarAlumnoController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -74,8 +77,11 @@ public class FXMLEditarAlumnoController implements Initializable {
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         nombreImagen = "No";
         lista = new ArrayList();
-        Image imagen = new Image("emaaredespacio/imagenes/perfil.jpg", 300, 300, false, true, true);
+        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
         imgPerfil.setImage(imagen);
+        IAlumno metodos = new Alumno();
+        lista = metodos.buscarAlumno("");
+        cargarResultadoDeBusqueda();
     }
 
     @FXML
@@ -148,6 +154,7 @@ public class FXMLEditarAlumnoController implements Initializable {
                 if (validacion[5]) {
                     if (metodosAlumnos.editarAlumo(alumno)) {
                         MensajeController.mensajeInformacion("Cambios guardados");
+                        limpiarCampos();
                     } else {
                         MensajeController.mensajeAdvertencia("No se han podido guardar los cambios");
                     }
@@ -195,5 +202,58 @@ public class FXMLEditarAlumnoController implements Initializable {
     private boolean validarCamposVacios() {
         return tfNombre.getText().isEmpty() || tfApellidos.getText().isEmpty() || tfTelefono.getText().isEmpty()
                 || tfDireccion.getText().isEmpty() || tfCorreo.getText().isEmpty();
+    }
+    
+    @FXML
+    private void restringirCampoNombre(KeyEvent evento) {
+        restringir50Caracteres(evento, tfNombre.getText());
+    }
+
+    @FXML
+    private void restringirCampoTelefono(KeyEvent evento) {
+        char caracter = evento.getCharacter().charAt(0);
+
+        if (Character.isDigit(caracter) && tfTelefono.getText().length() < 10) {
+
+        } else {
+            evento.consume();
+        }
+    }
+
+    @FXML
+    private void restringirCampoDireccion(KeyEvent evento) {
+        restringir50Caracteres(evento, tfDireccion.getText());
+    }
+    
+    @FXML
+    private void restringirCampoCorreo(KeyEvent evento){
+        restringir50Caracteres(evento, tfCorreo.getText());
+    }
+
+    private void restringir50Caracteres(KeyEvent evento, String cadena) {
+        if (cadena.length() > 49) {
+            evento.consume();
+        }
+    }
+
+    @FXML
+    private void restringirCampoApellidos(KeyEvent evento) {
+        if (tfApellidos.getText().length() < 100) {
+            evento.consume();
+        }
+    }
+    
+    private void limpiarCampos(){
+        tfNombre.setText("");
+        tfApellidos.setText("");
+        tfCorreo.setText("");
+        tfDireccion.setText("");
+        tfTelefono.setText("");
+        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 400, 400, false, true, true);
+        imgPerfil.setImage(imagen);
+        nombreImagen = "No";
+        tbListaAlumnos.getItems().clear();
+        tfPalabraClave.setText("");
+        lista.clear();
     }
 }

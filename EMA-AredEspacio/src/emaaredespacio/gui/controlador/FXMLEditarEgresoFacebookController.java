@@ -1,14 +1,18 @@
 package emaaredespacio.gui.controlador;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.EgresoFacebook;
+import emaaredespacio.modelo.IColaborador;
 import emaaredespacio.modelo.IEgresoFacebook;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.collections.FXCollections;
@@ -16,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -56,6 +61,8 @@ public class FXMLEditarEgresoFacebookController implements Initializable {
     private TableView<EgresoFacebook> tbEgresos;
     private List<EgresoFacebook> lista;
     private EgresoFacebook seleccion;
+    @FXML
+    private JFXButton btnAgregarColaborador;
 
     /**
      * Initializes the controller class.
@@ -65,6 +72,8 @@ public class FXMLEditarEgresoFacebookController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnAgregarColaborador.setStyle("-fx-background-image: url('emaaredespacio/imagenes/Search.png');"
+                + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 14px 14px 14px 14px;");
         clCreador.setCellValueFactory(new PropertyValueFactory<>("creador"));
         clLink.setCellValueFactory(new PropertyValueFactory<>("link"));
         clEstado.setCellValueFactory(new PropertyValueFactory<>("activa"));
@@ -134,6 +143,7 @@ public class FXMLEditarEgresoFacebookController implements Initializable {
                     if (validaciones[4]) {
                         if (metodos.editarEgresoFacebook(egreso)) {
                             MensajeController.mensajeInformacion("Cambios guardados");
+                            limpiarCampos();
                         } else {
                             MensajeController.mensajeAdvertencia("No se han podido guardar los cambios");
                         }
@@ -197,5 +207,54 @@ public class FXMLEditarEgresoFacebookController implements Initializable {
         } else {
             evento.consume();
         }
+    }
+    
+    @FXML
+    private void restringirCampoLink(KeyEvent evento) {
+        if (tfLink.getText().length() > 9999) {
+            evento.consume();
+        }
+    }
+
+    @FXML
+    private void restringirCampoDescripcion(KeyEvent evento) {
+        if (tfDescripcion.getText().length() > 39999) {
+            evento.consume();
+        }
+    }
+    
+    @FXML
+    private void buscarColaborador() {
+        List<String> contenido = new ArrayList<>();
+        contenido.add(System.getProperty("colaborador"));
+
+        IColaborador metodos = new Colaborador();
+        List<Colaborador> colaboradores = metodos.buscarColaboradoresEstados("A");
+
+        if (colaboradores != null) {
+            for (Colaborador colaborador : colaboradores) {
+                contenido.add(colaborador.getNombre() + " " + colaborador.getApellidos());
+            }
+
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(System.getProperty("colaborador"), contenido);
+            dialog.setTitle(null);
+            dialog.setHeaderText(null);
+            dialog.setContentText("Elige un colaborador:");
+
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                tfCreador.setText(result.get());
+            }
+        }
+    }
+    
+    private void limpiarCampos(){
+        tfCosto.setText("");
+        tfCreador.setText("");
+        tfDescripcion.setText("");
+        tfLink.setText("");
+        tbEgresos.getItems().clear();
+        seleccion = null;
+        lista.clear();
     }
 }

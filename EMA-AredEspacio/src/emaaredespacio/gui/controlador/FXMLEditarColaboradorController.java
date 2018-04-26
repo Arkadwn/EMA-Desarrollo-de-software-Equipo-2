@@ -21,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -75,6 +76,15 @@ public class FXMLEditarColaboradorController implements Initializable {
     private Colaborador seleccion;
     @FXML
     private TableView<Colaborador> tbListaColaboradores;
+    @FXML
+    private JFXButton btnGuardar;
+    @FXML
+    private JFXButton btnCancelar;
+    @FXML
+    private Label labelContraseña;
+    @FXML
+    private Label labelRecontraseña;
+    private boolean edicionContraseña;
 
     /**
      * Initializes the controller class.
@@ -84,6 +94,7 @@ public class FXMLEditarColaboradorController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        edicionContraseña = false;
         columnaApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         nombreImagen = "No";
@@ -180,7 +191,6 @@ public class FXMLEditarColaboradorController implements Initializable {
             } else {
                 IColaborador metodosColaborador = new Colaborador();
                 Colaborador colaborador = new Colaborador();
-                boolean nuevaContraseña = false;
                 String reContraseña = tfRecontraseña.getText();
                 colaborador.setNombre(tfNombre.getText());
                 colaborador.setApellidos(tfApellidos.getText());
@@ -191,7 +201,6 @@ public class FXMLEditarColaboradorController implements Initializable {
                 colaborador.setNombreUsuario(tfUsuario.getText());
                 if(!tfContraseña.getText().isEmpty()){
                     colaborador.setContraseña(tfContraseña.getText());
-                    nuevaContraseña = true;
                 }else{
                     colaborador.setContraseña("Acdc619Mljj");
                     reContraseña = "Acdc619Mljj";
@@ -216,12 +225,13 @@ public class FXMLEditarColaboradorController implements Initializable {
                 if(validaciones[8]){
                     colaborador.setIdColaborador(seleccion.getIdColaborador());
                     colaborador.setIdUsuario(seleccion.getIdUsuario());
-                    if(!nuevaContraseña){
+                    if(!edicionContraseña){
                         colaborador.setContraseña(seleccion.getContraseña());
                     }
                     
-                    if(metodosColaborador.editarColaborador(colaborador, nuevaContraseña)){
+                    if(metodosColaborador.editarColaborador(colaborador, edicionContraseña)){
                         MensajeController.mensajeInformacion("Cambios guardados");
+                        limpiarCampos();
                     }else{
                         MensajeController.mensajeAdvertencia("No se han podido guardar los cambios");
                     }
@@ -253,5 +263,88 @@ public class FXMLEditarColaboradorController implements Initializable {
         if (caracter == ' ') {
             evento.consume();
         }
+    }
+    
+    @FXML
+    private void restringirCampoNombre(KeyEvent evento){
+        restringir50Caracteres(evento, tfNombre.getText());
+    }
+    
+    @FXML
+    private void restringirCampoCorreo(KeyEvent evento){
+        restringir50Caracteres(evento, tfCorreo.getText());
+    }
+    
+    @FXML
+    private void restringirCampoDireccion(KeyEvent evento){
+        restringir50Caracteres(evento, tfDireccion.getText());
+    }
+    
+    @FXML
+    private void restringirCampoApellidos(KeyEvent evento){
+        restringir50Caracteres(evento, tfApellidos.getText());
+    }
+    
+    @FXML
+    private void restringirCampoTelefono(KeyEvent evento){
+        char cadena = evento.getCharacter().charAt(0);
+        
+        if(Character.isDigit(cadena) && tfTelefono.getText().length() < 10){
+            
+        }else{
+            evento.consume();
+        }
+    }
+    
+    @FXML
+    private void restringirCampoNombreUsuario(KeyEvent evento){
+        if(tfUsuario.getText().length() < 30){
+            
+        }else{
+            evento.consume();
+        }
+    }
+    
+    @FXML
+    private void restringirCampoPago(KeyEvent evento){
+        char cadena = evento.getCharacter().charAt(0);
+        if(Character.isDigit(cadena) && tfMonto.getText().length() < 6){
+            
+        }else{
+            evento.consume();
+        }
+            
+    }
+    
+    private void restringir50Caracteres(KeyEvent evento, String cadena){
+        if(cadena.length() > 49){
+            evento.consume();
+        }
+    }
+    
+    private void limpiarCampos(){
+        tfTelefono.setText("");
+        tfCorreo.setText("");
+        tfContraseña.setText("");
+        tfRecontraseña.setText("");
+        tfMonto.setText("");
+        tfNombre.setText("");
+        tfApellidos.setText("");
+        tfUsuario.setText("");
+        tfDireccion.setText("");
+        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
+        imgPerfil.setImage(imagen);
+        seleccion = null;
+        tbListaColaboradores.getItems().clear();
+        tfPalabraClave.setText("");
+    }
+
+    @FXML
+    private void activarEdicionDeContrasena(ActionEvent event) {
+        edicionContraseña = !edicionContraseña;
+        labelContraseña.setVisible(edicionContraseña);
+        labelRecontraseña.setVisible(edicionContraseña);
+        tfContraseña.setVisible(edicionContraseña);
+        tfRecontraseña.setVisible(edicionContraseña);
     }
 }
