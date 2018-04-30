@@ -15,17 +15,13 @@ import emaaredespacio.modelo.IGrupo;
 import emaaredespacio.modelo.Renta;
 import emaaredespacio.persistencia.entidad.Colaboradores;
 import java.net.URL;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -42,7 +38,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.DatePicker;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 /**
  * FXML Controller class
@@ -291,15 +286,15 @@ public class FXMLRegistrarGrupoController implements Initializable {
             ArrayList<String> listaHoraIExcluyen = new ArrayList<>();
             ArrayList<String> listaHoraFExcluyen = new ArrayList<>();
             for (Grupo grupoSolo : gruposDia) {
-                String[] fechaDeGrupo = grupoSolo.getFecha_fin().split("-");
+                String[] fechaDeGrupo = grupoSolo.getFechaFin().split("-");
                 String[] fechaElegida = datePickerFechaIni.getValue().format(DateTimeFormatter.ISO_DATE).split("-");
                 String fecha1 = fechaDeGrupo[0] + fechaDeGrupo[1] + fechaDeGrupo[2];
                 String fecha2 = fechaElegida[0] + fechaElegida[1] + fechaElegida[2];
                 Grupo grupoBD = new Grupo();
                 grupoBD = grupoBD.buscarGrupoPorId(grupoSolo.getIdGrupo());
                 if (Integer.parseInt(fecha1) > Integer.parseInt(fecha2) && grupoBD.getEstado().equals("A")) {
-                    int horaI = Integer.parseInt(grupoSolo.getHora_inicio());
-                    int horaF = Integer.parseInt(grupoSolo.getHora_fin());
+                    int horaI = Integer.parseInt(grupoSolo.getHoraInicio());
+                    int horaF = Integer.parseInt(grupoSolo.getHoraFin());
                     for (int j = 0; j < listaHorasIni.size(); j++) {
                         if (Integer.parseInt(convertirHoraInversa(listaHorasIni.get(j))) == horaI) {
                             listaHoraIExcluyen.add(listaHorasIni.get(j));
@@ -687,13 +682,11 @@ public class FXMLRegistrarGrupoController implements Initializable {
                             Grupo grupo = new Grupo();
                             String fechaIni = datePickerFechaIni.getValue().format(DateTimeFormatter.ISO_DATE);
                             String fechaFin = datePickerFechaFin.getValue().format(DateTimeFormatter.ISO_DATE);
-                            grupo.setHoras(horas);
-                            grupo.setDias(dias);
+                            
                             grupo.setTipoDeBaile(tfTipoBaile.getText());
                             grupo.setCupo(Integer.valueOf(spinnerCupo.getValue().toString()));
                             grupo.setIdColaborador(seleccion.getIdColaborador());
-                            grupo.setFecha_inicio(fechaIni);
-                            grupo.setFecha_fin(fechaFin);
+                            
                             IGrupo metodos = new Grupo();
                             if (metodos.guardarGrupo(grupo)) {
                                 MensajeController.mensajeInformacion("El grupo se ha guardado correctamente");
@@ -701,7 +694,7 @@ public class FXMLRegistrarGrupoController implements Initializable {
                                 List<Grupo> grupos = grup.buscarGrupos();
                                 grup = grupos.get(grupos.size()-1);
                                 grupo.setIdGrupo(grup.getIdGrupo());
-                                GrupoXML.guardarGrupo(grupo);
+                                GrupoXML.guardarGrupo(grupo, dias, horas, fechaIni, fechaFin);
                             } else {
                                 MensajeController.mensajeAdvertencia("No se pudo registrar el grupo");
                             }

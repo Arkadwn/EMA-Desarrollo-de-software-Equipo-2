@@ -21,13 +21,15 @@ import org.dom4j.io.XMLWriter;
  * @time 06:44:59 PM
  */
 public class GrupoXML {
-
-    public static boolean guardarGrupo(Grupo grupoGuardar) {
-        String[] diasGrupo = grupoGuardar.getDias().split("/");
-        String[] horasGrupo = grupoGuardar.getHoras().split("/");
+    private static final String PATHUSRSISTEMA = System.getProperty("user.home");
+    private static final String PATHUSRXML = PATHUSRSISTEMA + "/XML";
+    
+    public static boolean guardarGrupo(Grupo grupoGuardar, String dias, String horas, String fechaIni, String fechaFin) {
+        String[] diasGrupo = dias.split("/");
+        String[] horasGrupo = horas.split("/");
         boolean bandera;
 
-        File directorio = new File("C:/Archivos/");
+        File directorio = new File(PATHUSRXML);
         File file = new File(directorio.getAbsolutePath() + "/horario.xml");
         if (file.exists()) {
             try {
@@ -45,12 +47,10 @@ public class GrupoXML {
                             String[] horasDia = horasGrupo[i].split("-");
                             grupo.addElement("horaIni").addText(horasDia[0]);
                             grupo.addElement("horaFin").addText(horasDia[1]);
-                            grupo.addElement("fecha_inicio").addText(grupoGuardar.getFecha_inicio());
-                            grupo.addElement("fecha_fin").addText(grupoGuardar.getFecha_fin());
+                            grupo.addElement("fechaIni").addText(fechaIni);
+                            grupo.addElement("fechaFin").addText(fechaFin);
                             grupo.addElement("colaborador").addText("" + grupoGuardar.getIdColaborador());
                             grupo.addElement("noDia").addText(diasGrupo[i]);
-                            grupo.addElement("tipoDeBaile").addText(grupoGuardar.getTipoDeBaile());
-                            grupo.addElement("cupo").addText(String.valueOf(grupoGuardar.getCupo()));
                         }
                     }
                     con++;
@@ -62,7 +62,7 @@ public class GrupoXML {
             }
         } else {
             guardarDocumento(null);
-            bandera = guardarGrupo(grupoGuardar);
+            bandera = guardarGrupo(grupoGuardar, dias, horas, fechaIni, fechaFin);
         }
 
         return bandera;
@@ -74,7 +74,7 @@ public class GrupoXML {
         boolean banderaFecha = false;
         boolean banderaHoras = false;
         
-        File directorio = new File("C:/Archivos/");
+        File directorio = new File(PATHUSRXML);
         File file = new File(directorio.getAbsolutePath() + "/horario.xml");
         if (file.exists()) {
             try {
@@ -87,6 +87,8 @@ public class GrupoXML {
                     Iterator<Element> iteratorID = elementosGrupo.elementIterator("id");
                     Iterator<Element> iteratorHoraIni = elementosGrupo.elementIterator("horaIni");
                     Iterator<Element> iteratorHoraFin = elementosGrupo.elementIterator("horaFin");
+                    Iterator<Element> iteratorFechaIni = elementosGrupo.elementIterator("fechaIni");
+                    Iterator<Element> iteratorFechaFin = elementosGrupo.elementIterator("fechaFin");
                     Iterator<Element> iteratorColaborador = elementosGrupo.elementIterator("colaborador");
                     Iterator<Element> iteratorNoDia = elementosGrupo.elementIterator("noDia");
                     while (iteratorID.hasNext()) {
@@ -104,17 +106,20 @@ public class GrupoXML {
                             resultado.setHoras(resultado.getHoras()+"/"+((Element) iteratorHoraIni.next()).getText()+"-"+((Element) iteratorHoraFin.next()).getText());
                         }
                         
+                        resultado.setFechaFin(((Element) iteratorFechaFin.next()).getText());
+                        resultado.setFechaInicio(((Element) iteratorFechaIni.next()).getText());
+                        
                         String idGrupo = ((Element) iteratorID.next()).getText();
                         resultado.setIdGrupo(Integer.parseInt(idGrupo));
                         
                         String idColaborador = ((Element) iteratorColaborador.next()).getText();
                         resultado.setIdColaborador(Integer.parseInt(idColaborador));
-                        //lista.add(grupo);
                     }
                 }
 
         }catch (NumberFormatException | DocumentException ex) {
             System.out.println(ex.getMessage());
+                System.out.println("Error?");
         }
     }else {
         guardarDocumento(null);
@@ -124,7 +129,7 @@ public class GrupoXML {
 }
     
     public static void eliminarGrupoSegunID(String id){     
-        File directorio = new File("C:/Archivos/");
+        File directorio = new File(PATHUSRXML);
         File file = new File(directorio.getAbsolutePath() + "/horario.xml");
         if (file.exists()) {
             try {
@@ -147,12 +152,10 @@ public class GrupoXML {
             eliminarGrupoSegunID(id);
         }
     }
-    
-
 
     public static List<Grupo> obtenerGruposDiaSemana(int diaSemana) {
         List<Grupo> lista = new ArrayList();
-        File directorio = new File("C:/Archivos/");
+        File directorio = new File(PATHUSRXML);
         File file = new File(directorio.getAbsolutePath() + "/horario.xml");
         if (file.exists()) {
             try {
@@ -164,30 +167,29 @@ public class GrupoXML {
                 List<Element> elementosGrupos = new ArrayList<>();
                 Iterator<Element> iterator = elementoDia.elementIterator("grupo");
                 while (iterator.hasNext()) {
+                    //System.out.println("Entre");
                     Element grupo = (Element) iterator.next();
                     elementosGrupos.add(grupo);
                 }
                 for (Element elementosGrupo : elementosGrupos) {
+                    //System.out.println("Entre");
                     Iterator<Element> iteratorID = elementosGrupo.elementIterator("id");
                     Iterator<Element> iteratorHoraIni = elementosGrupo.elementIterator("horaIni");
                     Iterator<Element> iteratorHoraFin = elementosGrupo.elementIterator("horaFin");
-                    Iterator<Element> iteratorFechaInicio = elementosGrupo.elementIterator("fecha_inicio");
-                    Iterator<Element> iteratorFechaFin = elementosGrupo.elementIterator("fecha_fin");
+                    Iterator<Element> iteratorFechaInicio = elementosGrupo.elementIterator("fechaIni");
+                    Iterator<Element> iteratorFechaFin = elementosGrupo.elementIterator("fechaFin");
                     Iterator<Element> iteratorColaborador = elementosGrupo.elementIterator("colaborador");
-                    Iterator<Element> iteratorTipoDeBaile = elementosGrupo.elementIterator("tipoDeBaile");
-                    Iterator<Element> iteratorCupo = elementosGrupo.elementIterator("cupo");
                     while (iteratorID.hasNext()) {
+                        //System.out.println("Entre");
                         Grupo grupo = new Grupo();
-                        grupo.setHora_inicio(((Element) iteratorHoraIni.next()).getText());
-                        grupo.setHora_fin(((Element) iteratorHoraFin.next()).getText());
-                        grupo.setFecha_inicio(((Element) iteratorFechaInicio.next()).getText());
-                        grupo.setFecha_fin(((Element) iteratorFechaFin.next()).getText());
+                        grupo.setHoraInicio(((Element) iteratorHoraIni.next()).getText());
+                        grupo.setHoraFin(((Element) iteratorHoraFin.next()).getText());
+                        grupo.setFechaInicio(((Element) iteratorFechaInicio.next()).getText());
+                        grupo.setFechaFin(((Element) iteratorFechaFin.next()).getText());
                         String idGrupo = ((Element) iteratorID.next()).getText();                        
                         grupo.setIdGrupo(Integer.parseInt(idGrupo));
                         String idColaborador = ((Element) iteratorColaborador.next()).getText();
                         grupo.setIdColaborador(Integer.parseInt(idColaborador));
-                        grupo.setTipoDeBaile(((Element) iteratorTipoDeBaile.next()).getText());
-                        grupo.setCupo( Integer.parseInt(((Element) iteratorCupo.next()).getText()));
                         lista.add(grupo);
                     }
                 }
@@ -208,7 +210,7 @@ public class GrupoXML {
         boolean bandera;
         if (documento != null) {
             try {
-                File directorio = new File("C:/Archivos/");
+                File directorio = new File(PATHUSRXML);
                 File file = new File(directorio.getAbsolutePath() + "/horario.xml");
                 if (file.exists()) {
                     FileWriter fileWiter = new FileWriter(file);
@@ -240,7 +242,7 @@ public class GrupoXML {
         } else {
             FileWriter fileWiter = null;
             try {
-                File directorio = new File("C:/Archivos/");
+                File directorio = new File(PATHUSRXML);
                 File file = new File(directorio.getAbsolutePath() + "/horario.xml");
                 if (!directorio.exists()) {
                     directorio.mkdir();

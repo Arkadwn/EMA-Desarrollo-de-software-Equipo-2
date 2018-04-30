@@ -54,21 +54,21 @@ public class UsuariosJpaController implements Serializable {
      * @param nombreUsuario Identificador de la cuenta del usuario.
      * @return Cuenta del usuario.
      */
-    public UsuarioSistema verificarAutenticacion(String nombreUsuario) {
+    public Usuarios verificarAutenticacion(String nombreUsuario) {
         EntityManager entidad = getEntityManager();
         Query consulta = entidad.createQuery("SELECT u FROM Usuarios u WHERE u.nombreUsuario = :nombreUser").setParameter("nombreUser", nombreUsuario);
-        Usuarios cuentaEntidadResultado;
-        UsuarioSistema cuentaResultado = new UsuarioSistema();
+        Usuarios cuentaEntidadResultado = null;
+        //UsuarioSistema cuentaResultado = new UsuarioSistema();
         try {
             cuentaEntidadResultado = (Usuarios) consulta.getSingleResult();
-            cuentaResultado.setContrasenia(cuentaEntidadResultado.getContrasenia());
+            //cuentaResultado.setContrasenia(cuentaEntidadResultado.getContrasenia());
             //cuentaResultado.setEstadoSesion(cuentaEntidadResultado.getEstadoSesion());
         } catch (NoResultException ex) {
             System.out.println("Error en el metodo verificarAutenticacion(): "+ex.getMessage());
         } finally {
             entidad.close();
         }
-        return cuentaResultado;
+        return cuentaEntidadResultado;
     }
 
     public void create(Usuarios usuarios) {

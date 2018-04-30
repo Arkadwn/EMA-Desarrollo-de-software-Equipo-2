@@ -162,7 +162,7 @@ public class FXMLMenuPrincipalController implements Initializable {
     
     @FXML
     private void limpiar(ActionEvent evento) throws IOException{
-        main.desplegarInicioDeSesion();
+        //main.desplegarInicioDeSesion();
     }
     
     @FXML

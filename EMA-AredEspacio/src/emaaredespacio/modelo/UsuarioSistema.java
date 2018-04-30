@@ -3,22 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package emaaredespacio.modelo;
 
 import emaaredespacio.persistencia.controladores.UsuariosJpaController;
+import emaaredespacio.persistencia.entidad.Usuarios;
 import emaaredespacio.utilerias.Utileria;
 import java.security.NoSuchAlgorithmException;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- * 
+ *
  * @author Adrián Bustamante Zarate
  * @date 31/03/2018
  * @time 06:57:24 PM
  */
 public class UsuarioSistema {
+
     private String usuario;
     private String contrasenia;
     private int id;
@@ -39,15 +40,16 @@ public class UsuarioSistema {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
-    
-    public boolean autenticarSesion(UsuarioSistema user) throws NoSuchAlgorithmException{
+
+    public boolean autenticarSesion(UsuarioSistema user) throws NoSuchAlgorithmException {
         boolean banderaAutenticacion = false;
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
         UsuariosJpaController controlador = new UsuariosJpaController(entityManagerFactory);
-        UsuarioSistema resultadoCuenta = controlador.verificarAutenticacion(user.getUsuario());
-        
-        if(Utileria.encriptarContrasena(user.getContrasenia()).equals(resultadoCuenta.getContrasenia())){
-            banderaAutenticacion = true;
+        Usuarios resultadoCuenta = controlador.verificarAutenticacion(user.getUsuario());
+        if (resultadoCuenta != null) {
+            if (Utileria.encriptarContrasena(user.getContrasenia()).equals(resultadoCuenta.getContrasenia())) {
+                banderaAutenticacion = true;
+            }
         }
         return banderaAutenticacion;
     }

@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +26,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -278,8 +280,8 @@ public class FXMLAdministrarHorariosController implements Initializable {
     }
 
     private void colocarGrupo(int j, Grupo grupo) {
-        float ini = Float.valueOf(grupo.getHora_inicio());
-        float fin = Float.valueOf(grupo.getHora_fin());
+        float ini = Float.valueOf(grupo.getHoraInicio());
+        float fin = Float.valueOf(grupo.getHoraFin());
         String textoBtn = "G" + grupo.getIdGrupo();
         ini = ((ini / 100) * 2) + 1;
         fin = (fin / 100) * 2;
@@ -337,6 +339,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
             List<Grupo> gruposXML = GrupoXML.obtenerGruposDiaSemana(i);
             if (!gruposXML.isEmpty()) {
                 for (Grupo grupo : gruposXML) {
+                    //System.out.println("Entre");
                     colocarGrupo(i, grupo);
                 }
             }
@@ -351,11 +354,11 @@ public class FXMLAdministrarHorariosController implements Initializable {
         lbClaseRenta.setText("Renta");
         lbEncargado.setText(new Cliente().obtenerClienteID(renta.getCliente().getId()).getNombre());
         lbDescripcion.setText("$" + renta.getMonto());
-        float ini = renta.getHoraInicio();
-        float fin = renta.getHoraFin();
+        int ini = renta.getHoraInicio();
+        int fin = renta.getHoraFin();
         String fecha = renta.getFecha().get(Calendar.DAY_OF_MONTH) + "/" + (renta.getFecha().get(Calendar.MONTH) + 1) + "/" + renta.getFecha().get(Calendar.YEAR);
         String[] mapaDias = {"", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
-        lbHorario.setText(mapaDias[dia] + " " + fecha + " de: " + convertirHora(ini + "") + " a " + convertirHora(fin + ""));
+        lbHorario.setText(mapaDias[dia] + " " + fecha + " de: " + convertirHora(String.valueOf(ini)) + " a " + convertirHora(String.valueOf(fin)));
     }
 
     private void actionBtnGrupo(JFXButton button) {
@@ -366,7 +369,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
         lbClaseRenta.setText("Grupo");
         Colaborador nombreColaborador = new Colaborador().buscarColaboradorSegunID(grupo.getIdColaborador());
         lbEncargado.setText(nombreColaborador.getNombre() + " " + nombreColaborador.getApellidos());
-        lbDescripcion.setText("$");
+        //lbDescripcion.setText("$");
         String[] mapaDias = {"", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
         String[] diasGrupo = grupo.getDias().split("/");
         String[] horasGrupos = grupo.getHoras().split("/");
@@ -631,8 +634,8 @@ public class FXMLAdministrarHorariosController implements Initializable {
     }
 
     private void colocarGrupoHorarioFlotante(int j, Grupo grupo, boolean bandera) {
-        float ini = Float.valueOf(grupo.getHora_inicio());
-        float fin = Float.valueOf(grupo.getHora_fin());
+        float ini = Float.valueOf(grupo.getHoraInicio());
+        float fin = Float.valueOf(grupo.getHoraFin());
         String textCheck = "G" + grupo.getIdGrupo();
         ini = ((ini / 100) * 2) + 1;
         fin = (fin / 100) * 2;
@@ -712,40 +715,58 @@ public class FXMLAdministrarHorariosController implements Initializable {
 
     @FXML
     private void guardarCambios(ActionEvent event) {
-        Grupo grupo = GrupoXML.obtenerGrupoSegunID(lbIdentificador.getText().split("G")[1]);
+        actualizarHoras(null);
+        boolean validacion = false;
 
-        String dias = "";
-        String horas = "";
-        boolean bandera = true;
-        for (int i = 1; i < 8; i++) {
-            if (comprobarDia(i) > 0) {
-                if (bandera) {
-                    dias += i;
-                    int[] horas2 = retornarHoras(i);
-                    if (horas2[1] != 0) {
-                        horas += horas2[0] + "-" + horas2[1];
+        Alert ventanaPregunta = new Alert(Alert.AlertType.CONFIRMATION, "Se han actualizado los horarios ¿desea guardar?");
+        ButtonType btnSi = new ButtonType("Si", ButtonBar.ButtonData.YES);
+        ButtonType btnNo = new ButtonType("No", ButtonBar.ButtonData.NO);
+        ventanaPregunta.getButtonTypes().setAll(btnSi, btnNo);
+        //ventanaPregunta.setX(ventanaPregunta.getX() - 100);
+        Optional<ButtonType> resultado = ventanaPregunta.showAndWait();
+
+        if (resultado.isPresent()) {
+            validacion = resultado.get() == btnSi;
+        }
+
+        if (validacion) {
+            Grupo grupo = GrupoXML.obtenerGrupoSegunID(lbIdentificador.getText().split("G")[1]);
+
+            String dias = "";
+            String horas = "";
+            boolean bandera = true;
+            for (int i = 1; i < 8; i++) {
+                if (comprobarDia(i) > 0) {
+                    if (bandera) {
+                        dias += i;
+                        int[] horas2 = retornarHoras(i);
+                        if (horas2[1] != 0) {
+                            horas += horas2[0] + "-" + horas2[1];
+                        } else {
+                            horas += horas2[0];
+                        }
+                        bandera = false;
                     } else {
-                        horas += horas2[0];
+                        dias += "/" + i;
+                        int[] horas2 = retornarHoras(i);
+                        if (horas2[1] != 0) {
+                            horas += "/" + horas2[0] + "-" + horas2[1];
+                        } else {
+                            horas += "/" + horas2[0];
+                        }
                     }
-                    bandera = false;
-                }
-                dias += "/" + i;
-                int[] horas2 = retornarHoras(i);
-                if (horas2[1] != 0) {
-                    horas += "/" + horas2[0] + "-" + horas2[1];
-                } else {
-                    horas += "/" + horas2[0];
                 }
             }
+            System.out.println(dias);
+            //grupo.setDias(dias);
+            //grupo.setHoras(horas);
+            GrupoXML.eliminarGrupoSegunID(lbIdentificador.getText().split("G")[1]);
+            GrupoXML.guardarGrupo(grupo, dias, horas, "Agregar", "Agregar");
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Se guardaron los cambios correctamente", ButtonType.OK);
+            alerta.show();
+            cerrarGridFlotante(null);
+            actualizarTablaHorario(null);
         }
-        grupo.setDias(dias);
-        grupo.setHoras(horas);
-        GrupoXML.eliminarGrupoSegunID(lbIdentificador.getText().split("G")[1]);
-        GrupoXML.guardarGrupo(grupo);
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Se guardaron los cambios correctamente", ButtonType.OK);
-        alerta.show();
-        cerrarGridFlotante(null);
-        actualizarTablaHorario(null);
     }
 
     @FXML

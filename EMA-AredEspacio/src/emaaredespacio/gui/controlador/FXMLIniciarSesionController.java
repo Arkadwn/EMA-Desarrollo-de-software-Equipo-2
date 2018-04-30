@@ -51,8 +51,9 @@ public class FXMLIniciarSesionController implements Initializable {
         user.setContrasenia(txtContrasenia.getText());
         user.setUsuario(txtUsuario.getText());
         if(new UsuarioSistema().autenticarSesion(user)){
-            System.out.println("Inicio sesión");
             //Entrar a menu principal
+        }else{
+            MensajeController.mensajeInformacion("El usuario o la contraseña es erronea");
         }
     }
     

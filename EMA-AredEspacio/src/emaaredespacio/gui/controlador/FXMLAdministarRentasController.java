@@ -99,15 +99,21 @@ public class FXMLAdministarRentasController implements Initializable {
         modificar = false;
         menuDesplegado = false;
         calendario = Calendar.getInstance();
+        String fecha = calendario.get(Calendar.DATE) + "/" + (calendario.get(Calendar.MONTH) + 1) + "/" + calendario.get(Calendar.YEAR);
+        itemFecha.getEditor().setText(fecha);
         llenarTablaHorarioGlobal();
-        cargarGruposHorarioFlotante();
-        cargarRentasHorarioFlotante();
+        cargarGruposHorario();
+        cargarRentasHorario();
         reactivarDiaHorarioCheckBox(1, false);
     }
 
     public void setRentaLlegada(Renta renta) {
         rentaLlegada = renta;
         cambiarModificar(null);
+        txtMonto.setDisable(true);
+        txtBusqueda.setDisable(true);
+        btnToggleCrear.setDisable(true);
+        btnBuscar.setDisable(true);
     }
 
     public AnchorPane getAnchor() {
@@ -137,6 +143,7 @@ public class FXMLAdministarRentasController implements Initializable {
     private void cambiarModificar(ActionEvent event) {
         if (!modificar) {
             if (rentaLlegada != null) {
+                modificar = true;
                 calendario = rentaLlegada.getFecha();
                 String fecha = calendario.get(Calendar.DATE) + "/" + (calendario.get(Calendar.MONTH) + 1) + "/" + calendario.get(Calendar.YEAR);
                 itemFecha.getEditor().setText(fecha);
@@ -144,18 +151,24 @@ public class FXMLAdministarRentasController implements Initializable {
                 btnToggleCrear.setStyle("-fx-background-color: lightpink; -fx-text-fill: black;");
                 calendario = rentaLlegada.getFecha();
                 txtMonto.setText(String.valueOf(rentaLlegada.getMonto()));
-                actualizarFechas(null);
                 renta = rentaLlegada;
+                actualizarFechas(null);
             } else {
                 modificar = true;
                 btnToggleModificar.setStyle("-fx-background-color: #854c5d; -fx-text-fill: white;");
                 btnToggleCrear.setStyle("-fx-background-color: lightpink; -fx-text-fill: black;");
                 btnCancelarRenta.setVisible(modificar);
                 btnSeleccionarRenta.setVisible(modificar);
+                gridPaneTabla.setDisable(true);
+                btnActualizarFechas.setDisable(true);
                 vaciarCampos();
+                calendario = Calendar.getInstance();
+                String fecha = calendario.get(Calendar.DATE) + "/" + (calendario.get(Calendar.MONTH) + 1) + "/" + calendario.get(Calendar.YEAR);
+                itemFecha.getEditor().setText(fecha);
                 vaciarHorarioCheckBox();
-                cargarGruposHorarioFlotante();
-                cargarRentasHorarioFlotante();
+                cargarGruposHorario();
+                cargarRentasHorario();
+                actualizarFechas(null);
             }
         }
     }
@@ -169,9 +182,16 @@ public class FXMLAdministarRentasController implements Initializable {
             btnCancelarRenta.setVisible(modificar);
             btnSeleccionarRenta.setVisible(modificar);
             vaciarCampos();
+            renta = null;
+            calendario = Calendar.getInstance();
+            String fecha = calendario.get(Calendar.DAY_OF_MONTH) + "/" + (calendario.get(Calendar.MONTH) + 1) + "/" + calendario.get(Calendar.YEAR);
+            itemFecha.getEditor().setText(fecha);
+
             vaciarHorarioCheckBox();
-            cargarGruposHorarioFlotante();
-            cargarRentasHorarioFlotante();
+            cargarGruposHorario();
+            cargarRentasHorario();
+            btnActualizarFechas.setDisable(false);
+            gridPaneTabla.setDisable(false);
         }
     }
 
@@ -197,20 +217,20 @@ public class FXMLAdministarRentasController implements Initializable {
                 if (horas[1] != 0) {
                     String[] parts = seleccion.split("|");
                     Cliente cliente = new Cliente(parts[0]);
-                    if (txtMonto.getText() != "") {
+                    if (!"".equals(txtMonto.getText())) {
                         try {
                             new Renta().guardarNuevaRenta(new Renta(0, Integer.parseInt(txtMonto.getText()), calendario, horas[0], horas[1], cliente, true));
                             vaciarCampos();
-                            cargarGruposHorarioFlotante();
-                            cargarRentasHorarioFlotante();
                             vaciarHorarioCheckBox();
+                            cargarGruposHorario();
+                            cargarRentasHorario();
                         } catch (Exception ex) {
-                            Alert alerta = new Alert(Alert.AlertType.ERROR, "Se debe introducir un monto valid0", ButtonType.OK);
+                            Alert alerta = new Alert(Alert.AlertType.ERROR, "Se debe introducir un monto valido", ButtonType.OK);
                             alerta.show();
                         }
 
                     } else {
-                        Alert alerta = new Alert(Alert.AlertType.ERROR, "Se deeb introducir un monto para la renta", ButtonType.OK);
+                        Alert alerta = new Alert(Alert.AlertType.ERROR, "Se debe introducir un monto para la renta", ButtonType.OK);
                         alerta.show();
                     }
                 } else {
@@ -223,10 +243,23 @@ public class FXMLAdministarRentasController implements Initializable {
             }
         } else {
             if (renta != null) {
-                new Renta().guardarCambios(new Renta(renta.getId(), Integer.parseInt(txtMonto.getText()), calendario, 100, 100, renta.getCliente(), true));
-                vaciarCampos();
+                int[] horas = retornarHoras(1);
+                if (horas[1] != 0) {
+                    new Renta().guardarCambios(new Renta(renta.getId(), Integer.parseInt(txtMonto.getText()), calendario, horas[0], horas[1], renta.getCliente(), true));
+                    vaciarCampos();
+                    vaciarHorarioCheckBox();
+                    cargarGruposHorario();
+                    cargarRentasHorario();
+                    btnActualizarFechas.setDisable(true);
+                    gridPaneTabla.setDisable(true);
+
+                } else {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR, "Debe seleccionar un horario para la renta", ButtonType.OK);
+                    alerta.show();
+                }
             } else {
-                Alert alerta = new Alert(Alert.AlertType.ERROR, "¿Error no verificado?", ButtonType.OK);
+                Alert alerta = new Alert(Alert.AlertType.ERROR, "No puede guardar una renta que no ha sido elegida de un cliente", ButtonType.OK);
+                alerta.setWidth(400);
                 alerta.show();
             }
         }
@@ -240,8 +273,8 @@ public class FXMLAdministarRentasController implements Initializable {
             new Renta().cancelarRenta(Integer.parseInt(parts[0]));
             vaciarCampos();
             vaciarHorarioCheckBox();
-            cargarGruposHorarioFlotante();
-            cargarRentasHorarioFlotante();
+            cargarGruposHorario();
+            cargarRentasHorario();
         } else {
             Alert alerta = new Alert(Alert.AlertType.ERROR, "Debe seleccionar una renta primero", ButtonType.OK);
             alerta.show();
@@ -266,7 +299,7 @@ public class FXMLAdministarRentasController implements Initializable {
             String[] parts = seleccion.split(" | ");
             this.renta = new Renta().cargarRenta(parts[0]);
             txtMonto.setText(String.valueOf(renta.getMonto()));
-            String fecha = renta.getFecha().get(Calendar.DAY_OF_MONTH) + "/" + renta.getFecha().get(Calendar.MONTH) + "/" + renta.getFecha().get(Calendar.YEAR);
+            String fecha = renta.getFecha().get(Calendar.DAY_OF_MONTH) + "/" + (renta.getFecha().get(Calendar.MONTH) + 1) + "/" + renta.getFecha().get(Calendar.YEAR);
             itemFecha.getEditor().setText(fecha);
             //Llenado de tablas de horario
 
@@ -278,9 +311,10 @@ public class FXMLAdministarRentasController implements Initializable {
             listaBusqueda.setDisable(false);
             btnBuscar.setDisable(false);
             txtBusqueda.setDisable(false);
-            vaciarHorarioCheckBox();
-            cargarGruposHorarioFlotante();
-            cargarRentasHorarioFlotante();
+            btnActualizarFechas.setVisible(true);
+            actualizarFechas(null);
+            gridPaneTabla.setDisable(false);
+            btnActualizarFechas.setDisable(false);
         } else {
             Alert alerta = new Alert(Alert.AlertType.ERROR, "Debe seleccionar una una renta para salir", ButtonType.OK);
             alerta.show();
@@ -307,11 +341,9 @@ public class FXMLAdministarRentasController implements Initializable {
 
                 String[] parts = seleccion.split("|");
                 List<Renta> rentas = new Renta().cargarRentas(new Cliente(parts[0]));
-                int c = 0;
                 for (Renta renta : rentas) {
-                    String string = renta.getId() + " | " + renta.getFecha().get(Calendar.DAY_OF_MONTH) + "/" + renta.getFecha().get(Calendar.MONTH) + "/" + renta.getFecha().get(Calendar.YEAR)
+                    String string = renta.getId() + " | " + renta.getFecha().get(Calendar.DAY_OF_MONTH) + "/" + (renta.getFecha().get(Calendar.MONTH) + 1) + "/" + renta.getFecha().get(Calendar.YEAR)
                             + " de " + renta.getHoraInicio() + " a las " + renta.getHoraFin() + " de $" + renta.getMonto();
-                    c++;
                     lista.add(string);
                 }
                 listRentas.setItems(lista);
@@ -377,12 +409,11 @@ public class FXMLAdministarRentasController implements Initializable {
         }
     }
 
-    private void cargarGruposHorarioFlotante() {
+    private void cargarGruposHorario() {
         for (int i = 1; i < 2; i++) {
             int diaSemana;
             if (renta == null) {
                 diaSemana = calendario.get(Calendar.DAY_OF_WEEK);
-                //diaSemana = renta.getFecha().get(Calendar.DAY_OF_WEEK);
                 diaSemana += -1;
                 if (diaSemana == 0) {
                     diaSemana = 7;
@@ -397,15 +428,15 @@ public class FXMLAdministarRentasController implements Initializable {
             List<Grupo> gruposXML = GrupoXML.obtenerGruposDiaSemana(diaSemana);
             if (!gruposXML.isEmpty()) {
                 for (Grupo grupo : gruposXML) {
-                    colocarGrupoHorarioFlotante(i, grupo, false);
+                    colocarGrupoHorario(i, grupo, false);
                 }
             }
         }
     }
 
-    private void colocarGrupoHorarioFlotante(int j, Grupo grupo, boolean bandera) {
-        float ini = Float.valueOf(grupo.getHora_inicio());
-        float fin = Float.valueOf(grupo.getHora_fin());
+    private void colocarGrupoHorario(int j, Grupo grupo, boolean bandera) {
+        float ini = Float.valueOf(grupo.getHoraInicio());
+        float fin = Float.valueOf(grupo.getHoraFin());
         String textCheck = "G" + grupo.getIdGrupo();
         ini = ((ini / 100) * 2) + 1;
         fin = (fin / 100) * 2;
@@ -447,7 +478,7 @@ public class FXMLAdministarRentasController implements Initializable {
         }
     }
 
-    private void cargarRentasHorarioFlotante() {
+    private void cargarRentasHorario() {
         List<Renta> lista = new Renta().cargarRentas();
         String id = "R";
         if (renta != null) {
@@ -460,7 +491,7 @@ public class FXMLAdministarRentasController implements Initializable {
                 Calendar calendarioAux = lista.get(i).getFecha();
                 int diaAnio = calendarioAux.get(Calendar.DAY_OF_YEAR);
                 if (renta != null) {
-                    if (diaAnio == renta.getFecha().get(Calendar.DAY_OF_YEAR)) {
+                    if (diaAnio == calendario.get(Calendar.DAY_OF_YEAR)) {
                         if (("R" + lista.get(i).getId()).equals(id)) {
                             colocarRentaHorarioFlotante(j, lista.get(i), true);
                         } else {
@@ -493,13 +524,17 @@ public class FXMLAdministarRentasController implements Initializable {
                         Node nodoCercano = gridPaneTabla.lookup("#" + j + "," + (i - 1));
                         JFXCheckBox check2 = (JFXCheckBox) nodoCercano;
                         if (check2 != null) {
-                            check2.setDisable(false);
+                            if ("     ".equals(check2.getText())) {
+                                check2.setDisable(false);
+                            }
                         }
                     } else {
                         Node nodoCercano = gridPaneTabla.lookup("#" + j + "," + (i + 1));
                         JFXCheckBox check2 = (JFXCheckBox) nodoCercano;
                         if (check2 != null) {
-                            check2.setDisable(false);
+                            if ("     ".equals(check2.getText())) {
+                                check2.setDisable(false);
+                            }
                         }
                     }
                     check.setText(textCheck);
@@ -540,11 +575,13 @@ public class FXMLAdministarRentasController implements Initializable {
             if (y - 1 != 0 && y + 1 < 49) {
                 if (checkArriba.isSelected()) {
                     if (checkArriba.getText().equals(id)) {
-                        checkAbajo.setDisable(false);
+                        if ("     ".equals(checkAbajo.getText())) {
+                            checkAbajo.setDisable(false);
+                        }
                         checkArriba.setDisable(true);
                         check.setText(id);
                     } else {
-                        checkAbajo.setDisable(false);
+                        checkAbajo.setDisable(true);
                         check.setText(id);
                     }
                 } else {
@@ -716,38 +753,30 @@ public class FXMLAdministarRentasController implements Initializable {
         } else {
             if (rentaLlegada == null) {
                 vaciarHorarioCheckBox();
-                reactivarDiaHorarioCheckBox(1, false);
                 int dia = Integer.parseInt(itemFecha.getEditor().getText().split("/")[0]);
                 int mes = Integer.parseInt(itemFecha.getEditor().getText().split("/")[1]);
                 int anio = Integer.parseInt(itemFecha.getEditor().getText().split("/")[2]);
                 calendario.set(anio, mes - 1, dia);
-                cargarGruposHorarioFlotante();
-                cargarRentasHorarioFlotante();
+                reactivarDiaHorarioCheckBox(1, true);
+                cargarGruposHorario();
+                cargarRentasHorario();
             } else {
                 if (rentaLlegada.getEstado()) {
                     vaciarHorarioCheckBox();
-                    int dia = Integer.parseInt(itemFecha.getEditor().getText().split("/")[0]);
-                    int mes = Integer.parseInt(itemFecha.getEditor().getText().split("/")[1]);
-                    int anio = Integer.parseInt(itemFecha.getEditor().getText().split("/")[2]);
-                    calendario.set(anio, mes - 1, dia);
-                    cargarGruposHorarioFlotante();
-                    cargarRentasHorarioFlotante();
-                    reactivarDiaHorarioCheckBox(1, false);
+                    calendario = rentaLlegada.getFecha();
                     reactivarDiaHorarioCheckBox(1, true);
-                    cargarRentasHorarioFlotante();
+                    cargarGruposHorario();
+                    cargarRentasHorario();
                     rentaLlegada.setEstado(false);
-                    actualizarFechas(null);
                 } else {
                     vaciarHorarioCheckBox();
                     int dia = Integer.parseInt(itemFecha.getEditor().getText().split("/")[0]);
                     int mes = Integer.parseInt(itemFecha.getEditor().getText().split("/")[1]);
                     int anio = Integer.parseInt(itemFecha.getEditor().getText().split("/")[2]);
                     calendario.set(anio, mes - 1, dia);
-                    cargarGruposHorarioFlotante();
-                    cargarRentasHorarioFlotante();
-                    reactivarDiaHorarioCheckBox(1, false);
                     reactivarDiaHorarioCheckBox(1, true);
-                    cargarRentasHorarioFlotante();
+                    cargarGruposHorario();
+                    cargarRentasHorario();
                 }
 
             }
@@ -776,6 +805,14 @@ public class FXMLAdministarRentasController implements Initializable {
                 } else {
                     horas[1] = mapaHoras[i];
                 }
+            }
+        }
+        if (cont != 0) {
+            if (horas[0] != 0 && horas[1] == 0) {
+                horas[1] = horas[0] + 50;
+            }
+            if (horas[0] == 0 && horas[1] == 0) {
+                horas[1] = 50;
             }
         }
         return horas;
