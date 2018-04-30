@@ -4,9 +4,6 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
@@ -39,7 +36,7 @@
             <RowConstraints maxHeight="122.0" minHeight="10.0" prefHeight="90.0" valignment="TOP" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Tipo de baile:" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+            <Label text="Tipo de baile:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -47,7 +44,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Cupo:" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+            <Label text="Cupo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -55,7 +52,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <JFXTextField fx:id="tfTipoBaile" prefHeight="25.0" prefWidth="268.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <JFXTextField fx:id="tfTipoBaile" prefHeight="25.0" prefWidth="268.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
@@ -70,11 +67,11 @@
                   <Insets left="10.0" top="30.0" />
                </GridPane.margin>
             </JFXButton>
-            <Spinner fx:id="spinnerCupo" prefHeight="25.0" prefWidth="116.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+            <Spinner fx:id="spinnerCupo" prefHeight="25.0" prefWidth="116.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Spinner>
-            <Label text="Nombre:" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+            <Label text="Nombre:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -82,136 +79,11 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <JFXTextField fx:id="tfNombre" disable="true" prefHeight="25.0" prefWidth="288.0" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
+            <JFXTextField fx:id="tfNombre" disable="true" prefHeight="25.0" prefWidth="288.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </JFXTextField>
-            <CheckBox fx:id="checkBoxLunes" disable="true" mnemonicParsing="false" text="Lunes" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </CheckBox>
-            <CheckBox fx:id="checkBoxMartes" disable="true" mnemonicParsing="false" text="Martes" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </CheckBox>
-            <CheckBox fx:id="checkBoxMiercoles" disable="true" mnemonicParsing="false" text="Miercoles" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </CheckBox>
-            <CheckBox fx:id="checkBoxJueves" disable="true" mnemonicParsing="false" text="Jueves" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </CheckBox>
-            <CheckBox fx:id="checkBoxViernes" disable="true" mnemonicParsing="false" text="Viernes" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </CheckBox>
-            <CheckBox fx:id="checkBoxSabado" disable="true" mnemonicParsing="false" text="Sabado" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </CheckBox>
-            <CheckBox fx:id="checkBoxDomingo" disable="true" mnemonicParsing="false" text="Domingo" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </CheckBox>
-            <ComboBox fx:id="comboBoxMartesIni" disable="true" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxLunesIni" disable="true" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxMiercolesIni" disable="true" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxJuevesIni" disable="true" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxViernesIni" disable="true" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxSabadoIni" disable="true" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxDomingoIni" disable="true" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="8" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxLunesFin" disable="true" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxMartesFin" disable="true" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxMiercolesFin" disable="true" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxJuevesFin" disable="true" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxViernesFin" disable="true" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxSabadoFin" disable="true" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="comboBoxDomingoFin" disable="true" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="8" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <Label text="Fecha inicio" GridPane.columnIndex="2" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets bottom="25.0" left="10.0" />
-               </GridPane.margin>
-            </Label>
-            <DatePicker fx:id="datePickerFechaIni" editable="false" prefHeight="25.0" prefWidth="150.0" GridPane.columnIndex="2" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </DatePicker>
-            <DatePicker fx:id="datePickerFechaFin" disable="true" editable="false" prefHeight="25.0" prefWidth="152.0" GridPane.columnIndex="3" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </DatePicker>
-            <Label text="Fecha fin" GridPane.columnIndex="3" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets bottom="25.0" left="10.0" />
-               </GridPane.margin>
-            </Label>
             
          </children>
       </GridPane>

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
@@ -22,9 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Miguel Leonardo Jimenez Jimenez
- * @date 17/04/2018
- * @time 06:29:07 PM
+ * @author enriq
  */
 @Entity
 @Table(name = "grupos")
@@ -35,10 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Grupos.findByTipoDeBaile", query = "SELECT g FROM Grupos g WHERE g.tipoDeBaile = :tipoDeBaile")
     , @NamedQuery(name = "Grupos.findByCupo", query = "SELECT g FROM Grupos g WHERE g.cupo = :cupo")
     , @NamedQuery(name = "Grupos.findByEstado", query = "SELECT g FROM Grupos g WHERE g.estado = :estado")
-    , @NamedQuery(name = "Grupos.findByHoras", query = "SELECT g FROM Grupos g WHERE g.horas = :horas")
-    , @NamedQuery(name = "Grupos.findByDias", query = "SELECT g FROM Grupos g WHERE g.dias = :dias")
-    , @NamedQuery(name = "Grupos.findByFechaInicio", query = "SELECT g FROM Grupos g WHERE g.fechaInicio = :fechaInicio")
-    , @NamedQuery(name = "Grupos.findByFechaFin", query = "SELECT g FROM Grupos g WHERE g.fechaFin = :fechaFin")})
+    , @NamedQuery(name = "Grupos.findByHorarioAsignado", query = "SELECT g FROM Grupos g WHERE g.horarioAsignado = :horarioAsignado")})
 public class Grupos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,14 +47,8 @@ public class Grupos implements Serializable {
     private Integer cupo;
     @Column(name = "estado")
     private String estado;
-    @Column(name = "horas")
-    private String horas;
-    @Column(name = "dias")
-    private String dias;
-    @Column(name = "fecha_inicio")
-    private String fechaInicio;
-    @Column(name = "fecha_fin")
-    private String fechaFin;
+    @Column(name = "horario_asignado")
+    private Integer horarioAsignado;
     @JoinColumn(name = "idColaborador", referencedColumnName = "idColaborador")
     @ManyToOne
     private Colaboradores idColaborador;
@@ -104,36 +92,12 @@ public class Grupos implements Serializable {
         this.estado = estado;
     }
 
-    public String getHoras() {
-        return horas;
+    public Integer getHorarioAsignado() {
+        return horarioAsignado;
     }
 
-    public void setHoras(String horas) {
-        this.horas = horas;
-    }
-
-    public String getDias() {
-        return dias;
-    }
-
-    public void setDias(String dias) {
-        this.dias = dias;
-    }
-
-    public String getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(String fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public String getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(String fechaFin) {
-        this.fechaFin = fechaFin;
+    public void setHorarioAsignado(Integer horarioAsignado) {
+        this.horarioAsignado = horarioAsignado;
     }
 
     public Colaboradores getIdColaborador() {
@@ -168,5 +132,5 @@ public class Grupos implements Serializable {
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Grupos[ idGrupo=" + idGrupo + " ]";
     }
-
+    
 }

@@ -145,14 +145,11 @@ CREATE TABLE `grupos` (
   `tipoDeBaile` varchar(30) DEFAULT NULL,
   `cupo` int(11) DEFAULT NULL,
   `estado` varchar(1) DEFAULT NULL,
-  `horas` varchar(100) DEFAULT NULL,
-  `dias` varchar(100) DEFAULT NULL,
-  `fecha_inicio` varchar(10) DEFAULT NULL,
-  `fecha_fin` varchar(10) DEFAULT NULL,
+  `horario_asignado` int(1) DEFAULT NULL,
   PRIMARY KEY (`idGrupo`),
   KEY `idColaborador` (`idColaborador`),
   CONSTRAINT `grupos_ibfk_1` FOREIGN KEY (`idColaborador`) REFERENCES `colaboradores` (`idColaborador`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

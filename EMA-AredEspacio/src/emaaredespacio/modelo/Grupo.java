@@ -28,41 +28,51 @@ public class Grupo implements IGrupo {
     private String estado = "";
     private String dias = "";
     private String horas = "";
-    private String hora_inicio = "";
-    private String hora_fin = "";
-    private String fecha_inicio = "";
-    private String fecha_fin = "";
+    private String horaInicio = "";
+    private String horaFin = "";
+    private String fechaInicio = "";
+    private String fechaFin = "";
+    private int horarioAsignado = 0;
 
-    public String getFecha_inicio() {
-        return fecha_inicio;
+    public int getHorarioAsignado() {
+        return horarioAsignado;
     }
 
-    public void setFecha_inicio(String fecha_inicio) {
-        this.fecha_inicio = fecha_inicio;
+    public void setHorarioAsignado(int horarioAsignado) {
+        this.horarioAsignado = horarioAsignado;
     }
 
-    public String getFecha_fin() {
-        return fecha_fin;
+   
+    public String getHoraInicio() {
+        return horaInicio;
     }
 
-    public void setFecha_fin(String fecha_fin) {
-        this.fecha_fin = fecha_fin;
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
     }
 
-    public String getHora_inicio() {
-        return hora_inicio;
+    public String getHoraFin() {
+        return horaFin;
     }
 
-    public void setHora_inicio(String hora_inicio) {
-        this.hora_inicio = hora_inicio;
+    public void setHoraFin(String horaFin) {
+        this.horaFin = horaFin;
     }
 
-    public String getHora_fin() {
-        return hora_fin;
+    public String getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setHora_fin(String hora_fin) {
-        this.hora_fin = hora_fin;
+    public void setFechaInicio(String fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public String getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(String fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     public String getDias() {
@@ -158,10 +168,7 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setCupo(grupo.getCupo());
             nuevoGrupo.setEstado(grupo.getEstado());
             nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
-            nuevoGrupo.setDias(grupo.getDias());
-            nuevoGrupo.setHoras(grupo.getHoras());
-            nuevoGrupo.setHora_inicio(grupo.getFechaInicio());
-            nuevoGrupo.setHora_fin(grupo.getFechaFin());
+            nuevoGrupo.setHorarioAsignado(grupo.getHorarioAsignado());
             grupos.add(nuevoGrupo);
         }
 
@@ -182,6 +189,7 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setCupo(grupo.getCupo());
             nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
             nuevoGrupo.setIdColaborador(colaborador);
+            nuevoGrupo.setHorarioAsignado(grupo.getHorarioAsignado());
             try {
                 guardado = controlador.edit(nuevoGrupo);
                 guardado = true;
@@ -206,10 +214,7 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setTipoDeBaile(grupo.getTipoDeBaile());
             nuevoGrupo.setCupo(grupo.getCupo());
             nuevoGrupo.setEstado("A");
-            nuevoGrupo.setDias(grupo.getDias());
-            nuevoGrupo.setHoras(grupo.getHoras());
-            nuevoGrupo.setFechaInicio(grupo.getFecha_inicio());
-            nuevoGrupo.setFechaFin(grupo.getFecha_fin());
+            nuevoGrupo.setHorarioAsignado(0);
             if (controlador.create(nuevoGrupo)) {
                 guardado = true;
             }
