@@ -5,6 +5,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
@@ -38,12 +39,12 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label text="Tipo de baile:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+            <Label text="Tipo de baile:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label text="Cupo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+            <Label text="Cupo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -53,12 +54,12 @@
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </JFXTextField>
-            <JFXTextField fx:id="tfTipoBaile" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <JFXTextField fx:id="tfTipoBaile" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </JFXTextField>
-            <CheckBox fx:id="checkEstado" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <CheckBox fx:id="checkEstado" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <font>
                   <Font size="18.0" />
                </font>
@@ -77,12 +78,25 @@
                </GridPane.margin>
             </JFXButton>
             
-            <Spinner fx:id="spinnerCupo" prefHeight="25.0" prefWidth="72.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <Spinner fx:id="spinnerCupo" prefHeight="25.0" prefWidth="72.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                 <GridPane.margin>
                   <Insets left="20.0" right="80.0" />
                </GridPane.margin>
             </Spinner>
-            <Label text="Activo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+            <Label text="Activo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="comboBoxGrupos" prefHeight="25.0" prefWidth="288.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </ComboBox>
+            <Label text="Grupo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -111,7 +125,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" />
                </GridPane.margin>
             </TableView>
-            <JFXTextField fx:id="tfPalabraClave">
+            <JFXTextField fx:id="tfPalabraClave" promptText="Nombre de colaborador">
                <GridPane.margin>
                   <Insets left="20.0" right="150.0" top="50.0" />
                </GridPane.margin>

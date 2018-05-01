@@ -93,6 +93,48 @@ public class FXMLModificarClienteController implements Initializable {
                 }
             }
         });
+        tfTelefono.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                    String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    tfTelefono.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+                if (tfTelefono.getText().length() > 10) {
+                    String s = tfTelefono.getText().substring(0, 10);
+                    tfTelefono.setText(s);
+                }
+            }
+        });
+        tfNombre.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tfNombre.getText().length() > 100) {
+                    String s = tfNombre.getText().substring(0, 100);
+                    tfNombre.setText(s);
+                }
+            }
+        });
+        tfCorreo.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tfCorreo.getText().length() > 50) {
+                    String s = tfCorreo.getText().substring(0, 50);
+                    tfCorreo.setText(s);
+                }
+            }
+        });
+
+        tfDireccion.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tfDireccion.getText().length() > 50) {
+                    String s = tfDireccion.getText().substring(0, 50);
+                    tfDireccion.setText(s);
+                }
+            }
+        });
+        buscarTodos();
     }
 
     @FXML
@@ -111,17 +153,22 @@ public class FXMLModificarClienteController implements Initializable {
             Image imagen = null;
             seleccion = tbListaClientes.getSelectionModel().getSelectedItem();
             tfNombre.setText(seleccion.getNombre());
-            tfTelefono.setText(seleccion.getTelefono());
             tfDireccion.setText(seleccion.getDireccion());
-            tfCorreo.setText(seleccion.getCorreoElectronico());
-
-            File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos\\" + seleccion.getImagenPerfil());
-            try {
-                imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
+            if (seleccion.getTelefono() != null) {
+                tfTelefono.setText(seleccion.getTelefono());
             }
-            //imgPerfil.setImage(imagen);
+            if (seleccion.getCorreoElectronico() != null) {
+                tfCorreo.setText(seleccion.getCorreoElectronico());
+            }
+            if (!seleccion.getImagenPerfil().equals("No")) {
+                File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos\\" + seleccion.getImagenPerfil());
+                try {
+                    imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                imgPerfil.setImage(imagen);
+            }
             //nombreImagen = rutaImagen.getName();
             checkEstado.setSelected(seleccion.getEstado().equals("A"));
         }
@@ -145,29 +192,27 @@ public class FXMLModificarClienteController implements Initializable {
         return concordancia.matches();
     }
 
-    public boolean[] validarCampos() {
-        boolean[] validaciones = new boolean[5];
+    public void buscarTodos() {
+        ICliente metodosCliente = new Cliente();
+        lista.clear();
+        lista = metodosCliente.buscarClientes();
+        llenarTabla();
+    }
 
-        //Nombre
-        validaciones[0] = tfNombre.getText().trim().length() >= 2 && tfNombre.getText().trim().length() <= 400;
-        //Correo
-        validaciones[1] = validarFormatoCorreo(tfCorreo.getText());
-        //Direccion
-        validaciones[2] = tfDireccion.getText().trim().length() >= 2 && tfDireccion.getText().trim().length() <= 50;
-        //Telefono
-        validaciones[3] = tfTelefono.getText().trim().length() == 10;
-
-        validaciones[4] = validaciones[0] && validaciones[1] && validaciones[2] && validaciones[3];
-
+    public boolean validarCamposVacios() {
+        boolean validaciones = true;
+        if (!tfNombre.getText().trim().isEmpty() && !tfDireccion.getText().trim().isEmpty()) {
+            validaciones = false;
+        }
         return validaciones;
     }
 
     @FXML
     private void accionGuardarCambios(ActionEvent event) {
         if (validarCamposVacios()) {
-            MensajeController.mensajeAdvertencia("Hay campos vacíos");
+            MensajeController.mensajeAdvertencia("Hay campos obligatorios vacíos");
         } else {
-            ICliente metodosClientes = new Cliente();
+            ICliente metodosCliente = new Cliente();
             Cliente cliente = new Cliente();
             cliente.setId(seleccion.getId());
             cliente.setNombre(tfNombre.getText());
@@ -181,21 +226,45 @@ public class FXMLModificarClienteController implements Initializable {
                 cliente.setEstado("B");
             }
 
-            boolean[] validacion = validarCampos();
-            if (validacion[4]) {
-                if (metodosClientes.guardarDatos(cliente)) {
+            if (tfCorreo.getText().isEmpty()) {
+                if (metodosCliente.guardarDatos(cliente)) {
                     MensajeController.mensajeInformacion("Cliente modificado exitosamente");
+                    vaciarCampos();
                 } else {
-                    MensajeController.mensajeAdvertencia("No se pudieron guardar los cambios");
+                    MensajeController.mensajeAdvertencia("No se pudo modificar el cliente");
                 }
             } else {
-                MensajeController.mensajeAdvertencia("Hay campos inválidos");
+                System.out.println("no vacio");
+                if (validarFormatoCorreo(tfCorreo.getText())) {
+                    if (metodosCliente.guardarDatos(cliente)) {
+                        MensajeController.mensajeInformacion("Cliente modificado exitosamente");
+                        vaciarCampos();
+                    } else {
+                        MensajeController.mensajeAdvertencia("No se pudo modificar el cliente");
+                    }
+                } else {
+                    MensajeController.mensajeAdvertencia("El correo no tiene un formato correcto");
+                }
             }
         }
     }
 
+    public void vaciarCampos() {
+        tfNombre.setText("");
+        tfCorreo.setText("");
+        tfDireccion.setText("");
+        tfTelefono.setText("");
+        checkEstado.setSelected(false);
+        Image imagen = new Image("emaaredespacio/imagenes/perfil.jpg", 300, 300, false, true, true);
+        imgPerfil.setImage(imagen);
+        seleccion = null;
+        lista.clear();
+        buscarTodos();
+        llenarTabla();
+    }
+
     @FXML
-    public void elegirImagen(ActionEvent elegirImagen) throws IOException {
+    public void elegirImagen() throws IOException {
         FileChooser elegir = new FileChooser();
         FileChooser.ExtensionFilter extension = new FileChooser.ExtensionFilter("Add Files(*.jpg)", "*.jpg");
         FileChooser.ExtensionFilter extensionPNG = new FileChooser.ExtensionFilter("Add Files(*.png)", "*.png");
@@ -224,10 +293,5 @@ public class FXMLModificarClienteController implements Initializable {
             imgPerfil.setImage(image);
             nombreImagen = rutaImagen.getName();
         }
-    }
-
-    private boolean validarCamposVacios() {
-        return tfNombre.getText().trim().isEmpty() || tfTelefono.getText().trim().isEmpty()
-                || tfDireccion.getText().trim().isEmpty() || tfCorreo.getText().trim().isEmpty();
     }
 }

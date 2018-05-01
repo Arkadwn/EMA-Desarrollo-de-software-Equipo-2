@@ -90,6 +90,16 @@ public class Grupo implements IGrupo {
     public void setHoras(String horas) {
         this.horas = horas;
     }
+    
+    private int horario_asignado = 0;
+
+    public int getHorario_asignado() {
+        return horario_asignado;
+    }
+
+    public void setHorario_asignado(int horario_asignado) {
+        this.horario_asignado = horario_asignado;
+    }
 
     public int getIdGrupo() {
         return idGrupo;
@@ -169,6 +179,7 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setEstado(grupo.getEstado());
             nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
             nuevoGrupo.setHorarioAsignado(grupo.getHorarioAsignado());
+            nuevoGrupo.setHorario_asignado(grupo.getHorarioAsignado());
             grupos.add(nuevoGrupo);
         }
 
@@ -190,6 +201,7 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
             nuevoGrupo.setIdColaborador(colaborador);
             nuevoGrupo.setHorarioAsignado(grupo.getHorarioAsignado());
+            nuevoGrupo.setHorarioAsignado(grupo.getHorario_asignado());
             try {
                 guardado = controlador.edit(nuevoGrupo);
                 guardado = true;

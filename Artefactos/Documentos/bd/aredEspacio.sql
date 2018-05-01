@@ -191,6 +191,30 @@ LOCK TABLES `inscripciones` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `pagosalumnos`
+--
+
+DROP TABLE IF EXISTS `pagosalumnos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pagosalumnos` (
+  `idPago` int(11) NOT NULL AUTO_INCREMENT,
+  `matricula` int(11) DEFAULT NULL,
+  `idGrupo` int(11) DEFAULT NULL,
+  `fechaPago` date DEFAULT NULL,
+  `monto` varchar(7) DEFAULT NULL,
+  `porcentajeDescuento` int(11) DEFAULT NULL,
+  `total` varchar(7) DEFAULT NULL,
+  `tipo_pago` int(1) DEFAULT NULL,
+  PRIMARY KEY (`idPago`),
+  KEY `matricula` (`matricula`),
+  KEY `idGrupo` (`idGrupo`),
+  CONSTRAINT `pagosalumnos_ibfk_1` FOREIGN KEY (`matricula`) REFERENCES `alumnos` (`matricula`),
+  CONSTRAINT `pagosalumnos_ibfk_2` FOREIGN KEY (`idGrupo`) REFERENCES `grupos` (`idGrupo`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `usuarios`
 --
 
@@ -293,15 +317,14 @@ DROP TABLE IF EXISTS `promociones`;
 CREATE TABLE `promociones` (
   `idPromocion` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_promocion` varchar(50) NOT NULL,
-  `aplica_descuento` int(1) DEFAULT NULL,
+  `tipo_descuento` int(1) DEFAULT NULL,
   `porcentaje_descuento` varchar(3) DEFAULT NULL,
   `idColaborador` int(11) DEFAULT NULL,
-  `fecha_ini` varchar(15) DEFAULT NULL,
-  `fecha_fin` varchar(15) DEFAULT NULL,
+  `estado` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`idPromocion`),
   KEY `idColaborador` (`idColaborador`),
   CONSTRAINT `promociones_ibfk_1` FOREIGN KEY (`idColaborador`) REFERENCES `colaboradores` (`idColaborador`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

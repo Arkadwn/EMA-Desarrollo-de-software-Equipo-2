@@ -61,7 +61,7 @@ public class GruposJpaController implements Serializable{
             grupoActual.setEstado(grupo.getEstado());
             grupoActual.setCupo(grupo.getCupo());
             grupoActual.setIdColaborador(grupo.getIdColaborador());
-           
+            grupoActual.setHorarioAsignado(grupo.getHorarioAsignado());
             transaccion.commit();
         }catch(RollbackException ex){
             if(transaccion.isActive()){
