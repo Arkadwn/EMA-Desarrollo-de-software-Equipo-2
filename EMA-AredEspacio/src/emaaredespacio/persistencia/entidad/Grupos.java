@@ -6,6 +6,7 @@
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,6 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Grupos.findByEstado", query = "SELECT g FROM Grupos g WHERE g.estado = :estado")
     , @NamedQuery(name = "Grupos.findByHorarioAsignado", query = "SELECT g FROM Grupos g WHERE g.horarioAsignado = :horarioAsignado")})
 public class Grupos implements Serializable {
+
+    @OneToMany(mappedBy = "idGrupo")
+    private List<Inscripciones> inscripcionesList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -132,5 +138,14 @@ public class Grupos implements Serializable {
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Grupos[ idGrupo=" + idGrupo + " ]";
     }
-    
-}
+
+    @XmlTransient
+    public List<Inscripciones> getInscripcionesList() {
+        return inscripcionesList;
+    }
+
+    public void setInscripcionesList(List<Inscripciones> inscripcionesList) {
+        this.inscripcionesList = inscripcionesList;
+    }
+
+    }

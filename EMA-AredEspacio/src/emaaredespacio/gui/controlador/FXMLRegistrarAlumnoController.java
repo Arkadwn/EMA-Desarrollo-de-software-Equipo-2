@@ -151,7 +151,7 @@ public class FXMLRegistrarAlumnoController implements Initializable {
 
     @FXML
     private void restringirCampoApellidos(KeyEvent evento) {
-        if (tfApellidos.getText().length() < 100) {
+        if (tfApellidos.getText().length() > 100) {
             evento.consume();
         }
     }

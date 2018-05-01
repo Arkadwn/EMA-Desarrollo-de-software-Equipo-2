@@ -3,7 +3,9 @@ package emaaredespacio.modelo;
 import emaaredespacio.persistencia.controladores.AlumnosJpaController;
 import emaaredespacio.persistencia.controladores.IControladorAlumnos;
 import emaaredespacio.persistencia.entidad.Alumnos;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,7 +38,7 @@ public class Alumno implements IAlumno{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
+    
     public String getApellidos() {
         return apellidos;
     }
@@ -91,6 +93,10 @@ public class Alumno implements IAlumno{
 
     public void setMatricula(Integer matricula) {
         this.matricula = matricula;
+    }
+    
+    public String getNombreCompleto(){
+        return nombre + " " +apellidos;
     }
     
     private boolean validarFormatoCorreo(String email) {
@@ -189,6 +195,19 @@ public class Alumno implements IAlumno{
             nuevoAlumno.setTelefono(alumno.getTelefono());
             alumnos.add(nuevoAlumno);
         }
+        
+        return alumnos;
+    }
+
+    @Override
+    public List<Alumno> buscarAlumnosNoInscritos(int idGrupo) {
+        List<Alumnos> resultadoBusqueda = null;
+        List<Alumno> alumnos = null;
+        
+        AlumnosJpaController controlador = new AlumnosJpaController();
+        resultadoBusqueda = controlador.sacarAlumnosNoInscritos(idGrupo);
+        
+        alumnos = convertirLista(resultadoBusqueda);
         
         return alumnos;
     }

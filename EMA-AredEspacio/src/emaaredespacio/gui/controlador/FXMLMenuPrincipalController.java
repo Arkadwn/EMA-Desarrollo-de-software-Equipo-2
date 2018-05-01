@@ -55,6 +55,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         colaborador.setIdColaborador(1);
         colaborador.setApellidos("Limon");
         menuDesplegado = false;
+        System.getProperties().put("colaborador", colaborador.getNombre() + " " + colaborador.getApellidos());
         panelPrincipal.setStyle("-fx-background-image: url('emaaredespacio/imagenes/fondo.jpg');"
                 + "-fx-background-position: center center; -fx-background-repeat: stretch;");
         btnInicio.setStyle("-fx-background-image: url('emaaredespacio/imagenes/inicio.png');"
@@ -214,6 +215,15 @@ public class FXMLMenuPrincipalController implements Initializable {
     private void desplegarEditarEgresoFacebook(ActionEvent evento) throws IOException{
         panelPrincipal.getChildren().clear();
         Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLEditarEgresoFacebook.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarAdministrarAlumnosDeGrupos(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLAdministrarAlumnosDeGrupos.fxml"));
         panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
         barraMenu.setVisible(false);
         menuDesplegado = false;

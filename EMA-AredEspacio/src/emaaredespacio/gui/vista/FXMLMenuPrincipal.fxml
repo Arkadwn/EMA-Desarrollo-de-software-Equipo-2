@@ -107,13 +107,15 @@
                             <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <JFXButton onAction="#desplegarAdministrarRentas" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar rentas" />
                               <JFXButton onAction="#desplegarVentanaRegistrarGrupo" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar grupo" GridPane.rowIndex="1" />
                               <JFXButton onAction="#desplegarVentanaModificarGrupo" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Modificar grupo" GridPane.rowIndex="2" />
                               <JFXButton onAction="#desplegarVentanaAdministrarHorarios" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar horarios" GridPane.rowIndex="3" />
+                              <JFXButton onAction="#desplegarAdministrarAlumnosDeGrupos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar inscripciones" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                     </content>

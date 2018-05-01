@@ -17,13 +17,13 @@ import javax.persistence.RollbackException;
  * @date 1/04/2018
  * @time 07:08:52 PM
  */
-public class AlumnosJpaController implements IControladorAlumnos{
+public class AlumnosJpaController implements IControladorAlumnos {
 
-    public AlumnosJpaController(){
+    public AlumnosJpaController() {
         this.fabricaEntidad = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
     }
     private EntityManagerFactory fabricaEntidad = null;
-    
+
     /**
      * Getter de la variable fabricaEntidad.
      *
@@ -32,33 +32,33 @@ public class AlumnosJpaController implements IControladorAlumnos{
     private EntityManager getEntityManager() {
         return fabricaEntidad.createEntityManager();
     }
-    
+
     @Override
     public boolean guardarAlumno(Alumnos alumno) {
         boolean validacion = true;
-        
+
         EntityManager conexion = getEntityManager();
         EntityTransaction transaccion = null;
-        try{
-            transaccion  = conexion.getTransaction();
-            
+        try {
+            transaccion = conexion.getTransaction();
+
             transaccion.begin();
-            
+
             conexion.persist(alumno);
-            
+
             transaccion.commit();
-        }catch(RollbackException ex){
+        } catch (RollbackException ex) {
             Logger.getLogger(AlumnosJpaController.class.getName()).log(Level.SEVERE, null, ex);
-            if(transaccion.isActive()){
+            if (transaccion.isActive()) {
                 transaccion.rollback();
             }
             validacion = false;
-        }finally{
-            if(conexion != null){
+        } finally {
+            if (conexion != null) {
                 conexion.close();
             }
         }
-        
+
         return validacion;
     }
 
@@ -68,12 +68,12 @@ public class AlumnosJpaController implements IControladorAlumnos{
         EntityManager conexion = getEntityManager();
         EntityTransaction transaccion = null;
         Alumnos alumnoActual;
-        
-        try{
+
+        try {
             transaccion = conexion.getTransaction();
             transaccion.begin();
             alumnoActual = conexion.find(Alumnos.class, alumno.getMatricula());
-            
+
             alumnoActual.setApellidos(alumno.getApellidos());
             alumnoActual.setNombre(alumno.getNombre());
             alumnoActual.setCorreo(alumno.getCorreo());
@@ -81,36 +81,49 @@ public class AlumnosJpaController implements IControladorAlumnos{
             alumnoActual.setEstado(alumno.getEstado());
             alumnoActual.setImagen(alumno.getImagen());
             alumnoActual.setTelefono(alumno.getTelefono());
-            
+
             transaccion.commit();
-        }catch(Exception ex){
-            if(transaccion.isActive()){
+        } catch (Exception ex) {
+            if (transaccion.isActive()) {
                 transaccion.rollback();
             }
             validacion = false;
-        }finally{
-            if(conexion != null){
+        } finally {
+            if (conexion != null) {
                 conexion.close();
             }
         }
-        
+
         return validacion;
     }
 
     @Override
     public List<Alumnos> buscarAlumno(String palabraClave) {
-        List<Alumnos> colaboradores = new ArrayList();
-        String palabra = "%"+palabraClave+"%";
+        List<Alumnos> alumnos = new ArrayList();
+        String palabra = "%" + palabraClave + "%";
         EntityManager conexion = getEntityManager();
-        try{
-        colaboradores = conexion.createQuery("SELECT a FROM Alumnos a WHERE a.nombre LIKE :palabra OR a.apellidos LIKE :palabra").setParameter("palabra", palabra).getResultList();
-        }finally{
-            if(conexion != null){
+        try {
+            alumnos = conexion.createQuery("SELECT a FROM Alumnos a WHERE a.nombre LIKE :palabra OR a.apellidos LIKE :palabra").setParameter("palabra", palabra).getResultList();
+        } finally {
+            if (conexion != null) {
                 conexion.close();
             }
         }
-        return colaboradores;
+        return alumnos;
     }
-    
-    
+
+    public List<Alumnos> sacarAlumnosNoInscritos(int idGrupo) {
+        List<Alumnos> alumnos = new ArrayList();
+        EntityManager conexion = getEntityManager();
+        try {
+            alumnos = conexion.createQuery("SELECT a FROM Alumnos a, Inscripciones i WHERE a.estado = "
+                    + ":estado AND i.idAlumno.matricula = a.matricula AND i.idGrupo.idGrupo "
+                    + "= :idGrupo").setParameter("estado", "A").setParameter("idGrupo", idGrupo).getResultList();
+        } finally {
+            if (conexion != null) {
+                conexion.close();
+            }
+        }
+        return alumnos;
+    }
 }

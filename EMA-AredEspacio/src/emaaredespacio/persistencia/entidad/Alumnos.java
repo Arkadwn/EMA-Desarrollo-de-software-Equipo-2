@@ -7,6 +7,7 @@
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,8 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,6 +41,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Alumnos.findByEstado", query = "SELECT a FROM Alumnos a WHERE a.estado = :estado")
     , @NamedQuery(name = "Alumnos.findByImagen", query = "SELECT a FROM Alumnos a WHERE a.imagen = :imagen")})
 public class Alumnos implements Serializable {
+
+    @OneToMany(mappedBy = "idAlumno")
+    private List<Inscripciones> inscripcionesList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -162,6 +168,15 @@ public class Alumnos implements Serializable {
     @Override
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Alumnos[ matricula=" + matricula + " ]";
+    }
+
+    @XmlTransient
+    public List<Inscripciones> getInscripcionesList() {
+        return inscripcionesList;
+    }
+
+    public void setInscripcionesList(List<Inscripciones> inscripcionesList) {
+        this.inscripcionesList = inscripcionesList;
     }
 
 }
