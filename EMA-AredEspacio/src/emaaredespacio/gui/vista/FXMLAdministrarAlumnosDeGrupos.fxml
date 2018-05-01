@@ -18,8 +18,8 @@
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="338.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="131.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="418.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="86.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="-Infinity" prefHeight="463.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <TableView fx:id="tbAlumnos" onMouseClicked="#cargarDatosAlumno" prefHeight="509.0" prefWidth="392.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -38,19 +38,6 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </GridPane.margin>
             </TableView>
-            <JFXButton fx:id="btnBuscar" prefHeight="29.0" prefWidth="77.0" style="-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5;" text="Buscar" visible="false" GridPane.columnIndex="1">
-               <GridPane.margin>
-                  <Insets left="250.0" top="80.0" />
-               </GridPane.margin>
-            </JFXButton>
-            <JFXTextField fx:id="tfPalabraClave" labelFloat="true" promptText="Nombre o apellido del alumno" visible="false" GridPane.columnIndex="1">
-               <GridPane.margin>
-                  <Insets left="10.0" right="100.0" top="80.0" />
-               </GridPane.margin>
-               <font>
-                  <Font name="Arial" size="13.0" />
-               </font>
-            </JFXTextField>
          </children>
       </GridPane>
       <GridPane layoutX="591.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -83,7 +70,7 @@
                   <Font name="Arial" size="16.0" />
                </font>
             </Label>
-            <Label text="Precio de inscripción:" GridPane.rowIndex="3">
+            <Label fx:id="lbPrecio" text="Precio de inscripción:" GridPane.rowIndex="3">
                <font>
                   <Font name="Arial" size="16.0" />
                </font>
@@ -124,7 +111,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfPrecio" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <JFXTextField fx:id="tfPrecio" onKeyReleased="#calcularTotal" onKeyTyped="#restringirCaracteres" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" right="30.0" />
                </GridPane.margin>
@@ -132,7 +119,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfMensualidad" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <JFXTextField fx:id="tfMensualidad" onKeyTyped="#restringirCaracteres" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="20.0" right="30.0" />
                </GridPane.margin>
@@ -153,7 +140,7 @@
                   <Insets left="20.0" right="30.0" />
                </GridPane.margin>
             </JFXComboBox>
-            <JFXButton fx:id="btnInscribir" onAction="#accionIncripcion" prefHeight="29.0" prefWidth="144.0" style="-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5;" text="Inscribir" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <JFXButton fx:id="btnInscribir" onAction="#accionIncripcion" prefHeight="29.0" prefWidth="144.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Inscribir" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets left="10.0" top="30.0" />
                </GridPane.margin>
@@ -161,17 +148,17 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnDarDeBajaAlumno" onAction="#activarDardeBaja" prefHeight="29.0" prefWidth="155.0" style="-fx-border-color: red; -fx-border-width: 2;" text="Dar de baja alumno">
+            <JFXButton fx:id="btnDarDeBajaAlumno" onAction="#activarDardeBaja" prefHeight="29.0" prefWidth="155.0" style="-fx-border-color: #ff0066; -fx-border-width: 2;" text="Dar de baja alumno">
                <GridPane.margin>
                   <Insets bottom="100.0" right="80.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="btnActivarInscripcion" disable="true" prefHeight="29.0" prefWidth="155.0" style="-fx-border-color: red; -fx-border-width: 2;" text="Inscribir alumno">
+            <JFXButton fx:id="btnActivarInscripcion" disable="true" onAction="#activarInscripcion" prefHeight="29.0" prefWidth="155.0" style="-fx-border-color: #ff0066; -fx-border-width: 2;" text="Inscribir alumno">
                <GridPane.margin>
                   <Insets bottom="154.0" right="80.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="btnBaja" prefHeight="29.0" prefWidth="144.0" style="-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5;" text="Dar de baja" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <JFXButton fx:id="btnBaja" onAction="#accionIncripcion" prefHeight="29.0" prefWidth="144.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Dar de baja" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>

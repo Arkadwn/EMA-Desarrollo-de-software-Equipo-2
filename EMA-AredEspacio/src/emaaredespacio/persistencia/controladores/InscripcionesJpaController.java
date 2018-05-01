@@ -128,11 +128,16 @@ public class InscripcionesJpaController implements Serializable {
         EntityManager conexion = getEntityManager();
         try {
             transaccion = conexion.getTransaction();
+            inscipcion = conexion.find(Inscripciones.class, inscipcion.getIdInscripcion());
+            transaccion.begin();
 
             inscipcion.setEstado(false);
-
+            
             transaccion.commit();
         } catch (Exception ex) {
+            if(transaccion != null){
+                transaccion.rollback();
+            }
             validacion = false;
         } finally {
             if (conexion != null) {
