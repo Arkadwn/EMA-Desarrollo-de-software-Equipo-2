@@ -19,7 +19,8 @@ import java.util.logging.Logger;
  * @date 30/04/2018
  * @time 12:36:15 AM
  */
-public class Inscripcion implements IInscripcion{
+public class Inscripcion implements IInscripcion {
+
     private int idGrupo;
     private int idAlumno;
     private int pagoMensualidad;
@@ -33,9 +34,9 @@ public class Inscripcion implements IInscripcion{
         this.pagoInscripcion = pagoInscripcion;
         this.fechaIncripcion = fechaIncripcion;
     }
-    
-    public Inscripcion(){
-    
+
+    public Inscripcion() {
+
     }
 
     public int getIdGrupo() {
@@ -57,25 +58,27 @@ public class Inscripcion implements IInscripcion{
     public String getFechaIncripcion() {
         return fechaIncripcion;
     }
-    
+
     @Override
     public boolean inscribirAlumno(Inscripcion inscripcion) {
         boolean validacion = false;
-        
+
         InscripcionesJpaController controlador = new InscripcionesJpaController();
         Inscripciones nuevaInscripcion = new Inscripciones();
         Grupos grupo = controlador.buscarGrupoPorId(inscripcion.getIdGrupo());
         Alumnos alumno = controlador.buscarAlumnoPorId(inscripcion.getIdAlumno());
-        
-        nuevaInscripcion.setEstado(true);
-        nuevaInscripcion.setFechaInscripcion(crearFecha(inscripcion.getFechaIncripcion()));
-        nuevaInscripcion.setIdAlumno(alumno);
-        nuevaInscripcion.setIdGrupo(grupo);
-        nuevaInscripcion.setPagoMensual(inscripcion.getPagoMensualidad());
-        nuevaInscripcion.setPrecioInscripcion(inscripcion.getPagoInscripcion());
-        
-        validacion = controlador.create(nuevaInscripcion);
-        
+
+        if (grupo != null && alumno != null) {
+            nuevaInscripcion.setEstado(true);
+            nuevaInscripcion.setFechaInscripcion(crearFecha(inscripcion.getFechaIncripcion()));
+            nuevaInscripcion.setIdAlumno(alumno);
+            nuevaInscripcion.setIdGrupo(grupo);
+            nuevaInscripcion.setPagoMensual(inscripcion.getPagoMensualidad());
+            nuevaInscripcion.setPrecioInscripcion(inscripcion.getPagoInscripcion());
+
+            validacion = controlador.create(nuevaInscripcion);
+        }
+
         return validacion;
     }
 
@@ -83,9 +86,9 @@ public class Inscripcion implements IInscripcion{
     public boolean darDeBajaAlumno(int idGrupo, int idAlumno) {
         boolean validacion = false;
         InscripcionesJpaController controlador = new InscripcionesJpaController();
-        
+
         validacion = controlador.darDeBajaAlumno(idGrupo, idAlumno);
-        
+
         return validacion;
     }
 
@@ -93,17 +96,17 @@ public class Inscripcion implements IInscripcion{
     public List<Alumno> sacarInscripcionesDeGrupo(int idGrupo) {
         List<Alumnos> resultadoBusqueda = null;
         List<Alumno> inscripciones = null;
-        
+
         InscripcionesJpaController controlador = new InscripcionesJpaController();
-        
+
         resultadoBusqueda = controlador.buscarAlumnosInscritos(idGrupo);
-        
+
         inscripciones = convertirLista(resultadoBusqueda);
-        
+
         return inscripciones;
     }
-    
-    private Date crearFecha(String cadena){
+
+    private Date crearFecha(String cadena) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Date fecha = null;
         try {
@@ -113,11 +116,11 @@ public class Inscripcion implements IInscripcion{
         }
         return fecha;
     }
-    
-    private List<Alumno> convertirLista(List<Alumnos> lista){
+
+    private List<Alumno> convertirLista(List<Alumnos> lista) {
         List<Alumno> alumnos = new ArrayList();
-        
-        for(Alumnos alumno: lista){
+
+        for (Alumnos alumno : lista) {
             Alumno nuevoAlumno = new Alumno();
             nuevoAlumno.setApellidos(alumno.getApellidos());
             nuevoAlumno.setNombre(alumno.getNombre());
@@ -129,22 +132,22 @@ public class Inscripcion implements IInscripcion{
             nuevoAlumno.setTelefono(alumno.getTelefono());
             alumnos.add(nuevoAlumno);
         }
-        
+
         return alumnos;
     }
-    
-    public List<Grupo> buscarGruposDeColaborador(int idColaborador){
+
+    public List<Grupo> buscarGruposDeColaborador(int idColaborador) {
         List<Grupos> resultadoBusqueda = null;
         List<Grupo> grupos = null;
         InscripcionesJpaController controlador = new InscripcionesJpaController();
-        
+
         resultadoBusqueda = controlador.buscarGruposDeColaborador(idColaborador);
-        
+
         grupos = convertirListaGrupo(resultadoBusqueda);
-        
+
         return grupos;
     }
-    
+
     private List<Grupo> convertirListaGrupo(List<Grupos> lista) {
         List<Grupo> grupos = new ArrayList();
 

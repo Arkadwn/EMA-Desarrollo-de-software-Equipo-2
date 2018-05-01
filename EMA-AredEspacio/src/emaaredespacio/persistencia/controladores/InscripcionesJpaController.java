@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 
 /**
@@ -31,37 +32,41 @@ public class InscripcionesJpaController implements Serializable {
     public boolean create(Inscripciones inscripciones) {
         EntityManager em = null;
         boolean validacion = true;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            Alumnos idAlumno = inscripciones.getIdAlumno();
-            if (idAlumno != null) {
-                idAlumno = em.getReference(idAlumno.getClass(), idAlumno.getMatricula());
-                inscripciones.setIdAlumno(idAlumno);
-            }
-            Grupos idGrupo = inscripciones.getIdGrupo();
-            if (idGrupo != null) {
-                idGrupo = em.getReference(idGrupo.getClass(), idGrupo.getIdGrupo());
-                inscripciones.setIdGrupo(idGrupo);
-            }
-            em.persist(inscripciones);
-            if (idAlumno != null) {
-                idAlumno.getInscripcionesList().add(inscripciones);
-                idAlumno = em.merge(idAlumno);
-            }
-            if (idGrupo != null) {
-                idGrupo.getInscripcionesList().add(inscripciones);
-                idGrupo = em.merge(idGrupo);
-            }
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            validacion = false;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
 
+        if (buscarInscripcionPorGrupo(inscripciones.getIdAlumno().getMatricula(), inscripciones.getIdGrupo().getIdGrupo()) == null) {
+            try {
+                em = getEntityManager();
+                em.getTransaction().begin();
+                Alumnos idAlumno = inscripciones.getIdAlumno();
+                if (idAlumno != null) {
+                    idAlumno = em.getReference(idAlumno.getClass(), idAlumno.getMatricula());
+                    inscripciones.setIdAlumno(idAlumno);
+                }
+                Grupos idGrupo = inscripciones.getIdGrupo();
+                if (idGrupo != null) {
+                    idGrupo = em.getReference(idGrupo.getClass(), idGrupo.getIdGrupo());
+                    inscripciones.setIdGrupo(idGrupo);
+                }
+                em.persist(inscripciones);
+                if (idAlumno != null) {
+                    idAlumno.getInscripcionesList().add(inscripciones);
+                    idAlumno = em.merge(idAlumno);
+                }
+                if (idGrupo != null) {
+                    idGrupo.getInscripcionesList().add(inscripciones);
+                    idGrupo = em.merge(idGrupo);
+                }
+                em.getTransaction().commit();
+            } catch (Exception ex) {
+                validacion = false;
+            } finally {
+                if (em != null) {
+                    em.close();
+                }
+            }
+        } else {
+            validacion = false;
+        }
         return validacion;
     }
 
@@ -109,7 +114,9 @@ public class InscripcionesJpaController implements Serializable {
 
         try {
             inscripcion = (Inscripciones) conexion.createQuery("SELECT inscripcion FROM Inscripciones inscripcion WHERE inscripcion.idAlumno.matricula = :idAlumno AND inscripcion.idGrupo.idGrupo"
-                    + " = :idGrupo").setParameter("idAlumno", idAlumno).setParameter("idGrupo", idGrupo).getSingleResult();
+                    + " = :idGrupo and inscripcion.estado = true").setParameter("idAlumno", idAlumno).setParameter("idGrupo", idGrupo).getSingleResult();
+        } catch (NoResultException ex) {
+            inscripcion = null;
         } finally {
             if (conexion != null) {
                 conexion.close();
@@ -124,25 +131,28 @@ public class InscripcionesJpaController implements Serializable {
         EntityTransaction transaccion = null;
 
         Inscripciones inscipcion = buscarInscripcionPorGrupo(idAlumno, idGrupo);
+        if (inscipcion != null) {
+            EntityManager conexion = getEntityManager();
+            try {
+                transaccion = conexion.getTransaction();
+                inscipcion = conexion.find(Inscripciones.class, inscipcion.getIdInscripcion());
+                transaccion.begin();
 
-        EntityManager conexion = getEntityManager();
-        try {
-            transaccion = conexion.getTransaction();
-            inscipcion = conexion.find(Inscripciones.class, inscipcion.getIdInscripcion());
-            transaccion.begin();
+                inscipcion.setEstado(false);
 
-            inscipcion.setEstado(false);
-            
-            transaccion.commit();
-        } catch (Exception ex) {
-            if(transaccion != null){
-                transaccion.rollback();
+                transaccion.commit();
+            } catch (Exception ex) {
+                if (transaccion != null) {
+                    transaccion.rollback();
+                }
+                validacion = false;
+            } finally {
+                if (conexion != null) {
+                    conexion.close();
+                }
             }
+        } else {
             validacion = false;
-        } finally {
-            if (conexion != null) {
-                conexion.close();
-            }
         }
 
         return validacion;
@@ -162,19 +172,19 @@ public class InscripcionesJpaController implements Serializable {
 
         return alumnos;
     }
-    
-    public List<Grupos> buscarGruposDeColaborador(int idColaborador){
+
+    public List<Grupos> buscarGruposDeColaborador(int idColaborador) {
         List<Grupos> grupos = null;
         EntityManager conexion = getEntityManager();
-        
-        try{
+
+        try {
             grupos = conexion.createQuery("SELECT g FROM Grupos g WHERE g.idColaborador.idColaborador = :idColaborador").setParameter("idColaborador", idColaborador).getResultList();
-        }finally{
-            if(conexion != null){
+        } finally {
+            if (conexion != null) {
                 conexion.close();
             }
         }
-        
+
         return grupos;
     }
 }
