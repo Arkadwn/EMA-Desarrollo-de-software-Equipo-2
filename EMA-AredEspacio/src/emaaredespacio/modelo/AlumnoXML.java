@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -36,34 +37,39 @@ public class AlumnoXML {
             try {
                 SAXReader reader = new SAXReader();
                 Document document = reader.read(file);
-
-                if (document.matches("/dia[@fecha='" + dia + "']")) {
-                    Node node = document.selectSingleNode("/dia[@fecha='" + dia + "']");
+                
+                Node node = document.selectSingleNode("//dia[@fecha='" + dia + "']");
+                if (node != null) {
+                    
                     Element elementoDia = (Element) node;
                     Element elementoGrupo = elementoDia.addElement("grupo");
                     elementoGrupo.addAttribute("id", idGrupo);
-                    for (Alumno alumno : alumnos) {
+                    for (int i = 0; i < alumnos.size(); i++) {
+                        Alumno alumno = alumnos.get(i);
+                        String string = asistencia.get(i);
                         Element elementoAlumno = elementoGrupo.addElement("alumno");
-                        //elementoAlumno.addAttribute("matricula", ("" + alumno.getMatricula()));
-                        for (String string : asistencia) {
-                            elementoAlumno.addElement("asistencia").setText(string);
-                            elementoAlumno.addElement("matricula").setText("" + alumno.getMatricula());
-                            elementoAlumno.addElement("nombre").setText(alumno.getNombre() + "-" + alumno.getApellidos());
-                        }
+                        elementoAlumno.addAttribute("matricula", ("" + alumno.getMatricula()));
+
+                        elementoAlumno.addElement("asistencia").setText(string);
+                        elementoAlumno.addElement("matricula").setText("" + alumno.getMatricula());
+                        elementoAlumno.addElement("nombre").setText(alumno.getNombre() + "-" + alumno.getApellidos());
+
                     }
                 } else {
-                    Element elementoDia = document.addElement("dia");
+                    Element elementoDia = document.getRootElement().addElement("dia");
                     elementoDia.addAttribute("fecha", dia);
                     Element elementoGrupo = elementoDia.addElement("grupo");
                     elementoGrupo.addAttribute("id", idGrupo);
-                    for (Alumno alumno : alumnos) {
+                    for (int i = 0; i < alumnos.size(); i++) {
+                        Alumno alumno = alumnos.get(i);
+                        String string = asistencia.get(i);
                         Element elementoAlumno = elementoGrupo.addElement("alumno");
-                        //elementoAlumno.addAttribute("matricula", ("" + alumno.getMatricula()));
-                        for (String string : asistencia) {
-                            elementoAlumno.addElement("asistencia").setText(string);
-                            elementoAlumno.addElement("matricula").setText("" + alumno.getMatricula());
-                            elementoAlumno.addElement("nombre").setText(alumno.getNombre() + "-" + alumno.getApellidos());
-                        }
+                        elementoAlumno.addAttribute("matricula", ("" + alumno.getMatricula()));
+
+                        elementoAlumno.addElement("asistencia").setText(string);
+                        elementoAlumno.addElement("matricula").setText("" + alumno.getMatricula());
+                        elementoAlumno.addElement("nombre").setText(alumno.getNombre() + "-" + alumno.getApellidos());
+
                     }
                 }
 
@@ -92,26 +98,32 @@ public class AlumnoXML {
                 SAXReader reader = new SAXReader();
                 Document documento = reader.read(file);
 
-                Node node = documento.selectSingleNode("/dia[@fecha='" + dia + "']");
+                Node node = documento.selectSingleNode("//dia[@fecha='" + dia + "']");
                 if (node != null) {
                     Element elementoDia = (Element) node;
                     //List<Element> elementosGrupos = new ArrayList<>();
-                    Node nodeGrupo = elementoDia.selectSingleNode("/grupo[@id='" + idGrupo + "']");
+                    Node nodeGrupo = elementoDia.selectSingleNode("//dia[@fecha='" + dia + "']//grupo[@id='" + idGrupo + "']");
                     if (nodeGrupo != null) {
                         Element elementGrupo = (Element) nodeGrupo;
-                        List<Node> nodeAlumnos = elementGrupo.selectNodes("/alumno");
+                        List<Node> nodeAlumnos = elementGrupo.content();//"//grupo[@id='" + idGrupo + "']/alumno");
                         alumnos = new ArrayList<>();
                         asistencia = new ArrayList<>();
                         for (Node nodeAlumno : nodeAlumnos) {
                             Element elementoAlumno = (Element) nodeAlumno;
+                            
+                            Iterator<Element> iteratorMatricula = elementoAlumno.elementIterator("matricula");
+                            Iterator<Element> iteratorAsistencia = elementoAlumno.elementIterator("asistencia");
+                            Iterator<Element> iteratorNombre = elementoAlumno.elementIterator("nombre");
+                            
+                            Element elementAsistencia = (Element) iteratorAsistencia.next();
+                            Element elementMatricula = (Element) iteratorMatricula.next();
+                            Element elementNombre = (Element) iteratorNombre.next();
+                                                        
                             Alumno alumno = new Alumno();
-
-                            Element elementAsistencia = (Element) elementoAlumno.selectSingleNode("/asistencia");
-                            Element elementMatricula = (Element) elementoAlumno.selectSingleNode("/matricula");
-                            Element elementNombre = (Element) elementoAlumno.selectSingleNode("/nombre");
+                            String nombre = elementNombre.getText();
                             alumno.setMatricula(Integer.parseInt(elementMatricula.getText()));
-                            alumno.setNombre(elementNombre.getText().split("-")[0]);
-                            alumno.setApellidos(elementNombre.getText().split("-")[1]);
+                            alumno.setNombre(nombre.split("-")[0]);
+                            alumno.setApellidos(nombre.split("-")[1]);
                             alumnos.add(alumno);
                             asistencia.add(elementAsistencia.getText());
                         }
@@ -128,6 +140,7 @@ public class AlumnoXML {
                 System.out.println("Error en el metodo obtenerListaAsistenciaSegunGrupoFecha de AlumnoXML: " + ex.getMessage());
             } catch (Exception ex) {
                 System.out.println("Error al obtener Lista de Asistencia Segun Grupo y Fecha: " + ex.getMessage());
+                ex.printStackTrace();
             }
         } else {
             guardarDocumento(null);
@@ -180,7 +193,7 @@ public class AlumnoXML {
                 }
                 fileWiter = new FileWriter(file);
                 Document documentNuevo = DocumentHelper.createDocument();
-                Element root = documentNuevo.addElement("horario");
+                Element root = documentNuevo.addElement("listasAsistencia");
 
                 XMLWriter writer = new XMLWriter(fileWiter);
                 writer.write(documentNuevo);
@@ -209,8 +222,8 @@ public class AlumnoXML {
             try {
                 SAXReader reader = new SAXReader();
                 Document documento = reader.read(file);
-                Node nodeDia = documento.selectSingleNode("/dia[@fecha='" + dia + "']");
-                Node nodeGrupo = nodeDia.selectSingleNode("/grupo[@id='" + idGrupo + "']");
+                Node nodeDia = documento.selectSingleNode("//dia[@fecha='" + dia + "']");
+                Node nodeGrupo = nodeDia.selectSingleNode("//grupo[@id='" + idGrupo + "']");
                 Element elementoDia = (Element) nodeDia;
                 elementoDia.remove((Element) nodeGrupo);
                 guardarDocumento(documento);
@@ -229,13 +242,14 @@ public class AlumnoXML {
 
     public static boolean modificarAsistencia(List<String> asistencia, List<Alumno> alumnos, String dia, String idGrupo) {
         boolean resultado;
-        
+
         resultado = borrarAsistencia(dia, idGrupo);
-        if(resultado)
+        if (resultado) {
             resultado = guardarAsistencia(asistencia, idGrupo, alumnos, dia);
-        else
+        } else {
             resultado = false;
-        
+        }
+
         return resultado;
     }
 }

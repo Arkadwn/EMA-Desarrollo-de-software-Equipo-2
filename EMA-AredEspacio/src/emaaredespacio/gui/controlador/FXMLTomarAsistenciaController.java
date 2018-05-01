@@ -10,8 +10,8 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import emaaredespacio.modelo.Alumno;
 import emaaredespacio.modelo.AlumnoXML;
-import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.Grupo;
+import emaaredespacio.modelo.Inscripcion;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class FXMLTomarAsistenciaController implements Initializable {
     @FXML
     private GridPane gridLista;
     private int cupoGrupoElegido;
-    private Colaborador colaborador;
+    private int idColaborador;
     private List<Alumno> alumnos;
     private Grupo grupoSeleccion;
     @FXML
@@ -62,14 +62,28 @@ public class FXMLTomarAsistenciaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cupoGrupoElegido = 51;
-        colaborador = new Colaborador().buscarColaboradorSegunID(2);
-        alumnos = new Alumno().buscarAlumno("e");
+        //idColaborador = 2;
         Calendar diaActual = Calendar.getInstance();
+        int diaEntero = diaActual.get(Calendar.DAY_OF_MONTH);
+        int mesEntero = (diaActual.get(Calendar.MONTH) + 1);
+        String mes;
+
+        if (mesEntero < 10) {
+            mes = "0" + mesEntero;
+        } else {
+            mes = mesEntero + "";
+        }
+
         diasActuales = diaActual.get(Calendar.DAY_OF_YEAR);
-        fecha = diaActual.get(Calendar.DAY_OF_MONTH) + "/" + (diaActual.get(Calendar.MONTH) + 1) + diaActual.get(Calendar.YEAR);
+        fecha = diaEntero + "/" + mes + "/" + diaActual.get(Calendar.YEAR);
         lbAsistenciaFecha.setText(TXTLABELFECHA + fecha);
         llenarTablaAsistencia();
         llenarComboBoxGrupos();
+        itemFecha.getEditor().setText(fecha);
+    }
+
+    public void pasarIdColaborador(int idColaborador) {
+        this.idColaborador = idColaborador;
     }
 
     private void llenarTablaAsistencia() {
@@ -94,7 +108,7 @@ public class FXMLTomarAsistenciaController implements Initializable {
                     } else {
                         cbxAsistencia = new JFXComboBox();
                         cbxAsistencia.setId(i + "," + j);
-                        cbxAsistencia.setPromptText("Asistencia:");
+                        cbxAsistencia.setPromptText("Tipo de asistencia:");
                         cbxAsistencia.setDisable(true);
                         panel.getChildren().add(cbxAsistencia);
                         StackPane.setAlignment(cbxAsistencia, Pos.CENTER);
@@ -118,7 +132,9 @@ public class FXMLTomarAsistenciaController implements Initializable {
                             JFXComboBox cbxAsistencia = (JFXComboBox) gridLista.lookup("#" + i + "," + j);
                             cbxAsistencia.setDisable(false);
                             cbxAsistencia.setItems(estadosCbx);
-                            cbxAsistencia.setValue(asistencias.get(j-1));
+                            if (!asistencias.isEmpty()) {
+                                cbxAsistencia.setValue(asistencias.get(j - 1));
+                            }
                         }
                     }
                 }
@@ -126,7 +142,6 @@ public class FXMLTomarAsistenciaController implements Initializable {
         } else {
             for (int j = 1; j < 50; j++) {
                 for (int i = 0; i < 2; i++) {
-
                     if (i == 0) {
                         Label lb = (Label) gridLista.lookup("#" + i + "," + j);
                         lb.setText("     ");
@@ -135,7 +150,6 @@ public class FXMLTomarAsistenciaController implements Initializable {
                         cbxAsistencia.setItems(null);
                         cbxAsistencia.setDisable(true);
                     }
-
                 }
             }
         }
@@ -145,7 +159,7 @@ public class FXMLTomarAsistenciaController implements Initializable {
         List<Grupo> grupos = new Grupo().buscarGrupos();
         ArrayList<String> gruposColaborador = new ArrayList();
         for (Grupo grupo : grupos) {
-            if (grupo.getIdColaborador() == colaborador.getIdColaborador()) {
+            if (grupo.getIdColaborador() == idColaborador) {
                 gruposColaborador.add(grupo.getIdGrupo() + "|" + grupo.getTipoDeBaile());
             }
         }
@@ -155,26 +169,90 @@ public class FXMLTomarAsistenciaController implements Initializable {
 
     @FXML
     private void guardarPaseLista(ActionEvent event) {
+        if (verificarPaseLista()) {
+            if (asistencias.isEmpty()) {
+                int i = 1;
+                for (int j = 1; j < cupoGrupoElegido + 1; j++) {
+
+                    if (alumnos.size() >= j) {
+                        JFXComboBox cbx = (JFXComboBox) gridLista.lookup("#" + i + "," + j);
+                        if (!cbx.isDisabled()) {
+                            String valor = (String) cbx.getValue();
+                            asistencias.add(valor);
+                        }
+                    }
+
+                }
+                AlumnoXML.guardarAsistencia(asistencias, String.valueOf(idColaborador), alumnos, fecha);
+            } else {
+                int i = 1;
+                asistencias.clear();
+                for (int j = 1; j < cupoGrupoElegido + 1; j++) {
+
+                    if (alumnos.size() >= j) {
+                        JFXComboBox cbx = (JFXComboBox) gridLista.lookup("#" + i + "," + j);
+                        if (!cbx.isDisabled()) {
+                            String valor = (String) cbx.getValue();
+                            asistencias.add(valor);
+                        }
+                    }
+
+                }
+                AlumnoXML.modificarAsistencia(asistencias, alumnos, fecha, String.valueOf(idColaborador));
+            }
+            vaciarCampos();
+        } else {
+            MensajeController.mensajeInformacion("Oye no terminaste de pasar lista");
+        }
+    }
+
+    private boolean verificarPaseLista() {
+        boolean banderaVerificacion = true;
+        int i = 1;
+        for (int j = 1; j < cupoGrupoElegido + 1; j++) {
+
+            if (alumnos.size() >= j) {
+                JFXComboBox cbx = (JFXComboBox) gridLista.lookup("#" + i + "," + j);
+                if (!cbx.isDisabled()) {
+                    String valor = (String) cbx.getValue();
+                    if (!"Asistio".equals(valor) && !"Falto".equals(valor) && !"Permiso".equals(valor) && !"Aviso".equals(valor)) {
+                        banderaVerificacion = false;
+                        break;
+                    }
+                }
+            }
+
+        }
+        return banderaVerificacion;
     }
 
     @FXML
     private void seleccionarGrupo(ActionEvent event) {
         String seleccion = cbxGrupos.getValue();
+        //if (seleccion != null) {
         grupoSeleccion = new Grupo().buscarGrupoPorId(Integer.parseInt(seleccion.split("|")[0]));
         cupoGrupoElegido = grupoSeleccion.getCupo();
+        actualizarFechas(null);
+        //}
     }
 
     @FXML
     private void actualizarFechas(ActionEvent event) {
-
         if (!"".equals(itemFecha.getEditor().getText())) {
             fecha = itemFecha.getEditor().getText();
+            
             Calendar fechaActualizada = Calendar.getInstance();
-            fechaActualizada.set(Integer.parseInt(fecha.split("/")[2]), Integer.parseInt(fecha.split("/")[1]) - 1, Integer.parseInt(fecha.split("/")[0]));
+
+            int diaEntero = Integer.parseInt(fecha.split("/")[0]);
+            int mesEntero = Integer.parseInt(fecha.split("/")[1]);
+
+            fechaActualizada.set(Integer.parseInt(fecha.split("/")[2]), mesEntero - 1, diaEntero);
             if (diasActuales >= fechaActualizada.get(Calendar.DAY_OF_YEAR)) {
                 if (grupoSeleccion != null) {
                     lbAsistenciaFecha.setText(TXTLABELFECHA + fecha);
-                    Object[] resultados = AlumnoXML.obtenerListaAsistenciaSegunGrupoFecha(String.valueOf(grupoSeleccion.getIdGrupo()), fecha);
+                    
+                    Object[] resultados = AlumnoXML.obtenerListaAsistenciaSegunGrupoFecha(fecha, String.valueOf(grupoSeleccion.getIdGrupo()));
+                    
                     if (resultados[0] != null) {
                         int cupoTemporal = cupoGrupoElegido;
                         cupoGrupoElegido = 0;
@@ -182,17 +260,19 @@ public class FXMLTomarAsistenciaController implements Initializable {
                         alumnos = (List<Alumno>) resultados[0];
                         asistencias = (List<String>) resultados[1];
                         cupoGrupoElegido = cupoTemporal;
+
                         llenarTablaAsistencia();
-                    }else{
+                    } else {
                         int cupoTemporal = cupoGrupoElegido;
                         cupoGrupoElegido = 0;
                         llenarTablaAsistencia();
-                        //Agregar metodo que me retorne una lista de un grupo de la nueva clase
+                        alumnos = new Inscripcion().sacarInscripcionesDeGrupo(grupoSeleccion.getIdGrupo());
+                        asistencias = new ArrayList<>();
                         cupoGrupoElegido = cupoTemporal;
                         llenarTablaAsistencia();
                     }
                 } else {
-
+                    MensajeController.mensajeInformacion("Debe seleccionar un grupo primero");
                 }
             } else {
                 MensajeController.mensajeInformacion("No se puede tomar o modificar asistencia de días futuros");
@@ -202,4 +282,22 @@ public class FXMLTomarAsistenciaController implements Initializable {
         }
     }
 
+    private void vaciarCampos() {
+        Calendar diaActual = Calendar.getInstance();
+        int diaEntero = diaActual.get(Calendar.DAY_OF_MONTH);
+        int mesEntero = (diaActual.get(Calendar.MONTH) + 1);
+        String mes;
+
+        if (mesEntero < 10) {
+            mes = "0" + mesEntero;
+        } else {
+            mes = mesEntero + "";
+        }
+
+        fecha = diaEntero + "/" + mes + "/" + diaActual.get(Calendar.YEAR);
+        lbAsistenciaFecha.setText(TXTLABELFECHA + fecha);
+        itemFecha.getEditor().setText(fecha);
+        actualizarFechas(null);
+        //llenarComboBoxGrupos();
+    }
 }
