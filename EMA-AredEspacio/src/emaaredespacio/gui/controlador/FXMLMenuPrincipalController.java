@@ -56,6 +56,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         colaborador.setApellidos("Limon");
         menuDesplegado = false;
         System.getProperties().put("colaborador", colaborador.getNombre() + " " + colaborador.getApellidos());
+        System.getProperties().put("idColaborador", ""+colaborador.getIdColaborador());
         panelPrincipal.setStyle("-fx-background-image: url('emaaredespacio/imagenes/fondo.jpg');"
                 + "-fx-background-position: center center; -fx-background-repeat: stretch;");
         btnInicio.setStyle("-fx-background-image: url('emaaredespacio/imagenes/inicio.png');"
