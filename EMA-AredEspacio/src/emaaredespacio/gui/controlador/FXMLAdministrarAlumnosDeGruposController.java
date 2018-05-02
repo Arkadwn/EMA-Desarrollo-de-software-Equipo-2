@@ -44,8 +44,6 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
     private TableView<Grupo> tbGrupos;
     @FXML
     private TableColumn<Grupo, String> clNombreGrupo;
-    private JFXButton btnBuscar;
-    private JFXTextField tfPalabraClave;
     @FXML
     private JFXButton btnInscribir;
     @FXML
@@ -193,7 +191,6 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
         tfNombreAlumno.setText("");
         tfNombreGrupo.setText("");
         tfPrecio.setText("");
-        tfPalabraClave.setText("");
         tbAlumnos.getItems().clear();
         alumnoSeleccionado = null;
         grupoSeleccionado = null;
@@ -210,8 +207,6 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
         cbPromocion.setVisible(false);
         btnInscribir.setVisible(false);
         btnDarDeBajaAlumno.setDisable(true);
-        btnBuscar.setVisible(true);
-        tfPalabraClave.setVisible(true);
         btnBaja.setVisible(true);
         btnActivarInscripcion.setDisable(false);
         tfMensualidad.setVisible(false);
@@ -230,8 +225,6 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
         cbPromocion.setVisible(true);
         btnInscribir.setVisible(true);
         btnDarDeBajaAlumno.setDisable(false);
-        btnBuscar.setVisible(false);
-        tfPalabraClave.setVisible(false);
         btnBaja.setVisible(false);
         btnActivarInscripcion.setDisable(true);
         tfMensualidad.setVisible(true);

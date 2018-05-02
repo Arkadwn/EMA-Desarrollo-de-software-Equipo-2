@@ -27,8 +27,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.ToggleGroup;
 
 /**
  * FXML Controller class
@@ -45,12 +47,7 @@ public class FXMLModificarPromocionController implements Initializable {
     private Spinner spinnerDescuento;
     @FXML
     private JFXTextField tfNombre;
-    @FXML
-    private DatePicker datePickerFechaIni;
-    @FXML
-    private DatePicker datePickerFechaFin;
-    @FXML
-    private CheckBox checkBoxDescuento;
+
     @FXML
     private ComboBox comboBoxPromocion;
 
@@ -59,6 +56,14 @@ public class FXMLModificarPromocionController implements Initializable {
     private Colaborador colaborador;
     Promocion promocionSeleccionada;
     String nombreColaborador = "eduardo";
+    @FXML
+    private CheckBox checkBoxEstado;
+    @FXML
+    private RadioButton radioButtonMensual;
+    @FXML
+    private ToggleGroup group;
+    @FXML
+    private RadioButton radioButtonInscripcion;
 
     public Colaborador getColaborador() {
         return colaborador;
@@ -67,9 +72,8 @@ public class FXMLModificarPromocionController implements Initializable {
     public void setColaborador(Colaborador colaborador) {
         this.colaborador = colaborador;
         tfNombre.setText(colaborador.getNombre() + " " + colaborador.getApellidos());
-        buscarPromociones();
+        
     }
-    
 
     /**
      * Initializes the controller class.
@@ -80,7 +84,8 @@ public class FXMLModificarPromocionController implements Initializable {
 
         listaPromociones = new ArrayList();
         lista = new ArrayList();
-        
+        buscarColaborador();
+        buscarPromociones();
         comboBoxPromocion.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -91,32 +96,20 @@ public class FXMLModificarPromocionController implements Initializable {
                 }
                 SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, Integer.parseInt(promocionSeleccionada.getPorcentajeDescuento()));
                 spinnerDescuento.setValueFactory(valueFactory);
-                checkBoxDescuento.setSelected(promocionSeleccionada.isAplicaDescuento());
-                if (checkBoxDescuento.isSelected()) {
-                    spinnerDescuento.setDisable(false);
+                if (promocionSeleccionada.getEstado().equals("A")) {
+                    checkBoxEstado.setSelected(true);
                 } else {
-                    spinnerDescuento.setDisable(true);
+                    checkBoxEstado.setSelected(false);
                 }
-                //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate fechaI = LocalDate.parse(promocionSeleccionada.getFechaInicio());
-                LocalDate fechaF = LocalDate.parse(promocionSeleccionada.getFechaFin());
-                datePickerFechaIni.setValue(fechaI);
-                datePickerFechaFin.setValue(fechaF);
-            }
-        });
-
-        checkBoxDescuento.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                checkBoxDescuento.setSelected(!oldValue);
-                if (checkBoxDescuento.isSelected()) {
-                    spinnerDescuento.setDisable(false);
+                if (promocionSeleccionada.getTipoDescuento() == true) {
+                    radioButtonMensual.setSelected(true);
+                    System.out.println("a");
                 } else {
-                    spinnerDescuento.setDisable(true);
+                    System.out.println("b");
+                    radioButtonInscripcion.setSelected(true);
                 }
             }
         });
-
     }
 
     private boolean validarCamposVacios() {
@@ -128,31 +121,28 @@ public class FXMLModificarPromocionController implements Initializable {
         if (validarCamposVacios()) {
             MensajeController.mensajeAdvertencia("Hay campos vacíos");
         } else {
-            if (datePickerFechaFin.getValue().isAfter(datePickerFechaIni.getValue())) {
-                IPromocion metodosPromocion = new Promocion();
-                Promocion promo = new Promocion();
-                promo.setNombrePromocion(comboBoxPromocion.getValue().toString());
-                promo.setAplicaDescuento(checkBoxDescuento.isSelected());
-                if (checkBoxDescuento.isSelected()) {
-                    promo.setPorcentajeDescuento(spinnerDescuento.getValue().toString());
-                } else {
-                    promo.setPorcentajeDescuento("0");
-                }
-                String fechaIni = datePickerFechaIni.getValue().format(DateTimeFormatter.ISO_DATE);
-                String fechaFin = datePickerFechaFin.getValue().format(DateTimeFormatter.ISO_DATE);
-                promo.setFechaInicio(fechaIni);
-                promo.setFechaFin(fechaFin);
-                promo.setIdColaborador(colaborador.getIdColaborador());
-                promo.setIdPromocion(promocionSeleccionada.getIdPromocion());
-                if (metodosPromocion.modificarPromocion(promo)) {
-                    MensajeController.mensajeInformacion("Promoción modificada exitosamente");
-                } else {
-                    MensajeController.mensajeAdvertencia("No se pudo guardar la promoción");
-                }
-
+            IPromocion metodosPromocion = new Promocion();
+            Promocion promo = new Promocion();
+            promo.setNombrePromocion(comboBoxPromocion.getValue().toString());
+            if (checkBoxEstado.isSelected()) {
+                promo.setEstado("A");
             } else {
-                MensajeController.mensajeInformacion("La fecha fin debe ser mayor a la fecha actual");
+                promo.setEstado("B");
             }
+            promo.setPorcentajeDescuento(spinnerDescuento.getValue().toString());
+            promo.setIdColaborador(colaborador.getIdColaborador());
+            promo.setIdPromocion(promocionSeleccionada.getIdPromocion());
+            if (radioButtonMensual.isSelected()) {
+                promo.setTipoDescuento(true);
+            } else {
+                promo.setTipoDescuento(false);
+            }
+            if (metodosPromocion.modificarPromocion(promo)) {
+                MensajeController.mensajeInformacion("Promoción modificada exitosamente");
+            } else {
+                MensajeController.mensajeAdvertencia("No se pudo guardar la promoción");
+            }
+
         }
     }
 

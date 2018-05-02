@@ -18,4 +18,5 @@ public interface ICliente {
     public boolean guardarCliente(Cliente cliente);
     public List<Cliente> buscarCliente(String nombre);
     public boolean validarFormatoCorreo(String correo);
+    public List<Cliente> buscarClientes();
 }

@@ -6,6 +6,7 @@
 package emaaredespacio.gui.controlador;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.Grupo;
@@ -20,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
@@ -56,6 +58,8 @@ public class FXMLModificarGrupoController implements Initializable {
     private JFXTextField tfPalabraClave;
     @FXML
     private JFXButton btnBuscar;
+    @FXML
+    private ComboBox<?> comboBoxGrupos;
     @FXML
     private Spinner<Integer> spinnerCupo;
     private List<Grupo> lista;
@@ -124,6 +128,7 @@ public class FXMLModificarGrupoController implements Initializable {
             SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, seleccion.getCupo());
             spinnerCupo.setValueFactory(valueFactory);
             checkEstado.setSelected(seleccion.getEstado().equals("A"));
+            
         }
     }
 

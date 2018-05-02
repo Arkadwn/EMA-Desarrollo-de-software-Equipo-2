@@ -65,6 +65,48 @@ public class FXMLRegistrarClienteController implements Initializable {
                 if (!newValue.matches("\\d*")) {
                     tfTelefono.setText(newValue.replaceAll("[^\\d]", ""));
                 }
+                if (tfTelefono.getText().length() > 10) {
+                    String s = tfTelefono.getText().substring(0, 10);
+                    tfTelefono.setText(s);
+                }
+            }
+        });
+        tfNombre.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tfNombre.getText().length() > 100) {
+                    String s = tfNombre.getText().substring(0, 100);
+                    tfNombre.setText(s);
+                }
+            }
+        });
+        tfApellidos.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tfApellidos.getText().length() > 100) {
+                    String s = tfApellidos.getText().substring(0, 100);
+                    tfApellidos.setText(s);
+                }
+            }
+        });
+
+        tfCorreo.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tfCorreo.getText().length() > 50) {
+                    String s = tfCorreo.getText().substring(0, 50);
+                    tfCorreo.setText(s);
+                }
+            }
+        });
+
+        tfDireccion.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tfDireccion.getText().length() > 50) {
+                    String s = tfDireccion.getText().substring(0, 50);
+                    tfDireccion.setText(s);
+                }
             }
         });
 
@@ -76,31 +118,18 @@ public class FXMLRegistrarClienteController implements Initializable {
         return concordancia.matches();
     }
 
-    public boolean[] validarCampos() {
-        boolean[] validaciones = new boolean[7];
-
-        //Nombre
-        validaciones[0] = tfNombre.getText().trim().length() >= 2;
-        //Apellidos
-        validaciones[1] = tfApellidos.getText().trim().length() >= 2;
-        //Nombre y Apellidos
-        validaciones[2] = tfNombre.getText().trim().length() + tfApellidos.getLength() <= 400;
-        //Correo
-        validaciones[3] = validarFormatoCorreo(tfCorreo.getText());
-        //Direccion
-        validaciones[4] = tfDireccion.getText().trim().length() >= 2 && tfDireccion.getLength() <= 50;
-        //Telefono
-        validaciones[5] = tfTelefono.getLength() == 10;
-
-        validaciones[6] = validaciones[0] && validaciones[1] && validaciones[2] && validaciones[3] && validaciones[4] && validaciones[5];
-
+    public boolean validarCamposVacios() {
+        boolean validaciones = true;
+        if (!tfNombre.getText().trim().isEmpty() && !tfApellidos.getText().trim().isEmpty() && !tfDireccion.getText().trim().isEmpty()) {
+            validaciones = false;
+        }
         return validaciones;
     }
 
     @FXML
     private void accionGuardar(ActionEvent evento) {
         if (validarCamposVacios()) {
-            MensajeController.mensajeAdvertencia("Hay campos vacíos");
+            MensajeController.mensajeAdvertencia("Hay campos obligatorios vacíos");
         } else {
             ICliente metodosCliente = new Cliente();
             Cliente cliente = new Cliente();
@@ -110,22 +139,26 @@ public class FXMLRegistrarClienteController implements Initializable {
             cliente.setImagenPerfil(nombreImagen);
             cliente.setTelefono(tfTelefono.getText());
 
-            boolean[] validacion = validarCampos();
-            if (validacion[6]) {
+            if (tfCorreo.getText().isEmpty()) {
                 if (metodosCliente.guardarCliente(cliente)) {
                     MensajeController.mensajeInformacion("Cliente guardado exitosamente");
                 } else {
                     MensajeController.mensajeAdvertencia("No se pudo guardar el cliente");
                 }
             } else {
-                MensajeController.mensajeAdvertencia("Hay campos vacíos o erroneos");
+                System.out.println("no vacio");
+                if (validarFormatoCorreo(tfCorreo.getText())) {
+                    if (metodosCliente.guardarCliente(cliente)) {
+                        MensajeController.mensajeInformacion("Cliente guardado exitosamente");
+                    } else {
+                        MensajeController.mensajeAdvertencia("No se pudo guardar el cliente");
+                    }
+                } else {
+                    MensajeController.mensajeAdvertencia("El correo no tiene un formato correcto");
+                }
             }
-        }
-    }
 
-    private boolean validarCamposVacios() {
-        return tfNombre.getText().trim().isEmpty() || tfApellidos.getText().trim().isEmpty() || tfTelefono.getText().trim().isEmpty()
-                || tfDireccion.getText().trim().isEmpty() || tfCorreo.getText().trim().isEmpty() || nombreImagen.equals("No");
+        }
     }
 
     @FXML

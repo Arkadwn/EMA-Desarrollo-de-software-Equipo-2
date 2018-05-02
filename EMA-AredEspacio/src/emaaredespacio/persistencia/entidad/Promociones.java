@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
@@ -22,9 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Miguel Leonardo Jimenez Jimenez
- * @date 17/04/2018
- * @time 06:29:08 PM
+ * @author enriq
  */
 @Entity
 @Table(name = "promociones")
@@ -33,10 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Promociones.findAll", query = "SELECT p FROM Promociones p")
     , @NamedQuery(name = "Promociones.findByIdPromocion", query = "SELECT p FROM Promociones p WHERE p.idPromocion = :idPromocion")
     , @NamedQuery(name = "Promociones.findByNombrePromocion", query = "SELECT p FROM Promociones p WHERE p.nombrePromocion = :nombrePromocion")
-    , @NamedQuery(name = "Promociones.findByAplicaDescuento", query = "SELECT p FROM Promociones p WHERE p.aplicaDescuento = :aplicaDescuento")
+    , @NamedQuery(name = "Promociones.findByTipoDescuento", query = "SELECT p FROM Promociones p WHERE p.tipoDescuento = :tipoDescuento")
     , @NamedQuery(name = "Promociones.findByPorcentajeDescuento", query = "SELECT p FROM Promociones p WHERE p.porcentajeDescuento = :porcentajeDescuento")
-    , @NamedQuery(name = "Promociones.findByFechaIni", query = "SELECT p FROM Promociones p WHERE p.fechaIni = :fechaIni")
-    , @NamedQuery(name = "Promociones.findByFechaFin", query = "SELECT p FROM Promociones p WHERE p.fechaFin = :fechaFin")})
+    , @NamedQuery(name = "Promociones.findByEstado", query = "SELECT p FROM Promociones p WHERE p.estado = :estado")})
 public class Promociones implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,14 +44,12 @@ public class Promociones implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre_promocion")
     private String nombrePromocion;
-    @Column(name = "aplica_descuento")
-    private Integer aplicaDescuento;
+    @Column(name = "tipo_descuento")
+    private Integer tipoDescuento;
     @Column(name = "porcentaje_descuento")
     private String porcentajeDescuento;
-    @Column(name = "fecha_ini")
-    private String fechaIni;
-    @Column(name = "fecha_fin")
-    private String fechaFin;
+    @Column(name = "estado")
+    private String estado;
     @JoinColumn(name = "idColaborador", referencedColumnName = "idColaborador")
     @ManyToOne
     private Colaboradores idColaborador;
@@ -88,12 +82,12 @@ public class Promociones implements Serializable {
         this.nombrePromocion = nombrePromocion;
     }
 
-    public Integer getAplicaDescuento() {
-        return aplicaDescuento;
+    public Integer getTipoDescuento() {
+        return tipoDescuento;
     }
 
-    public void setAplicaDescuento(Integer aplicaDescuento) {
-        this.aplicaDescuento = aplicaDescuento;
+    public void setTipoDescuento(Integer tipoDescuento) {
+        this.tipoDescuento = tipoDescuento;
     }
 
     public String getPorcentajeDescuento() {
@@ -104,20 +98,12 @@ public class Promociones implements Serializable {
         this.porcentajeDescuento = porcentajeDescuento;
     }
 
-    public String getFechaIni() {
-        return fechaIni;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setFechaIni(String fechaIni) {
-        this.fechaIni = fechaIni;
-    }
-
-    public String getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(String fechaFin) {
-        this.fechaFin = fechaFin;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public Colaboradores getIdColaborador() {
@@ -152,5 +138,5 @@ public class Promociones implements Serializable {
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Promociones[ idPromocion=" + idPromocion + " ]";
     }
-
+    
 }

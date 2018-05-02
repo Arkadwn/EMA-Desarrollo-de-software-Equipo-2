@@ -102,26 +102,53 @@ public class Cliente implements ICliente {
     }
 
     @Override
+    public List<Cliente> buscarClientes() {
+        List<Cliente> listaDeClientes;
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
+        List<Clientes> lista = controlador.findClientesEntities();
+        listaDeClientes = convertirLista(lista);
+        return listaDeClientes;
+    }
+
+    @Override
     public boolean guardarDatos(Cliente cliente) {
         boolean guardado = false;
-        if (cliente.getNombre().length() > 0 && cliente.getNombre().length() <= 400 && cliente.getDireccion().length() > 0 && cliente.getDireccion().length() <= 50 && cliente.getImagenPerfil() != null && cliente.getTelefono().length() == 10 && validarFormatoCorreo(cliente.getCorreoElectronico())) {
-            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
-            ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
-
-            Clientes nuevoCliente = new Clientes();
-            nuevoCliente.setIdCliente(Integer.parseInt(cliente.getId()));
-            nuevoCliente.setNombre(cliente.getNombre());
-            nuevoCliente.setEstado(cliente.getEstado());
-            nuevoCliente.setTelefono(cliente.getTelefono());
-            nuevoCliente.setCorreo(cliente.getCorreoElectronico());
-            nuevoCliente.setImagen(cliente.getImagenPerfil());
-            nuevoCliente.setDireccion(cliente.getDireccion());
-
-            try {
-                guardado = controlador.edit(nuevoCliente);
-            } catch (Exception ex) {
-                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
+        if (cliente.getNombre().length() > 0 && cliente.getNombre().length() <= 400 && cliente.getDireccion().length() > 0 && cliente.getDireccion().length() <= 50) {
+            if (!cliente.getCorreoElectronico().isEmpty()) {
+                if (validarFormatoCorreo(cliente.getCorreoElectronico())) {
+                    Clientes nuevoCliente = new Clientes();
+                    nuevoCliente.setIdCliente(Integer.parseInt(cliente.getId()));
+                    nuevoCliente.setNombre(cliente.getNombre());
+                    nuevoCliente.setEstado(cliente.getEstado());
+                    nuevoCliente.setTelefono(cliente.getTelefono());
+                    nuevoCliente.setCorreo(cliente.getCorreoElectronico());
+                    nuevoCliente.setImagen(cliente.getImagenPerfil());
+                    nuevoCliente.setDireccion(cliente.getDireccion());
+                    try {
+                        guardado = controlador.edit(nuevoCliente);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } else {
+                Clientes nuevoCliente = new Clientes();
+                nuevoCliente.setIdCliente(Integer.parseInt(cliente.getId()));
+                nuevoCliente.setNombre(cliente.getNombre());
+                nuevoCliente.setEstado(cliente.getEstado());
+                nuevoCliente.setTelefono(cliente.getTelefono());
+                nuevoCliente.setCorreo(cliente.getCorreoElectronico());
+                nuevoCliente.setImagen(cliente.getImagenPerfil());
+                nuevoCliente.setDireccion(cliente.getDireccion());
+                try {
+                    guardado = controlador.edit(nuevoCliente);
+                } catch (Exception ex) {
+                    Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+
         }
 
         return guardado;
@@ -195,10 +222,23 @@ public class Cliente implements ICliente {
     @Override
     public boolean guardarCliente(Cliente cliente) {
         boolean guardado = false;
-        if (cliente.getNombre() != null && cliente.getTelefono() != null && cliente.getDireccion() != null && cliente.getImagenPerfil() != null && cliente.getCorreoElectronico() != null) {
-            if (cliente.getNombre().length() > 0 && cliente.getNombre().length() <= 400 && cliente.getDireccion().length() > 0 && cliente.getDireccion().length() <= 50 && cliente.getImagenPerfil() != null && cliente.getTelefono().length() == 10 && validarFormatoCorreo(cliente.getCorreoElectronico())) {
-                EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
-                ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        ClientesJpaController controlador = new ClientesJpaController(entityManagerFactory);
+        if (cliente.getNombre().length() > 0 && cliente.getNombre().length() <= 400 && cliente.getDireccion().length() > 0 && cliente.getDireccion().length() <= 50) {
+            if (!cliente.getCorreoElectronico().isEmpty()) {
+                if (validarFormatoCorreo(cliente.getCorreoElectronico())) {
+                    Clientes nuevoCliente = new Clientes();
+                    nuevoCliente.setNombre(cliente.getNombre());
+                    nuevoCliente.setDireccion(cliente.getDireccion());
+                    nuevoCliente.setCorreo(cliente.getCorreoElectronico());
+                    nuevoCliente.setImagen(cliente.getImagenPerfil());
+                    nuevoCliente.setTelefono(cliente.getTelefono());
+                    nuevoCliente.setEstado("A");
+                    if (controlador.create(nuevoCliente)) {
+                        guardado = true;
+                    }
+                }
+            } else {
                 Clientes nuevoCliente = new Clientes();
                 nuevoCliente.setNombre(cliente.getNombre());
                 nuevoCliente.setDireccion(cliente.getDireccion());
@@ -211,7 +251,6 @@ public class Cliente implements ICliente {
                 }
             }
         }
-
         return guardado;
     }
 

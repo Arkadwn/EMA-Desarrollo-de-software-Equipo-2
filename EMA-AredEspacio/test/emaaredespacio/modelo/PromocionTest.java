@@ -28,9 +28,8 @@ public class PromocionTest {
         System.out.println("RegistrarPromocion_CP_01");
         Promocion promocion = new Promocion();
         promocion.setNombrePromocion("Danza contemporanea");
-        promocion.setAplicaDescuento(false);
-        promocion.setFechaInicio("2018-04-17");
-        promocion.setFechaFin("2018-04-30");
+        promocion.setTipoDescuento(false);
+        promocion.setEstado("A");
         promocion.setPorcentajeDescuento("0");
         promocion.setIdColaborador(1);
         boolean expResult = true;
@@ -47,8 +46,8 @@ public class PromocionTest {
         System.out.println("RegistrarPromocion_CP_02");
         Promocion promocion = new Promocion();
         promocion.setNombrePromocion("Danza contemporanea abril");
-        promocion.setAplicaDescuento(false);
-        promocion.setFechaInicio("2018-04-17");
+        promocion.setTipoDescuento(false);
+        promocion.setEstado("A");
         promocion.setPorcentajeDescuento("0");
         promocion.setIdColaborador(1);
         boolean expResult = false;
@@ -65,9 +64,8 @@ public class PromocionTest {
         System.out.println("RegistrarPromocion_CP_03");
         Promocion promocion = new Promocion();
         promocion.setNombrePromocion("Danza contemporanea abril");
-        promocion.setAplicaDescuento(false);
-        
-        promocion.setFechaFin("2018-04-30");
+        promocion.setTipoDescuento(false);
+        promocion.setEstado("A");
         promocion.setPorcentajeDescuento("0");
         promocion.setIdColaborador(1);
         boolean expResult = false;
@@ -83,9 +81,8 @@ public class PromocionTest {
     public void testCrearPromocion_CP_04() {
         System.out.println("RegistrarPromocion_CP_04");
         Promocion promocion = new Promocion();
-        promocion.setAplicaDescuento(false);
-        promocion.setFechaInicio("2018-04-17");
-        promocion.setFechaFin("2018-04-30");
+        promocion.setTipoDescuento(false);
+        promocion.setEstado("A");
         promocion.setPorcentajeDescuento("0");
         promocion.setIdColaborador(1);
         boolean expResult = false;
@@ -129,8 +126,6 @@ public class PromocionTest {
         Promocion promocion = new Promocion();
         promocion.setNombrePromocion("Danza contemporanea abril");
         promocion.setIdPromocion(7);
-        promocion.setFechaInicio("2018-04-20");
-        promocion.setFechaFin("2018-05-10");
         promocion.setIdColaborador(1);
         boolean expResult = true;
         boolean result = controlador.modificarPromocion(promocion);
@@ -147,7 +142,6 @@ public class PromocionTest {
         Promocion promocion = new Promocion();
         promocion.setNombrePromocion("Danza contemporanea abril");
         promocion.setIdPromocion(7);
-        promocion.setFechaInicio("2018-04-20");
         promocion.setIdColaborador(1);
         boolean expResult = false;
         boolean result = controlador.modificarPromocion(promocion);
@@ -164,7 +158,6 @@ public class PromocionTest {
         Promocion promocion = new Promocion();
         promocion.setNombrePromocion("Danza contemporanea abril");
         promocion.setIdPromocion(7);
-        promocion.setFechaFin("2018-05-10");
         promocion.setIdColaborador(1);
         boolean expResult = false;
         boolean result = controlador.modificarPromocion(promocion);

@@ -22,12 +22,19 @@ import javax.persistence.Persistence;
 public class Promocion implements IPromocion {
 
     private String nombrePromocion;
-    private boolean aplicaDescuento;
+    private boolean tipoDescuento;
     private String porcentajeDescuento;
     private int idColaborador;
-    private String fechaInicio;
-    private String fechaFin;
     private int idPromocion;
+    private String estado;
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
     public int getIdPromocion() {
         return idPromocion;
@@ -45,12 +52,12 @@ public class Promocion implements IPromocion {
         this.nombrePromocion = nombrePromocion;
     }
 
-    public boolean isAplicaDescuento() {
-        return aplicaDescuento;
+    public boolean getTipoDescuento() {
+        return tipoDescuento;
     }
 
-    public void setAplicaDescuento(boolean aplicaDescuento) {
-        this.aplicaDescuento = aplicaDescuento;
+    public void setTipoDescuento(boolean tipoDescuento) {
+        this.tipoDescuento = tipoDescuento;
     }
 
     public String getPorcentajeDescuento() {
@@ -69,26 +76,10 @@ public class Promocion implements IPromocion {
         this.idColaborador = idColaborador;
     }
 
-    public String getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(String fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public String getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(String fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-
     @Override
     public boolean crearPromocion(Promocion promocion) {
         boolean guardadoExitoso = false;
-        if (promocion.getFechaInicio() != null && promocion.getFechaFin() != null && promocion.getNombrePromocion() != null) {
+        if (promocion.getNombrePromocion() != null) {
             EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
             PromocionesJpaController controlador = new PromocionesJpaController(entityManagerFactory);
             Promociones nuevapromocion = new Promociones();
@@ -96,15 +87,13 @@ public class Promocion implements IPromocion {
             colaborador.setIdColaborador(promocion.getIdColaborador());
             nuevapromocion.setIdColaborador(colaborador);
             nuevapromocion.setNombrePromocion(promocion.getNombrePromocion());
-            if (promocion.aplicaDescuento) {
-                nuevapromocion.setAplicaDescuento(1);
+            nuevapromocion.setEstado("A");
+            if (promocion.tipoDescuento) {
+                nuevapromocion.setTipoDescuento(1);
             } else {
-                nuevapromocion.setAplicaDescuento(0);
+                nuevapromocion.setTipoDescuento(0);
             }
             nuevapromocion.setPorcentajeDescuento(promocion.getPorcentajeDescuento());
-            nuevapromocion.setFechaIni(promocion.getFechaInicio());
-            nuevapromocion.setFechaFin(promocion.getFechaFin());
-            
             if (controlador.create(nuevapromocion)) {
                 guardadoExitoso = true;
             }
@@ -129,13 +118,12 @@ public class Promocion implements IPromocion {
             Promocion nuevaPromocion = new Promocion();
             nuevaPromocion.setNombrePromocion(promocion.getNombrePromocion());
             nuevaPromocion.setPorcentajeDescuento(promocion.getPorcentajeDescuento());
-            nuevaPromocion.setFechaInicio(promocion.getFechaIni());
-            nuevaPromocion.setFechaFin(promocion.getFechaFin());
-            if (promocion.getAplicaDescuento() == 1) {
-                nuevaPromocion.setAplicaDescuento(true);
+            if (promocion.getTipoDescuento().equals(1)) {
+                nuevaPromocion.setTipoDescuento(true);
             } else {
-                nuevaPromocion.setAplicaDescuento(false);
+                nuevaPromocion.setTipoDescuento(false);
             }
+            nuevaPromocion.setEstado(promocion.getEstado());
             nuevaPromocion.setIdPromocion(promocion.getIdPromocion());
             Colaborador colaborador = new Colaborador();
 //            colaborador.setIdColaborador(promocion.getIdColaborador());
@@ -148,21 +136,20 @@ public class Promocion implements IPromocion {
     @Override
     public boolean modificarPromocion(Promocion promocion) {
         boolean modificada = false;
-        if (promocion.getFechaInicio() != null && promocion.getFechaFin() != null && promocion.getNombrePromocion() != null) {
+        if (promocion.getNombrePromocion() != null) {
             EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
             PromocionesJpaController controlador = new PromocionesJpaController(entityManagerFactory);
             Promociones nuevapromocion = new Promociones();
             Colaboradores colaborador = new Colaboradores();
             colaborador.setIdColaborador(promocion.getIdColaborador());
             nuevapromocion.setNombrePromocion(promocion.getNombrePromocion());
-            if (promocion.aplicaDescuento) {
-                nuevapromocion.setAplicaDescuento(1);
+            nuevapromocion.setEstado(promocion.getEstado());
+            if (promocion.tipoDescuento) {
+                nuevapromocion.setTipoDescuento(1);
             } else {
-                nuevapromocion.setAplicaDescuento(0);
+                nuevapromocion.setTipoDescuento(0);
             }
             nuevapromocion.setPorcentajeDescuento(promocion.getPorcentajeDescuento());
-            nuevapromocion.setFechaIni(promocion.getFechaInicio());
-            nuevapromocion.setFechaFin(promocion.getFechaFin());
 //            nuevapromocion.setIdColaborador(promocion.getIdColaborador());
             nuevapromocion.setIdPromocion(promocion.getIdPromocion());
             try {
