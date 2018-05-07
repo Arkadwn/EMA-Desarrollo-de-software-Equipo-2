@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -151,7 +152,7 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
             for (Colaborador colaborador : colaboradores) {
                 contenido.add(colaborador.getNombre() + " " + colaborador.getApellidos());
             }
-
+            
             ChoiceDialog<String> dialog = new ChoiceDialog<>(System.getProperty("colaborador"), contenido);
             dialog.setTitle(null);
             dialog.setHeaderText(null);

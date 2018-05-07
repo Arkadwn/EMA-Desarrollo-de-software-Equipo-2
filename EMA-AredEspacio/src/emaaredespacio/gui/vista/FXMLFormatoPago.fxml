@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="126.0" prefWidth="568.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLFormatoPagoController">
+   <children>
+      <JFXButton fx:id="btnEditar" layoutX="516.0" layoutY="16.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: red;" visible="false" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="516.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="16.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="11.0" layoutY="11.0" prefHeight="23.0" prefWidth="109.0" text="Colaborador:" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="448.0" AnchorPane.topAnchor="11.0">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbMonto" layoutX="385.0" layoutY="96.0" text="Monto pagado" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="385.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="96.0">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER_RIGHT" layoutX="-1.0" layoutY="58.0" prefHeight="25.0" prefWidth="122.0" text="Fecha de pago:" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="447.0" AnchorPane.topAnchor="58.0">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER_RIGHT" layoutX="37.0" layoutY="32.0" prefHeight="30.0" prefWidth="83.0" text="Alumno:" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="448.0" AnchorPane.topAnchor="32.0">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbGrupo" layoutX="385.0" layoutY="9.0" prefHeight="30.0" prefWidth="115.0" text="Grupo" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="385.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="9.0">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbFecha" layoutX="152.0" layoutY="60.0" prefHeight="20.0" prefWidth="205.0" text="dd/MM/yyyy" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="152.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="60.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbNombreAlumno" layoutX="152.0" layoutY="32.0" prefHeight="30.0" prefWidth="205.0" text="Nombre apellido apellido" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="152.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="32.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbNombreColaborador" layoutX="152.0" layoutY="11.0" prefHeight="23.0" prefWidth="205.0" text="Nombre apellido apellido" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="152.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="11.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnEntregado" layoutX="516.0" layoutY="86.0" onAction="#guardarEntrega" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="516.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="86.0" />
+      <Label alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" layoutX="21.0" layoutY="86.0" prefHeight="20.0" prefWidth="100.0" text="Comentario:" textAlignment="CENTER" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="447.0" AnchorPane.topAnchor="86.0">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Label>
+      <JFXTextArea fx:id="tfComentario" layoutX="150.0" layoutY="90.0" prefHeight="55.0" prefWidth="223.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="227.0" AnchorPane.topAnchor="90.0">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </JFXTextArea>
+   </children>
+</AnchorPane>
