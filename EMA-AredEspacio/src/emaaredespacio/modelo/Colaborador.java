@@ -350,4 +350,8 @@ public class Colaborador implements IColaborador {
         return colaboradores;
     }
 
+    @Override
+    public String toString(){
+        return ""+nombre+" "+apellidos;
+    }
 }

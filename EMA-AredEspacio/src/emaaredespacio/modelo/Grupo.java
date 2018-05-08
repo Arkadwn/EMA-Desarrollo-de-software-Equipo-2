@@ -235,4 +235,8 @@ public class Grupo implements IGrupo {
         return guardado;
     }
 
+    @Override
+    public String toString(){
+        return tipoDeBaile;
+    }
 }

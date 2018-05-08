@@ -3,9 +3,7 @@ package emaaredespacio.modelo;
 import emaaredespacio.persistencia.controladores.AlumnosJpaController;
 import emaaredespacio.persistencia.controladores.IControladorAlumnos;
 import emaaredespacio.persistencia.entidad.Alumnos;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -212,4 +210,8 @@ public class Alumno implements IAlumno{
         return alumnos;
     }
     
+    @Override
+    public String toString(){
+        return nombre+" "+apellidos;
+    }
 }

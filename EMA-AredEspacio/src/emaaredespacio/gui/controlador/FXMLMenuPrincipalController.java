@@ -229,4 +229,13 @@ public class FXMLMenuPrincipalController implements Initializable {
         barraMenu.setVisible(false);
         menuDesplegado = false;
     }
+    
+    @FXML
+    private void desplegarAdministrarPagosAColaborador(ActionEvent evento) throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLAdministrarPagosAColaborador.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
 }
