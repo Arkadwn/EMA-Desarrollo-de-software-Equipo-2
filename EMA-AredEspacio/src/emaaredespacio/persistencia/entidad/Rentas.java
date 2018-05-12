@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Rentas.findByEstado", query = "SELECT r FROM Rentas r WHERE r.estado = :estado")})
 public class Rentas implements Serializable {
 
+    @Column(name = "pagoRealizado")
+    private Boolean pagoRealizado;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -145,6 +148,14 @@ public class Rentas implements Serializable {
     @Override
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Rentas[ idRenta=" + idRenta + " ]";
+    }
+
+    public Boolean getPagoRealizado() {
+        return pagoRealizado;
+    }
+
+    public void setPagoRealizado(Boolean pagoRealizado) {
+        this.pagoRealizado = pagoRealizado;
     }
 
 }

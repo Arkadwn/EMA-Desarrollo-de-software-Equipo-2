@@ -45,21 +45,22 @@ public class RentasJpaController {
         return fabricaEntidad.createEntityManager();
     }
 
-    public boolean crearRenta(Renta renta, Clientes cliente) {
+    public boolean crearRenta(Rentas renta, Clientes cliente) {
         boolean seCreoRenta = true;
         EntityManager entidad = getEntityManager();
 
         try {
             entidad.getTransaction().begin();
             Rentas nuevaRenta = new Rentas();
-            nuevaRenta.setFecha(renta.getFecha().get(Calendar.DAY_OF_MONTH)+"/"+renta.getFecha().get(Calendar.MONTH)+"/"+renta.getFecha().get(Calendar.YEAR));
+            nuevaRenta.setFecha(renta.getFecha());
             
             nuevaRenta.setHoraFin(renta.getHoraFin());
-            nuevaRenta.setHoraIni(renta.getHoraInicio());
+            nuevaRenta.setHoraIni(renta.getHoraIni());
             nuevaRenta.setIdCliente(cliente);
             nuevaRenta.setIdRenta(null);
             nuevaRenta.setMonto(renta.getMonto());
             nuevaRenta.setEstado(true);
+            nuevaRenta.setPagoRealizado(false);
 
             entidad.persist(nuevaRenta);
 
@@ -78,13 +79,15 @@ public class RentasJpaController {
         return seCreoRenta;
     }
 
-    public boolean modificarRenta(Renta renta) throws NonexistentEntityException {
+    public boolean modificarRenta(Rentas renta) throws NonexistentEntityException {
         boolean modificoRenta = true;
-        Rentas rentaModificada = buscarRenta(renta.getId());
+        Rentas rentaModificada = buscarRenta(renta.getIdRenta());
         rentaModificada.setHoraFin(renta.getHoraFin());
-        rentaModificada.setFecha(renta.getFecha().get(Calendar.DAY_OF_MONTH)+"/"+renta.getFecha().get(Calendar.MONTH)+"/"+renta.getFecha().get(Calendar.YEAR));
-        rentaModificada.setHoraIni(renta.getHoraInicio());
+        rentaModificada.setFecha(renta.getFecha());
+        rentaModificada.setHoraIni(renta.getHoraIni());
+        rentaModificada.setPagoRealizado(renta.getPagoRealizado());
         rentaModificada.setMonto(renta.getMonto());
+        rentaModificada.setEstado(renta.getEstado());
         
         EntityManager entidad = getEntityManager();
         try {

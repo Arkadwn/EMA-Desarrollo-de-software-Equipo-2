@@ -108,10 +108,10 @@
                               </JFXButton>
                               <TableView fx:id="tbEventos" onMouseClicked="#posicion" onMouseExited="#quitaSeleccion" prefHeight="200.0" prefWidth="200.0">
                                 <columns>
-                                    <TableColumn fx:id="columnIdEgresos" prefWidth="75.0" text="ID" />
-                                  <TableColumn fx:id="columnFecha" prefWidth="75.0" text="Fecha" />
-                                  <TableColumn fx:id="columnMonto" prefWidth="75.0" text="Monto" />
-                                    <TableColumn fx:id="columnDescripcion" maxWidth="-1.0" minWidth="300.0" prefWidth="-1.0" text="Descripcion" />
+                                    <TableColumn fx:id="columnIdEgresos" editable="false" prefWidth="75.0" sortable="false" text="ID" />
+                                  <TableColumn fx:id="columnFecha" editable="false" prefWidth="75.0" sortable="false" text="Fecha" />
+                                  <TableColumn fx:id="columnMonto" editable="false" prefWidth="75.0" sortable="false" text="Monto" />
+                                    <TableColumn fx:id="columnDescripcion" editable="false" maxWidth="-1.0" minWidth="300.0" prefWidth="-1.0" sortable="false" text="Descripcion" />
                                 </columns>
                                  <GridPane.margin>
                                     <Insets bottom="15.0" left="15.0" right="15.0" top="20.0" />
