@@ -9,6 +9,7 @@ import emaaredespacio.persistencia.controladores.PagosalumnosJpaController;
 import emaaredespacio.persistencia.entidad.Alumnos;
 import emaaredespacio.persistencia.entidad.Grupos;
 import emaaredespacio.persistencia.entidad.Pagosalumnos;
+import emaaredespacio.utilerias.EditorDeFormatos;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,21 +23,22 @@ import javax.persistence.Persistence;
  *
  * @author enriq
  */
-public class PagoAlumno implements IPagoAlumno{
-    private int idPagoAlumno=0;
-    private int matricula=0;
-    private int idGrupo=0;
-    private String fechaPago="";
-    private String monto="";
+public class PagoAlumno implements IPagoAlumno {
+
+    private int idPagoAlumno = 0;
+    private int matricula = 0;
+    private int idGrupo = 0;
+    private String fechaPago = "";
+    private String monto = "";
     private int porcentajeDescuento;
     private String total = "";
-    private int tipoPago=0;
+    private String tipoPago = "";
 
-    public int getTipoPago() {
+    public String getTipoPago() {
         return tipoPago;
     }
 
-    public void setTipoPago(int tipoPago) {
+    public void setTipoPago(String tipoPago) {
         this.tipoPago = tipoPago;
     }
 
@@ -95,10 +97,10 @@ public class PagoAlumno implements IPagoAlumno{
     public void setTotal(String total) {
         this.total = total;
     }
-    
+
     @Override
     public boolean registrarPago(PagoAlumno pago) {
-        boolean registrado=false;
+        boolean registrado = false;
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
         PagosalumnosJpaController controlador = new PagosalumnosJpaController(entityManagerFactory);
         Pagosalumnos pagos = new Pagosalumnos();
@@ -117,8 +119,8 @@ public class PagoAlumno implements IPagoAlumno{
         registrado = controlador.create(pagos);
         return registrado;
     }
-    
-    private Date crearFecha(String cadena){
+
+    public Date crearFecha(String cadena) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Date fecha = null;
         try {
@@ -138,5 +140,24 @@ public class PagoAlumno implements IPagoAlumno{
     public List<PagoAlumno> cargarListaPagos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public PagoAlumno buscarUltimoPago() {
+        PagoAlumno pago = new PagoAlumno();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        PagosalumnosJpaController pagosJPA = new PagosalumnosJpaController(entityManagerFactory);
+        List<Pagosalumnos> pagosAlumnos = pagosJPA.findPagosalumnosEntities();
+        int idPagoUltimo = pagosAlumnos.size();
+        pago.setIdPagoAlumno(idPagoUltimo);
+        pago.setMatricula(pagosAlumnos.get(idPagoUltimo-1).getMatricula().getMatricula());
+        pago.setIdGrupo(pagosAlumnos.get(idPagoUltimo-1).getIdGrupo().getIdGrupo());
+        pago.setFechaPago(EditorDeFormatos.crearFormatoFecha(pagosAlumnos.get(idPagoUltimo-1).getFechaPago()));
+        pago.setMonto(pagosAlumnos.get(idPagoUltimo-1).getMonto());
+        pago.setPorcentajeDescuento(pagosAlumnos.get(idPagoUltimo-1).getPorcentajeDescuento());
+        pago.setTipoPago(pagosAlumnos.get(idPagoUltimo-1).getTipoPago());
+        pago.setTotal(pagosAlumnos.get(idPagoUltimo-1).getTotal());
+
+        return pago;
+    }
+
 }

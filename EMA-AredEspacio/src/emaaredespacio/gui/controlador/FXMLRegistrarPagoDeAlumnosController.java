@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Alumno;
 import emaaredespacio.modelo.Colaborador;
+import emaaredespacio.utilerias.Conexion;
 import emaaredespacio.modelo.Grupo;
 import emaaredespacio.modelo.IAlumno;
 import emaaredespacio.modelo.IGrupo;
@@ -18,11 +19,15 @@ import emaaredespacio.modelo.IPromocion;
 import emaaredespacio.modelo.Inscripcion;
 import emaaredespacio.modelo.PagoAlumno;
 import emaaredespacio.modelo.Promocion;
+import emaaredespacio.utilerias.ReciboDePagoAlumno;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -43,6 +48,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -135,9 +148,9 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
         comboBoxPromociones.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                 for (int i = 0; i < listaPromociones.size(); i++) {
+                for (int i = 0; i < listaPromociones.size(); i++) {
                     if (listaPromociones.get(i).getNombrePromocion().equals(comboBoxPromociones.getValue())) {
-                        
+
                         promocionSeleccionada = listaPromociones.get(i);
                     }
                 }
@@ -150,7 +163,7 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 buscarPromociones(comboBoxTipoPago.getValue().toString());
-                if(comboBoxTipoPago.getValue().toString().equals("Mensualidad")){
+                if (comboBoxTipoPago.getValue().toString().equals("Mensualidad")) {
                     tfMonto.setText(newValue);
                 }
             }
@@ -220,40 +233,39 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
 
     @FXML
     private void accionGuardar(ActionEvent event) {
+        calcularTotal();
         IPagoAlumno metodosPago = new PagoAlumno();
-        if(verificarCamposVacios()==false){
+        if (verificarCamposVacios() == false) {
             PagoAlumno pago = new PagoAlumno();
             pago.setMonto(tfMonto.getText());
             pago.setIdGrupo(grupoSeleccionado.getIdGrupo());
             pago.setMatricula(seleccion.getMatricula());
             pago.setFechaPago(sacarFecha(new Date()));
-            if(comboBoxPromociones.getValue()!=null){
+            if (comboBoxPromociones.getValue() != null) {
                 pago.setPorcentajeDescuento(Integer.valueOf(promocionSeleccionada.getPorcentajeDescuento()));
-            }else{
+            } else {
                 pago.setPorcentajeDescuento(0);
             }
-            if(tfTotal.getText().isEmpty()){
+            if (tfTotal.getText().isEmpty()) {
                 double total = calcularTotal();
                 pago.setTotal(String.valueOf(total));
-            }else{
+            } else {
                 pago.setTotal(tfTotal.getText());
             }
-            if(comboBoxTipoPago.getValue().equals("Mensualidad")){
-                pago.setTipoPago(1);
-            }else{
-                pago.setTipoPago(0);
-            }
-            if(metodosPago.registrarPago(pago)){
-                MensajeController.mensajeInformacion("Pago de alumno registrado exitosamente");
+            pago.setTipoPago(comboBoxTipoPago.getValue().toString());
+            if (metodosPago.registrarPago(pago)) {
+                MensajeController.mensajeInformacion("Pago de alumno registrado correctamente");
+                int pagoBuscado = metodosPago.buscarUltimoPago().getIdPagoAlumno();
+                ReciboDePagoAlumno.generarRecibo(pagoBuscado);
                 limpiar();
             }
-        }else{
+        } else {
             MensajeController.mensajeInformacion("Existen campos vacíos");
         }
-        
+
     }
-    
-    public void limpiar(){
+
+    public void limpiar() {
         tfAlumno.setText("");
         tfMonto.setText("");
         tfTotal.setText("");
@@ -261,15 +273,15 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
         grupoSeleccionado = null;
         promocionSeleccionada = null;
     }
-    
+
     private String sacarFecha(Date fecha) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
         return formato.format(fecha);
     }
-    
-    public boolean verificarCamposVacios(){
-        
+
+    public boolean verificarCamposVacios() {
+
         return (tfAlumno.getText().isEmpty() && tfMonto.getText().isEmpty() && comboBoxTipoPago.getValue() != null);
     }
 
@@ -307,9 +319,9 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
     private void accionCalcular(ActionEvent event) {
         calcularTotal();
     }
-    
-    public double calcularTotal(){
-        double total=0.0;
+
+    public double calcularTotal() {
+        double total = 0.0;
         double porcentajeDescuento = 0.0;
         if (comboBoxPromociones.getValue() != null) {
             for (Promocion promo : listaPromociones) {
@@ -320,7 +332,7 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
             double descuento = Double.valueOf(tfMonto.getText()) * porcentajeDescuento;
             total = Double.valueOf(tfMonto.getText()) - descuento;
             tfTotal.setText(String.valueOf(total));
-        }else{
+        } else {
             tfTotal.setText(tfMonto.getText());
         }
         return total;

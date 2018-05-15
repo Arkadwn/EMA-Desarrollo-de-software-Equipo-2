@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8c0ebd56-8dde-44ed-82d0-d8f8b6047caf">
+	<property name="ireport.zoom" value="0.826446280991736"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="idPago" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     pagosalumnos.`idPago` AS pagosalumnos_idPago,
+     pagosalumnos.`matricula` AS pagosalumnos_matricula,
+     pagosalumnos.`idGrupo` AS pagosalumnos_idGrupo,
+     pagosalumnos.`fechaPago` AS pagosalumnos_fechaPago,
+     pagosalumnos.`monto` AS pagosalumnos_monto,
+     pagosalumnos.`porcentajeDescuento` AS pagosalumnos_porcentajeDescuento,
+     pagosalumnos.`total` AS pagosalumnos_total,
+     pagosalumnos.`tipo_pago` AS pagosalumnos_tipo_pago
+FROM
+     `pagosalumnos` pagosalumnos
+WHERE
+     idPago = $P{idPago}]]>
+	</queryString>
+	<field name="pagosalumnos_idPago" class="java.lang.Integer"/>
+	<field name="pagosalumnos_matricula" class="java.lang.Integer"/>
+	<field name="pagosalumnos_idGrupo" class="java.lang.Integer"/>
+	<field name="pagosalumnos_fechaPago" class="java.sql.Date"/>
+	<field name="pagosalumnos_monto" class="java.lang.String"/>
+	<field name="pagosalumnos_porcentajeDescuento" class="java.lang.Integer"/>
+	<field name="pagosalumnos_total" class="java.lang.String"/>
+	<field name="pagosalumnos_tipo_pago" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="263" height="33" uuid="5220258e-9f35-4f74-aee9-7e5ac97394b0"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Recibo de pago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="433" y="0" width="120" height="20" uuid="94ce805e-ebde-4b14-8fe1-1f6eca02a2dd"/>
+				<textElement>
+					<font fontName="Bell MT" size="15"/>
+				</textElement>
+				<text><![CDATA[ARED ESPACIO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="3" width="103" height="15" uuid="2c3d2936-80f5-48f8-9788-d7e628c3ef86"/>
+				<text><![CDATA[Código de recibo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="34" width="263" height="19" uuid="1c134cb7-ecff-4196-9e07-6ce60e36e145"/>
+				<text><![CDATA[Pago realizado por el alumno con matrícula ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="301" y="38" width="182" height="15" uuid="49e1d4f9-75bf-4844-9285-a9a2ad4f11f5"/>
+				<text><![CDATA[, perteneciente al grupo con id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="53" width="89" height="15" uuid="f4ced74b-0b9b-458b-b7d6-e1914a207f2f"/>
+				<text><![CDATA[realizado el día]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="147" y="53" width="117" height="15" uuid="87dce21f-8f4a-4f2e-9db6-b6dbf70d2bd3"/>
+				<text><![CDATA[por la cantidad de $]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="302" y="53" width="164" height="15" uuid="d601e399-8f3b-43ac-978b-09f744b3dc3e"/>
+				<text><![CDATA[aplicando un descuento de ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="68" width="89" height="15" uuid="faf41141-4ff7-4041-a86f-f88e504fcc4d"/>
+				<text><![CDATA[Total pagado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="466" y="3" width="86" height="15" uuid="b8c9d53f-0fe3-4e64-ad7f-e13005dac611"/>
+				<text><![CDATA[Tipo de pago]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Detail" x="0" y="18" width="69" height="15" uuid="82993481-6496-4632-aad4-24f6c806c5cd"/>
+				<textFieldExpression><![CDATA[$F{pagosalumnos_idPago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="263" y="37" width="38" height="16" uuid="c7cf550c-f3a0-423d-aa1a-2bdc49c8736e"/>
+				<textFieldExpression><![CDATA[$F{pagosalumnos_matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="483" y="38" width="69" height="15" uuid="4e4b0a5f-3ca6-4029-a81c-fde3b01570ee"/>
+				<textFieldExpression><![CDATA[$F{pagosalumnos_idGrupo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="89" y="53" width="58" height="15" uuid="39382b32-64d2-407f-9553-cc33e6793e4b"/>
+				<textFieldExpression><![CDATA[$F{pagosalumnos_fechaPago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="264" y="53" width="38" height="15" uuid="7cb8f2c0-4fed-4752-b522-2464ec74d483"/>
+				<textFieldExpression><![CDATA[$F{pagosalumnos_monto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="466" y="53" width="29" height="15" uuid="c2a45ce1-b380-4e85-b2f3-68ecee67ba74"/>
+				<textFieldExpression><![CDATA[$F{pagosalumnos_porcentajeDescuento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="89" y="68" width="69" height="15" uuid="ddd2930a-8feb-40bd-a885-bfa8d3d17221"/>
+				<textFieldExpression><![CDATA[$F{pagosalumnos_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="483" y="18" width="69" height="15" uuid="5d1a53c4-270a-482f-b456-b962d3e40bbc"/>
+				<textFieldExpression><![CDATA[$F{pagosalumnos_tipo_pago}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="37" width="555" height="1" uuid="63a39a1d-e057-4a13-90d0-492ef6d8d5d4"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="495" y="53" width="12" height="15" uuid="5de677d5-6fba-4b7c-91a4-5e502810ff22"/>
+				<text><![CDATA[%]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="20d8f041-0a68-4763-8dd6-c5b29bd89017"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="1276d09c-4656-4d3e-ac0f-d16cbbb7617c"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="7bb47ffc-b550-4bec-8c84-69133c204f8e"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
