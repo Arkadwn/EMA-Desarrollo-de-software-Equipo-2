@@ -105,7 +105,7 @@ public class FXMLMenuPrincipalController implements Initializable {
     @FXML
     private void desplegarVentanaRegistrarGrupo(ActionEvent evento) throws IOException{
         panelPrincipal.getChildren().clear();
-        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarGrupo1.fxml"));
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarGrupo.fxml"));
         panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
         barraMenu.setVisible(false);
         menuDesplegado = false;
@@ -234,6 +234,24 @@ public class FXMLMenuPrincipalController implements Initializable {
     private void desplegarAdministrarPagosAColaborador(ActionEvent evento) throws IOException{
         panelPrincipal.getChildren().clear();
         Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLAdministrarPagosAColaborador.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarRegistrarPagoAlumno() throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarPagoDeAlumnos.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarVisualizarPagosAlumnos() throws IOException{
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLVisualizarHistorialDePagosDeAlumno.fxml"));
         panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
         barraMenu.setVisible(false);
         menuDesplegado = false;

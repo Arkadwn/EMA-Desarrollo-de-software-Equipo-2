@@ -73,11 +73,14 @@
                                   <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                                   <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                                   <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
                                     <JFXButton onAction="#desplegarVentanaRegistrarPromocion" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar promocion" />
                                     <JFXButton onAction="#desplegarVentanaModificarPromocion" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar promocion" GridPane.rowIndex="1" />
-                                    <JFXButton onAction="#desplegarAdministrarPagosAColaborador" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar pagos a colaborador" GridPane.rowIndex="2" />
+                                    <JFXButton onAction="#desplegarRegistrarPagoAlumno" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar pago alumno" GridPane.rowIndex="2" />
+                                    <JFXButton onAction="#desplegarAdministrarPagosAColaborador" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar pagos a colaborador" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                            </children></AnchorPane>
@@ -152,13 +155,14 @@
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="28.0" minHeight="8.0" prefHeight="28.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="28.0" minHeight="8.0" prefHeight="28.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <JFXButton onAction="#desplegarAdminstrarAlumnos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar alumnos" />
                               <JFXButton onAction="#desplegarEditarAlumno" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar alumnos" GridPane.rowIndex="1" />
+                              <JFXButton onAction="#desplegarVisualizarPagosAlumnos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Visualizar historial de pagos de alumnos" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                   </content>

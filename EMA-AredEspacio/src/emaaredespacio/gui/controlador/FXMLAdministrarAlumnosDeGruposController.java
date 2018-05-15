@@ -1,7 +1,6 @@
 package emaaredespacio.gui.controlador;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Alumno;
 import emaaredespacio.modelo.Grupo;
@@ -54,10 +53,6 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
     @FXML
     private Label lbMensualidad;
     @FXML
-    private Label lbPromocion;
-    @FXML
-    private Label lbTotal;
-    @FXML
     private ImageView imgPerfil;
     @FXML
     private JFXTextField tfNombreGrupo;
@@ -68,15 +63,15 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
     @FXML
     private JFXTextField tfMensualidad;
     @FXML
-    private JFXTextField tfTotal;
-    @FXML
-    private JFXComboBox<String> cbPromocion;
-    @FXML
     private JFXButton btnBaja;
     private Grupo grupoSeleccionado;
     private Alumno alumnoSeleccionado;
     @FXML
     private Label lbPrecio;
+    @FXML
+    private TableColumn<Grupo, Integer> clCupo;
+    @FXML
+    private JFXTextField tfCupo;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -87,6 +82,7 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
         imgPerfil.setImage(imagen);
         clNombreAlumnos.setCellValueFactory(new PropertyValueFactory<>("nombreCompleto"));
         clNombreGrupo.setCellValueFactory(new PropertyValueFactory<>("tipoDeBaile"));
+        clCupo.setCellValueFactory(new PropertyValueFactory<>("cupo"));
         llenarTablaGrupos(new Inscripcion().buscarGruposDeColaborador(Integer.parseInt(System.getProperty("idColaborador"))));
     }
 
@@ -112,6 +108,9 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
             if(inscribir){
                 IAlumno metodos = new Alumno();
                 llenarTablaAlumnos(metodos.buscarAlumnosNoInscritos(grupoSeleccionado.getIdGrupo()));
+                tfCupo.setText(""+grupoSeleccionado.getEspacioDisponible());
+                tfMensualidad.setText(""+grupoSeleccionado.getMensualidad());
+                tfPrecio.setText(""+grupoSeleccionado.getInscripcion());
             }else{
                 IInscripcion metodos = new Inscripcion();
                 llenarTablaAlumnos(metodos.sacarInscripcionesDeGrupo(grupoSeleccionado.getIdGrupo()));
@@ -150,7 +149,7 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
                 MensajeController.mensajeAdvertencia("Hay campos vacios o no a seleccionado un alumno");
             } else {
                 IInscripcion metodos = new Inscripcion();
-                Inscripcion inscripcion = new Inscripcion(grupoSeleccionado.getIdGrupo(), alumnoSeleccionado.getMatricula(), Integer.parseInt(tfMensualidad.getText()), Integer.parseInt(tfTotal.getText()), sacarFecha(new Date()));
+                Inscripcion inscripcion = new Inscripcion(grupoSeleccionado.getIdGrupo(), alumnoSeleccionado.getMatricula(), Integer.parseInt(tfMensualidad.getText()), Integer.parseInt(tfPrecio.getText()), sacarFecha(new Date()));
 
                 if (metodos.inscribirAlumno(inscripcion)) {
                     MensajeController.mensajeInformacion("Se ha inscrito el alumno");
@@ -187,10 +186,10 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
 
     private void vaciarCampos() {
         tfMensualidad.setText("");
-        tfTotal.setText("");
         tfNombreAlumno.setText("");
         tfNombreGrupo.setText("");
         tfPrecio.setText("");
+        tfCupo.setText("");
         tbAlumnos.getItems().clear();
         alumnoSeleccionado = null;
         grupoSeleccionado = null;
@@ -201,17 +200,13 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
     @FXML
     private void activarDardeBaja() {
         lbMensualidad.setVisible(false);
-        lbPromocion.setVisible(false);
-        lbTotal.setVisible(false);
         lbPrecio.setVisible(false);
-        cbPromocion.setVisible(false);
         btnInscribir.setVisible(false);
         btnDarDeBajaAlumno.setDisable(true);
         btnBaja.setVisible(true);
         btnActivarInscripcion.setDisable(false);
         tfMensualidad.setVisible(false);
         tfPrecio.setVisible(false);
-        tfTotal.setVisible(false);
         inscribir = false;
         vaciarCampos();
     }
@@ -219,29 +214,15 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
     @FXML
     private void activarInscripcion() {
         lbMensualidad.setVisible(true);
-        lbPromocion.setVisible(true);
-        lbTotal.setVisible(true);
         lbPrecio.setVisible(true);
-        cbPromocion.setVisible(true);
         btnInscribir.setVisible(true);
         btnDarDeBajaAlumno.setDisable(false);
         btnBaja.setVisible(false);
         btnActivarInscripcion.setDisable(true);
         tfMensualidad.setVisible(true);
         tfPrecio.setVisible(true);
-        tfTotal.setVisible(true);
         inscribir = true;
         vaciarCampos();
-    }
-
-    @FXML
-    private void calcularTotal(KeyEvent evento) {
-        if(!tfPrecio.getText().isEmpty()){
-            Integer total = Integer.parseInt(tfPrecio.getText());
-            tfTotal.setText(""+total);
-        }else{
-            tfTotal.setText("0");
-        }
     }
 
     @FXML

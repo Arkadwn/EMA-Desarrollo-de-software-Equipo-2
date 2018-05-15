@@ -2,14 +2,14 @@ package emaaredespacio.gui.controlador;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
-import emaaredespacio.modelo.IPagoAColaborador;
-import emaaredespacio.modelo.PagoAColaborador;
+import emaaredespacio.modelo.Pago;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import emaaredespacio.modelo.IPago;
 
 /**
  * FXML Controller class
@@ -32,7 +32,7 @@ public class FXMLFormatoPagoController implements Initializable {
     private Label lbNombreColaborador;
     @FXML
     private JFXButton btnEntregado;
-    private PagoAColaborador pago;
+    private Pago pago;
     private FXMLAdministrarPagosAColaboradorController controlador;
     @FXML
     private JFXTextArea tfComentario;
@@ -45,7 +45,7 @@ public class FXMLFormatoPagoController implements Initializable {
                 + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 40px 40px 40px 40px;");
     }
 
-    public void cargarAlumno(PagoAColaborador pago, FXMLAdministrarPagosAColaboradorController controlador) {
+    public void cargarAlumno(Pago pago, FXMLAdministrarPagosAColaboradorController controlador) {
         this.pago = pago;
         this.controlador = controlador;
         if (pago != null) {
@@ -59,8 +59,8 @@ public class FXMLFormatoPagoController implements Initializable {
     }
 
     @FXML
-    private void guardarEntrega(ActionEvent event) {
-        IPagoAColaborador metodos = new PagoAColaborador();
+    private void guardarEntrega(ActionEvent evento) {
+        IPago metodos = new Pago();
 
         if (metodos.guardarEntrega(pago.getIdPago())) {
             controlador.quitarPago(lbFecha.getParent());
@@ -68,6 +68,11 @@ public class FXMLFormatoPagoController implements Initializable {
         } else {
             MensajeController.mensajeAdvertencia("No se ha podido guardar el cambio");
         }
+    }
+
+    @FXML
+    private void mostrarEdicion(ActionEvent evento) {
+        controlador.cargarPago(pago);
     }
 
 }

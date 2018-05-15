@@ -6,11 +6,12 @@ import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Alumno;
 import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.Grupo;
+import emaaredespacio.modelo.IAlumno;
 import emaaredespacio.modelo.IColaborador;
+import emaaredespacio.modelo.IGrupo;
 import emaaredespacio.modelo.IInscripcion;
-import emaaredespacio.modelo.IPagoAColaborador;
 import emaaredespacio.modelo.Inscripcion;
-import emaaredespacio.modelo.PagoAColaborador;
+import emaaredespacio.modelo.Pago;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -27,6 +28,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
+import emaaredespacio.modelo.IPago;
+import java.util.Iterator;
 
 /**
  * FXML Controller class
@@ -49,17 +52,18 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
     private JFXTextArea tfComentario;
     @FXML
     private JFXButton btnGuardar;
+    private Pago pago;
     @FXML
     private JFXButton btnCancelar;
-    private boolean edicion;
+    private List<Colaborador> colaboradores;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        edicion = true;
         IColaborador metodos = new Colaborador();
-        cargarColaboradores(metodos.buscarColaboradoresEstados("A"));
+        colaboradores = metodos.buscarColaboradoresEstados("A");
+        cargarColaboradores(colaboradores);
         
-        IPagoAColaborador metodosPago = new PagoAColaborador();
+        IPago metodosPago = new Pago();
         
         try {
             cargarPagos(metodosPago.buscarPagoAColaborador("", false));
@@ -103,10 +107,10 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
         cbGrupoColaborador.setItems(FXCollections.observableArrayList(lista));
     }
 
-    private void cargarPagos(List<PagoAColaborador> lista) throws IOException {
+    private void cargarPagos(List<Pago> lista) throws IOException {
         vboxContenedor.getChildren().clear();
 
-        for (PagoAColaborador pago : lista) {
+        for (Pago pago : lista) {
             FXMLLoader cargador = new FXMLLoader(getClass().getResource("/emaaredespacio/gui/vista/FXMLFormatoPago.fxml"));
             Parent fxml = cargador.load();
             FXMLFormatoPagoController controlador = cargador.getController();
@@ -118,20 +122,23 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
 
     @FXML
     private void accionGuardar() {
-        if (edicion) {
+        if (pago != null) {
             if (validarCampos()) {
                 MensajeController.mensajeAdvertencia("Hay campos vacios");
             } else {
-                PagoAColaborador pago = new PagoAColaborador();
-                if (!tfComentario.getText().isEmpty()) {
+                Pago pago = new Pago();
+                if (!tfComentario.getText().trim().isEmpty()) {
                     pago.setComentario(tfComentario.getText().trim());
                 }
                 pago.setMonto(Integer.parseInt(tfPago.getText().trim()));
                 pago.setGrupo(cbGrupoColaborador.getValue().toString());
                 pago.setNombreAlumno(cbAlumno.getValue().toString());
                 pago.setNombreColaborador(cbColaborador.getValue().toString());
+                pago.setIdAlumno(cbAlumno.getValue().getMatricula());
+                pago.setIdGrupo(cbGrupoColaborador.getValue().getIdGrupo());
+                pago.setIdColaborador(cbColaborador.getValue().getIdColaborador());
 
-                IPagoAColaborador metodos = new PagoAColaborador();
+                IPago metodos = new Pago();
 
                 if (metodos.guardarPagoAColaborador(pago)) {
                     MensajeController.mensajeInformacion("Se ha guardado el pago");
@@ -140,14 +147,37 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
                     MensajeController.mensajeAdvertencia("No se ha podido guardar el pago");
                 }
             }
+        }else{
+            if(validarCampos()){
+                if(tfComentario.getText().trim().isEmpty()){
+                    pago.setComentario("");
+                }else{
+                    pago.setComentario(tfComentario.getText().trim());
+                }
+                pago.setNombreAlumno(cbAlumno.getValue().getNombreCompleto());
+                pago.setIdAlumno(cbAlumno.getValue().getMatricula());
+                pago.setNombreColaborador(cbColaborador.getValue().getNombre() + " " +cbColaborador.getValue().getApellidos());
+                pago.setIdColaborador(cbColaborador.getValue().getIdColaborador());
+                pago.setIdGrupo(cbGrupoColaborador.getValue().getIdGrupo());
+                pago.setGrupo(cbGrupoColaborador.getValue().toString());
+                pago.setMonto(Integer.parseInt(tfPago.getText().trim()));
+                
+                IPago metodos = new Pago();
+                
+                if(metodos.editarPagoAColaborador(pago)){
+                    MensajeController.mensajeInformacion("Se han guadado los cambios");
+                    vaciarCampos();
+                }
+            }
         }
     }
 
     private boolean validarCampos() {
-        return cbAlumno.getValue() == null || tfPago.getText().trim().isEmpty();
+        return cbColaborador.getValue() == null || cbGrupoColaborador.getValue() == null || cbAlumno.getValue() == null || tfPago.getText().trim().isEmpty();
     }
 
     private void vaciarCampos() {
+        pago = null;
         cbAlumno.getItems().clear();
         cbGrupoColaborador.getItems().clear();
         cbColaborador.setValue(null);
@@ -157,11 +187,29 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
 
     @FXML
     private void accionCancelarEdicion(ActionEvent event) {
-        
+        pago = null;
+        btnCancelar.setVisible(false);
     }
     
-    public void cargarPago(PagoAColaborador pago){
-        
+    public void cargarPago(Pago pago){
+        btnCancelar.setVisible(true);
+        IGrupo metodosGrupos = new Grupo();
+        IAlumno metodo = new Alumno();
+        Alumno alumno = metodo.buscarAlumnoPorId(pago.getIdAlumno());
+        Grupo grupo = metodosGrupos.buscarGrupoPorId(pago.getIdGrupo());
+        Colaborador colaborador = null;
+        for (Iterator<Colaborador> it = colaboradores.iterator(); it.hasNext();) {
+            colaborador = it.next();
+            if(colaborador.getIdColaborador().equals(pago.getIdColaborador()))
+                break;
+        }
+        cbColaborador.getSelectionModel().select(colaborador);
+        cbGrupoColaborador.getSelectionModel().select(grupo);
+        cbGrupoColaborador.getSelectionModel().selectFirst();
+        cbAlumno.getSelectionModel().select(alumno);
+        cbAlumno.getSelectionModel().selectFirst();
+        tfComentario.setText(pago.getComentario());
+        tfPago.setText(""+pago.getMonto());
     }
 
     public void quitarPago(Parent pago) {
