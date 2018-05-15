@@ -4,6 +4,8 @@ import java.io.Serializable;
 import emaaredespacio.persistencia.entidad.Alumnos;
 import emaaredespacio.persistencia.entidad.Grupos;
 import emaaredespacio.persistencia.entidad.Inscripciones;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -188,5 +190,13 @@ public class InscripcionesJpaController implements Serializable {
         }
 
         return grupos;
+    }
+    
+    public List<Inscripciones> buscarInscripcionesVencidas(){
+        List<Inscripciones> inscripcionesVencidas = null;
+        EntityManager conexion = getEntityManager();
+        inscripcionesVencidas = conexion.createNamedQuery("Inscripciones.findAll").getResultList();
+        
+        return inscripcionesVencidas;
     }
 }

@@ -35,16 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Pagosalumnos.findByFechaPago", query = "SELECT p FROM Pagosalumnos p WHERE p.fechaPago = :fechaPago")
     , @NamedQuery(name = "Pagosalumnos.findByMonto", query = "SELECT p FROM Pagosalumnos p WHERE p.monto = :monto")
     , @NamedQuery(name = "Pagosalumnos.findByPorcentajeDescuento", query = "SELECT p FROM Pagosalumnos p WHERE p.porcentajeDescuento = :porcentajeDescuento")
-    , @NamedQuery(name = "Pagosalumnos.findByTotal", query = "SELECT p FROM Pagosalumnos p WHERE p.total = :total")})
+    , @NamedQuery(name = "Pagosalumnos.findByTotal", query = "SELECT p FROM Pagosalumnos p WHERE p.total = :total")
+    , @NamedQuery(name = "Pagosalumnos.findByTipoPago", query = "SELECT p FROM Pagosalumnos p WHERE p.tipoPago = :tipoPago")})
 public class Pagosalumnos implements Serializable {
-
-    @Column(name = "tipo_pago")
-    private Integer tipoPago;
-
-    @Column(name = "monto")
-    private String monto;
-    @Column(name = "total")
-    private String total;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,14 +48,20 @@ public class Pagosalumnos implements Serializable {
     @Column(name = "fechaPago")
     @Temporal(TemporalType.DATE)
     private Date fechaPago;
+    @Column(name = "monto")
+    private String monto;
     @Column(name = "porcentajeDescuento")
     private Integer porcentajeDescuento;
-    @JoinColumn(name = "idGrupo", referencedColumnName = "idGrupo")
-    @ManyToOne
-    private Grupos idGrupo;
+    @Column(name = "total")
+    private String total;
+    @Column(name = "tipo_pago")
+    private String tipoPago;
     @JoinColumn(name = "matricula", referencedColumnName = "matricula")
     @ManyToOne
     private Alumnos matricula;
+    @JoinColumn(name = "idGrupo", referencedColumnName = "idGrupo")
+    @ManyToOne
+    private Grupos idGrupo;
 
     public Pagosalumnos() {
     }
@@ -87,6 +86,13 @@ public class Pagosalumnos implements Serializable {
         this.fechaPago = fechaPago;
     }
 
+    public String getMonto() {
+        return monto;
+    }
+
+    public void setMonto(String monto) {
+        this.monto = monto;
+    }
 
     public Integer getPorcentajeDescuento() {
         return porcentajeDescuento;
@@ -96,13 +102,20 @@ public class Pagosalumnos implements Serializable {
         this.porcentajeDescuento = porcentajeDescuento;
     }
 
-
-    public Grupos getIdGrupo() {
-        return idGrupo;
+    public String getTotal() {
+        return total;
     }
 
-    public void setIdGrupo(Grupos idGrupo) {
-        this.idGrupo = idGrupo;
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public String getTipoPago() {
+        return tipoPago;
+    }
+
+    public void setTipoPago(String tipoPago) {
+        this.tipoPago = tipoPago;
     }
 
     public Alumnos getMatricula() {
@@ -111,6 +124,14 @@ public class Pagosalumnos implements Serializable {
 
     public void setMatricula(Alumnos matricula) {
         this.matricula = matricula;
+    }
+
+    public Grupos getIdGrupo() {
+        return idGrupo;
+    }
+
+    public void setIdGrupo(Grupos idGrupo) {
+        this.idGrupo = idGrupo;
     }
 
     @Override
@@ -136,30 +157,6 @@ public class Pagosalumnos implements Serializable {
     @Override
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Pagosalumnos[ idPago=" + idPago + " ]";
-    }
-
-    public String getMonto() {
-        return monto;
-    }
-
-    public void setMonto(String monto) {
-        this.monto = monto;
-    }
-
-    public String getTotal() {
-        return total;
-    }
-
-    public void setTotal(String total) {
-        this.total = total;
-    }
-
-    public Integer getTipoPago() {
-        return tipoPago;
-    }
-
-    public void setTipoPago(Integer tipoPago) {
-        this.tipoPago = tipoPago;
     }
     
 }
