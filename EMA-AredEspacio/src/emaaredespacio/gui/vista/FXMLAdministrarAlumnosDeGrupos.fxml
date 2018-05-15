@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import com.jfoenix.controls.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="549.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLAdministrarAlumnosDeGruposController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="549.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLAdministrarAlumnosDeGruposController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -32,7 +35,8 @@
             </TableView>
             <TableView fx:id="tbGrupos" onMouseClicked="#cargarDatosGrupo" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
               <columns>
-                <TableColumn fx:id="clNombreGrupo" editable="false" prefWidth="240.0" sortable="false" text="Grupos" />
+                <TableColumn fx:id="clNombreGrupo" editable="false" prefWidth="169.0" sortable="false" text="Grupos" />
+                  <TableColumn fx:id="clCupo" editable="false" prefWidth="72.0" sortable="false" text="Cupo" />
               </columns>
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -47,7 +51,8 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="427.0" minWidth="10.0" prefWidth="64.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="-Infinity" prefHeight="194.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="161.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="-Infinity" prefHeight="40.0" valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints minHeight="-Infinity" prefHeight="40.0" valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints minHeight="-Infinity" prefHeight="40.0" valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints minHeight="-Infinity" prefHeight="40.0" valignment="CENTER" vgrow="SOMETIMES" />
@@ -65,27 +70,17 @@
                   <Insets />
                </GridPane.margin>
             </Label>
-            <Label text="Nombre del alumno:" GridPane.rowIndex="2">
+            <Label text="Nombre del alumno:" GridPane.rowIndex="3">
                <font>
                   <Font name="Arial" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="lbPrecio" text="Precio de inscripción:" GridPane.rowIndex="3">
+            <Label fx:id="lbPrecio" text="Precio de inscripción:" GridPane.rowIndex="4">
                <font>
                   <Font name="Arial" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="lbMensualidad" text="Mensualidad:" GridPane.rowIndex="4">
-               <font>
-                  <Font name="Arial" size="16.0" />
-               </font>
-            </Label>
-            <Label fx:id="lbPromocion" text="Promoción:" GridPane.rowIndex="5">
-               <font>
-                  <Font name="Arial" size="16.0" />
-               </font>
-            </Label>
-            <Label fx:id="lbTotal" text="Total de inscripción:" GridPane.rowIndex="6">
+            <Label fx:id="lbMensualidad" text="Mensualidad:" GridPane.rowIndex="5">
                <font>
                   <Font name="Arial" size="16.0" />
                </font>
@@ -103,7 +98,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfNombreAlumno" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <JFXTextField fx:id="tfNombreAlumno" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" right="30.0" />
                </GridPane.margin>
@@ -111,7 +106,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfPrecio" onKeyReleased="#calcularTotal" onKeyTyped="#restringirCaracteres" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <JFXTextField fx:id="tfPrecio" editable="false" onKeyTyped="#restringirCaracteres" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="20.0" right="30.0" />
                </GridPane.margin>
@@ -119,7 +114,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfMensualidad" onKeyTyped="#restringirCaracteres" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <JFXTextField fx:id="tfMensualidad" editable="false" onKeyTyped="#restringirCaracteres" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="20.0" right="30.0" />
                </GridPane.margin>
@@ -127,20 +122,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tfTotal" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets left="20.0" right="30.0" />
-               </GridPane.margin>
-               <font>
-                  <Font name="Arial" size="14.0" />
-               </font>
-            </JFXTextField>
-            <JFXComboBox fx:id="cbPromocion" editable="true" prefHeight="25.0" prefWidth="288.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets left="20.0" right="30.0" />
-               </GridPane.margin>
-            </JFXComboBox>
-            <JFXButton fx:id="btnInscribir" onAction="#accionIncripcion" prefHeight="29.0" prefWidth="144.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Inscribir" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <JFXButton fx:id="btnInscribir" onAction="#accionIncripcion" prefHeight="29.0" prefWidth="144.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Inscribir" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets left="10.0" top="30.0" />
                </GridPane.margin>
@@ -150,15 +132,15 @@
             </JFXButton>
             <JFXButton fx:id="btnDarDeBajaAlumno" onAction="#activarDardeBaja" prefHeight="29.0" prefWidth="155.0" style="-fx-border-color: #ff0066; -fx-border-width: 2;" text="Dar de baja alumno">
                <GridPane.margin>
-                  <Insets bottom="100.0" right="80.0" />
+                  <Insets bottom="100.0" right="80.0" top="30.0" />
                </GridPane.margin>
             </JFXButton>
             <JFXButton fx:id="btnActivarInscripcion" disable="true" onAction="#activarInscripcion" prefHeight="29.0" prefWidth="155.0" style="-fx-border-color: #ff0066; -fx-border-width: 2;" text="Inscribir alumno">
                <GridPane.margin>
-                  <Insets bottom="154.0" right="80.0" />
+                  <Insets bottom="154.0" right="80.0" top="30.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="btnBaja" onAction="#accionIncripcion" prefHeight="29.0" prefWidth="144.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Dar de baja" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <JFXButton fx:id="btnBaja" onAction="#accionIncripcion" prefHeight="29.0" prefWidth="144.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Dar de baja" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
@@ -166,6 +148,19 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </JFXButton>
+            <Label text="Cupo:" GridPane.rowIndex="2">
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="tfCupo" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="20.0" right="30.0" />
+               </GridPane.margin>
+            </JFXTextField>
          </children>
       </GridPane>
    </children>

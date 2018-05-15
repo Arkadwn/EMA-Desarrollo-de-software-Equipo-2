@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package emaaredespacio.modelo;
 
 import emaaredespacio.persistencia.controladores.GruposJpaController;
@@ -25,6 +20,9 @@ public class Grupo implements IGrupo {
     private int idColaborador = 0;
     private String tipoDeBaile = "";
     private int cupo = 0;
+    private Integer mensualidad;
+    private Integer inscripcion;
+    private Integer espacioDisponible;
     private String estado = "";
     private String dias = "";
     private String horas = "";
@@ -36,6 +34,30 @@ public class Grupo implements IGrupo {
 
     public int getHorarioAsignado() {
         return horarioAsignado;
+    }
+
+    public Integer getEspacioDisponible() {
+        return espacioDisponible;
+    }
+
+    public void setEspacioDisponible(Integer espacioDisponible) {
+        this.espacioDisponible = espacioDisponible;
+    }
+
+    public Integer getMensualidad() {
+        return mensualidad;
+    }
+
+    public void setMensualidad(Integer mensualidad) {
+        this.mensualidad = mensualidad;
+    }
+
+    public Integer getInscripcion() {
+        return inscripcion;
+    }
+
+    public void setInscripcion(Integer inscripcion) {
+        this.inscripcion = inscripcion;
     }
 
     public void setHorarioAsignado(int horarioAsignado) {
@@ -177,6 +199,9 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setTipoDeBaile(grupo.getTipoDeBaile());
             nuevoGrupo.setCupo(grupo.getCupo());
             nuevoGrupo.setEstado(grupo.getEstado());
+            nuevoGrupo.setMensualidad(grupo.getMensualidad());
+            nuevoGrupo.setInscripcion(grupo.getInscripcion());
+            nuevoGrupo.setEspacioDisponible(grupo.getEspacioDisponible());
             nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
             nuevoGrupo.setHorarioAsignado(grupo.getHorarioAsignado());
             nuevoGrupo.setHorario_asignado(grupo.getHorarioAsignado());
@@ -199,6 +224,9 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setEstado(grupo.getEstado());
             nuevoGrupo.setCupo(grupo.getCupo());
             nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
+            nuevoGrupo.setMensualidad(grupo.getMensualidad());
+            nuevoGrupo.setInscripcion(grupo.getInscripcion());
+            nuevoGrupo.setEspacioDisponible(grupo.getEspacioDisponible());
             nuevoGrupo.setIdColaborador(colaborador);
             nuevoGrupo.setHorarioAsignado(grupo.getHorarioAsignado());
             nuevoGrupo.setHorarioAsignado(grupo.getHorario_asignado());
@@ -225,6 +253,9 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setIdColaborador(colaborador);
             nuevoGrupo.setTipoDeBaile(grupo.getTipoDeBaile());
             nuevoGrupo.setCupo(grupo.getCupo());
+            nuevoGrupo.setMensualidad(grupo.getMensualidad());
+            nuevoGrupo.setInscripcion(grupo.getInscripcion());
+            nuevoGrupo.setEspacioDisponible(grupo.getEspacioDisponible());
             nuevoGrupo.setEstado("A");
             nuevoGrupo.setHorarioAsignado(0);
             if (controlador.create(nuevoGrupo)) {

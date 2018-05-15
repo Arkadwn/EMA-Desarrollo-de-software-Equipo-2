@@ -1,7 +1,7 @@
 package emaaredespacio.persistencia.controladores;
 
 import emaaredespacio.persistencia.controladores.exceptions.NonexistentEntityException;
-import emaaredespacio.persistencia.entidad.Pagosacolaborador;
+import emaaredespacio.persistencia.entidad.Pagos;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -12,12 +12,12 @@ import javax.persistence.Persistence;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 6/05/2018
- * @time 02:54:16 PM
+ * @date 9/05/2018
+ * @time 10:30:30 AM
  */
-public class PagosacolaboradorJpaController implements Serializable {
+public class PagosJpaController implements Serializable {
 
-    public PagosacolaboradorJpaController() {
+    public PagosJpaController() {
         this.emf = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);;
     }
     private EntityManagerFactory emf = null;
@@ -26,43 +26,35 @@ public class PagosacolaboradorJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public boolean create(Pagosacolaborador pagosacolaborador) {
+    public boolean create(Pagos pagos) {
         boolean validacion = true;
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(pagosacolaborador);
+            em.persist(pagos);
             em.getTransaction().commit();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             validacion = false;
-        }finally {
+        } finally {
             if (em != null) {
                 em.close();
             }
         }
-        
+
         return validacion;
     }
 
-    public boolean edit(Pagosacolaborador pagosacolaborador) throws NonexistentEntityException, Exception {
-        EntityManager em = null;
+    public boolean edit(Pagos pagos) {
         boolean validacion = true;
+        EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            pagosacolaborador = em.merge(pagosacolaborador);
+            pagos = em.merge(pagos);
             em.getTransaction().commit();
         } catch (Exception ex) {
             validacion = false;
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = pagosacolaborador.getIdPago();
-                if (buscarPagoPorId(id) == null) {
-                    throw new NonexistentEntityException("The pagosacolaborador with id " + id + " no longer exists.");
-                }
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -71,55 +63,55 @@ public class PagosacolaboradorJpaController implements Serializable {
         
         return validacion;
     }
-    
-    public Pagosacolaborador buscarPagoPorId(Integer id) {
+
+    public Pagos buscarPagoPorId(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Pagosacolaborador.class, id);
+            return em.find(Pagos.class, id);
         } finally {
             em.close();
         }
     }
 
-    public List<Pagosacolaborador> buscarPagosAColaborador(String nombreColaborador, boolean estado){
-        List<Pagosacolaborador> pagos = null;
+    public List<Pagos> buscarPagosAColaborador(String nombreColaborador, boolean estado) {
+        List<Pagos> pagos = null;
         EntityManager conexion = null;
-        String entrada = "%"+nombreColaborador+"%";
-        
-        try{
+        String entrada = "%" + nombreColaborador + "%";
+
+        try {
             conexion = getEntityManager();
-            pagos = conexion.createQuery("SELECT p FROM Pagosacolaborador p WHERE p.nombreColaborador LIKE :entrada AND p.fueEntregado = :estado").setParameter("entrada", entrada).setParameter("estado", estado).getResultList();
-        }finally{
-            if(conexion != null){
+            pagos = conexion.createQuery("SELECT p FROM Pagos p WHERE p.nombreColaborador LIKE :entrada AND p.fueEntregado = :estado").setParameter("entrada", entrada).setParameter("estado", estado).getResultList();
+        } finally {
+            if (conexion != null) {
                 conexion.close();
             }
         }
-        
-        return pagos;        
+
+        return pagos;
     }
-    
-    public boolean guardarEntrega(Integer idPago){
+
+    public boolean guardarEntrega(Integer idPago) {
         EntityManager conexion = null;
         EntityTransaction transaccion = null;
         boolean validacion = true;
-        try{
+        try {
             conexion = getEntityManager();
-            
+
             transaccion = conexion.getTransaction();
-            
+
             transaccion.begin();
-            Pagosacolaborador pago = conexion.find(Pagosacolaborador.class, idPago);
+            Pagos pago = conexion.find(Pagos.class, idPago);
             pago.setFueEntregado(true);
-            
+
             transaccion.commit();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             validacion = false;
-        }finally{
-            if(conexion != null){
+        } finally {
+            if (conexion != null) {
                 conexion.close();
             }
         }
-        
+
         return validacion;
     }
 }

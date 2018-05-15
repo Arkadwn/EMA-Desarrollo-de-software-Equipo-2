@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
@@ -20,17 +20,20 @@
     <children>
       <GridPane layoutX="93.0" layoutY="58.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="473.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="237.0" minWidth="10.0" prefWidth="237.0" />
-            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="237.0" minWidth="10.0" prefWidth="181.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="309.0" minWidth="10.0" prefWidth="309.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="237.0" minWidth="10.0" prefWidth="177.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="248.0" minWidth="10.0" prefWidth="216.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="420.0" minWidth="10.0" prefWidth="285.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0" prefWidth="72.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints maxHeight="126.0" minHeight="10.0" prefHeight="102.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="73.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="72.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="106.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="135.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="165.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="165.0" minHeight="10.0" prefHeight="41.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="174.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="184.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="122.0" minHeight="10.0" prefHeight="122.0" valignment="TOP" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -49,7 +52,7 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="tfNombre" disable="true" editable="false" prefHeight="25.0" prefWidth="242.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <JFXTextField fx:id="tfNombre" editable="false" prefHeight="25.0" prefWidth="242.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
@@ -59,7 +62,7 @@
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </JFXTextField>
-            <CheckBox fx:id="checkEstado" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <CheckBox fx:id="checkEstado" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="7">
                <font>
                   <Font size="18.0" />
                </font>
@@ -67,12 +70,12 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </CheckBox>
-            <JFXButton fx:id="btnGuardar" onAction="#accionGuardarCambios" prefHeight="33.0" prefWidth="114.0" style="-fx-border-radius: 5; -fx-border-color: #ff0066; -fx-border-width: 2;" text="Guardar" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <JFXButton onAction="#accionGuardarCambios" prefHeight="33.0" prefWidth="114.0" style="-fx-border-radius: 5; -fx-border-color: #ff0066; -fx-border-width: 2;" text="Guardar" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <GridPane.margin>
-                  <Insets right="10.0" top="30.0" />
+                  <Insets left="50.0" right="10.0" top="30.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="btnCancelar" prefHeight="33.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Cancelar" GridPane.columnIndex="2" GridPane.rowIndex="6">
+            <JFXButton prefHeight="33.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Cancelar" GridPane.columnIndex="2" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets left="20.0" top="30.0" />
                </GridPane.margin>
@@ -83,16 +86,11 @@
                   <Insets left="20.0" right="80.0" />
                </GridPane.margin>
             </Spinner>
-            <Label text="Activo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+            <Label text="Activo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <ComboBox fx:id="comboBoxGrupos" prefHeight="25.0" prefWidth="288.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
-            </ComboBox>
             <Label text="Grupo:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets />
@@ -101,6 +99,31 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
+            <Label text="Inscripcion:" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Mensualidad:" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="tfMensualidad" onKeyTyped="#restringirLetras" GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="tfInscripcion" onKeyTyped="#restringirLetras" GridPane.columnIndex="2" GridPane.rowIndex="6">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </JFXTextField>
+            <JFXComboBox fx:id="cbGrupo" prefHeight="25.0" prefWidth="261.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </JFXComboBox>
          </children>
       </GridPane>
       <GridPane layoutX="14.0" layoutY="26.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="727.0" AnchorPane.topAnchor="0.0">
@@ -112,11 +135,9 @@
           <RowConstraints maxHeight="443.0" minHeight="10.0" prefHeight="420.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TableView fx:id="tbListaGrupos" editable="true" onMouseClicked="#posicion" onMouseExited="#quitaSeleccion" GridPane.rowIndex="1">
+            <TableView fx:id="tbListaGrupos" editable="true" onMouseClicked="#seleccionarColaborador" onMouseExited="#quitaSeleccion" GridPane.rowIndex="1">
                <columns>
-                  <TableColumn fx:id="columnaTipoBaile" prefWidth="268.9999694824219" text="Tipo de baile" />
-                  <TableColumn fx:id="columnaCupo" prefWidth="87.0" text="Cupo" />
-                  <TableColumn fx:id="columnaEstado" prefWidth="76.0" text="Estado" />
+                  <TableColumn fx:id="columnaColaborador" prefWidth="431.9999694824219" text="Colaborador" />
                </columns>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -130,7 +151,7 @@
                   <Insets left="20.0" right="150.0" top="50.0" />
                </GridPane.margin>
             </JFXTextField>
-            <JFXButton fx:id="btnBuscar" onAction="#accionBuscar" prefHeight="25.0" prefWidth="82.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Buscar">
+            <JFXButton onAction="#accionBuscar" prefHeight="25.0" prefWidth="82.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Buscar">
                <GridPane.margin>
                   <Insets left="360.0" top="50.0" />
                </GridPane.margin>

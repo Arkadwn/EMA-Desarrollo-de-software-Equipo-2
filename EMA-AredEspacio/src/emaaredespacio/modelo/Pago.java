@@ -1,7 +1,7 @@
 package emaaredespacio.modelo;
 
-import emaaredespacio.persistencia.controladores.PagosacolaboradorJpaController;
-import emaaredespacio.persistencia.entidad.Pagosacolaborador;
+import emaaredespacio.persistencia.controladores.PagosJpaController;
+import emaaredespacio.persistencia.entidad.Pagos;
 import emaaredespacio.utilerias.EditorDeFormatos;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +13,8 @@ import java.util.List;
  * @date 6/05/2018
  * @time 12:18:17 PM
  */
-public class PagoAColaborador implements IPagoAColaborador{
+public class Pago implements IPago {
+
     private String fecha;
     private String nombreColaborador;
     private String nombreAlumno;
@@ -22,6 +23,33 @@ public class PagoAColaborador implements IPagoAColaborador{
     private boolean fueEntregado;
     private Integer idPago;
     private String comentario;
+    private int idAlumno;
+    private int idGrupo;
+    private int idColaborador;
+
+    public int getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(int idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public int getIdGrupo() {
+        return idGrupo;
+    }
+
+    public void setIdGrupo(int idGrupo) {
+        this.idGrupo = idGrupo;
+    }
+
+    public int getIdColaborador() {
+        return idColaborador;
+    }
+
+    public void setIdColaborador(int idColaborador) {
+        this.idColaborador = idColaborador;
+    }
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
@@ -67,7 +95,7 @@ public class PagoAColaborador implements IPagoAColaborador{
         return fueEntregado;
     }
 
-    public PagoAColaborador(String nombreColaborador, String nombreAlumno, String grupo, Integer monto, String comentario) {
+    public Pago(String nombreColaborador, String nombreAlumno, String grupo, Integer monto, String comentario) {
         this.nombreColaborador = nombreColaborador;
         this.nombreAlumno = nombreAlumno;
         this.grupo = grupo;
@@ -94,21 +122,21 @@ public class PagoAColaborador implements IPagoAColaborador{
     public Integer getMonto() {
         return monto;
     }
-    
-    public PagoAColaborador(){
+
+    public Pago() {
         fueEntregado = true;
         comentario = "";
         idPago = null;
     }
 
     @Override
-    public boolean guardarPagoAColaborador(PagoAColaborador pago) {
+    public boolean guardarPagoAColaborador(Pago pago) {
         boolean validacion = false;
-        
-        PagosacolaboradorJpaController controlador = new PagosacolaboradorJpaController();
-        
-        Pagosacolaborador nuevoPago = new Pagosacolaborador();
-        
+
+        PagosJpaController controlador = new PagosJpaController();
+
+        Pagos nuevoPago = new Pagos();
+
         nuevoPago.setComentario(pago.getComentario());
         nuevoPago.setFechaDePago(new Date());
         nuevoPago.setFueEntregado(false);
@@ -117,61 +145,85 @@ public class PagoAColaborador implements IPagoAColaborador{
         nuevoPago.setNombreGrupo(pago.getGrupo());
         nuevoPago.setNombreAlumno(pago.getNombreAlumno());
         nuevoPago.setNombreColaborador(pago.getNombreColaborador());
-        
+        nuevoPago.setIdColaborador(pago.getIdColaborador());
+        nuevoPago.setIdAlumno(pago.getIdAlumno());
+        nuevoPago.setIdGrupo(pago.getIdGrupo());
+
         validacion = controlador.create(nuevoPago);
-        
+
         return validacion;
     }
 
     @Override
-    public boolean editarPagoAColaborador(PagoAColaborador pago) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean editarPagoAColaborador(Pago pago) {
+        boolean validacion = true;
+        Pagos pagoEditado = new Pagos();
+        
+        pagoEditado.setComentario(pago.getComentario());
+        pagoEditado.setFechaDePago(EditorDeFormatos.crearFecha(pago.getFecha()));
+        pagoEditado.setFueEntregado(pago.isFueEntregado());
+        pagoEditado.setIdPago(pago.getIdPago());
+        pagoEditado.setMonto(pago.getMonto());
+        pagoEditado.setNombreGrupo(pago.getGrupo());
+        pagoEditado.setNombreAlumno(pago.getNombreAlumno());
+        pagoEditado.setNombreColaborador(pago.getNombreColaborador());
+        pagoEditado.setIdColaborador(pago.getIdColaborador());
+        pagoEditado.setIdAlumno(pago.getIdAlumno());
+        pagoEditado.setIdGrupo(pago.getIdGrupo());
+        
+        PagosJpaController controlador = new PagosJpaController();
+        
+        validacion = controlador.edit(pagoEditado);
+        
+        return validacion;
     }
 
     @Override
     public boolean guardarEntrega(Integer idPago) {
         boolean validacion = true;
-        
-        PagosacolaboradorJpaController controlador = new PagosacolaboradorJpaController();
-        
+
+        PagosJpaController controlador = new PagosJpaController();
+
         validacion = controlador.guardarEntrega(idPago);
-        
+
         return validacion;
     }
 
     @Override
-    public List<PagoAColaborador> buscarPagoAColaborador(String nombreColaborador, boolean fueEntregado) {
-        List<PagoAColaborador> pagos = null;
-        List<Pagosacolaborador> resultadoBusqueda = null;
-        PagosacolaboradorJpaController controlador = new PagosacolaboradorJpaController();
-        
+    public List<Pago> buscarPagoAColaborador(String nombreColaborador, boolean fueEntregado) {
+        List<Pago> pagos = null;
+        List<Pagos> resultadoBusqueda = null;
+        PagosJpaController controlador = new PagosJpaController();
+
         resultadoBusqueda = controlador.buscarPagosAColaborador(nombreColaborador, fueEntregado);
-        
+
         pagos = convertirLista(resultadoBusqueda);
-        
+
         return pagos;
     }
-    
-    private List<PagoAColaborador> convertirLista(List<Pagosacolaborador> lista){
-        List<PagoAColaborador> nuevaLista = new ArrayList();
-        
-        for(Pagosacolaborador pago: lista){
-            PagoAColaborador nuevoPago = new PagoAColaborador();
-            
+
+    private List<Pago> convertirLista(List<Pagos> lista) {
+        List<Pago> nuevaLista = new ArrayList();
+
+        for (Pagos pago : lista) {
+            Pago nuevoPago = new Pago();
+
             nuevoPago.setComentario(pago.getComentario());
             nuevoPago.setFecha(EditorDeFormatos.crearFormatoFecha(pago.getFechaDePago()));
-            nuevoPago.setFueEntregado(false);
+            nuevoPago.setFueEntregado(pago.getFueEntregado());
             nuevoPago.setIdPago(pago.getIdPago());
             nuevoPago.setMonto(pago.getMonto());
             nuevoPago.setGrupo(pago.getNombreGrupo());
             nuevoPago.setNombreAlumno(pago.getNombreAlumno());
             nuevoPago.setNombreColaborador(pago.getNombreColaborador());
-            
+            nuevoPago.setIdColaborador(pago.getIdColaborador());
+            nuevoPago.setIdAlumno(pago.getIdAlumno());
+            nuevoPago.setIdGrupo(pago.getIdGrupo());
+
             nuevaLista.add(nuevoPago);
         }
-        
+
         return nuevaLista;
-    } 
-    
-    
+    }
+
 }

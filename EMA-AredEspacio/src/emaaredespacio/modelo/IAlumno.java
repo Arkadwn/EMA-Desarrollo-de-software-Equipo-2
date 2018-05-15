@@ -44,4 +44,11 @@ public interface IAlumno {
      * @return
      */
     public List<Alumno> buscarAlumnosNoInscritos(int idGrupo);
+    
+    /**
+     *
+     * @param idAlumno
+     * @return
+     */
+    public Alumno buscarAlumnoPorId(int idAlumno);
 }

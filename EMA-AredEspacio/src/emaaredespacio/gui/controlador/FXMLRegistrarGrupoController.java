@@ -1,48 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package emaaredespacio.gui.controlador;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.Grupo;
-import emaaredespacio.modelo.GrupoXML;
 import emaaredespacio.modelo.IColaborador;
 import emaaredespacio.modelo.IGrupo;
-import emaaredespacio.modelo.Renta;
 import emaaredespacio.persistencia.entidad.Colaboradores;
 import java.net.URL;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.control.DatePicker;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 /**
  * FXML Controller class
@@ -70,12 +49,11 @@ public class FXMLRegistrarGrupoController implements Initializable {
     private JFXButton btnCancelar;
     @FXML
     private JFXTextField tfPalabraClave;
-    @FXML
-    private JFXButton btnBuscar;
-
     private Colaborador seleccion;
-
-    private List<Grupo> grupos;
+    @FXML
+    private JFXTextField tfMensualidad;
+    @FXML
+    private JFXTextField tfInscripcion;
 
     /**
      * Initializes the controller class.
@@ -87,7 +65,6 @@ public class FXMLRegistrarGrupoController implements Initializable {
         lista = new ArrayList();
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, 25);
         spinnerCupo.setValueFactory(valueFactory);
-        grupos = new ArrayList();
         seleccion = new Colaborador();
     }
 
@@ -118,7 +95,10 @@ public class FXMLRegistrarGrupoController implements Initializable {
                 Grupo grupo = new Grupo();
                 grupo.setTipoDeBaile(tfTipoBaile.getText());
                 grupo.setCupo(Integer.valueOf(spinnerCupo.getValue().toString()));
+                grupo.setEspacioDisponible(Integer.valueOf(spinnerCupo.getValue().toString()));
                 grupo.setIdColaborador(seleccion.getIdColaborador());
+                grupo.setMensualidad(Integer.parseInt(tfMensualidad.getText()));
+                grupo.setInscripcion(Integer.parseInt(tfInscripcion.getText()));
                 grupo.setHorarioAsignado(0);
                 IGrupo metodos = new Grupo();
                 if (metodos.guardarGrupo(grupo)) {
@@ -140,7 +120,8 @@ public class FXMLRegistrarGrupoController implements Initializable {
     }
 
     private boolean validarCamposVacios() {
-        return tfTipoBaile.getText().trim().isEmpty() || tfNombre.getText().isEmpty();
+        return tfTipoBaile.getText().trim().isEmpty() || tfNombre.getText().isEmpty() || tfMensualidad.getText().trim().isEmpty()
+                || tfInscripcion.getText().trim().isEmpty();
     }
 
     @FXML
@@ -155,6 +136,16 @@ public class FXMLRegistrarGrupoController implements Initializable {
                 MensajeController.mensajeInformacion("Colaborador no encontrado");
             }
             llenarTabla();
+        }
+    }
+
+    @FXML
+    private void restringirLetras(KeyEvent evento) {
+        char caracter = evento.getCharacter().charAt(0);
+        JFXTextField entrada = (JFXTextField) evento.getSource();
+
+        if (entrada.getText().length() > 6 || !Character.isDigit(caracter)) {
+            evento.consume();
         }
     }
 

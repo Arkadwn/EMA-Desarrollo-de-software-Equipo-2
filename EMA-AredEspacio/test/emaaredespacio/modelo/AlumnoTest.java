@@ -5,7 +5,7 @@
  */
 package emaaredespacio.modelo;
 
-import java.util.List;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -60,6 +60,27 @@ public class AlumnoTest {
         boolean[] resultado = controlador.validarCampos(alumno);
         assertEquals(resultadoEsperado, resultado[2]);
         System.out.println(resultadoEsperado+" - " + resultado[2]);
+    }
+    
+    /**
+     * Test of guardarAlumno method, of class Alumno.
+     */
+    @Test
+    public void testGuardarAlumno_CP_03() {
+        System.out.println("guardarAlumno-CP-03");
+        Alumno alumno = new Alumno();
+        
+        alumno.setNombre("Roberto");
+        alumno.setApellidos("Bustamante Zarate");
+        alumno.setCorreo("arkwn@gmail.com");
+        alumno.setTelefono("2282270732");
+        alumno.setDireccion("Xalapa");
+        alumno.setImagenPerfil("41109390.jpg");
+        
+        boolean resultadoEsperado = true;
+        boolean resultado = controlador.guardarAlumno(alumno);
+        assertEquals(resultadoEsperado, resultado);
+        System.out.println(resultadoEsperado+" - " + resultado);
     }
 
 
@@ -122,21 +143,4 @@ public class AlumnoTest {
         assertEquals(resultadoEsperado, resultado);
         System.out.println(resultadoEsperado+" - " + resultado);
     }
-
-    
-//    /**
-//     * Test of buscarAlumno method, of class Alumno.
-//     */
-//    @Test
-//    public void testBuscarAlumno() {
-//        System.out.println("buscarAlumno");
-//        String palabraClave = "";
-//        Alumno instance = new Alumno();
-//        List<Alumno> expResult = null;
-//        List<Alumno> result = instance.buscarAlumno(palabraClave);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-    
 }

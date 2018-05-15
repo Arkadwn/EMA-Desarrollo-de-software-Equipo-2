@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package emaaredespacio.persistencia.controladores;
 
-import emaaredespacio.modelo.Grupo;
 import emaaredespacio.persistencia.entidad.Grupos;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -60,6 +54,8 @@ public class GruposJpaController implements Serializable{
             grupoActual.setTipoDeBaile(grupo.getTipoDeBaile());
             grupoActual.setEstado(grupo.getEstado());
             grupoActual.setCupo(grupo.getCupo());
+            grupoActual.setMensualidad(grupo.getMensualidad());
+            grupoActual.setInscripcion(grupo.getInscripcion());
             grupoActual.setIdColaborador(grupo.getIdColaborador());
             grupoActual.setHorarioAsignado(grupo.getHorarioAsignado());
             transaccion.commit();

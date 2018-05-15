@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
@@ -37,6 +32,14 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Grupos.findByEstado", query = "SELECT g FROM Grupos g WHERE g.estado = :estado")
     , @NamedQuery(name = "Grupos.findByHorarioAsignado", query = "SELECT g FROM Grupos g WHERE g.horarioAsignado = :horarioAsignado")})
 public class Grupos implements Serializable {
+
+    @Column(name = "espacioDisponible")
+    private Integer espacioDisponible;
+
+    @Column(name = "mensualidad")
+    private Integer mensualidad;
+    @Column(name = "inscripcion")
+    private Integer inscripcion;
 
     @OneToMany(mappedBy = "idGrupo")
     private List<Pagosalumnos> pagosalumnosList;
@@ -158,6 +161,30 @@ public class Grupos implements Serializable {
 
     public void setPagosalumnosList(List<Pagosalumnos> pagosalumnosList) {
         this.pagosalumnosList = pagosalumnosList;
+    }
+
+    public Integer getMensualidad() {
+        return mensualidad;
+    }
+
+    public void setMensualidad(Integer mensualidad) {
+        this.mensualidad = mensualidad;
+    }
+
+    public Integer getInscripcion() {
+        return inscripcion;
+    }
+
+    public void setInscripcion(Integer inscripcion) {
+        this.inscripcion = inscripcion;
+    }
+
+    public Integer getEspacioDisponible() {
+        return espacioDisponible;
+    }
+
+    public void setEspacioDisponible(Integer espacioDisponible) {
+        this.espacioDisponible = espacioDisponible;
     }
 
     }

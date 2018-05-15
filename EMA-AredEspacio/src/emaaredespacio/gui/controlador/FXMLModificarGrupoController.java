@@ -1,32 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package emaaredespacio.gui.controlador;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.Grupo;
-import emaaredespacio.modelo.IGrupo;
+import emaaredespacio.modelo.Inscripcion;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -43,46 +38,50 @@ public class FXMLModificarGrupoController implements Initializable {
     @FXML
     private CheckBox checkEstado;
     @FXML
-    private JFXButton btnGuardar;
+    private TableView<Colaborador> tbListaGrupos;
     @FXML
-    private JFXButton btnCancelar;
-    @FXML
-    private TableView<Grupo> tbListaGrupos;
-    @FXML
-    private TableColumn<Grupo, String> columnaTipoBaile;
-    @FXML
-    private TableColumn<Grupo, String> columnaCupo;
-    @FXML
-    private TableColumn<Grupo, String> columnaEstado;
+    private TableColumn<Colaborador, String> columnaColaborador;
     @FXML
     private JFXTextField tfPalabraClave;
     @FXML
-    private JFXButton btnBuscar;
-    @FXML
-    private ComboBox<?> comboBoxGrupos;
-    @FXML
     private Spinner<Integer> spinnerCupo;
-    private List<Grupo> lista;
-    private Grupo seleccion;
-    Colaborador colaborador;
+    private Colaborador colaborador;
+    private Grupo grupoSeleccionado;
+    @FXML
+    private JFXTextField tfMensualidad;
+    @FXML
+    private JFXTextField tfInscripcion;
+    @FXML
+    private JFXComboBox<Grupo> cbGrupo;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        columnaTipoBaile.setCellValueFactory(new PropertyValueFactory<>("tipoDeBaile"));
-        columnaCupo.setCellValueFactory(new PropertyValueFactory<>("cupo"));
-        columnaEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        
-        lista = new ArrayList();
-        seleccion = null;
+        columnaColaborador.setCellValueFactory(new PropertyValueFactory("nombreCompleto"));
+
+        cbGrupo.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Grupo>() {
+            @Override
+            public void changed(ObservableValue<? extends Grupo> observable, Grupo oldValue, Grupo newValue) {
+                if (newValue != null) {
+                    grupoSeleccionado = newValue;
+                    tfTipoBaile.setText(grupoSeleccionado.getTipoDeBaile());
+                    SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, grupoSeleccionado.getCupo());
+                    spinnerCupo.setValueFactory(valueFactory);
+                    checkEstado.setSelected(grupoSeleccionado.getEstado().equals("A"));
+                    tfInscripcion.setText(""+grupoSeleccionado.getInscripcion());
+                    tfMensualidad.setText(""+grupoSeleccionado.getMensualidad());
+                }
+            }
+        });
+        colaborador = null;
     }
 
     @FXML
-    private void accionGuardarCambios(ActionEvent event) {
-        if (seleccion != null) {
-            if (tfTipoBaile.getText().trim().isEmpty()) {
+    private void accionGuardarCambios(ActionEvent evento) {
+        if (colaborador != null) {
+            if (validarCampos()) {
                 MensajeController.mensajeAdvertencia("Hay campos vacíos");
             } else {
                 if (tfTipoBaile.getText().length() > 0 && tfTipoBaile.getText().length() <= 30) {
@@ -90,19 +89,19 @@ public class FXMLModificarGrupoController implements Initializable {
                     grupoModificado.setIdColaborador(colaborador.getIdColaborador());
                     grupoModificado.setCupo(spinnerCupo.getValue());
                     grupoModificado.setTipoDeBaile(tfTipoBaile.getText());
-                    grupoModificado.setIdGrupo(seleccion.getIdGrupo());
+                    grupoModificado.setIdGrupo(grupoSeleccionado.getIdGrupo());
                     if (checkEstado.isSelected()) {
                         grupoModificado.setEstado("A");
                     } else {
                         grupoModificado.setEstado("B");
                     }
-                    if(new Grupo().guardarCambios(grupoModificado)){
+                    if (new Grupo().guardarCambios(grupoModificado)) {
                         MensajeController.mensajeInformacion("Grupo modificado exitosamente");
-                    }else{
+                    } else {
                         MensajeController.mensajeAdvertencia("No se pudieron guardar los cambios");
                     }
-                }else{
-                    MensajeController.mensajeInformacion("Nombre del tipo de nombre muy grande");
+                } else {
+                    MensajeController.mensajeInformacion("Nombre del tipo de baile muy grande");
                 }
 
             }
@@ -110,54 +109,60 @@ public class FXMLModificarGrupoController implements Initializable {
     }
 
     @FXML
-    private void quitaSeleccion(MouseEvent event) {
+    private void quitaSeleccion(MouseEvent evento) {
         tbListaGrupos.getSelectionModel().clearSelection();
     }
 
-    private void llenarTabla() {
+    private void llenarTabla(List<Colaborador> lista) {
         tbListaGrupos.getItems().clear();
         tbListaGrupos.setItems(FXCollections.observableArrayList(lista));
     }
+    
+    private void cargarGrupos(List<Grupo> lista){
+        cbGrupo.getItems().clear();
+        cbGrupo.setItems(FXCollections.observableArrayList(lista));
+    }
 
     @FXML
-    private void posicion(MouseEvent event) {
+    private void seleccionarColaborador(MouseEvent evento) {
         if (tbListaGrupos.getSelectionModel().getSelectedIndex() >= 0) {
-            seleccion = tbListaGrupos.getSelectionModel().getSelectedItem();
+            colaborador = tbListaGrupos.getSelectionModel().getSelectedItem();
             tfNombre.setText(colaborador.getNombre() + " " + colaborador.getApellidos());
-            tfTipoBaile.setText(seleccion.getTipoDeBaile());
-            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, seleccion.getCupo());
-            spinnerCupo.setValueFactory(valueFactory);
-            checkEstado.setSelected(seleccion.getEstado().equals("A"));
-            
+            cargarGrupos(new Inscripcion().buscarGruposDeColaborador(colaborador.getIdColaborador()));
         }
     }
 
     @FXML
-    private void accionBuscar(ActionEvent event) {
-        if (tfPalabraClave.getText().isEmpty()) {
+    private void accionBuscar(ActionEvent evento) {
+        if (tfPalabraClave.getText().trim().isEmpty()) {
             MensajeController.mensajeInformacion("No ha ingresado ningún caracter");;
         } else {
-            List<Colaborador> listaColaborador = new ArrayList();;
+            List<Colaborador> listaColaborador = new ArrayList();
             colaborador = new Colaborador();
-            listaColaborador = colaborador.buscarColaborador(tfPalabraClave.getText());
+            listaColaborador = colaborador.buscarColaborador(tfPalabraClave.getText().trim());
             if (listaColaborador.isEmpty()) {
                 MensajeController.mensajeAdvertencia("No se encontró al colaborador solicitado");
             } else {
-                colaborador = listaColaborador.get(0);
-                IGrupo metodosGrupo = new Grupo();
-                List<Grupo> listaTemporal = new ArrayList();
-                listaTemporal.clear();
-                listaTemporal = metodosGrupo.buscarGrupos();
-                lista.clear();
-                for (int i = 0; i < listaTemporal.size(); i++) {
-                    if (listaTemporal.get(i).getIdColaborador() == colaborador.getIdColaborador()) {
-                        lista.add(listaTemporal.get(i));
-                    }
-                }
-                llenarTabla();
+                llenarTabla(listaColaborador);
             }
 
         }
     }
 
+    @FXML
+    private void restringirLetras(KeyEvent evento) {
+        char caracter = evento.getCharacter().charAt(0);
+        JFXTextField campo = (JFXTextField) evento.getSource();
+
+        if (Character.isDigit(caracter) && campo.getText().length() < 6) {
+
+        } else {
+            evento.consume();
+        }
+    }
+
+    private boolean validarCampos(){
+        return tfMensualidad.getText().trim().isEmpty() || tfInscripcion.getText().trim().isEmpty() 
+                || tfTipoBaile.getText().trim().isEmpty();
+    }
 }

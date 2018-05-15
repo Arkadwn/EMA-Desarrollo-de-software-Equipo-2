@@ -60,7 +60,11 @@ public class Colaborador implements IColaborador {
     public void setIdColaborador(Integer idColaborador) {
         this.idColaborador = idColaborador;
     }
-
+    
+    public String getNombreCompleto(){
+        return nombre +" "+ apellidos;
+    }
+    
     private static final String PATRON_CORREO = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     public Colaborador() {
@@ -352,6 +356,6 @@ public class Colaborador implements IColaborador {
 
     @Override
     public String toString(){
-        return ""+nombre+" "+apellidos;
+        return nombre+" "+apellidos;
     }
 }

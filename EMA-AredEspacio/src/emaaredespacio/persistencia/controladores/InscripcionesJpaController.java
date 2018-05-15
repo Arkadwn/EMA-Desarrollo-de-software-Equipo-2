@@ -53,6 +53,7 @@ public class InscripcionesJpaController implements Serializable {
                     idAlumno = em.merge(idAlumno);
                 }
                 if (idGrupo != null) {
+                    idGrupo.setEspacioDisponible(idGrupo.getEspacioDisponible() - 1);
                     idGrupo.getInscripcionesList().add(inscripciones);
                     idGrupo = em.merge(idGrupo);
                 }
@@ -135,9 +136,10 @@ public class InscripcionesJpaController implements Serializable {
             EntityManager conexion = getEntityManager();
             try {
                 transaccion = conexion.getTransaction();
+                Grupos grupo = conexion.find(Grupos.class, idGrupo);
                 inscipcion = conexion.find(Inscripciones.class, inscipcion.getIdInscripcion());
                 transaccion.begin();
-
+                grupo.setEspacioDisponible(grupo.getEspacioDisponible()+1);
                 inscipcion.setEstado(false);
 
                 transaccion.commit();

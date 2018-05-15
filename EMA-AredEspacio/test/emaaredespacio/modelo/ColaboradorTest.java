@@ -213,8 +213,8 @@ public class ColaboradorTest {
         System.out.println("buscarColaborador_CP_01");
         
         boolean resultadoEsperado = true;
-        List<Colaborador> resultado = controlador.buscarColaborador("Manu");
-        assertEquals(resultadoEsperado, !resultado.isEmpty());
+        List<Colaborador> resultado = controlador.buscarColaborador("Sarai");
+        assertEquals(resultadoEsperado, resultado.isEmpty());
     }
     /**
      * Test of editarColaborador method, of class Colaborador.
@@ -242,52 +242,6 @@ public class ColaboradorTest {
         assertEquals(resultadoEsperado, resultado);
         System.out.println(resultadoEsperado+" - " + resultado);
     }
-    
-    @Test
-    public void testEditarColaborador_CP_02() {
-        System.out.println("editarColaborador-CP-02");
-        Colaborador colaborador = new Colaborador();
-        colaborador.setNombre("Andres");
-        colaborador.setApellidos("Zarate Flores");
-        colaborador.setContraseña("Mexico63Libre");
-        colaborador.setTelefono("2281301414");
-        colaborador.setCorreo("arkwn@gmail.com");
-        colaborador.setDireccion("Xalapa");
-        colaborador.setImagenPerfil("20180319_094545.jpg");
-        colaborador.setTipoPago("Quinsenal");
-        colaborador.setMontoAPagar("400");
-        colaborador.setNombreUsuario("Andres121");
-        colaborador.setIdUsuario(2);
-        colaborador.setIdColaborador(2);
-        colaborador.setEstado("A");
-        boolean nuevaContraseña = true;
-        boolean resultadoEsperado = true;
-        boolean resultado = controlador.editarColaborador(colaborador, nuevaContraseña);
-        assertEquals(resultadoEsperado, resultado);
-        System.out.println(resultadoEsperado+" - " + resultado);
-    }
-    
-    @Test
-    public void testEditarColaborador_CP_03() {
-        System.out.println("editarColaborador-CP-03");
-        Colaborador colaborador = new Colaborador();
-        colaborador.setNombre("Sarai");
-        colaborador.setApellidos("Castillo Hernandez");
-        colaborador.setContraseña("Dorado25612");
-        colaborador.setTelefono("2281152023123124232");
-        colaborador.setCorreo("zara@gmail.com");
-        colaborador.setDireccion("Miradores");
-        colaborador.setImagenPerfil("20180319_094545.jpg");
-        colaborador.setTipoPago("Mensual");
-        colaborador.setMontoAPagar("1200");
-        colaborador.setNombreUsuario("Zara");
-        colaborador.setIdUsuario(3);
-        colaborador.setIdColaborador(3);
-        colaborador.setEstado("A");
-        boolean nuevaContraseña = true;
-        boolean resultadoEsperado = false;
-        boolean resultado = controlador.editarColaborador(colaborador, nuevaContraseña);
-        assertEquals(resultadoEsperado, resultado);
-        System.out.println(resultadoEsperado+" - " + resultado);
-    }
+        
+
 }

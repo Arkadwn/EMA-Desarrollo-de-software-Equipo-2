@@ -87,6 +87,29 @@ public class EgresoFacebookTest {
     }
     
     /**
+     * Test of registrarEgreso method, of class EgresoFacebook.
+     */
+    @Test
+    public void testRegistrarEgreso_CP_04() {
+        System.out.println("registrarEgreso_CP_04");
+        EgresoFacebook egreso = new EgresoFacebook();
+        
+        egreso.setCreador("Mauricio Jiménez Jiménez nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+        egreso.setCosto(1400.0);
+        egreso.setDescripcion("Se promocionaron los nuevos cursos de valet.");
+        egreso.setFechaInicio("20/5/2018");
+        egreso.setFechaFin("1/7/2018");
+        
+        egreso.setActiva(egreso.validarDisponibilidadDelEgreso(egreso.getFechaFin()));
+        egreso.setLink("https://www.facebook.com/AredEspacio/vale");
+        egreso.setIdEgresoFacebook(null);
+        boolean expResult = false;
+        boolean result = metodos.registrarEgreso(egreso);
+        assertEquals(expResult, result);
+        System.out.println(expResult+"-"+result);
+    }
+    
+    /**
      * Test of editarEgresoFacebook method, of class EgresoFacebook.
      */
     @Test

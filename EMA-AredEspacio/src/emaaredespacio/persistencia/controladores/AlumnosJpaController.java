@@ -116,14 +116,27 @@ public class AlumnosJpaController implements IControladorAlumnos {
         List<Alumnos> alumnos = new ArrayList();
         EntityManager conexion = getEntityManager();
         try {
-            alumnos = conexion.createQuery("SELECT DISTINCT a FROM Alumnos a, Inscripciones i, Grupos g WHERE a.estado = "
-                    + ":estado AND i.idGrupo.idGrupo "
-                    + "!= :idGrupo or i.idAlumno.matricula != a.matricula").setParameter("estado", "A").setParameter("idGrupo", idGrupo).getResultList();
+            alumnos = conexion.createQuery("SELECT a FROM Alumnos a where a not in (select a from Alumnos a, Inscripciones i where a = i.idAlumno and i.idGrupo.idGrupo = :idGrupo) ")
+                    .setParameter("idGrupo", idGrupo).getResultList();
         } finally {
             if (conexion != null) {
                 conexion.close();
             }
         }
         return alumnos;
+    }
+    
+    public Alumnos buscarAlumnoPorId(int idAlumno){
+        Alumnos alumno = null;
+        EntityManager conexion = getEntityManager();
+        try{
+            alumno = conexion.find(Alumnos.class, idAlumno);
+        }finally{
+            if(conexion != null){
+                conexion.close();
+            }
+        }
+        
+        return alumno;
     }
 }

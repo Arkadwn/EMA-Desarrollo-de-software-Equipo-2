@@ -2,7 +2,6 @@ package emaaredespacio.modelo;
 
 import emaaredespacio.persistencia.controladores.InscripcionesJpaController;
 import emaaredespacio.persistencia.entidad.Alumnos;
-import emaaredespacio.persistencia.entidad.Colaboradores;
 import emaaredespacio.persistencia.entidad.Grupos;
 import emaaredespacio.persistencia.entidad.Inscripciones;
 import java.text.ParseException;
@@ -153,11 +152,12 @@ public class Inscripcion implements IInscripcion {
 
         for (Grupos grupo : lista) {
             Grupo nuevoGrupo = new Grupo();
-            Colaboradores nuevoC = new Colaboradores();
-            nuevoC = grupo.getIdColaborador();
-            nuevoGrupo.setIdColaborador(nuevoC.getIdColaborador());
+            nuevoGrupo.setIdColaborador(grupo.getIdColaborador().getIdColaborador());
             nuevoGrupo.setTipoDeBaile(grupo.getTipoDeBaile());
             nuevoGrupo.setCupo(grupo.getCupo());
+            nuevoGrupo.setEspacioDisponible(grupo.getEspacioDisponible());
+            nuevoGrupo.setInscripcion(grupo.getInscripcion());
+            nuevoGrupo.setMensualidad(grupo.getMensualidad());
             nuevoGrupo.setEstado(grupo.getEstado());
             nuevoGrupo.setIdGrupo(grupo.getIdGrupo());
             nuevoGrupo.setHorarioAsignado(grupo.getHorarioAsignado());

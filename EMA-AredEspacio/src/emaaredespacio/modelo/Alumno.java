@@ -214,4 +214,22 @@ public class Alumno implements IAlumno{
     public String toString(){
         return nombre+" "+apellidos;
     }
+
+    @Override
+    public Alumno buscarAlumnoPorId(int idAlumno) {
+        AlumnosJpaController controlador = new AlumnosJpaController();
+        Alumnos resultadoBusqueda = controlador.buscarAlumnoPorId(idAlumno);
+        Alumno alumno = new Alumno();
+        
+        alumno.setApellidos(resultadoBusqueda.getApellidos());
+        alumno.setCorreo(resultadoBusqueda.getCorreo());
+        alumno.setDireccion(resultadoBusqueda.getDireccion());
+        alumno.setTelefono(resultadoBusqueda.getTelefono());
+        alumno.setNombre(resultadoBusqueda.getNombre());
+        alumno.setEstado(alumno.getEstado());
+        alumno.setMatricula(resultadoBusqueda.getMatricula());
+        alumno.setImagenPerfil(resultadoBusqueda.getImagen());
+        
+        return alumno;
+    }
 }
