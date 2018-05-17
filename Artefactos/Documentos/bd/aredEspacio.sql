@@ -144,6 +144,9 @@ CREATE TABLE `grupos` (
   `idColaborador` int(11) DEFAULT NULL,
   `tipoDeBaile` varchar(30) DEFAULT NULL,
   `cupo` int(11) DEFAULT NULL,
+  `mensualidad` int(11) DEFAULT NULL,
+  `espacioDisponible` int(11) DEFAULT NULL,
+  `inscripcion` int(11) DEFAULT NULL,
   `estado` varchar(1) DEFAULT NULL,
   `horario_asignado` int(1) DEFAULT NULL,
   PRIMARY KEY (`idGrupo`),
@@ -205,7 +208,7 @@ CREATE TABLE `pagosalumnos` (
   `monto` varchar(7) DEFAULT NULL,
   `porcentajeDescuento` int(11) DEFAULT NULL,
   `total` varchar(7) DEFAULT NULL,
-  `tipo_pago` int(1) DEFAULT NULL,
+  `tipo_pago` varchar(12) DEFAULT NULL,
   PRIMARY KEY (`idPago`),
   KEY `matricula` (`matricula`),
   KEY `idGrupo` (`idGrupo`),
@@ -254,6 +257,7 @@ CREATE TABLE `rentas` (
   `horaFin` int(11) DEFAULT NULL,
   `idCliente` int(11) DEFAULT NULL,
   `estado` bit(1) DEFAULT NULL,
+  `pagoRealizado` bit(1) DEFAULT NULL,
   PRIMARY KEY (`idRenta`),
   KEY `idCliente` (`idCliente`),
   CONSTRAINT `rentas_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `clientes` (`idCliente`)
@@ -266,7 +270,6 @@ CREATE TABLE `rentas` (
 
 LOCK TABLES `rentas` WRITE;
 /*!40000 ALTER TABLE `rentas` DISABLE KEYS */;
-INSERT INTO `rentas` VALUES (6,15000,'2/06/2018',100,100,2,''),(7,16000,'7/12/2018',100,100,2,'');
 /*!40000 ALTER TABLE `rentas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -334,6 +337,81 @@ CREATE TABLE `promociones` (
 LOCK TABLES `promociones` WRITE;
 /*!40000 ALTER TABLE `promociones` DISABLE KEYS */;
 /*!40000 ALTER TABLE `promociones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `pagos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pagos` (
+  `idPago` int(11) NOT NULL AUTO_INCREMENT,
+  `comentario` varchar(2000) DEFAULT NULL,
+  `nombreAlumno` varchar(200) DEFAULT NULL,
+  `idAlumno` int(11) DEFAULT NULL,
+  `idGrupo` int(11) DEFAULT NULL,
+  `idColaborador` int(11) DEFAULT NULL,
+  `nombreGrupo` varchar(200) DEFAULT NULL,
+  `nombreColaborador` varchar(200) DEFAULT NULL,
+  `fueEntregado` tinyint(1) DEFAULT NULL,
+  `monto` int(11) DEFAULT NULL,
+  `fechaDePago` date DEFAULT NULL,
+  PRIMARY KEY (`idPago`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pagos`
+--
+
+LOCK TABLES `pagos` WRITE;
+/*!40000 ALTER TABLE `pagos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pagos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `ingresos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ingresos` (
+  `idIngreso` int(11) NOT NULL AUTO_INCREMENT,
+  `pagoColaboradorID` int(11) DEFAULT NULL,
+  `pagoRentaID` int(11) DEFAULT NULL,
+  `monto` double DEFAULT NULL,
+  `recibo` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`idIngreso`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ingresos`
+--
+
+LOCK TABLES `ingresos` WRITE;
+/*!40000 ALTER TABLE `ingresos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ingresos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `egresos`
+--
+
+DROP TABLE IF EXISTS `egresos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `egresos` (
+  `idEgreso` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(2000) DEFAULT NULL,
+  `monto` double DEFAULT NULL,
+  `fecha` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`idEgreso`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `egresos`
+--
+
+LOCK TABLES `egresos` WRITE;
+/*!40000 ALTER TABLE `egresos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `egresos` ENABLE KEYS */;
 UNLOCK TABLES;
 
 create user 'userAredEspacio'@'%' identified by 'limonhj2018';
