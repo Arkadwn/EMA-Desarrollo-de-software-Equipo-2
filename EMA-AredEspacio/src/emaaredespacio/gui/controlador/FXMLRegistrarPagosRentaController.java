@@ -124,7 +124,7 @@ public class FXMLRegistrarPagosRentaController implements Initializable {
                     Calendar fechaCalendar = Calendar.getInstance();
                     String fechaActual = fechaCalendar.get(Calendar.DAY_OF_MONTH) + "/" + (fechaCalendar.get(Calendar.MONTH) + 1) + "/" + fechaCalendar.get(Calendar.YEAR);
                     ReciboPago.generarReciboPagoColaborador(((Colaborador) seleccion), fechaActual);
-                    new Ingreso().guardarRegistro(new Ingreso(((Colaborador) seleccion).getIdColaborador(), null, Double.valueOf(txtMonto.getText()), false));
+                    new Ingreso().guardarRegistro(new Ingreso(((Colaborador) seleccion).getIdColaborador(), null, Double.valueOf(txtMonto.getText()), false, fechaActual));
                     cambiarFlujo();
                     MensajeController.mensajeInformacion("Se ha guardado el ingreso correctamente");
                     vaciarCampos();
@@ -134,7 +134,7 @@ public class FXMLRegistrarPagosRentaController implements Initializable {
                     String fechaActual = fechaCalendar.get(Calendar.DAY_OF_MONTH) + "/" + (fechaCalendar.get(Calendar.MONTH) + 1) + "/" + fechaCalendar.get(Calendar.YEAR);
                     ReciboPago.generarReciboPagoRenta(seleccionRenta, ((Cliente) seleccion), fechaActual);
                     
-                    new Ingreso().guardarRegistro(new Ingreso(null, seleccionRenta.getId(), Double.valueOf(txtMonto.getText()), false));
+                    new Ingreso().guardarRegistro(new Ingreso(null, seleccionRenta.getId(), Double.valueOf(txtMonto.getText()), false, fechaActual));
                     seleccionRenta.setPagoRealizado(true);
                     new Renta().guardarCambios(seleccionRenta);
                     cambiarFlujo();
@@ -153,12 +153,16 @@ public class FXMLRegistrarPagosRentaController implements Initializable {
             } else {
 
                 if (tipoPago) {
-                    new Ingreso().guardarRegistro(new Ingreso(((Colaborador) seleccion).getIdColaborador(), null, Double.valueOf(txtMonto.getText()), false));
+                    Calendar fechaCalendar = Calendar.getInstance();
+                    String fechaActual = fechaCalendar.get(Calendar.DAY_OF_MONTH) + "/" + (fechaCalendar.get(Calendar.MONTH) + 1) + "/" + fechaCalendar.get(Calendar.YEAR);
+                    new Ingreso().guardarRegistro(new Ingreso(((Colaborador) seleccion).getIdColaborador(), null, Double.valueOf(txtMonto.getText()), false, fechaActual));
                     cambiarFlujo();
                     MensajeController.mensajeInformacion("Se ha guardado el ingreso correctamente");
                     vaciarCampos();
                 } else if (seleccionRenta != null) {
-                    new Ingreso().guardarRegistro(new Ingreso(null, seleccionRenta.getId(), Double.valueOf(txtMonto.getText()), false));
+                    Calendar fechaCalendar = Calendar.getInstance();
+                    String fechaActual = fechaCalendar.get(Calendar.DAY_OF_MONTH) + "/" + (fechaCalendar.get(Calendar.MONTH) + 1) + "/" + fechaCalendar.get(Calendar.YEAR);
+                    new Ingreso().guardarRegistro(new Ingreso(null, seleccionRenta.getId(), Double.valueOf(txtMonto.getText()), false, fechaActual));
                     seleccionRenta.setPagoRealizado(true);
                     new Renta().guardarCambios(seleccionRenta);
                     MensajeController.mensajeInformacion("Se ha guardado el ingreso correctamente");

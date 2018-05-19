@@ -376,8 +376,9 @@ CREATE TABLE `ingresos` (
   `pagoRentaID` int(11) DEFAULT NULL,
   `monto` double DEFAULT NULL,
   `recibo` bit(1) DEFAULT NULL,
+  `fecha` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`idIngreso`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

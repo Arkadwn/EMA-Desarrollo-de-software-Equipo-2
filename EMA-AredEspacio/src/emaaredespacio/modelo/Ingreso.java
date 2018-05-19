@@ -23,7 +23,16 @@ public class Ingreso implements IIngreso {
     private Integer pagoRentaID;
     private Double monto;
     private Boolean recibo;
+    private String fecha;
 
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+    
     public Integer getIdIngreso() {
         return idIngreso;
     }
@@ -64,19 +73,21 @@ public class Ingreso implements IIngreso {
         this.recibo = recibo;
     }
 
-    public Ingreso(Integer pagoColaboradorID, Integer pagoRentaID, Double monto, Boolean recibo) {
+    public Ingreso(Integer pagoColaboradorID, Integer pagoRentaID, Double monto, Boolean recibo, String fecha) {
         this.pagoColaboradorID = pagoColaboradorID;
         this.pagoRentaID = pagoRentaID;
         this.monto = monto;
         this.recibo = recibo;
+        this.fecha = fecha;
     }
 
-    public Ingreso(Integer idIngreso, Integer pagoColaboradorID, Integer pagoRentaID, Double monto, Boolean recibo) {
+    public Ingreso(Integer idIngreso, Integer pagoColaboradorID, Integer pagoRentaID, Double monto, Boolean recibo, String fecha) {
         this.idIngreso = idIngreso;
         this.pagoColaboradorID = pagoColaboradorID;
         this.pagoRentaID = pagoRentaID;
         this.monto = monto;
         this.recibo = recibo;
+        this.fecha = fecha;
     }
 
     public Ingreso() {
@@ -90,7 +101,7 @@ public class Ingreso implements IIngreso {
         List<Ingresos> listaResult = controlador.findIngresosEntities();
         List<Ingreso> listaReturn = new ArrayList<>();
         for (Ingresos ingresos : listaResult) {
-            Ingreso ingreso = new Ingreso(ingresos.getIdIngreso(), ingresos.getPagoColaboradorID(), ingresos.getPagoRentaID(), ingresos.getMonto(), ingresos.getRecibo());
+            Ingreso ingreso = new Ingreso(ingresos.getIdIngreso(), ingresos.getPagoColaboradorID(), ingresos.getPagoRentaID(), ingresos.getMonto(), ingresos.getRecibo(), ingresos.getFecha());
             listaReturn.add(ingreso);
         }
 
@@ -109,6 +120,7 @@ public class Ingreso implements IIngreso {
             ingresoGuardar.setPagoColaboradorID(ingresoNuevo.getPagoColaboradorID());
             ingresoGuardar.setPagoRentaID(ingresoNuevo.getPagoRentaID());
             ingresoGuardar.setRecibo(ingresoNuevo.getRecibo());
+            ingresoGuardar.setFecha(ingresoNuevo.getFecha())
             
             controlador.create(ingresoGuardar);
             
