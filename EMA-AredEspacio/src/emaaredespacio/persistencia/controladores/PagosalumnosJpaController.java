@@ -5,6 +5,7 @@
  */
 package emaaredespacio.persistencia.controladores;
 
+import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.PagoAlumno;
 import emaaredespacio.persistencia.controladores.exceptions.NonexistentEntityException;
 import java.io.Serializable;
@@ -14,9 +15,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import emaaredespacio.persistencia.entidad.Alumnos;
 import emaaredespacio.persistencia.entidad.Grupos;
+import emaaredespacio.persistencia.entidad.Inscripciones;
 import emaaredespacio.persistencia.entidad.Pagosalumnos;
 import emaaredespacio.utilerias.EditorDeFormatos;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -200,5 +204,57 @@ public class PagosalumnosJpaController implements Serializable {
             em.close();
         }
     }
-    
+    public List<PagoAlumno> buscarPagosVencidos(Colaborador colaborador) {
+        List<Inscripciones> inscripcionesVencidas = null;
+        List<Inscripciones> inscripciones = null;
+        List<Pagosalumnos> pagosRealizados = null;
+        List<PagoAlumno> pagosVencidosInscripcion = null;
+        List<PagoAlumno> pagos = new ArrayList<>();
+        List<Grupos> grupos = null;
+        PagoAlumno pago = null;
+        EntityManager conexion = getEntityManager();
+        grupos = new InscripcionesJpaController().buscarGruposDeColaborador(colaborador.getIdColaborador());
+        for (Grupos grupo : grupos) {
+            inscripciones = conexion.createQuery("SELECT i FROM Inscripciones i WHERE i.estado=1 AND i.idGrupo= :idGrupo").setParameter("idGrupo", grupo).getResultList();
+            for (Inscripciones inscripcion : inscripciones) {
+                //pagos mensuales vencidos
+                pagosRealizados=conexion.createQuery("SELECT p FROM Pagosalumnos p, Inscripciones i WHERE p.idGrupo=i.idGrupo AND p.matricula = i.idAlumno AND p.tipoPago= 'Mensualidad' ORDER BY p.fechaPago DESC").getResultList();
+                LocalDate date = pagosRealizados.get(0).getFechaPago().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                System.out.println("date " +date);
+                if (date.plusMonths(1).isBefore(LocalDate.now()) || date.plusMonths(1).isEqual(LocalDate.now())) {
+                    System.out.println("Ya venció el mes");
+                    pago = new PagoAlumno();
+                    pago.setMatricula(pagosRealizados.get(0).getMatricula().getMatricula());
+                    pago.setMonto(pagosRealizados.get(0).getMonto());
+                    pago.setIdGrupo(pagosRealizados.get(0).getIdGrupo().getIdGrupo());
+                    pago.setTipoPago(pagosRealizados.get(0).getTipoPago());
+                    pago.setPorcentajeDescuento(pagosRealizados.get(0).getPorcentajeDescuento());
+                    pago.setTotal(pagosRealizados.get(0).getTotal());
+                    pago.setFechaPago(EditorDeFormatos.crearFormatoFecha(pagosRealizados.get(0).getFechaPago()));
+                    pagos.add(pago);
+                    System.out.println("pago añadido");
+                }
+                //pagos inscripcion vencida
+                pagosRealizados.clear();
+                pagosRealizados=conexion.createQuery("SELECT p FROM Pagosalumnos p, Inscripciones i WHERE p.idGrupo=i.idGrupo AND p.matricula = i.idAlumno AND p.tipoPago= 'Inscripcion' ORDER BY p.fechaPago DESC").getResultList();
+                date = pagosRealizados.get(0).getFechaPago().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                System.out.println(date);
+                if (date.plusYears(1).isBefore(LocalDate.now()) || date.plusYears(1).isEqual(LocalDate.now())) {
+                    System.out.println("Ya venció el año");
+                    pago.setIdPagoAlumno(pagosRealizados.get(0).getIdPago().intValue());
+                    pago.setMatricula(pagosRealizados.get(0).getMatricula().getMatricula());
+                    pago.setMonto(pagosRealizados.get(0).getMonto());
+                    pago.setIdGrupo(pagosRealizados.get(0).getIdGrupo().getIdGrupo());
+                    pago.setTipoPago(pagosRealizados.get(0).getTipoPago());
+                    pago.setPorcentajeDescuento(pagosRealizados.get(0).getPorcentajeDescuento());
+                    pago.setTotal(pagosRealizados.get(0).getTotal());
+                    pago.setFechaPago(EditorDeFormatos.crearFormatoFecha(pagosRealizados.get(0).getFechaPago()));
+                    pagos.add(pago);
+                }
+                
+            }
+        }
+        
+        return pagos;
+    }
 }

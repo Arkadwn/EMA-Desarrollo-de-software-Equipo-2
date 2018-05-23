@@ -16,4 +16,5 @@ public interface IGrupo {
     public boolean guardarCambios(Grupo grupo);
     public boolean guardarGrupo(Grupo grupo);
     public Grupo buscarGrupoPorId(int id);
+    public boolean darDeBajaAlumnosDeGrupo(Grupo grupo);
 }

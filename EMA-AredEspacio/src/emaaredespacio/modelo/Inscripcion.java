@@ -166,25 +166,4 @@ public class Inscripcion implements IInscripcion {
 
         return grupos;
     }
-
-    @Override
-    public List<Inscripcion> buscarInscripcionesPorFecha() {
-        List<Inscripcion> inscripcionesVencidas = null;
-        InscripcionesJpaController controlador = new InscripcionesJpaController();
-        List<Inscripciones> inscripciones = controlador.buscarInscripcionesVencidas();
-        SimpleDateFormat dt1 = new SimpleDateFormat("yyyyy-mm-dd");
-        System.out.println(new Date());
-        String[] fechaA= dt1.format(new Date()).split("-");
-        for(Inscripciones ins : inscripciones){
-            Inscripcion inscripcion = new Inscripcion();
-            Date fecha = ins.getFechaInscripcion();
-            String[] fechaS = fecha.toString().split("-");
-            if(Integer.parseInt(fechaA[2])==Integer.parseInt(fechaS[2]) && Integer.parseInt(fechaA[1])>Integer.parseInt(fechaS[1])){
-                inscripcion.idGrupo = ins.getIdGrupo().getIdGrupo();
-                inscripcion.idAlumno = ins.getIdAlumno().getMatricula();
-            }
-            inscripcionesVencidas.add(inscripcion);
-        }
-        return inscripcionesVencidas;
-    }
 }

@@ -1,6 +1,7 @@
 package emaaredespacio.persistencia.controladores;
 
 import emaaredespacio.persistencia.entidad.Grupos;
+import emaaredespacio.persistencia.entidad.Inscripciones;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +83,20 @@ public class GruposJpaController implements Serializable{
         EntityManager conexion = getEntityManager();
         grupo = conexion.createNamedQuery("Grupos.findByIdGrupo").setParameter("idGrupo", id).getResultList();
         return grupo;
+    }
+    
+    public void DarDeBajaAlumnosDeGrupo(int grupo){
+        EntityManager conexion = getEntityManager();
+        EntityTransaction transaccion = null;
+        Grupos grupos = new Grupos();
+        grupos.setIdGrupo(grupo);
+        List<Inscripciones> inscripciones = conexion.createQuery("SELECT a FROM Inscripciones a WHERE a.estado=1 AND a.idGrupo= :grupo").setParameter("grupo", grupos).getResultList();
+        for(Inscripciones inscripcion : inscripciones){
+            transaccion = conexion.getTransaction();
+            transaccion.begin();
+            inscripcion.setEstado(false);
+            transaccion.commit();
+        }
     }
     
 }

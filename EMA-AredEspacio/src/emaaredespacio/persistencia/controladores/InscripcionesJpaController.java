@@ -116,7 +116,7 @@ public class InscripcionesJpaController implements Serializable {
         Inscripciones inscripcion = null;
 
         try {
-            inscripcion = (Inscripciones) conexion.createQuery("SELECT inscripcion FROM Inscripciones inscripcion WHERE inscripcion.idAlumno.matricula = :idAlumno AND inscripcion.idGrupo.idGrupo"
+            inscripcion = (Inscripciones) conexion.createQuery("SELECT inscripcion FROM Inscripciones inscripcion WHERE inscripcion.idAlumno.matricula = :idAlumno AND inscripcion.idGrupo.idGrupo AND inscripcion.estado=1"
                     + " = :idGrupo and inscripcion.estado = true").setParameter("idAlumno", idAlumno).setParameter("idGrupo", idGrupo).getSingleResult();
         } catch (NoResultException ex) {
             inscripcion = null;
@@ -190,13 +190,5 @@ public class InscripcionesJpaController implements Serializable {
         }
 
         return grupos;
-    }
-    
-    public List<Inscripciones> buscarInscripcionesVencidas(){
-        List<Inscripciones> inscripcionesVencidas = null;
-        EntityManager conexion = getEntityManager();
-        inscripcionesVencidas = conexion.createNamedQuery("Inscripciones.findAll").getResultList();
-        
-        return inscripcionesVencidas;
     }
 }

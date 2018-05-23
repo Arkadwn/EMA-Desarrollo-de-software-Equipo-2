@@ -160,4 +160,13 @@ public class PagoAlumno implements IPagoAlumno {
         return pago;
     }
 
+    @Override
+    public List<PagoAlumno> buscarPagosVencidos(Colaborador colaborador) {
+        List<PagoAlumno> pagos= null;
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        PagosalumnosJpaController controlador = new PagosalumnosJpaController(entityManagerFactory);
+        pagos = controlador.buscarPagosVencidos(colaborador);
+        return pagos;
+    }
+
 }

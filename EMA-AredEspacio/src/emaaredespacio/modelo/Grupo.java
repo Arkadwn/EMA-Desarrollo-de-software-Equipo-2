@@ -270,4 +270,13 @@ public class Grupo implements IGrupo {
     public String toString(){
         return tipoDeBaile;
     }
+
+    @Override
+    public boolean darDeBajaAlumnosDeGrupo(Grupo grupo) {
+        boolean dadosDeBaja=false;
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        GruposJpaController controlador = new GruposJpaController(entityManagerFactory);
+        controlador.DarDeBajaAlumnosDeGrupo(grupo.getIdGrupo());
+        return dadosDeBaja;
+    }
 }

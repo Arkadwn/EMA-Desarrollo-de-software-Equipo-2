@@ -16,4 +16,5 @@ public interface IPagoAlumno {
     public boolean editarPago(PagoAlumno pago);
     public List<PagoAlumno> cargarListaPagos();
     public PagoAlumno buscarUltimoPago();
+    public List<PagoAlumno> buscarPagosVencidos(Colaborador colaborador);
 }

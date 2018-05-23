@@ -12,5 +12,4 @@ public interface IInscripcion {
     public boolean inscribirAlumno(Inscripcion inscripcion);
     public boolean darDeBajaAlumno(int idGrupo, int idAlumno);
     public List<Alumno> sacarInscripcionesDeGrupo(int idGrupo);
-    public List<Inscripcion> buscarInscripcionesPorFecha();
 }
