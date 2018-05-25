@@ -22,7 +22,7 @@ import javax.persistence.Persistence;
 public class InscripcionesJpaController implements Serializable {
 
     public InscripcionesJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);;
+        this.emf = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
     }
 
     private EntityManagerFactory emf = null;

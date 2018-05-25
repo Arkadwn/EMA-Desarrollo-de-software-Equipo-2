@@ -74,12 +74,12 @@
                   <Font name="Arial" size="16.0" />
                </font>
             </Label>
-            <Label text="Grupo:" GridPane.rowIndex="3">
+            <Label text="Grupo:" GridPane.rowIndex="2">
                <font>
                   <Font name="Arial" size="16.0" />
                </font>
             </Label>
-            <Label text="Alumno:" GridPane.rowIndex="2">
+            <Label text="Alumno:" GridPane.rowIndex="3">
                <font>
                   <Font name="Arial" size="16.0" />
                </font>
@@ -102,12 +102,12 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </JFXComboBox>
-            <JFXComboBox fx:id="cbEdicionGrupo" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <JFXComboBox fx:id="cbEdicionGrupo" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </JFXComboBox>
-            <JFXComboBox fx:id="cbEdicionAlumno" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <JFXComboBox fx:id="cbEdicionAlumno" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>

@@ -50,8 +50,6 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
     private JFXTextField tfPago;
     @FXML
     private JFXTextArea tfComentario;
-    @FXML
-    private JFXButton btnGuardar;
     private Pago pago;
     @FXML
     private JFXButton btnCancelar;

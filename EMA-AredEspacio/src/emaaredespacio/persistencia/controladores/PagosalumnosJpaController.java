@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -36,6 +37,10 @@ public class PagosalumnosJpaController implements Serializable {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
+
+    public PagosalumnosJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -76,7 +81,8 @@ public class PagosalumnosJpaController implements Serializable {
         return creado;
     }
 
-    public void edit(Pagosalumnos pagosalumnos) throws NonexistentEntityException, Exception {
+    public boolean edit(Pagosalumnos pagosalumnos){
+        boolean validacion = true;
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -113,19 +119,14 @@ public class PagosalumnosJpaController implements Serializable {
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = pagosalumnos.getIdPago();
-                if (findPagosalumnos(id) == null) {
-                    throw new NonexistentEntityException("The pagosalumnos with id " + id + " no longer exists.");
-                }
-            }
-            throw ex;
+            validacion = false;
         } finally {
             if (em != null) {
                 em.close();
             }
         }
+        
+        return validacion;
     }
 
     public void destroy(Integer id) throws NonexistentEntityException {
@@ -257,4 +258,22 @@ public class PagosalumnosJpaController implements Serializable {
         
         return pagos;
     }
+    
+    public List<Pagosalumnos> buscarPagosDeAlumno(Integer matricula, int idGrupo){
+        EntityManager conexion = null;
+        List<Pagosalumnos> resultadosBusqueda = null;
+        try {
+            conexion = getEntityManager();
+            resultadosBusqueda = conexion.createQuery("SELECT p FROM Pagosalumnos p WHERE p.matricula.matricula = :matricula AND p.idGrupo.idGrupo = :idGrupo ORDER BY p.fechaPago ASC").setParameter("matricula", matricula).setParameter("idGrupo", idGrupo).getResultList();
+        } catch (Exception e) {
+            resultadosBusqueda = new ArrayList();
+        }finally{
+            if(conexion != null){
+                conexion.close();
+            }
+        }
+        
+        return resultadosBusqueda;
+    }
+
 }

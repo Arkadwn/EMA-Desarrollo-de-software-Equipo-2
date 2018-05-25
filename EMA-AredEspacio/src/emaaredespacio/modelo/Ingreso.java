@@ -120,7 +120,7 @@ public class Ingreso implements IIngreso {
             ingresoGuardar.setPagoColaboradorID(ingresoNuevo.getPagoColaboradorID());
             ingresoGuardar.setPagoRentaID(ingresoNuevo.getPagoRentaID());
             ingresoGuardar.setRecibo(ingresoNuevo.getRecibo());
-            ingresoGuardar.setFecha(ingresoNuevo.getFecha())
+            ingresoGuardar.setFecha(ingresoNuevo.getFecha());
             
             controlador.create(ingresoGuardar);
             

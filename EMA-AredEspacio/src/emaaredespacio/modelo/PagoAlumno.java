@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package emaaredespacio.modelo;
 
 import emaaredespacio.persistencia.controladores.PagosalumnosJpaController;
@@ -12,6 +7,7 @@ import emaaredespacio.persistencia.entidad.Pagosalumnos;
 import emaaredespacio.utilerias.EditorDeFormatos;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -168,5 +164,35 @@ public class PagoAlumno implements IPagoAlumno {
         pagos = controlador.buscarPagosVencidos(colaborador);
         return pagos;
     }
-
+    
+    @Override
+    public List<PagoAlumno> cargarListaPagosDeAlumnosDeGrupo(int matricula,int idGrupo) {
+        List<PagoAlumno> pagos = null;
+        List<Pagosalumnos> resultadoBusqueda = null;
+        PagosalumnosJpaController controlador = new PagosalumnosJpaController();
+        
+        resultadoBusqueda = controlador.buscarPagosDeAlumno(matricula, idGrupo);
+        pagos = convertirLista(resultadoBusqueda);
+        
+        return pagos;
+    }
+    
+    private List<PagoAlumno> convertirLista(List<Pagosalumnos> lista){
+        List<PagoAlumno> pagos = new ArrayList();
+        
+        for(Pagosalumnos pago: lista){
+            PagoAlumno pagoAlumno = new PagoAlumno();
+            pagoAlumno.setFechaPago(EditorDeFormatos.crearFormatoFecha(pago.getFechaPago()));
+            pagoAlumno.setIdGrupo(pago.getIdGrupo().getIdGrupo());
+            pagoAlumno.setMatricula(pago.getMatricula().getMatricula());
+            pagoAlumno.setMonto(pago.getMonto());
+            pagoAlumno.setIdPagoAlumno(pago.getIdPago());
+            pagoAlumno.setPorcentajeDescuento(pago.getPorcentajeDescuento());
+            pagoAlumno.setTotal(pago.getTotal());
+            pagoAlumno.setTipoPago(pago.getTipoPago());
+            pagos.add(pagoAlumno);
+        }
+        
+        return pagos;
+    }
 }
