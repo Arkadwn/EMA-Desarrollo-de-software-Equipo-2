@@ -145,5 +145,26 @@ public class ColaboradoresJpaController implements IControladorColaborador {
         }
         return resultadoBusqueda;
     }
+    
+    public boolean validarNombreDeUsuario(String nombreUsuario){
+        boolean validacion = true;
+        
+        EntityManager conexion = null;
+        
+        try{
+            conexion = getEntityManager();
+            List<Colaboradores> colaboradores = conexion.createQuery("SELECT c FROM Colaboradores c WHERE c.idUsuario.nombreUsuario = :nombreUsuario").setParameter("nombreUsuario", nombreUsuario).getResultList();
+            validacion = colaboradores.isEmpty();
+        }catch(Exception ex){
+            ex.printStackTrace();
+            System.out.println("Hubo un error en la validacion de usuario");
+        }finally{
+            if(conexion != null){
+                conexion.close();
+            }
+        }
+        
+        return validacion;
+    }
 
 }

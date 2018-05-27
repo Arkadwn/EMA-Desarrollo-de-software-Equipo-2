@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.IColaborador;
+import emaaredespacio.utilerias.Imagen;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -30,7 +31,7 @@ import javafx.stage.Stage;
  * @author Miguel Leonardo Jimenez Jimenez
  */
 public class FXMLRegistrarColaboradorController implements Initializable {
-
+    
     @FXML
     private ImageView imgPerfil;
     @FXML
@@ -57,8 +58,8 @@ public class FXMLRegistrarColaboradorController implements Initializable {
     private JFXButton btnRegistrar;
     @FXML
     private JFXComboBox<String> cbTipoPago;
-    private String nombreImagen;
     private Stage stage;
+    private File imagen;
 
     /**
      * Initializes the controller class.
@@ -70,18 +71,17 @@ public class FXMLRegistrarColaboradorController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
         imgPerfil.setImage(imagen);
-        nombreImagen = "No";
     }
-
+    
     @FXML
     private void accionRegistrarUsuario(ActionEvent evento) {
-
+        
         if (validarCamposVacios()) {
             MensajeController.mensajeAdvertencia("Hay campos vacios o no ha seleccionado una imagen");
         } else {
             IColaborador metodosColaborador = new Colaborador();
             Colaborador colaborador = new Colaborador();
-
+            
             colaborador.setNombre(tfNombre.getText());
             colaborador.setApellidos(tfApellidos.getText());
             colaborador.setTelefono(tfTelefono.getText());
@@ -90,36 +90,40 @@ public class FXMLRegistrarColaboradorController implements Initializable {
             colaborador.setMontoAPagar(tfMonto.getText());
             colaborador.setNombreUsuario(tfUsuario.getText());
             colaborador.setContraseña(tfContrasena.getText());
-            colaborador.setImagenPerfil(nombreImagen);
             colaborador.setTipoPago(cbTipoPago.getValue());
-
-            boolean[] validaciones = metodosColaborador.validarCampos(colaborador, tfRecontrasena.getText());
             
-            if(validaciones[8]){
-                if(metodosColaborador.registrarColaborador(colaborador)){
-                    MensajeController.mensajeInformacion("El colaborador ha sido guardado exitosamente");
-                    limpiarCampos();
-                }else{
-                    MensajeController.mensajeAdvertencia("Ha ocurrido un error al guardar el colaborador");
+            boolean[] validaciones = metodosColaborador.validarCampos(colaborador, tfRecontrasena.getText());
+            if (validaciones[8]) {
+                if (metodosColaborador.validarNombreUsuario(colaborador.getNombreUsuario())) {
+                    colaborador.setImagenPerfil(colaborador.getNombreUsuario() + ".jpg");
+                    if (metodosColaborador.registrarColaborador(colaborador)) {
+                        Imagen.moverImagen(imagen, colaborador.getNombreUsuario(), Imagen.COLABORADOR);
+                        MensajeController.mensajeInformacion("El colaborador ha sido guardado exitosamente");
+                        limpiarCampos();
+                    } else {
+                        MensajeController.mensajeAdvertencia("Ha ocurrido un error al guardar el colaborador");
+                    }
+                } else {
+                    MensajeController.mensajeAdvertencia("El nombre de usuario que usted ingreso no esta disponible favor de ingresar otro");
                 }
-            }else{
+            } else {
                 MensajeController.mensajeAdvertencia("Hay campos invalidos, cheque los datos ingresados");
             }
         }
-
+        
     }
-
+    
     @FXML
     private void rellenarComboboxTipoPago() {
         ObservableList<String> fichas = FXCollections.observableArrayList("Quinsenal", "Mensual");
         cbTipoPago.setItems(fichas);
     }
-
+    
     private boolean validarCamposVacios() {
-        return tfNombre.getText().isEmpty() || tfApellidos.getText().isEmpty() || tfTelefono.getText().isEmpty()
-                || tfCorreo.getText().isEmpty() || tfDireccion.getText().isEmpty() || tfUsuario.getText().isEmpty()
-                || tfContrasena.getText().isEmpty() || tfRecontrasena.getText().isEmpty() || cbTipoPago.getValue() == null
-                || tfMonto.getText().isEmpty() || nombreImagen.equals("No");
+        return tfNombre.getText().trim().isEmpty() || tfApellidos.getText().trim().isEmpty() || tfTelefono.getText().trim().isEmpty()
+                || tfCorreo.getText().trim().isEmpty() || tfDireccion.getText().trim().isEmpty() || tfUsuario.getText().trim().isEmpty()
+                || tfContrasena.getText().trim().isEmpty() || tfRecontrasena.getText().trim().isEmpty() || cbTipoPago.getValue() == null
+                || tfMonto.getText().trim().isEmpty();
     }
     
     @FXML
@@ -132,95 +136,87 @@ public class FXMLRegistrarColaboradorController implements Initializable {
         elegir.getExtensionFilters().add(extensionPNG);
         elegir.getExtensionFilters().add(extensionJPEG);
         File rutaImagen = elegir.showOpenDialog(stage);
-//    File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\perfil.jpg");
         if (rutaImagen == null) {
-            System.out.println("no es imagen");
+            MensajeController.mensajeAdvertencia("No es una imagen");
         } else {
             Image image = null;
-            String rutaNueva = System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesColaboradores";
-            String rutaOringen = rutaImagen.getAbsolutePath();
-            StringBuilder comando = new StringBuilder();
-            comando.append("copy ").append('"'+rutaOringen+'"').append(" ").append('"'+rutaNueva+'"');
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe","/c",comando.toString());
-            builder.redirectErrorStream(true);
-            Process proceso = builder.start();
+            imagen = rutaImagen;
             try {
                 image = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
             }
             imgPerfil.setImage(image);
-            nombreImagen = rutaImagen.getName();
         }
     }
     
     @FXML
     private void restringirEspacios(KeyEvent evento) {
         char caracter = evento.getCharacter().charAt(0);
-
+        
         if (caracter == ' ') {
             evento.consume();
         }
     }
     
     @FXML
-    private void restringirCampoNombre(KeyEvent evento){
+    private void restringirCampoNombre(KeyEvent evento) {
         restringir50Caracteres(evento, tfNombre.getText());
     }
     
     @FXML
-    private void restringirCampoCorreo(KeyEvent evento){
+    private void restringirCampoCorreo(KeyEvent evento) {
         restringir50Caracteres(evento, tfCorreo.getText());
     }
     
     @FXML
-    private void restringirCampoDireccion(KeyEvent evento){
+    private void restringirCampoDireccion(KeyEvent evento) {
         restringir50Caracteres(evento, tfDireccion.getText());
     }
     
     @FXML
-    private void restringirCampoApellidos(KeyEvent evento){
+    private void restringirCampoApellidos(KeyEvent evento) {
         restringir50Caracteres(evento, tfApellidos.getText());
     }
     
     @FXML
-    private void restringirCampoTelefono(KeyEvent evento){
+    private void restringirCampoTelefono(KeyEvent evento) {
         char cadena = evento.getCharacter().charAt(0);
         
-        if(Character.isDigit(cadena) && tfTelefono.getText().length() < 10){
+        if (Character.isDigit(cadena) && tfTelefono.getText().length() < 10) {
             
-        }else{
+        } else {
             evento.consume();
         }
     }
     
     @FXML
-    private void restringirCampoNombreUsuario(KeyEvent evento){
-        if(tfUsuario.getText().length() < 30){
+    private void restringirCampoNombreUsuario(KeyEvent evento) {
+        if (tfUsuario.getText().length() < 30) {
             
-        }else{
+        } else {
             evento.consume();
         }
     }
     
     @FXML
-    private void restringirCampoPago(KeyEvent evento){
+    private void restringirCampoPago(KeyEvent evento) {
         char cadena = evento.getCharacter().charAt(0);
-        if(Character.isDigit(cadena) && tfMonto.getText().length() < 6){
+        if (Character.isDigit(cadena) && tfMonto.getText().length() < 6) {
             
-        }else{
+        } else {
             evento.consume();
         }
-            
+        
     }
     
-    private void restringir50Caracteres(KeyEvent evento, String cadena){
-        if(cadena.length() > 49){
+    private void restringir50Caracteres(KeyEvent evento, String cadena) {
+        if (cadena.length() > 49) {
             evento.consume();
         }
     }
     
-    private void limpiarCampos(){
+    private void limpiarCampos() {
         tfTelefono.setText("");
         tfCorreo.setText("");
         tfContrasena.setText("");
@@ -232,5 +228,6 @@ public class FXMLRegistrarColaboradorController implements Initializable {
         tfDireccion.setText("");
         Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
         imgPerfil.setImage(imagen);
+        imagen = null;
     }
 }

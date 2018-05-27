@@ -116,7 +116,7 @@ public class InscripcionesJpaController implements Serializable {
         Inscripciones inscripcion = null;
 
         try {
-            inscripcion = (Inscripciones) conexion.createQuery("SELECT inscripcion FROM Inscripciones inscripcion WHERE inscripcion.idAlumno.matricula = :idAlumno AND inscripcion.idGrupo.idGrupo AND inscripcion.estado=1"
+            inscripcion = (Inscripciones) conexion.createQuery("SELECT inscripcion FROM Inscripciones inscripcion WHERE inscripcion.idAlumno.matricula = :idAlumno AND inscripcion.idGrupo.idGrupo"
                     + " = :idGrupo and inscripcion.estado = true").setParameter("idAlumno", idAlumno).setParameter("idGrupo", idGrupo).getSingleResult();
         } catch (NoResultException ex) {
             inscripcion = null;

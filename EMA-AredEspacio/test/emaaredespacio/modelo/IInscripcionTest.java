@@ -23,8 +23,8 @@ public class IInscripcionTest {
     @Test
     public void testInscribirAlumno_CP_01() {
         System.out.println("inscribirAlumno_Inscripcion exitosa");
-        Inscripcion inscripcion = new Inscripcion(18, 3, 100, 500, "29/01/2018");
-        boolean expResult = true;
+        Inscripcion inscripcion = new Inscripcion(1, 3, 100, 500, "29/01/2018");
+        boolean expResult = false;
         boolean result = controlador.inscribirAlumno(inscripcion);
         assertEquals(expResult, result);
     }
@@ -71,8 +71,8 @@ public class IInscripcionTest {
     @Test
     public void testDarDeBajaAlumno_CP_01() {
         System.out.println("darDeBajaAlumno_Dar de baja un alumno");
-        boolean expResult = true;
-        boolean result = controlador.darDeBajaAlumno(18, 3);
+        boolean expResult = false;
+        boolean result = controlador.darDeBajaAlumno(1, 3);
         assertEquals(expResult, result);
     }
 
@@ -84,7 +84,7 @@ public class IInscripcionTest {
         System.out.println("darDeBajaAlumno_Dar de baja un alumno que ya esta dado de baja");
         IInscripcion instance = new Inscripcion();
         boolean expResult = false;
-        boolean result = instance.darDeBajaAlumno(18, 1);
+        boolean result = instance.darDeBajaAlumno(1, 1);
         assertEquals(expResult, result);
     }
 

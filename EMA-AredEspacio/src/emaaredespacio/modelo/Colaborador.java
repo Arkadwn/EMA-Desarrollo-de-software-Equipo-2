@@ -358,4 +358,11 @@ public class Colaborador implements IColaborador {
     public String toString(){
         return nombre+" "+apellidos;
     }
+
+    @Override
+    public boolean validarNombreUsuario(String nombreUsuario) {
+        ColaboradoresJpaController controlador = new ColaboradoresJpaController();
+        
+        return controlador.validarNombreDeUsuario(nombreUsuario);
+    }
 }

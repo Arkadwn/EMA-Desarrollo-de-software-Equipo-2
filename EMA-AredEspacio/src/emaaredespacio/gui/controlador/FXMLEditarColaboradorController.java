@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.IColaborador;
+import emaaredespacio.utilerias.Imagen;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -72,7 +73,7 @@ public class FXMLEditarColaboradorController implements Initializable {
     private TableColumn<Colaborador, String> columnaApellidos;
     private List<Colaborador> lista;
     private Stage stage;
-    private String nombreImagen;
+    private File imagen;
     private Colaborador seleccion;
     @FXML
     private TableView<Colaborador> tbListaColaboradores;
@@ -97,7 +98,6 @@ public class FXMLEditarColaboradorController implements Initializable {
         edicionContraseña = false;
         columnaApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        nombreImagen = "No";
         lista = new ArrayList();
         rellenarComboboxTipoPago();
         seleccion = null;
@@ -115,14 +115,18 @@ public class FXMLEditarColaboradorController implements Initializable {
             tfMonto.setText(seleccion.getMontoAPagar().trim());
             tfUsuario.setText(seleccion.getNombreUsuario().trim());
             tfCorreo.setText(seleccion.getCorreo().trim());
-            File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesColaboradores\\" + seleccion.getImagenPerfil());
+            cbTipoPago.getSelectionModel().select(seleccion.getTipoPago());
+            File rutaImagen = new File(System.getProperty("user.home") + "/aredEspacio/imagenesColaboradores/" + seleccion.getImagenPerfil());
             try {
-                imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
+                if(rutaImagen.exists()){
+                    imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
+                }else{
+                    imagen = new Image("emaaredespacio/imagenes/User.jpg", 225, 225, false, true, true);
+                }
             } catch (MalformedURLException ex) {
                 Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
             }
             imgPerfil.setImage(imagen);
-            nombreImagen = rutaImagen.getName();
             
             checkEstado.setSelected(seleccion.getEstado().equals("A"));
             
@@ -161,25 +165,17 @@ public class FXMLEditarColaboradorController implements Initializable {
         elegir.getExtensionFilters().add(extensionPNG);
         elegir.getExtensionFilters().add(extensionJPEG);
         File rutaImagen = elegir.showOpenDialog(stage);
-//    File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\perfil.jpg");
         if (rutaImagen == null) {
-            System.out.println("no es imagen");
+            MensajeController.mensajeAdvertencia("No es una imagen");
         } else {
             Image image = null;
-            String rutaNueva = System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesColaboradores";
-            String rutaOringen = rutaImagen.getAbsolutePath();
-            StringBuilder comando = new StringBuilder();
-            comando.append("copy ").append('"' + rutaOringen + '"').append(" ").append('"' + rutaNueva + '"');
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", comando.toString());
-            builder.redirectErrorStream(true);
-            Process proceso = builder.start();
+            imagen = rutaImagen;
             try {
                 image = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
             }
             imgPerfil.setImage(image);
-            nombreImagen = rutaImagen.getName();
         }
     }
 
@@ -205,7 +201,7 @@ public class FXMLEditarColaboradorController implements Initializable {
                     colaborador.setContraseña("Acdc619Mljj");
                     reContraseña = "Acdc619Mljj";
                 }
-                colaborador.setImagenPerfil(nombreImagen);
+                colaborador.setImagenPerfil(seleccion.getImagenPerfil());
                 if(cbTipoPago.getValue() != null){
                     colaborador.setTipoPago(cbTipoPago.getValue());
                 }else{
@@ -230,6 +226,9 @@ public class FXMLEditarColaboradorController implements Initializable {
                     }
                     
                     if(metodosColaborador.editarColaborador(colaborador, edicionContraseña)){
+                        if(imagen != null){
+                            Imagen.moverImagen(imagen, colaborador.getNombreUsuario(), Imagen.COLABORADOR);
+                        }
                         MensajeController.mensajeInformacion("Cambios guardados");
                         limpiarCampos();
                     }else{
@@ -252,7 +251,7 @@ public class FXMLEditarColaboradorController implements Initializable {
 
     private boolean validarCamposVacios() {
         return tfNombre.getText().isEmpty() || tfApellidos.getText().isEmpty() || tfTelefono.getText().isEmpty()
-                || tfCorreo.getText().isEmpty() || tfDireccion.getText().isEmpty() || tfUsuario.getText().isEmpty()
+                || tfCorreo.getText().isEmpty() || tfDireccion.getText().isEmpty()
                 || tfMonto.getText().isEmpty();
     }
     
@@ -337,6 +336,7 @@ public class FXMLEditarColaboradorController implements Initializable {
         seleccion = null;
         tbListaColaboradores.getItems().clear();
         tfPalabraClave.setText("");
+        imagen = null;
     }
 
     @FXML
@@ -346,5 +346,7 @@ public class FXMLEditarColaboradorController implements Initializable {
         labelRecontraseña.setVisible(edicionContraseña);
         tfContraseña.setVisible(edicionContraseña);
         tfRecontraseña.setVisible(edicionContraseña);
+        tfContraseña.setText("");
+        tfRecontraseña.setText("");
     }
 }
