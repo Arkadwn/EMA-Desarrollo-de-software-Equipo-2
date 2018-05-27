@@ -48,11 +48,13 @@ public class PagosJpaController implements Serializable {
     public boolean edit(Pagos pagos) {
         boolean validacion = true;
         EntityManager em = null;
+        Pagos pago = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             pagos = em.merge(pagos);
             em.getTransaction().commit();
+            
         } catch (Exception ex) {
             validacion = false;
         } finally {

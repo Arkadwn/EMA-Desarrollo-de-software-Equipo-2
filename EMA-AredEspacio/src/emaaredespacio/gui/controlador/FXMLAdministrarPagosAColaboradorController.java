@@ -208,6 +208,7 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
         cbAlumno.getSelectionModel().selectFirst();
         tfComentario.setText(pago.getComentario());
         tfPago.setText(""+pago.getMonto());
+        this.pago = pago;
     }
 
     public void quitarPago(Parent pago) {

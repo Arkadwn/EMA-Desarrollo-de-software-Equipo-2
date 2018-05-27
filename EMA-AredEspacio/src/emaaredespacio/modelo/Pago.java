@@ -170,6 +170,7 @@ public class Pago implements IPago {
         pagoEditado.setIdColaborador(pago.getIdColaborador());
         pagoEditado.setIdAlumno(pago.getIdAlumno());
         pagoEditado.setIdGrupo(pago.getIdGrupo());
+        pagoEditado.setIdPago(pago.getIdPago());
         
         PagosJpaController controlador = new PagosJpaController();
         
