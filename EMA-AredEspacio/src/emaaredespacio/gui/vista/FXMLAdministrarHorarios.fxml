@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="panelFondo" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLAdministrarHorariosController">
+<AnchorPane id="AnchorPane" fx:id="panelFondo" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLAdministrarHorariosController">
    <children>
       <GridPane layoutY="52.0" prefHeight="600.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="52.0">
         <columnConstraints>
@@ -23,7 +26,7 @@
          <children>
             <DatePicker fx:id="itemDate" editable="false" prefHeight="25.0" prefWidth="278.0" style="-fx-background-color: green;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets top="15.0" />
+                  <Insets right="15.0" top="115.0" />
                </GridPane.margin>
             </DatePicker>
             <Label fx:id="lbIdentificador" text="Identificador" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
@@ -118,7 +121,17 @@
             </ScrollPane>
             <JFXButton fx:id="btnActualizarTabla" onAction="#actualizarTablaHorario" style="-fx-background-color: lightgreen;" text="Actualizar tabla" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets right="15.0" top="15.0" />
+                  <Insets right="15.0" top="115.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <JFXComboBox fx:id="cbxGrupos" focusColor="#a8409e" labelFloat="true" onAction="#hacerAlgo" promptText="Grupos sin horario:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="50.0" />
+               </GridPane.margin>
+            </JFXComboBox>
+            <JFXButton fx:id="btnAsignarHorario" onAction="#asignarHorarioNuevoGrupo" style="-fx-border-color: purple; -fx-border-radius: 5; -fx-border-width: 2;" text="Asignar horario" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="40.0" top="50.0" />
                </GridPane.margin>
             </JFXButton>
          </children>

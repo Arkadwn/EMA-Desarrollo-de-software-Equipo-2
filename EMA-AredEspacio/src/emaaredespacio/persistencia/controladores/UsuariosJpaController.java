@@ -5,7 +5,6 @@
  */
 package emaaredespacio.persistencia.controladores;
 
-import emaaredespacio.modelo.UsuarioSistema;
 import emaaredespacio.persistencia.controladores.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -15,7 +14,6 @@ import javax.persistence.criteria.Root;
 import emaaredespacio.persistencia.entidad.Colaboradores;
 import java.util.ArrayList;
 import java.util.List;
-import emaaredespacio.persistencia.entidad.Directores;
 import emaaredespacio.persistencia.entidad.Usuarios;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -75,9 +73,6 @@ public class UsuariosJpaController implements Serializable {
         if (usuarios.getColaboradoresList() == null) {
             usuarios.setColaboradoresList(new ArrayList<Colaboradores>());
         }
-        if (usuarios.getDirectoresList() == null) {
-            usuarios.setDirectoresList(new ArrayList<Directores>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -88,12 +83,6 @@ public class UsuariosJpaController implements Serializable {
                 attachedColaboradoresList.add(colaboradoresListColaboradoresToAttach);
             }
             usuarios.setColaboradoresList(attachedColaboradoresList);
-            List<Directores> attachedDirectoresList = new ArrayList<Directores>();
-            for (Directores directoresListDirectoresToAttach : usuarios.getDirectoresList()) {
-                directoresListDirectoresToAttach = em.getReference(directoresListDirectoresToAttach.getClass(), directoresListDirectoresToAttach.getIdDirector());
-                attachedDirectoresList.add(directoresListDirectoresToAttach);
-            }
-            usuarios.setDirectoresList(attachedDirectoresList);
             em.persist(usuarios);
             for (Colaboradores colaboradoresListColaboradores : usuarios.getColaboradoresList()) {
                 Usuarios oldIdUsuarioOfColaboradoresListColaboradores = colaboradoresListColaboradores.getIdUsuario();
@@ -102,15 +91,6 @@ public class UsuariosJpaController implements Serializable {
                 if (oldIdUsuarioOfColaboradoresListColaboradores != null) {
                     oldIdUsuarioOfColaboradoresListColaboradores.getColaboradoresList().remove(colaboradoresListColaboradores);
                     oldIdUsuarioOfColaboradoresListColaboradores = em.merge(oldIdUsuarioOfColaboradoresListColaboradores);
-                }
-            }
-            for (Directores directoresListDirectores : usuarios.getDirectoresList()) {
-                Usuarios oldIdUsuarioOfDirectoresListDirectores = directoresListDirectores.getIdUsuario();
-                directoresListDirectores.setIdUsuario(usuarios);
-                directoresListDirectores = em.merge(directoresListDirectores);
-                if (oldIdUsuarioOfDirectoresListDirectores != null) {
-                    oldIdUsuarioOfDirectoresListDirectores.getDirectoresList().remove(directoresListDirectores);
-                    oldIdUsuarioOfDirectoresListDirectores = em.merge(oldIdUsuarioOfDirectoresListDirectores);
                 }
             }
             em.getTransaction().commit();
@@ -129,8 +109,6 @@ public class UsuariosJpaController implements Serializable {
             Usuarios persistentUsuarios = em.find(Usuarios.class, usuarios.getIdUsuario());
             List<Colaboradores> colaboradoresListOld = persistentUsuarios.getColaboradoresList();
             List<Colaboradores> colaboradoresListNew = usuarios.getColaboradoresList();
-            List<Directores> directoresListOld = persistentUsuarios.getDirectoresList();
-            List<Directores> directoresListNew = usuarios.getDirectoresList();
             List<Colaboradores> attachedColaboradoresListNew = new ArrayList<Colaboradores>();
             for (Colaboradores colaboradoresListNewColaboradoresToAttach : colaboradoresListNew) {
                 colaboradoresListNewColaboradoresToAttach = em.getReference(colaboradoresListNewColaboradoresToAttach.getClass(), colaboradoresListNewColaboradoresToAttach.getIdColaborador());
@@ -138,13 +116,6 @@ public class UsuariosJpaController implements Serializable {
             }
             colaboradoresListNew = attachedColaboradoresListNew;
             usuarios.setColaboradoresList(colaboradoresListNew);
-            List<Directores> attachedDirectoresListNew = new ArrayList<Directores>();
-            for (Directores directoresListNewDirectoresToAttach : directoresListNew) {
-                directoresListNewDirectoresToAttach = em.getReference(directoresListNewDirectoresToAttach.getClass(), directoresListNewDirectoresToAttach.getIdDirector());
-                attachedDirectoresListNew.add(directoresListNewDirectoresToAttach);
-            }
-            directoresListNew = attachedDirectoresListNew;
-            usuarios.setDirectoresList(directoresListNew);
             usuarios = em.merge(usuarios);
             for (Colaboradores colaboradoresListOldColaboradores : colaboradoresListOld) {
                 if (!colaboradoresListNew.contains(colaboradoresListOldColaboradores)) {
@@ -160,23 +131,6 @@ public class UsuariosJpaController implements Serializable {
                     if (oldIdUsuarioOfColaboradoresListNewColaboradores != null && !oldIdUsuarioOfColaboradoresListNewColaboradores.equals(usuarios)) {
                         oldIdUsuarioOfColaboradoresListNewColaboradores.getColaboradoresList().remove(colaboradoresListNewColaboradores);
                         oldIdUsuarioOfColaboradoresListNewColaboradores = em.merge(oldIdUsuarioOfColaboradoresListNewColaboradores);
-                    }
-                }
-            }
-            for (Directores directoresListOldDirectores : directoresListOld) {
-                if (!directoresListNew.contains(directoresListOldDirectores)) {
-                    directoresListOldDirectores.setIdUsuario(null);
-                    directoresListOldDirectores = em.merge(directoresListOldDirectores);
-                }
-            }
-            for (Directores directoresListNewDirectores : directoresListNew) {
-                if (!directoresListOld.contains(directoresListNewDirectores)) {
-                    Usuarios oldIdUsuarioOfDirectoresListNewDirectores = directoresListNewDirectores.getIdUsuario();
-                    directoresListNewDirectores.setIdUsuario(usuarios);
-                    directoresListNewDirectores = em.merge(directoresListNewDirectores);
-                    if (oldIdUsuarioOfDirectoresListNewDirectores != null && !oldIdUsuarioOfDirectoresListNewDirectores.equals(usuarios)) {
-                        oldIdUsuarioOfDirectoresListNewDirectores.getDirectoresList().remove(directoresListNewDirectores);
-                        oldIdUsuarioOfDirectoresListNewDirectores = em.merge(oldIdUsuarioOfDirectoresListNewDirectores);
                     }
                 }
             }
@@ -213,11 +167,6 @@ public class UsuariosJpaController implements Serializable {
             for (Colaboradores colaboradoresListColaboradores : colaboradoresList) {
                 colaboradoresListColaboradores.setIdUsuario(null);
                 colaboradoresListColaboradores = em.merge(colaboradoresListColaboradores);
-            }
-            List<Directores> directoresList = usuarios.getDirectoresList();
-            for (Directores directoresListDirectores : directoresList) {
-                directoresListDirectores.setIdUsuario(null);
-                directoresListDirectores = em.merge(directoresListDirectores);
             }
             em.remove(usuarios);
             em.getTransaction().commit();
@@ -273,5 +222,5 @@ public class UsuariosJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

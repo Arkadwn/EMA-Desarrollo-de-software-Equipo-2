@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
@@ -19,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author enriq
+ * @author arkadwn
  */
 @Entity
 @Table(name = "grupos")
@@ -29,23 +34,18 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Grupos.findByIdGrupo", query = "SELECT g FROM Grupos g WHERE g.idGrupo = :idGrupo")
     , @NamedQuery(name = "Grupos.findByTipoDeBaile", query = "SELECT g FROM Grupos g WHERE g.tipoDeBaile = :tipoDeBaile")
     , @NamedQuery(name = "Grupos.findByCupo", query = "SELECT g FROM Grupos g WHERE g.cupo = :cupo")
+    , @NamedQuery(name = "Grupos.findByMensualidad", query = "SELECT g FROM Grupos g WHERE g.mensualidad = :mensualidad")
+    , @NamedQuery(name = "Grupos.findByEspacioDisponible", query = "SELECT g FROM Grupos g WHERE g.espacioDisponible = :espacioDisponible")
+    , @NamedQuery(name = "Grupos.findByInscripcion", query = "SELECT g FROM Grupos g WHERE g.inscripcion = :inscripcion")
     , @NamedQuery(name = "Grupos.findByEstado", query = "SELECT g FROM Grupos g WHERE g.estado = :estado")
     , @NamedQuery(name = "Grupos.findByHorarioAsignado", query = "SELECT g FROM Grupos g WHERE g.horarioAsignado = :horarioAsignado")})
 public class Grupos implements Serializable {
 
-    @Column(name = "espacioDisponible")
-    private Integer espacioDisponible;
-
-    @Column(name = "mensualidad")
-    private Integer mensualidad;
-    @Column(name = "inscripcion")
-    private Integer inscripcion;
+    @OneToMany(mappedBy = "idGrupo")
+    private List<Inscripciones> inscripcionesList;
 
     @OneToMany(mappedBy = "idGrupo")
     private List<Pagosalumnos> pagosalumnosList;
-
-    @OneToMany(mappedBy = "idGrupo")
-    private List<Inscripciones> inscripcionesList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,6 +57,12 @@ public class Grupos implements Serializable {
     private String tipoDeBaile;
     @Column(name = "cupo")
     private Integer cupo;
+    @Column(name = "mensualidad")
+    private Integer mensualidad;
+    @Column(name = "espacioDisponible")
+    private Integer espacioDisponible;
+    @Column(name = "inscripcion")
+    private Integer inscripcion;
     @Column(name = "estado")
     private String estado;
     @Column(name = "horario_asignado")
@@ -94,6 +100,30 @@ public class Grupos implements Serializable {
 
     public void setCupo(Integer cupo) {
         this.cupo = cupo;
+    }
+
+    public Integer getMensualidad() {
+        return mensualidad;
+    }
+
+    public void setMensualidad(Integer mensualidad) {
+        this.mensualidad = mensualidad;
+    }
+
+    public Integer getEspacioDisponible() {
+        return espacioDisponible;
+    }
+
+    public void setEspacioDisponible(Integer espacioDisponible) {
+        this.espacioDisponible = espacioDisponible;
+    }
+
+    public Integer getInscripcion() {
+        return inscripcion;
+    }
+
+    public void setInscripcion(Integer inscripcion) {
+        this.inscripcion = inscripcion;
     }
 
     public String getEstado() {
@@ -146,15 +176,6 @@ public class Grupos implements Serializable {
     }
 
     @XmlTransient
-    public List<Inscripciones> getInscripcionesList() {
-        return inscripcionesList;
-    }
-
-    public void setInscripcionesList(List<Inscripciones> inscripcionesList) {
-        this.inscripcionesList = inscripcionesList;
-    }
-
-    @XmlTransient
     public List<Pagosalumnos> getPagosalumnosList() {
         return pagosalumnosList;
     }
@@ -163,28 +184,13 @@ public class Grupos implements Serializable {
         this.pagosalumnosList = pagosalumnosList;
     }
 
-    public Integer getMensualidad() {
-        return mensualidad;
+    @XmlTransient
+    public List<Inscripciones> getInscripcionesList() {
+        return inscripcionesList;
     }
 
-    public void setMensualidad(Integer mensualidad) {
-        this.mensualidad = mensualidad;
+    public void setInscripcionesList(List<Inscripciones> inscripcionesList) {
+        this.inscripcionesList = inscripcionesList;
     }
-
-    public Integer getInscripcion() {
-        return inscripcion;
-    }
-
-    public void setInscripcion(Integer inscripcion) {
-        this.inscripcion = inscripcion;
-    }
-
-    public Integer getEspacioDisponible() {
-        return espacioDisponible;
-    }
-
-    public void setEspacioDisponible(Integer espacioDisponible) {
-        this.espacioDisponible = espacioDisponible;
-    }
-
-    }
+    
+}

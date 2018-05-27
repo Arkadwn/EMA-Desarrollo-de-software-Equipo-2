@@ -228,7 +228,6 @@ public class Grupo implements IGrupo {
             nuevoGrupo.setInscripcion(grupo.getInscripcion());
             nuevoGrupo.setEspacioDisponible(grupo.getEspacioDisponible());
             nuevoGrupo.setIdColaborador(colaborador);
-            nuevoGrupo.setHorarioAsignado(grupo.getHorarioAsignado());
             nuevoGrupo.setHorarioAsignado(grupo.getHorario_asignado());
             try {
                 guardado = controlador.edit(nuevoGrupo);
@@ -268,7 +267,7 @@ public class Grupo implements IGrupo {
 
     @Override
     public String toString(){
-        return tipoDeBaile;
+        return "G"+idGrupo+": "+tipoDeBaile;
     }
 
     @Override

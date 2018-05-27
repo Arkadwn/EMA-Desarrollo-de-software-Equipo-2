@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
@@ -19,9 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Miguel Leonardo Jimenez Jimenez
- * @date 30/04/2018
- * @time 01:12:07 AM
+ * @author arkadwn
  */
 @Entity
 @Table(name = "inscripciones")
@@ -144,5 +147,5 @@ public class Inscripciones implements Serializable {
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Inscripciones[ idInscripcion=" + idInscripcion + " ]";
     }
-
+    
 }

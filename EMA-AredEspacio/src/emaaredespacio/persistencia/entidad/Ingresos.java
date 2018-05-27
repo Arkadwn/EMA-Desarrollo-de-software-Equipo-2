@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Ingresos.findByPagoColaboradorID", query = "SELECT i FROM Ingresos i WHERE i.pagoColaboradorID = :pagoColaboradorID")
     , @NamedQuery(name = "Ingresos.findByPagoRentaID", query = "SELECT i FROM Ingresos i WHERE i.pagoRentaID = :pagoRentaID")
     , @NamedQuery(name = "Ingresos.findByMonto", query = "SELECT i FROM Ingresos i WHERE i.monto = :monto")
-    , @NamedQuery(name = "Ingresos.findByRecibo", query = "SELECT i FROM Ingresos i WHERE i.recibo = :recibo")})
+    , @NamedQuery(name = "Ingresos.findByRecibo", query = "SELECT i FROM Ingresos i WHERE i.recibo = :recibo")
+    , @NamedQuery(name = "Ingresos.findByFecha", query = "SELECT i FROM Ingresos i WHERE i.fecha = :fecha")})
 public class Ingresos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +49,8 @@ public class Ingresos implements Serializable {
     private Double monto;
     @Column(name = "recibo")
     private Boolean recibo;
+    @Column(name = "fecha")
+    private String fecha;
 
     public Ingresos() {
     }
@@ -94,6 +97,14 @@ public class Ingresos implements Serializable {
 
     public void setRecibo(Boolean recibo) {
         this.recibo = recibo;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     @Override

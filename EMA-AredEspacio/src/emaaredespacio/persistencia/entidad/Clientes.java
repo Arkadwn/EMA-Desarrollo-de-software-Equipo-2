@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
@@ -23,9 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Miguel Leonardo Jimenez Jimenez
- * @date 17/04/2018
- * @time 06:29:08 PM
+ * @author arkadwn
  */
 @Entity
 @Table(name = "clientes")
@@ -164,5 +161,5 @@ public class Clientes implements Serializable {
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Clientes[ idCliente=" + idCliente + " ]";
     }
-
+    
 }

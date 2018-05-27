@@ -32,10 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Egresos.findByFecha", query = "SELECT e FROM Egresos e WHERE e.fecha = :fecha")})
 public class Egresos implements Serializable {
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "monto")
-    private Double monto;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +40,9 @@ public class Egresos implements Serializable {
     private Integer idEgreso;
     @Column(name = "descripcion")
     private String descripcion;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "monto")
+    private Double monto;
     @Column(name = "fecha")
     private String fecha;
 
@@ -70,6 +69,13 @@ public class Egresos implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public Double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Double monto) {
+        this.monto = monto;
+    }
 
     public String getFecha() {
         return fecha;
@@ -101,15 +107,7 @@ public class Egresos implements Serializable {
 
     @Override
     public String toString() {
-        return "emaaredespacio.persistencia.controladores.Egresos[ idEgreso=" + idEgreso + " ]";
-    }
-
-    public Double getMonto() {
-        return monto;
-    }
-
-    public void setMonto(Double monto) {
-        this.monto = monto;
+        return "emaaredespacio.persistencia.entidad.Egresos[ idEgreso=" + idEgreso + " ]";
     }
     
 }

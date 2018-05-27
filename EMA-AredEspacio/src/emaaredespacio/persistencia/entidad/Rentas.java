@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
@@ -22,9 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Miguel Leonardo Jimenez Jimenez
- * @date 17/04/2018
- * @time 06:29:06 PM
+ * @author arkadwn
  */
 @Entity
 @Table(name = "rentas")
@@ -36,11 +33,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Rentas.findByFecha", query = "SELECT r FROM Rentas r WHERE r.fecha = :fecha")
     , @NamedQuery(name = "Rentas.findByHoraIni", query = "SELECT r FROM Rentas r WHERE r.horaIni = :horaIni")
     , @NamedQuery(name = "Rentas.findByHoraFin", query = "SELECT r FROM Rentas r WHERE r.horaFin = :horaFin")
-    , @NamedQuery(name = "Rentas.findByEstado", query = "SELECT r FROM Rentas r WHERE r.estado = :estado")})
+    , @NamedQuery(name = "Rentas.findByEstado", query = "SELECT r FROM Rentas r WHERE r.estado = :estado")
+    , @NamedQuery(name = "Rentas.findByPagoRealizado", query = "SELECT r FROM Rentas r WHERE r.pagoRealizado = :pagoRealizado")})
 public class Rentas implements Serializable {
-
-    @Column(name = "pagoRealizado")
-    private Boolean pagoRealizado;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,6 +53,8 @@ public class Rentas implements Serializable {
     private Integer horaFin;
     @Column(name = "estado")
     private Boolean estado;
+    @Column(name = "pagoRealizado")
+    private Boolean pagoRealizado;
     @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
     @ManyToOne
     private Clientes idCliente;
@@ -117,6 +114,14 @@ public class Rentas implements Serializable {
         this.estado = estado;
     }
 
+    public Boolean getPagoRealizado() {
+        return pagoRealizado;
+    }
+
+    public void setPagoRealizado(Boolean pagoRealizado) {
+        this.pagoRealizado = pagoRealizado;
+    }
+
     public Clientes getIdCliente() {
         return idCliente;
     }
@@ -149,13 +154,5 @@ public class Rentas implements Serializable {
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Rentas[ idRenta=" + idRenta + " ]";
     }
-
-    public Boolean getPagoRealizado() {
-        return pagoRealizado;
-    }
-
-    public void setPagoRealizado(Boolean pagoRealizado) {
-        this.pagoRealizado = pagoRealizado;
-    }
-
+    
 }

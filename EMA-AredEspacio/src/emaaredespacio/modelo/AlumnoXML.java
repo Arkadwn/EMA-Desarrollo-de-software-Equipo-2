@@ -26,7 +26,8 @@ import org.dom4j.io.XMLWriter;
 public class AlumnoXML {
 
     private static final String PATHUSRSISTEMA = System.getProperty("user.home");
-    private static final String PATHUSRXML = PATHUSRSISTEMA + "/XML";
+    private static final String PATHARED = PATHUSRSISTEMA + "/AredEspacio";
+    private static final String PATHUSRXML = PATHARED + "/XML";
 
     public static boolean guardarAsistencia(List<String> asistencia, String idGrupo, List<Alumno> alumnos, String dia) {
         boolean bandera;
@@ -164,19 +165,8 @@ public class AlumnoXML {
                     writer.close();
                     bandera = true;
                 } else {
-                    if (!directorio.exists()) {
-                        directorio.mkdir();
-                    }
-                    FileWriter fileWiter = new FileWriter(file);
-
-                    Document documentNuevo = DocumentHelper.createDocument();
-                    Element root = documentNuevo.addElement("asistencias");
-
-                    XMLWriter writer = new XMLWriter(fileWiter);
-
-                    writer.write(documentNuevo);
-                    writer.close();
-                    fileWiter.close();
+                    guardarDocumento(null);
+                    guardarDocumento(documento);
                     bandera = true;
                 }
             } catch (IOException ex) {
@@ -187,10 +177,11 @@ public class AlumnoXML {
             FileWriter fileWiter = null;
             try {
                 File directorio = new File(PATHUSRXML);
-                File file = new File(directorio.getAbsolutePath() + "/asistencia.xml");
                 if (!directorio.exists()) {
+                    new File(PATHARED).mkdir();
                     directorio.mkdir();
                 }
+                File file = new File(directorio.getAbsolutePath() + "/asistencia.xml");
                 fileWiter = new FileWriter(file);
                 Document documentNuevo = DocumentHelper.createDocument();
                 Element root = documentNuevo.addElement("listasAsistencia");

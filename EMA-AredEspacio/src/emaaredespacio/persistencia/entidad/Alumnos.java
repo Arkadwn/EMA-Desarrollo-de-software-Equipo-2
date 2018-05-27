@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package emaaredespacio.persistencia.entidad;
 
 import java.io.Serializable;
@@ -23,9 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Miguel Leonardo Jimenez Jimenez
- * @date 17/04/2018
- * @time 06:29:07 PM
+ * @author arkadwn
  */
 @Entity
 @Table(name = "alumnos")
@@ -41,12 +38,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Alumnos.findByEstado", query = "SELECT a FROM Alumnos a WHERE a.estado = :estado")
     , @NamedQuery(name = "Alumnos.findByImagen", query = "SELECT a FROM Alumnos a WHERE a.imagen = :imagen")})
 public class Alumnos implements Serializable {
-
-    @OneToMany(mappedBy = "matricula")
-    private List<Pagosalumnos> pagosalumnosList;
-
-    @OneToMany(mappedBy = "idAlumno")
-    private List<Inscripciones> inscripcionesList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -70,6 +61,10 @@ public class Alumnos implements Serializable {
     private String estado;
     @Column(name = "imagen")
     private String imagen;
+    @OneToMany(mappedBy = "idAlumno")
+    private List<Inscripciones> inscripcionesList;
+    @OneToMany(mappedBy = "matricula")
+    private List<Pagosalumnos> pagosalumnosList;
 
     public Alumnos() {
     }
@@ -148,6 +143,24 @@ public class Alumnos implements Serializable {
         this.imagen = imagen;
     }
 
+    @XmlTransient
+    public List<Inscripciones> getInscripcionesList() {
+        return inscripcionesList;
+    }
+
+    public void setInscripcionesList(List<Inscripciones> inscripcionesList) {
+        this.inscripcionesList = inscripcionesList;
+    }
+
+    @XmlTransient
+    public List<Pagosalumnos> getPagosalumnosList() {
+        return pagosalumnosList;
+    }
+
+    public void setPagosalumnosList(List<Pagosalumnos> pagosalumnosList) {
+        this.pagosalumnosList = pagosalumnosList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -172,23 +185,5 @@ public class Alumnos implements Serializable {
     public String toString() {
         return "emaaredespacio.persistencia.entidad.Alumnos[ matricula=" + matricula + " ]";
     }
-
-    @XmlTransient
-    public List<Inscripciones> getInscripcionesList() {
-        return inscripcionesList;
-    }
-
-    public void setInscripcionesList(List<Inscripciones> inscripcionesList) {
-        this.inscripcionesList = inscripcionesList;
-    }
-
-    @XmlTransient
-    public List<Pagosalumnos> getPagosalumnosList() {
-        return pagosalumnosList;
-    }
-
-    public void setPagosalumnosList(List<Pagosalumnos> pagosalumnosList) {
-        this.pagosalumnosList = pagosalumnosList;
-    }
-
+    
 }

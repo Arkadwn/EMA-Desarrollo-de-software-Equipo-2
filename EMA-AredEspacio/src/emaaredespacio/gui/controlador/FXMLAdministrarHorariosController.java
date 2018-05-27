@@ -2,6 +2,7 @@ package emaaredespacio.gui.controlador;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
 import emaaredespacio.modelo.Cliente;
 import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.Grupo;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -121,6 +123,10 @@ public class FXMLAdministrarHorariosController implements Initializable {
     private JFXButton btnActualizarHoras;
     @FXML
     private AnchorPane panelFondo;
+    @FXML
+    private JFXComboBox<Grupo> cbxGrupos;
+    @FXML
+    private JFXButton btnAsignarHorario;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -335,6 +341,21 @@ public class FXMLAdministrarHorariosController implements Initializable {
     }
 
     private void cargarGrupos() {
+        List<Grupo> gruposNoAsignados = new Grupo().buscarGrupos();
+        if (!gruposNoAsignados.isEmpty()) {
+            for (int i = 0; i < gruposNoAsignados.size(); i++) {
+                if (gruposNoAsignados.get(i).getHorario_asignado() == 1) {
+                    gruposNoAsignados.remove(i);
+                }
+            }
+        }
+        if (gruposNoAsignados.isEmpty()) {
+            cbxGrupos.setDisable(true);
+            btnAsignarHorario.setDisable(true);
+        } else {
+            cbxGrupos.getItems().clear();
+            cbxGrupos.setItems(FXCollections.observableArrayList(gruposNoAsignados));
+        }
         for (int i = 1; i < 8; i++) {
             List<Grupo> gruposXML = GrupoXML.obtenerGruposDiaSemana(i);
             if (!gruposXML.isEmpty()) {
@@ -553,37 +574,38 @@ public class FXMLAdministrarHorariosController implements Initializable {
         JFXCheckBox checkArriba = (JFXCheckBox) nodoCercano;
         Node nodoCercano2 = gridHorario1.lookup("#" + x + "," + (y + 1));
         JFXCheckBox checkAbajo = (JFXCheckBox) nodoCercano2;
+        String textoGrupo = lbIdentificador.getText();
         if (check.isSelected()) {
             if (y - 1 != 0 && y + 1 < 49) {
                 if (checkArriba.isSelected()) {
-                    if (checkArriba.getText().equals(lbIdentificador.getText())) {
+                    if (checkArriba.getText().equals(textoGrupo)) {
                         checkAbajo.setDisable(false);
                         checkArriba.setDisable(true);
-                        check.setText(lbIdentificador.getText());
+                        check.setText(textoGrupo);
                     } else {
                         checkAbajo.setDisable(false);
-                        check.setText(lbIdentificador.getText());
+                        check.setText(textoGrupo);
                     }
                 } else {
-                    if (checkAbajo.getText().equals(lbIdentificador.getText())) {
+                    if (checkAbajo.getText().equals(textoGrupo)) {
                         checkArriba.setDisable(false);
                         checkAbajo.setDisable(true);
-                        check.setText(lbIdentificador.getText());
+                        check.setText(textoGrupo);
                     } else {
-                        check.setText(lbIdentificador.getText());
+                        check.setText(textoGrupo);
                     }
                 }
             } else if (y - 1 == 0) {
                 checkAbajo.setDisable(true);
-                check.setText(lbIdentificador.getText());
+                check.setText(textoGrupo);
             } else if (y + 1 == 49) {
                 checkArriba.setDisable(true);
-                check.setText(lbIdentificador.getText());
+                check.setText(textoGrupo);
             }
         } else {
             if (y - 1 != 0 && y + 1 < 49) {
                 if (checkArriba.isSelected()) {
-                    if (checkArriba.getText().equals(lbIdentificador.getText())) {
+                    if (checkArriba.getText().equals(textoGrupo)) {
                         checkAbajo.setDisable(true);
                         checkArriba.setDisable(false);
                         check.setText("     ");
@@ -592,7 +614,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
                         check.setText("     ");
                     }
                 } else {
-                    if (checkAbajo.getText().equals(lbIdentificador.getText())) {
+                    if (checkAbajo.getText().equals(textoGrupo)) {
                         checkArriba.setDisable(true);
                         checkAbajo.setDisable(false);
                         check.setText("     ");
@@ -621,7 +643,6 @@ public class FXMLAdministrarHorariosController implements Initializable {
         for (int i = 1; i < 8; i++) {
             List<Grupo> gruposXML = GrupoXML.obtenerGruposDiaSemana(i);
             if (!gruposXML.isEmpty()) {
-                //System.out.println(gruposXML.size());
                 for (Grupo grupo : gruposXML) {
                     if (!String.valueOf(grupo.getIdGrupo()).equals(lbIdentificador.getText().split("G")[1])) {
                         colocarGrupoHorarioFlotante(i, grupo, false);
@@ -730,42 +751,78 @@ public class FXMLAdministrarHorariosController implements Initializable {
         }
 
         if (validacion) {
-            Grupo grupo = GrupoXML.obtenerGrupoSegunID(lbIdentificador.getText().split("G")[1]);
-
-            String dias = "";
-            String horas = "";
-            boolean bandera = true;
-            for (int i = 1; i < 8; i++) {
-                if (comprobarDia(i) > 0) {
-                    if (bandera) {
-                        dias += i;
-                        int[] horas2 = retornarHoras(i);
-                        if (horas2[1] != 0) {
-                            horas += horas2[0] + "-" + horas2[1];
+            if ("Sin asignar".equals(lbHorario.getText())) {
+                Grupo grupo = cbxGrupos.getSelectionModel().getSelectedItem();
+                String dias = "";
+                String horas = "";
+                boolean bandera = true;
+                for (int i = 1; i < 8; i++) {
+                    if (comprobarDia(i) > 0) {
+                        if (bandera) {
+                            dias += i;
+                            int[] horas2 = retornarHoras(i);
+                            if (horas2[1] != 0) {
+                                horas += horas2[0] + "-" + horas2[1];
+                            } else {
+                                horas += horas2[0];
+                            }
+                            bandera = false;
                         } else {
-                            horas += horas2[0];
-                        }
-                        bandera = false;
-                    } else {
-                        dias += "/" + i;
-                        int[] horas2 = retornarHoras(i);
-                        if (horas2[1] != 0) {
-                            horas += "/" + horas2[0] + "-" + horas2[1];
-                        } else {
-                            horas += "/" + horas2[0];
+                            dias += "/" + i;
+                            int[] horas2 = retornarHoras(i);
+                            if (horas2[1] != 0) {
+                                horas += "/" + horas2[0] + "-" + horas2[1];
+                            } else {
+                                horas += "/" + horas2[0];
+                            }
                         }
                     }
                 }
+                GrupoXML.eliminarGrupoSegunID(String.valueOf(grupo.getIdGrupo()));
+                GrupoXML.guardarGrupo(grupo, dias, horas, "Agregar", "Agregar");
+                MensajeController.mensajeInformacion("Se guardaron los cambios correctamente");
+                grupo.setHorario_asignado(1);
+                new Grupo().guardarCambios(grupo);
+                cerrarGridFlotante(null);
+                actualizarTablaHorario(null);
+            } else {
+                Grupo grupo = GrupoXML.obtenerGrupoSegunID(lbIdentificador.getText().split("G")[1]);
+
+                String dias = "";
+                String horas = "";
+                boolean bandera = true;
+                for (int i = 1; i < 8; i++) {
+                    if (comprobarDia(i) > 0) {
+                        if (bandera) {
+                            dias += i;
+                            int[] horas2 = retornarHoras(i);
+                            if (horas2[1] != 0) {
+                                horas += horas2[0] + "-" + horas2[1];
+                            } else {
+                                horas += horas2[0];
+                            }
+                            bandera = false;
+                        } else {
+                            dias += "/" + i;
+                            int[] horas2 = retornarHoras(i);
+                            if (horas2[1] != 0) {
+                                horas += "/" + horas2[0] + "-" + horas2[1];
+                            } else {
+                                horas += "/" + horas2[0];
+                            }
+                        }
+                    }
+                }
+                GrupoXML.eliminarGrupoSegunID(lbIdentificador.getText().split("G")[1]);
+                GrupoXML.guardarGrupo(grupo, dias, horas, "Agregar", "Agregar");
+                MensajeController.mensajeInformacion("Se guardaron los cambios correctamente");
+                cerrarGridFlotante(null);
+                actualizarTablaHorario(null);
             }
-            System.out.println(dias);
-            //grupo.setDias(dias);
-            //grupo.setHoras(horas);
-            GrupoXML.eliminarGrupoSegunID(lbIdentificador.getText().split("G")[1]);
-            GrupoXML.guardarGrupo(grupo, dias, horas, "Agregar", "Agregar");
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Se guardaron los cambios correctamente", ButtonType.OK);
-            alerta.show();
-            cerrarGridFlotante(null);
-            actualizarTablaHorario(null);
+            lbIdentificador.setText("");
+            lbClaseRenta.setText("");
+            lbEncargado.setText("");
+            lbHorario.setText("");
         }
     }
 
@@ -835,6 +892,79 @@ public class FXMLAdministrarHorariosController implements Initializable {
             } else {
                 lb.setText("---");
             }
+        }
+    }
+
+    @FXML
+    private void asignarHorarioNuevoGrupo(ActionEvent event) {
+        if (cbxGrupos.getSelectionModel().getSelectedItem() != null) {
+            itemDate.setDisable(true);
+            btnActualizarTabla.setDisable(true);
+            gridHorario.setDisable(true);
+            gridFlotante.setVisible(true);
+            if (!creoHorarioFlotante) {
+                creoHorarioFlotante = true;
+                for (int j = 1; j < 49; j++) {
+                    //Mapear horas
+                    HorarioGlobal hora = new HorarioGlobal(j);
+                    for (int i = 0; i < 8; i++) {
+                        StackPane panel = new StackPane();
+                        Label lb;
+                        JFXCheckBox check;
+                        panel.setPrefWidth(74.1327);
+                        panel.setMinHeight(25.0);
+                        if (i == 0) {
+                            lb = new Label();
+                            lb.setText(hora.getHora());
+                            panel.getChildren().add(lb);
+                            StackPane.setAlignment(lb, Pos.CENTER);
+                        } else {
+                            check = new JFXCheckBox();
+                            check.setId(i + "," + j);
+                            check.setText("     ");
+                            check.setOnAction((evento) -> {
+                                deshabilitarCheckBoxCercano(evento);
+                            });
+                            check.setMinHeight(10.0);
+                            check.setPrefHeight(12.5);
+                            check.setMaxHeight(15.0);
+                            check.setDisable(true);
+                            panel.getChildren().add(check);
+                            StackPane.setAlignment(check, Pos.CENTER);
+                        }
+                        if (j % 2 != 0) {
+                            panel.setStyle("-fx-background-color: #FFF; -fx-border-color: #a2a2a2;");
+                        } else {
+                            panel.setStyle("-fx-background-color: #f1f1f1; -fx-border-color: #a2a2a2;");
+                        }
+                        gridHorario1.add(panel, i, j);
+                    }
+                }
+                cargarRentasHorarioFlotante();
+                cargarGruposHorarioFlotante();
+                actualizarHoras(null);
+            } else {
+                cargarRentasHorarioFlotante();
+                cargarGruposHorarioFlotante();
+                actualizarHoras(null);
+            }
+        } else {
+            MensajeController.mensajeInformacion("Debe primero seleccionar un horario nuevo");
+        }
+    }
+
+    @FXML
+    private void hacerAlgo(ActionEvent event) {
+        if (cbxGrupos.getSelectionModel().getSelectedItem() != null) {
+            Grupo grupo = cbxGrupos.getSelectionModel().getSelectedItem();
+            lbIdentificador.setText("G" + grupo.getIdGrupo());
+            lbClaseRenta.setText("Grupo");
+            Colaborador nombreColaborador = new Colaborador().buscarColaboradorSegunID(grupo.getIdColaborador());
+            lbEncargado.setText(nombreColaborador.getNombre() + " " + nombreColaborador.getApellidos());
+            //lbDescripcion.setText("$");
+            lbHorario.setText("Sin asignar");
+        } else {
+
         }
     }
 }
