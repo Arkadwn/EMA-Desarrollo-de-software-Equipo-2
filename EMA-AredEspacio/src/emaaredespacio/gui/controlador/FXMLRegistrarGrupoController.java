@@ -103,11 +103,7 @@ public class FXMLRegistrarGrupoController implements Initializable {
                 IGrupo metodos = new Grupo();
                 if (metodos.guardarGrupo(grupo)) {
                     MensajeController.mensajeInformacion("El grupo se ha guardado correctamente");
-                    //Grupo grup = new Grupo();
-                    //List<Grupo> grupos = grup.buscarGrupos();
-                    //grup = grupos.get(grupos.size() - 1);
-                    //grupo.setIdGrupo(grup.getIdGrupo());
-                    //GrupoXML.guardarGrupo(grupo);
+                    limpiar();
                 } else {
                     MensajeController.mensajeAdvertencia("No se pudo registrar el grupo");
                 }
@@ -117,6 +113,18 @@ public class FXMLRegistrarGrupoController implements Initializable {
             }
 
         }
+    }
+    
+    private void limpiar(){
+        tfNombre.setText("");
+        tfPalabraClave.setText("");
+        tfInscripcion.setText("");
+        tfMensualidad.setText("");
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, 25);
+        spinnerCupo.setValueFactory(valueFactory);
+        lista.clear();
+        tbListaColaboradores.getItems().clear();        
+        seleccion = null;
     }
 
     private boolean validarCamposVacios() {

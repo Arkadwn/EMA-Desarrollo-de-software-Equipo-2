@@ -11,29 +11,17 @@ import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.IColaborador;
 import emaaredespacio.modelo.IPromocion;
 import emaaredespacio.modelo.Promocion;
-import emaaredespacio.persistencia.entidad.Colaboradores;
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -57,7 +45,6 @@ public class FXMLRegistrarPromocionController implements Initializable {
     private JFXTextField tfPromocion;
     @FXML
     private Spinner spinnerDescuento;
-    String nombreColaborador = "armando";
 
     @FXML
     private RadioButton radioButtonMensual;
@@ -95,9 +82,9 @@ public class FXMLRegistrarPromocionController implements Initializable {
         boolean encontrado = false;
         IColaborador metodosColaborador = new Colaborador();
         lista.clear();
-        lista = metodosColaborador.buscarColaborador(nombreColaborador);
+        lista = metodosColaborador.buscarColaborador(System.getProperty("colaborador"));
         if (lista.isEmpty()) {
-            //MensajeController.mensajeInformacion("Maestro no encontrado");
+            MensajeController.mensajeInformacion("Maestro no encontrado");
         } else {
             seleccion = lista.get(0);
             tfNombre.setText(seleccion.getNombre() + " " + seleccion.getApellidos());
@@ -130,6 +117,7 @@ public class FXMLRegistrarPromocionController implements Initializable {
                 promo.setIdColaborador(seleccion.getIdColaborador());
                 if (metodosPromocion.crearPromocion(promo)) {
                     MensajeController.mensajeInformacion("Promoción guardada");
+                    limpiarCampos();
                     if(controlador!=null){
                         controlador.actualizarComboBox();
                         cerrar();
@@ -160,8 +148,9 @@ public class FXMLRegistrarPromocionController implements Initializable {
     }
     
     public void limpiarCampos(){
-        tfNombre.setText("");
-        
+        tfPromocion.setText("");
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 50,5);
+        spinnerDescuento.setValueFactory(valueFactory);
     }
 
 }
