@@ -12,8 +12,6 @@ import emaaredespacio.modelo.IColaborador;
 import emaaredespacio.modelo.IPromocion;
 import emaaredespacio.modelo.Promocion;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,7 +24,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -54,8 +51,7 @@ public class FXMLModificarPromocionController implements Initializable {
     private List<Colaborador> lista;
     private List<Promocion> listaPromociones;
     private Colaborador colaborador;
-    Promocion promocionSeleccionada;
-    String nombreColaborador = "eduardo";
+    private Promocion promocionSeleccionada;
     @FXML
     private CheckBox checkBoxEstado;
     @FXML
@@ -64,16 +60,6 @@ public class FXMLModificarPromocionController implements Initializable {
     private ToggleGroup group;
     @FXML
     private RadioButton radioButtonInscripcion;
-
-    public Colaborador getColaborador() {
-        return colaborador;
-    }
-
-    public void setColaborador(Colaborador colaborador) {
-        this.colaborador = colaborador;
-        tfNombre.setText(colaborador.getNombre() + " " + colaborador.getApellidos());
-        
-    }
 
     /**
      * Initializes the controller class.
@@ -111,6 +97,14 @@ public class FXMLModificarPromocionController implements Initializable {
             }
         });
     }
+    
+    public Colaborador getColaborador() {
+        return colaborador;
+    }
+
+    public void setColaborador(Colaborador colaborador) {
+        this.colaborador = colaborador;
+    }
 
     private boolean validarCamposVacios() {
         return comboBoxPromocion.getValue().toString() == null;
@@ -139,6 +133,7 @@ public class FXMLModificarPromocionController implements Initializable {
             }
             if (metodosPromocion.modificarPromocion(promo)) {
                 MensajeController.mensajeInformacion("Promoción modificada exitosamente");
+                limpiar();
             } else {
                 MensajeController.mensajeAdvertencia("No se pudo guardar la promoción");
             }
@@ -150,9 +145,9 @@ public class FXMLModificarPromocionController implements Initializable {
         boolean encontrado = false;
         IColaborador metodosColaborador = new Colaborador();
         lista.clear();
-        lista = metodosColaborador.buscarColaborador(nombreColaborador);
+        lista = metodosColaborador.buscarColaborador(System.getProperty("colaborador"));
         if (lista.isEmpty()) {
-            MensajeController.mensajeInformacion("Colaborador no encontrado");
+            //MensajeController.mensajeInformacion("Colaborador no encontrado");
         } else {
             colaborador = lista.get(0);
             tfNombre.setText(colaborador.getNombre() + " " + colaborador.getApellidos());
@@ -172,6 +167,15 @@ public class FXMLModificarPromocionController implements Initializable {
         ObservableList<String> options = FXCollections.observableArrayList(nombrePromociones);
         comboBoxPromocion.setItems(options);
 
+    }
+    
+    public void limpiar(){
+        tfNombre.setText("");
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 50,5);
+        spinnerDescuento.setValueFactory(valueFactory);
+        checkBoxEstado.setSelected(false);
+        listaPromociones.clear();
+        comboBoxPromocion.setValue(null);
     }
 
 }

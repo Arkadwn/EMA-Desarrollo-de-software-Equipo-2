@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package emaaredespacio.modelo;
 
 import emaaredespacio.gui.controlador.FXMLMenuPrincipalController;
-import emaaredespacio.utilerias.EditorDeFormatos;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -32,9 +26,14 @@ public class Aviso implements Runnable {
     private List<Aviso> listaDeAvisos = new ArrayList<>();
     private Colaborador colaborador = null;
     private FXMLMenuPrincipalController menu = null;
+    private boolean activo;
 
     public String getNombre() {
         return nombre;
+    }
+    
+    public Aviso(){
+        activo = false;
     }
 
     public void setNombre(String nombreAlumno) {
@@ -129,10 +128,8 @@ public class Aviso implements Runnable {
         for (int i = 0; i < pagosVencidos.size(); i++) {
             aviso = new Aviso();
             aviso.setNombre(nombreDePagosVencidos.get(i));
-//            System.out.println("nombre" + nombreDePagosVencidos.get(i));
             aviso.setGrupo(nombreGruposDePagos.get(i));
             aviso.setTipoDePago(pagosVencidos.get(i).getTipoPago());
-//            System.out.println(pagosVencidos.get(i).getTipoPago());
             listaDeAvisos.add(aviso);
         }
         buscarPagosVencidosDeMaestros();
@@ -141,16 +138,21 @@ public class Aviso implements Runnable {
     @Override
     public void run() {
         while (true) {
+            if(activo){
+                break;
+            }
             actualizarListaAvisos();
-            System.out.println(listaDeAvisos.size());
             menu.actualizarAvisos(listaDeAvisos);
-            System.out.println(listaDeAvisos.size());
             try {
                 Thread.sleep(20000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Aviso.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    public void cerrarAvisos(){
+        activo = true;
     }
 
 }

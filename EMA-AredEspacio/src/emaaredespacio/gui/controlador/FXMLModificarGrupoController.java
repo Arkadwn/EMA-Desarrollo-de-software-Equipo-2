@@ -102,6 +102,7 @@ public class FXMLModificarGrupoController implements Initializable {
                         if(grupoModificado.getEstado().equals("B")){
                             new Grupo().darDeBajaAlumnosDeGrupo(grupoSeleccionado);
                         }
+                        limpiar();
                     } else {
                         MensajeController.mensajeAdvertencia("No se pudieron guardar los cambios");
                     }
@@ -111,6 +112,19 @@ public class FXMLModificarGrupoController implements Initializable {
 
             }
         }
+    }
+    
+    private void limpiar(){
+        tfInscripcion.setText("");
+        tfMensualidad.setText("");
+        tfNombre.setText("");
+        tfPalabraClave.setText("");
+        tfTipoBaile.setText("");
+        colaborador = null;
+        tbListaGrupos.getItems().clear();
+        cbGrupo.setValue(null);
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, grupoSeleccionado.getCupo());
+        spinnerCupo.setValueFactory(valueFactory);
     }
 
     @FXML

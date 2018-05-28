@@ -161,9 +161,13 @@ public class FXMLModificarClienteController implements Initializable {
                 tfCorreo.setText(seleccion.getCorreoElectronico());
             }
             if (!seleccion.getImagenPerfil().equals("No")) {
-                File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos\\" + seleccion.getImagenPerfil());
+                File rutaImagen = new File(System.getProperty("user.home") + "/aredEspacio/imagenesClientes/" + seleccion.getImagenPerfil());
                 try {
-                    imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
+                    if (rutaImagen.exists()) {
+                        imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
+                    } else {
+                        imagen = new Image("emaaredespacio/imagenes/User.jpg", 225, 225, false, true, true);
+                    }
                 } catch (MalformedURLException ex) {
                     Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
                 }

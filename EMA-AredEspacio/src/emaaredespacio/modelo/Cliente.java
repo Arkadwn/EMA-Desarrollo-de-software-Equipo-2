@@ -6,7 +6,6 @@
 package emaaredespacio.modelo;
 
 import emaaredespacio.persistencia.controladores.ClientesJpaController;
-import emaaredespacio.persistencia.controladores.IControladorCliente;
 import emaaredespacio.persistencia.entidad.Clientes;
 import java.util.ArrayList;
 import java.util.List;

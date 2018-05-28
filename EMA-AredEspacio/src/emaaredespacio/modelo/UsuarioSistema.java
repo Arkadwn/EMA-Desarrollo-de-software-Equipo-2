@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package emaaredespacio.modelo;
 
 import emaaredespacio.persistencia.controladores.UsuariosJpaController;
+import emaaredespacio.persistencia.entidad.Colaboradores;
 import emaaredespacio.persistencia.entidad.Usuarios;
 import emaaredespacio.utilerias.Utileria;
 import java.security.NoSuchAlgorithmException;
@@ -22,8 +18,7 @@ public class UsuarioSistema {
 
     private String usuario;
     private String contrasenia;
-    private int id;
-    //private Colaborador colaborador;
+    private Colaborador colaborador;
 
     public String getUsuario() {
         return usuario;
@@ -37,6 +32,14 @@ public class UsuarioSistema {
         return contrasenia;
     }
 
+    public Colaborador getColaborador() {
+        return colaborador;
+    }
+
+    public void setColaborador(Colaborador colaborador) {
+        this.colaborador = colaborador;
+    }
+
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
@@ -48,6 +51,12 @@ public class UsuarioSistema {
         Usuarios resultadoCuenta = controlador.verificarAutenticacion(user.getUsuario());
         if (resultadoCuenta != null) {
             if (Utileria.encriptarContrasena(user.getContrasenia()).equals(resultadoCuenta.getContrasenia())) {
+                Colaboradores resultado = resultadoCuenta.getColaboradoresList().get(0);
+                colaborador = new Colaborador();
+                colaborador.setCargo(resultado.getIdUsuario().getTipo());
+                colaborador.setApellidos(resultado.getApellidos());
+                colaborador.setNombre(resultado.getNombre());
+                colaborador.setIdColaborador(resultado.getIdColaborador());
                 banderaAutenticacion = true;
             }
         }

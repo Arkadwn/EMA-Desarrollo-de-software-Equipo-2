@@ -96,14 +96,19 @@
                                   <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                                   <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                                   <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
                                     <JFXButton onAction="#desplegarVentanaRegistrarPromocion" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar promocion" />
                                     <JFXButton onAction="#desplegarVentanaModificarPromocion" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar promocion" GridPane.rowIndex="1" />
                                     <JFXButton onAction="#desplegarRegistrarPagoAlumno" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar pago alumno" GridPane.rowIndex="2" />
-                                    <JFXButton onAction="#desplegarAdministrarPagosAColaborador" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar pagos a colaborador" GridPane.rowIndex="3" />
+                                    <JFXButton onAction="#desplegarAdministrarPagosAColaborador" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar pagos a colaborador" GridPane.rowIndex="4" />
+                                    <JFXButton onAction="#desplegarVisualizarPagosAlumnos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Historial de pagos de alumnos" GridPane.rowIndex="3" />
+                                    <JFXButton onAction="#desplegarRegistrarPagosRenta" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar pago de renta" GridPane.rowIndex="5" />
+                                    <JFXButton onAction="#desplegarGenerarRepote" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Generar reporte" GridPane.rowIndex="6" />
                                  </children>
                               </GridPane>
                            </children></AnchorPane>
@@ -118,11 +123,12 @@
                           <rowConstraints>
                             <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <JFXButton onAction="#desplegarRegistrarEgresoFacebook" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar egreso de facebook" />
                               <JFXButton onAction="#desplegarEditarEgresoFacebook" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar egreso de facebook" GridPane.rowIndex="1" />
+                              <JFXButton onAction="#desplegarAdministrarEgresos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar egresos" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                   </content>
@@ -181,11 +187,13 @@
                             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <JFXButton onAction="#desplegarAdminstrarAlumnos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar alumnos" />
                               <JFXButton onAction="#desplegarEditarAlumno" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar alumnos" GridPane.rowIndex="1" />
                               <JFXButton onAction="#desplegarVisualizarPagosAlumnos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Visualizar historial de pagos de alumnos" GridPane.rowIndex="2" />
+                              <JFXButton onAction="#desplegarTomarAsistencia" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Tomar asistencia" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                   </content>

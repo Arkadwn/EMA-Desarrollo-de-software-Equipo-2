@@ -5,9 +5,11 @@
  */
 package emaaredespacio.gui.controlador;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Cliente;
 import emaaredespacio.modelo.ICliente;
+import emaaredespacio.utilerias.Imagen;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -25,7 +27,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -49,6 +53,12 @@ public class FXMLRegistrarClienteController implements Initializable {
     private String nombreImagen;
     private static final String PATRON_CORREO = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     DecimalFormat format = new DecimalFormat("#.0");
+    @FXML
+    private JFXButton btnCancelar;
+    @FXML
+    private AnchorPane anchorPane;
+    private File imagen;
+    private Stage stage;
 
     /**
      * Initializes the controller class.
@@ -58,6 +68,7 @@ public class FXMLRegistrarClienteController implements Initializable {
         Image imagen = new Image("emaaredespacio/imagenes/perfil.jpg", 300, 300, false, true, true);
         imgPerfil.setImage(imagen);
         nombreImagen = "No";
+        anchorPane.setStyle("-fx-background-image: url('emaaredespacio/imagenes/fondo.jpg')");
         tfTelefono.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -138,10 +149,12 @@ public class FXMLRegistrarClienteController implements Initializable {
             cliente.setDireccion(tfDireccion.getText());
             cliente.setImagenPerfil(nombreImagen);
             cliente.setTelefono(tfTelefono.getText());
-
+            cliente.setImagenPerfil(cliente.getNombre()+ ".jpg");
             if (tfCorreo.getText().isEmpty()) {
                 if (metodosCliente.guardarCliente(cliente)) {
                     MensajeController.mensajeInformacion("Cliente guardado exitosamente");
+                    Imagen.moverImagen(imagen, cliente.getNombre(), Imagen.CLIENTE);
+                    limpiarCampos();
                 } else {
                     MensajeController.mensajeAdvertencia("No se pudo guardar el cliente");
                 }
@@ -150,6 +163,7 @@ public class FXMLRegistrarClienteController implements Initializable {
                 if (validarFormatoCorreo(tfCorreo.getText())) {
                     if (metodosCliente.guardarCliente(cliente)) {
                         MensajeController.mensajeInformacion("Cliente guardado exitosamente");
+                        limpiarCampos();
                     } else {
                         MensajeController.mensajeAdvertencia("No se pudo guardar el cliente");
                     }
@@ -170,27 +184,35 @@ public class FXMLRegistrarClienteController implements Initializable {
         elegir.getExtensionFilters().add(extension);
         elegir.getExtensionFilters().add(extensionPNG);
         elegir.getExtensionFilters().add(extensionJPEG);
-        File rutaImagen = elegir.showOpenDialog(null);
-//    File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\perfil.jpg");
+        File rutaImagen = elegir.showOpenDialog(stage);
         if (rutaImagen == null) {
-            MensajeController.mensajeAdvertencia("No es imagen");
+            MensajeController.mensajeAdvertencia("No es una imagen");
         } else {
             Image image = null;
-            String rutaNueva = System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos";
-            String rutaOringen = rutaImagen.getAbsolutePath();
-            StringBuilder comando = new StringBuilder();
-            comando.append("copy ").append('"' + rutaOringen + '"').append(" ").append('"' + rutaNueva + '"');
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", comando.toString());
-            builder.redirectErrorStream(true);
-            Process proceso = builder.start();
+            imagen = rutaImagen;
             try {
                 image = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
             }
             imgPerfil.setImage(image);
-            nombreImagen = rutaImagen.getName();
         }
+    }
+    
+    public void limpiarCampos(){
+        tfNombre.setText("");
+        tfApellidos.setText("");
+        tfCorreo.setText("");
+        tfDireccion.setText("");
+        tfTelefono.setText("");
+        Image imagen = new Image("emaaredespacio/imagenes/perfil.jpg", 300, 300, false, true, true);
+        imgPerfil.setImage(imagen);
+        imagen = null;
+    }
+
+    @FXML
+    private void salir(ActionEvent event) {
+        anchorPane.getChildren().remove(this);
     }
 
 }

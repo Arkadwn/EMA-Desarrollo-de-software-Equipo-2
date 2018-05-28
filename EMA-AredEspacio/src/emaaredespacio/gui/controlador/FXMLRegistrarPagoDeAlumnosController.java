@@ -9,9 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Alumno;
 import emaaredespacio.modelo.Colaborador;
-import emaaredespacio.utilerias.Conexion;
 import emaaredespacio.modelo.Grupo;
-import emaaredespacio.modelo.IAlumno;
 import emaaredespacio.modelo.IGrupo;
 import emaaredespacio.modelo.IInscripcion;
 import emaaredespacio.modelo.IPagoAlumno;
@@ -20,14 +18,11 @@ import emaaredespacio.modelo.Inscripcion;
 import emaaredespacio.modelo.PagoAlumno;
 import emaaredespacio.modelo.Promocion;
 import emaaredespacio.utilerias.ReciboDePagoAlumno;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -94,8 +89,6 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
     private JFXTextField tfTotal;
     @FXML
     private ComboBox comboBoxTipoPago;
-    @FXML
-    private JFXButton btnCalcular;
     Alumno seleccion;
     Grupo grupoSeleccionado;
     Promocion promocionSeleccionada;
@@ -115,9 +108,7 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
         listaGrupos = new ArrayList<>();
         listaPromociones = new ArrayList<>();
         Colaborador colaborador = new Colaborador();
-        colaborador.setIdColaborador(1);
-        colaborador.setNombre("armando");
-        colaborador.setApellidos("jimenez");
+        colaborador.setIdColaborador(Integer.parseInt(System.getProperty("idColaborador")));
         this.setColaborador(colaborador);
         tfNombre.setText(colaborador.getNombre());
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -322,7 +313,6 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
         buscarPromociones(comboBoxTipoPago.getValue().toString());
     }
 
-    @FXML
     private void accionCalcular(ActionEvent event) {
         calcularTotal();
     }
