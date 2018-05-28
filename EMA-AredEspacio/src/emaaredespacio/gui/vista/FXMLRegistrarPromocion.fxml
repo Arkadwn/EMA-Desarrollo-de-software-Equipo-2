@@ -56,7 +56,7 @@
                   <Insets right="10.0" top="30.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="btnCancelar" prefHeight="33.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Cancelar" GridPane.columnIndex="2" GridPane.rowIndex="6">
+            <JFXButton fx:id="btnCancelar" onAction="#Cerrar" prefHeight="33.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Cancelar" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="20.0" top="30.0" />
                </GridPane.margin>

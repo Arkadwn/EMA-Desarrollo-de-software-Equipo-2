@@ -5,6 +5,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -17,7 +18,21 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLMenuPrincipalController">
    <children>
-      <AnchorPane fx:id="panelPrincipal" layoutX="6.0" layoutY="52.0" onMouseClicked="#ocultarMenu" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0" />
+      <AnchorPane fx:id="panelPrincipal" layoutX="6.0" layoutY="52.0" onMouseClicked="#ocultarMenu" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
+         <children>
+            <AnchorPane fx:id="anchorPaneAviso" layoutX="896.0" maxWidth="-Infinity" prefHeight="215.0" prefWidth="304.0" style="-fx-background-color: #854c5d;" visible="false">
+               <children>
+                  <JFXButton fx:id="buttonSiguiente" layoutX="257.0" layoutY="66.0" onAction="#siguiente" prefHeight="74.0" prefWidth="33.0" text="&gt;&gt;" />
+                  <TextField fx:id="tfNombreAlumno" editable="false" layoutX="82.0" layoutY="41.0" />
+                  <Label layoutX="82.0" layoutY="14.0" text="Pago correspondiente de" />
+                  <Label layoutX="82.0" layoutY="78.0" text="Tipo de pago" />
+                  <TextField fx:id="tfTipoPago" editable="false" layoutX="82.0" layoutY="103.0" />
+                  <JFXButton fx:id="buttonAtras" layoutX="14.0" layoutY="66.0" onAction="#anterior" prefHeight="74.0" prefWidth="33.0" text="&lt;&lt;" />
+                  <Label layoutX="82.0" layoutY="141.0" text="Grupo" />
+                  <TextField fx:id="tfGrupo" editable="false" layoutX="82.0" layoutY="165.0" />
+               </children>
+            </AnchorPane>
+         </children></AnchorPane>
       <GridPane alignment="TOP_RIGHT" onMouseClicked="#ocultarMenu" prefHeight="51.0" prefWidth="1200.0" style="-fx-background-color: #854c5d;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="403.0" minWidth="4.0" prefWidth="4.0" />
@@ -38,7 +53,7 @@
                </cursor></JFXButton>
             <Label fx:id="labelNombreSesion" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="600.0" prefHeight="51.0" text="Miguel Leonardo Jiménez Jiménez" textAlignment="RIGHT" textFill="WHITE" GridPane.columnIndex="1">
                <GridPane.margin>
-                  <Insets right="51.0" />
+                  <Insets right="101.0" />
                </GridPane.margin>
                <font>
                   <Font name="Arial" size="19.0" />
@@ -52,6 +67,14 @@
                   <Font size="19.0" />
                </font>
             </Label>
+            <JFXButton fx:id="btnAvisos" onAction="#mostrarAvisos" prefHeight="51.0" prefWidth="51.0" GridPane.columnIndex="1">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <GridPane.margin>
+                  <Insets right="51.0" />
+               </GridPane.margin>
+            </JFXButton>
          </children>
          <effect>
             <DropShadow />

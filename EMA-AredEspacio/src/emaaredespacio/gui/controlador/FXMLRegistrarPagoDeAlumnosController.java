@@ -152,6 +152,7 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
                     if (listaPromociones.get(i).getNombrePromocion().equals(comboBoxPromociones.getValue())) {
 
                         promocionSeleccionada = listaPromociones.get(i);
+                        calcularTotal();
                     }
                 }
             }
@@ -163,9 +164,12 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 buscarPromociones(comboBoxTipoPago.getValue().toString());
-                if (comboBoxTipoPago.getValue().toString().equals("Mensualidad")) {
-                    tfMonto.setText(newValue);
+                if (comboBoxTipoPago.getValue().equals("Inscripcion")) {
+                    tfMonto.setText(Integer.toString(grupoSeleccionado.getInscripcion()));
+                } else {
+                    tfMonto.setText(Integer.toString(grupoSeleccionado.getMensualidad()));
                 }
+                calcularTotal();
             }
 
         });
@@ -196,14 +200,13 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
         listaPromociones.clear();
         List<Promocion> listaPromocionesTemporal = metodosPromocion.buscarPromocion(colaborador.getIdColaborador());
         List<String> nombrePromociones = new ArrayList();
+        nombrePromociones.clear();
         for (Promocion promocion : listaPromocionesTemporal) {
-            if (promocion.getTipoDescuento() && tipoPago == "Mensualidad") {
-                nombrePromociones.clear();
+            if (promocion.getTipoDescuento() && tipoPago.equals("Mensualidad")) {
                 nombrePromociones.add(promocion.getNombrePromocion());
                 listaPromociones.add(promocion);
             }
-            if (promocion.getTipoDescuento() == false && tipoPago == "Inscripcion") {
-                nombrePromociones.clear();
+            if (!promocion.getTipoDescuento() && tipoPago.equals("Inscripcion")) {
                 nombrePromociones.add(promocion.getNombrePromocion());
                 listaPromociones.add(promocion);
             }
@@ -276,7 +279,6 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
 
     private String sacarFecha(Date fecha) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
         return formato.format(fecha);
     }
 
@@ -305,6 +307,7 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarPromocion.fxml"));
             Parent parent = (Parent) loader.load();
             FXMLRegistrarPromocionController control = loader.getController();
+            control.referenciarVentanaPago(this);
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -313,6 +316,10 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMLRegistrarPromocionController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void actualizarComboBox(){
+        buscarPromociones(comboBoxTipoPago.getValue().toString());
     }
 
     @FXML

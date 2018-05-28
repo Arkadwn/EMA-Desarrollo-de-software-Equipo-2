@@ -221,9 +221,9 @@ public class PagosalumnosJpaController implements Serializable {
                 //pagos mensuales vencidos
                 pagosRealizados=conexion.createQuery("SELECT p FROM Pagosalumnos p, Inscripciones i WHERE p.idGrupo=i.idGrupo AND p.matricula = i.idAlumno AND p.tipoPago= 'Mensualidad' ORDER BY p.fechaPago DESC").getResultList();
                 LocalDate date = pagosRealizados.get(0).getFechaPago().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                System.out.println("date " +date);
+//                System.out.println("date " +date);
                 if (date.plusMonths(1).isBefore(LocalDate.now()) || date.plusMonths(1).isEqual(LocalDate.now())) {
-                    System.out.println("Ya venció el mes");
+//                    System.out.println("Ya venció el mes");
                     pago = new PagoAlumno();
                     pago.setMatricula(pagosRealizados.get(0).getMatricula().getMatricula());
                     pago.setMonto(pagosRealizados.get(0).getMonto());
@@ -233,15 +233,17 @@ public class PagosalumnosJpaController implements Serializable {
                     pago.setTotal(pagosRealizados.get(0).getTotal());
                     pago.setFechaPago(EditorDeFormatos.crearFormatoFecha(pagosRealizados.get(0).getFechaPago()));
                     pagos.add(pago);
-                    System.out.println("pago añadido");
+//                    System.out.println("pago añadido");
                 }
                 //pagos inscripcion vencida
                 pagosRealizados.clear();
+                
                 pagosRealizados=conexion.createQuery("SELECT p FROM Pagosalumnos p, Inscripciones i WHERE p.idGrupo=i.idGrupo AND p.matricula = i.idAlumno AND p.tipoPago= 'Inscripcion' ORDER BY p.fechaPago DESC").getResultList();
                 date = pagosRealizados.get(0).getFechaPago().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                System.out.println(date);
+//                System.out.println(date);
                 if (date.plusYears(1).isBefore(LocalDate.now()) || date.plusYears(1).isEqual(LocalDate.now())) {
-                    System.out.println("Ya venció el año");
+//                    System.out.println("Ya venció el año");
+                    pago = new PagoAlumno();
                     pago.setIdPagoAlumno(pagosRealizados.get(0).getIdPago().intValue());
                     pago.setMatricula(pagosRealizados.get(0).getMatricula().getMatricula());
                     pago.setMonto(pagosRealizados.get(0).getMonto());
@@ -252,10 +254,8 @@ public class PagosalumnosJpaController implements Serializable {
                     pago.setFechaPago(EditorDeFormatos.crearFormatoFecha(pagosRealizados.get(0).getFechaPago()));
                     pagos.add(pago);
                 }
-                
             }
         }
-        
         return pagos;
     }
     

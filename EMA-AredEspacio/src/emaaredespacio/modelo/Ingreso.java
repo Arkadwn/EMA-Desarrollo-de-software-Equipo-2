@@ -32,7 +32,7 @@ public class Ingreso implements IIngreso {
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
-    
+
     public Integer getIdIngreso() {
         return idIngreso;
     }
@@ -114,23 +114,40 @@ public class Ingreso implements IIngreso {
         try {
             EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
             IngresosJpaController controlador = new IngresosJpaController(entityManagerFactory);
-            
+
             Ingresos ingresoGuardar = new Ingresos();
             ingresoGuardar.setMonto(ingresoNuevo.getMonto());
             ingresoGuardar.setPagoColaboradorID(ingresoNuevo.getPagoColaboradorID());
             ingresoGuardar.setPagoRentaID(ingresoNuevo.getPagoRentaID());
             ingresoGuardar.setRecibo(ingresoNuevo.getRecibo());
             ingresoGuardar.setFecha(ingresoNuevo.getFecha());
-            
+
             controlador.create(ingresoGuardar);
-            
+
             resultado = true;
         } catch (Exception ex) {
             System.out.println("Excepcion en el metodo de guardar registro en la clase Ingreso: " + ex.getMessage());
             ex.printStackTrace();
         }
-        
+
         return resultado;
+    }
+
+    @Override
+    public Ingreso buscarUltimoPagoColaborador(int idColaborador) {
+        Ingresos ingresos = null;
+        Ingreso ingreso = null;
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        IngresosJpaController controlador = new IngresosJpaController(entityManagerFactory);
+        ingresos = controlador.buscarIngresoDeColaborador(idColaborador);
+        if(ingresos != null){
+            ingreso = new Ingreso();
+            ingreso.setIdIngreso(ingresos.getIdIngreso());
+            ingreso.setMonto(ingresos.getMonto());
+            ingreso.setFecha(ingresos.getFecha());
+            ingreso.setPagoColaboradorID(ingresos.getPagoColaboradorID());
+        }
+        return ingreso;
     }
 
 }

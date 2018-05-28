@@ -135,4 +135,15 @@ public class IngresosJpaController implements Serializable {
         }
     }
     
+    public Ingresos buscarIngresoDeColaborador(int idColaborador){
+        EntityManager em = getEntityManager();
+        Ingresos ingreso = null;
+        List<Ingresos> ingresos = em.createQuery("SELECT i FROM Ingresos i WHERE i.pagoColaboradorID = :pagoColaboradorID ORDER BY i.fecha DESC").setParameter("pagoColaboradorID", idColaborador).getResultList();
+        em.close();
+        if(!ingresos.isEmpty()){
+            ingreso = ingresos.get(0);
+        }
+        return ingreso;
+    }
+    
 }

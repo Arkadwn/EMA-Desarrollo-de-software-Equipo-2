@@ -14,4 +14,5 @@ import java.util.List;
 public interface IIngreso {
     public List<Ingreso> cargarIngresos();
     public boolean guardarRegistro(Ingreso ingresoNuevo);
+    public Ingreso buscarUltimoPagoColaborador(int idColaborador);
 }

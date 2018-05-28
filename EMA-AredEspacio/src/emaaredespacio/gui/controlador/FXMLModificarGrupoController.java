@@ -90,6 +90,8 @@ public class FXMLModificarGrupoController implements Initializable {
                     grupoModificado.setCupo(spinnerCupo.getValue());
                     grupoModificado.setTipoDeBaile(tfTipoBaile.getText());
                     grupoModificado.setIdGrupo(grupoSeleccionado.getIdGrupo());
+                    grupoModificado.setMensualidad(Integer.parseInt(tfMensualidad.getText()));
+                    grupoModificado.setInscripcion(Integer.parseInt(tfInscripcion.getText()));
                     if (checkEstado.isSelected()) {
                         grupoModificado.setEstado("A");
                     } else {
@@ -97,6 +99,9 @@ public class FXMLModificarGrupoController implements Initializable {
                     }
                     if (new Grupo().guardarCambios(grupoModificado)) {
                         MensajeController.mensajeInformacion("Grupo modificado exitosamente");
+                        if(grupoModificado.getEstado().equals("B")){
+                            new Grupo().darDeBajaAlumnosDeGrupo(grupoSeleccionado);
+                        }
                     } else {
                         MensajeController.mensajeAdvertencia("No se pudieron guardar los cambios");
                     }
@@ -135,9 +140,9 @@ public class FXMLModificarGrupoController implements Initializable {
     @FXML
     private void accionBuscar(ActionEvent evento) {
         if (tfPalabraClave.getText().trim().isEmpty()) {
-            MensajeController.mensajeInformacion("No ha ingresado ningún caracter");;
+            MensajeController.mensajeInformacion("No ha ingresado ningún caracter");
         } else {
-            List<Colaborador> listaColaborador = new ArrayList();
+            List<Colaborador> listaColaborador = new ArrayList<>();
             colaborador = new Colaborador();
             listaColaborador = colaborador.buscarColaborador(tfPalabraClave.getText().trim());
             if (listaColaborador.isEmpty()) {

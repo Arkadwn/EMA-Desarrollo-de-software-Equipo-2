@@ -34,6 +34,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -85,7 +86,7 @@ public class FXMLRegistrarPromocionController implements Initializable {
         radioButtonInscripcion.setToggleGroup(group);
         radioButtonInscripcion.setSelected(true);
 
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 50);
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 50,5);
         spinnerDescuento.setValueFactory(valueFactory);
 
     }
@@ -96,7 +97,7 @@ public class FXMLRegistrarPromocionController implements Initializable {
         lista.clear();
         lista = metodosColaborador.buscarColaborador(nombreColaborador);
         if (lista.isEmpty()) {
-            MensajeController.mensajeInformacion("Maestro no encontrado");
+            //MensajeController.mensajeInformacion("Maestro no encontrado");
         } else {
             seleccion = lista.get(0);
             tfNombre.setText(seleccion.getNombre() + " " + seleccion.getApellidos());
@@ -129,6 +130,10 @@ public class FXMLRegistrarPromocionController implements Initializable {
                 promo.setIdColaborador(seleccion.getIdColaborador());
                 if (metodosPromocion.crearPromocion(promo)) {
                     MensajeController.mensajeInformacion("Promoción guardada");
+                    if(controlador!=null){
+                        controlador.actualizarComboBox();
+                        cerrar();
+                    }
                 } else {
                     MensajeController.mensajeAdvertencia("No se pudo guardar la información");
                 }
@@ -137,6 +142,26 @@ public class FXMLRegistrarPromocionController implements Initializable {
             }
 
         }
+    }
+
+    @FXML
+    private void Cerrar(ActionEvent event) {
+        cerrar();
+    }
+    
+    private void cerrar(){
+        Stage stage = (Stage) btnCancelar.getScene().getWindow();
+        stage.close();
+    }
+    FXMLRegistrarPagoDeAlumnosController controlador;
+    
+    public void referenciarVentanaPago(FXMLRegistrarPagoDeAlumnosController controlador){
+        this.controlador = controlador;
+    }
+    
+    public void limpiarCampos(){
+        tfNombre.setText("");
+        
     }
 
 }
