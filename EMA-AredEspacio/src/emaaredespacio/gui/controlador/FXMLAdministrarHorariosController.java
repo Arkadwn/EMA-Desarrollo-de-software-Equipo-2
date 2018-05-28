@@ -6,8 +6,7 @@ import com.jfoenix.controls.JFXComboBox;
 import emaaredespacio.modelo.Cliente;
 import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.Grupo;
-import emaaredespacio.modelo.GrupoXML;
-import emaaredespacio.modelo.HorarioGlobal;
+import emaaredespacio.utilerias.GrupoXML;
 import emaaredespacio.modelo.Renta;
 import java.io.IOException;
 import java.net.URL;
@@ -16,11 +15,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -168,8 +164,14 @@ public class FXMLAdministrarHorariosController implements Initializable {
     }
 
     private void llenarTablaHorarioGlobal() {
+        String[] mapaHoras = {"", "00:01-00:30", "00:31-01:00", "01:01-01:30", "01:31-02:00", "02:01-02:30", "02:31-03:00",
+            "03:01-03:30", "03:31-04:00", "04:01-04:30", "04:31-05:00", "05:01-05:30", "05:31-06:00", "06:01-06:30", "06:31-07:00",
+            "07:01-07:30", "07:31-08:00", "08:01-08:30", "08:31-09:00", "09:01-09:30", "09:31-10:00", "10:01-10:30", "10:31-11:00", "11:01-11:30", "11:31-12:00",
+            "12:01-12:30", "12:31-13:00", "13:01-13:30", "13:31-14:00", "14:01-14:30", "14:31-15:00", "15:01-15:30", "15:31-16:00",
+            "16:01-16:30", "16:31-17:00", "17:01-17:30", "17:31-18:00", "18:01-18:30", "18:31-19:00", "19:01-19:30", "19:31-20:00",
+            "20:00-20:30", "20:31-21:00", "21:01-21:30", "21:31-22:00", "22:01-22:30", "22:31-23:00", "23:01-23:30", "23:31-24:00"};
         for (int j = 1; j < 49; j++) {
-            HorarioGlobal hora = new HorarioGlobal(j);
+            String hora = mapaHoras[j];
             for (int i = 0; i < 8; i++) {
                 StackPane panel = new StackPane();
                 Label lb;
@@ -177,7 +179,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
                 panel.setPrefHeight(5.0);
                 if (i == 0) {
                     lb = new Label();
-                    lb.setText(hora.getHora());
+                    lb.setText(hora);
                     panel.getChildren().add(lb);
                     StackPane.setAlignment(lb, Pos.CENTER);
                 }
@@ -409,6 +411,12 @@ public class FXMLAdministrarHorariosController implements Initializable {
 
     @FXML
     private void editarHorarioLanzar(ActionEvent event) {
+        String[] mapaHoras = {"", "00:01-00:30", "00:31-01:00", "01:01-01:30", "01:31-02:00", "02:01-02:30", "02:31-03:00",
+            "03:01-03:30", "03:31-04:00", "04:01-04:30", "04:31-05:00", "05:01-05:30", "05:31-06:00", "06:01-06:30", "06:31-07:00",
+            "07:01-07:30", "07:31-08:00", "08:01-08:30", "08:31-09:00", "09:01-09:30", "09:31-10:00", "10:01-10:30", "10:31-11:00", "11:01-11:30", "11:31-12:00",
+            "12:01-12:30", "12:31-13:00", "13:01-13:30", "13:31-14:00", "14:01-14:30", "14:31-15:00", "15:01-15:30", "15:31-16:00",
+            "16:01-16:30", "16:31-17:00", "17:01-17:30", "17:31-18:00", "18:01-18:30", "18:31-19:00", "19:01-19:30", "19:31-20:00",
+            "20:00-20:30", "20:31-21:00", "21:01-21:30", "21:31-22:00", "22:01-22:30", "22:31-23:00", "23:01-23:30", "23:31-24:00"};
         if (!"Identificador".equals(lbIdentificador.getText())) {
             if (lbIdentificador.getText().charAt(0) == 'G') {
                 itemDate.setDisable(true);
@@ -419,7 +427,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
                     creoHorarioFlotante = true;
                     for (int j = 1; j < 49; j++) {
                         //Mapear horas
-                        HorarioGlobal hora = new HorarioGlobal(j);
+                        String hora = mapaHoras[j];
                         for (int i = 0; i < 8; i++) {
                             StackPane panel = new StackPane();
                             Label lb;
@@ -428,7 +436,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
                             panel.setMinHeight(25.0);
                             if (i == 0) {
                                 lb = new Label();
-                                lb.setText(hora.getHora());
+                                lb.setText(hora);
                                 panel.getChildren().add(lb);
                                 StackPane.setAlignment(lb, Pos.CENTER);
                             } else {
@@ -730,16 +738,13 @@ public class FXMLAdministrarHorariosController implements Initializable {
         }
     }
 
-    @FXML
-    private void regresarMenuPrincipal(ActionEvent event) {
-    }
 
     @FXML
     private void guardarCambios(ActionEvent event) {
         actualizarHoras(null);
         boolean validacion = false;
 
-        Alert ventanaPregunta = new Alert(Alert.AlertType.CONFIRMATION, "Se han actualizado los horarios ¿desea guardar?");
+        Alert ventanaPregunta = new Alert(Alert.AlertType.CONFIRMATION, "¿Desea guardar los cambios?");
         ButtonType btnSi = new ButtonType("Si", ButtonBar.ButtonData.YES);
         ButtonType btnNo = new ButtonType("No", ButtonBar.ButtonData.NO);
         ventanaPregunta.getButtonTypes().setAll(btnSi, btnNo);
@@ -752,6 +757,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
 
         if (validacion) {
             if ("Sin asignar".equals(lbHorario.getText())) {
+                
                 Grupo grupo = cbxGrupos.getSelectionModel().getSelectedItem();
                 String dias = "";
                 String horas = "";
@@ -778,6 +784,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
                         }
                     }
                 }
+                if(!dias.equals("")){
                 GrupoXML.eliminarGrupoSegunID(String.valueOf(grupo.getIdGrupo()));
                 GrupoXML.guardarGrupo(grupo, dias, horas, "Agregar", "Agregar");
                 MensajeController.mensajeInformacion("Se guardaron los cambios correctamente");
@@ -785,6 +792,9 @@ public class FXMLAdministrarHorariosController implements Initializable {
                 new Grupo().guardarCambios(grupo);
                 cerrarGridFlotante(null);
                 actualizarTablaHorario(null);
+                }else{
+                    MensajeController.mensajeInformacion("Lo lamento, no se pudo guardar el horario de este grupo, no hay horas asignadas");
+                }
             } else {
                 Grupo grupo = GrupoXML.obtenerGrupoSegunID(lbIdentificador.getText().split("G")[1]);
 
@@ -897,6 +907,12 @@ public class FXMLAdministrarHorariosController implements Initializable {
 
     @FXML
     private void asignarHorarioNuevoGrupo(ActionEvent event) {
+        String[] mapaHoras = {"", "00:01-00:30", "00:31-01:00", "01:01-01:30", "01:31-02:00", "02:01-02:30", "02:31-03:00",
+            "03:01-03:30", "03:31-04:00", "04:01-04:30", "04:31-05:00", "05:01-05:30", "05:31-06:00", "06:01-06:30", "06:31-07:00",
+            "07:01-07:30", "07:31-08:00", "08:01-08:30", "08:31-09:00", "09:01-09:30", "09:31-10:00", "10:01-10:30", "10:31-11:00", "11:01-11:30", "11:31-12:00",
+            "12:01-12:30", "12:31-13:00", "13:01-13:30", "13:31-14:00", "14:01-14:30", "14:31-15:00", "15:01-15:30", "15:31-16:00",
+            "16:01-16:30", "16:31-17:00", "17:01-17:30", "17:31-18:00", "18:01-18:30", "18:31-19:00", "19:01-19:30", "19:31-20:00",
+            "20:00-20:30", "20:31-21:00", "21:01-21:30", "21:31-22:00", "22:01-22:30", "22:31-23:00", "23:01-23:30", "23:31-24:00"};
         if (cbxGrupos.getSelectionModel().getSelectedItem() != null) {
             itemDate.setDisable(true);
             btnActualizarTabla.setDisable(true);
@@ -906,7 +922,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
                 creoHorarioFlotante = true;
                 for (int j = 1; j < 49; j++) {
                     //Mapear horas
-                    HorarioGlobal hora = new HorarioGlobal(j);
+                    String hora = mapaHoras[j];
                     for (int i = 0; i < 8; i++) {
                         StackPane panel = new StackPane();
                         Label lb;
@@ -915,7 +931,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
                         panel.setMinHeight(25.0);
                         if (i == 0) {
                             lb = new Label();
-                            lb.setText(hora.getHora());
+                            lb.setText(hora);
                             panel.getChildren().add(lb);
                             StackPane.setAlignment(lb, Pos.CENTER);
                         } else {
@@ -954,7 +970,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
     }
 
     @FXML
-    private void hacerAlgo(ActionEvent event) {
+    private void asignarHorario(ActionEvent event) {
         if (cbxGrupos.getSelectionModel().getSelectedItem() != null) {
             Grupo grupo = cbxGrupos.getSelectionModel().getSelectedItem();
             lbIdentificador.setText("G" + grupo.getIdGrupo());

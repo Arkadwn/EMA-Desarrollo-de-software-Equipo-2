@@ -75,14 +75,9 @@
                <GridPane.margin>
                   <Insets left="120.0" top="280.0" />
                </GridPane.margin></Label>
-            <JFXButton fx:id="btnEditarLanzador" onAction="#editarHorarioLanzar" style="-fx-background-color: lightblue;" text="Editar horario" GridPane.columnIndex="1">
+            <JFXButton fx:id="btnEditarLanzador" onAction="#editarHorarioLanzar" style="-fx-border-color: purple; -fx-border-radius: 5; -fx-border-width: 2;" text="Editar horario" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                <GridPane.margin>
-                  <Insets left="150.0" top="350.0" />
-               </GridPane.margin>
-            </JFXButton>
-            <JFXButton onAction="#regresarMenuPrincipal" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-               <GridPane.margin>
-                  <Insets right="150.0" top="350.0" />
+                  <Insets top="350.0" />
                </GridPane.margin>
             </JFXButton>
             <ScrollPane fx:id="root" hbarPolicy="NEVER" pannable="true" prefHeight="548.0">
@@ -119,12 +114,12 @@
                   </AnchorPane>
                </content>
             </ScrollPane>
-            <JFXButton fx:id="btnActualizarTabla" onAction="#actualizarTablaHorario" style="-fx-background-color: lightgreen;" text="Actualizar tabla" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <JFXButton fx:id="btnActualizarTabla" onAction="#actualizarTablaHorario" style="-fx-border-color: lightgreen; -fx-border-width: 2; -fx-border-radius: 5;" text="Actualizar tabla" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="15.0" top="115.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXComboBox fx:id="cbxGrupos" focusColor="#a8409e" labelFloat="true" onAction="#hacerAlgo" promptText="Grupos sin horario:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <JFXComboBox fx:id="cbxGrupos" focusColor="#a8409e" labelFloat="true" onAction="#asignarHorario" promptText="Grupos sin horario:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="50.0" />
                </GridPane.margin>

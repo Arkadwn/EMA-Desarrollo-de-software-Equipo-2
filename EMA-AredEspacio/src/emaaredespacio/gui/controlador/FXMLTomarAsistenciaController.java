@@ -9,7 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import emaaredespacio.modelo.Alumno;
-import emaaredespacio.modelo.AlumnoXML;
+import emaaredespacio.utilerias.AlumnoXML;
 import emaaredespacio.modelo.Grupo;
 import emaaredespacio.modelo.Inscripcion;
 import java.net.URL;

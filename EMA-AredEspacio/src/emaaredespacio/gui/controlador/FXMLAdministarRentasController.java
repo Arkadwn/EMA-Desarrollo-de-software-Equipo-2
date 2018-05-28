@@ -11,8 +11,7 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Cliente;
 import emaaredespacio.modelo.Grupo;
-import emaaredespacio.modelo.GrupoXML;
-import emaaredespacio.modelo.HorarioGlobal;
+import emaaredespacio.utilerias.GrupoXML;
 import emaaredespacio.modelo.Renta;
 import java.net.URL;
 import java.util.Calendar;
@@ -32,6 +31,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -60,8 +60,6 @@ public class FXMLAdministarRentasController implements Initializable {
     private DatePicker itemFecha;
     @FXML
     private JFXTextField txtMonto;
-    @FXML
-    private JFXButton btnRegresar;
     @FXML
     private JFXButton btnGuardar;
     @FXML
@@ -195,10 +193,6 @@ public class FXMLAdministarRentasController implements Initializable {
         }
     }
 
-    @FXML
-    private void regresarMenuPrincipal(ActionEvent event) {
-
-    }
 
     private void vaciarCampos() {
         txtBusqueda.setText("");
@@ -371,9 +365,15 @@ public class FXMLAdministarRentasController implements Initializable {
     }
 
     private void llenarTablaHorarioGlobal() {
+        String[] mapaHoras = {"", "00:01-00:30", "00:31-01:00", "01:01-01:30", "01:31-02:00", "02:01-02:30", "02:31-03:00",
+            "03:01-03:30", "03:31-04:00", "04:01-04:30", "04:31-05:00", "05:01-05:30", "05:31-06:00", "06:01-06:30", "06:31-07:00",
+            "07:01-07:30", "07:31-08:00", "08:01-08:30", "08:31-09:00", "09:01-09:30", "09:31-10:00", "10:01-10:30", "10:31-11:00", "11:01-11:30", "11:31-12:00",
+            "12:01-12:30", "12:31-13:00", "13:01-13:30", "13:31-14:00", "14:01-14:30", "14:31-15:00", "15:01-15:30", "15:31-16:00",
+            "16:01-16:30", "16:31-17:00", "17:01-17:30", "17:31-18:00", "18:01-18:30", "18:31-19:00", "19:01-19:30", "19:31-20:00",
+            "20:00-20:30", "20:31-21:00", "21:01-21:30", "21:31-22:00", "22:01-22:30", "22:31-23:00", "23:01-23:30", "23:31-24:00"};
         for (int j = 1; j < 49; j++) {
             //Mapear horas
-            HorarioGlobal hora = new HorarioGlobal(j);
+            String hora = mapaHoras[j];
             for (int i = 0; i < 2; i++) {
                 StackPane panel = new StackPane();
                 Label lb;
@@ -382,7 +382,7 @@ public class FXMLAdministarRentasController implements Initializable {
                 panel.setMinHeight(25.0);
                 if (i == 0) {
                     lb = new Label();
-                    lb.setText(hora.getHora());
+                    lb.setText(hora);
                     panel.getChildren().add(lb);
                     StackPane.setAlignment(lb, Pos.CENTER);
                 } else {
@@ -826,6 +826,16 @@ public class FXMLAdministarRentasController implements Initializable {
                 check.setDisable(true);
                 check.setText("     ");
             }
+        }
+    }
+
+    @FXML
+    private void verificarSoloDigitos(KeyEvent event) {
+        char cadena = event.getCharacter().charAt(0);
+        if (Character.isDigit(cadena) && ((JFXTextField) event.getSource()).getText().length() < 6) {
+
+        } else {
+            event.consume();
         }
     }
 }

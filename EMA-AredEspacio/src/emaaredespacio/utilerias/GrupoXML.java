@@ -1,5 +1,6 @@
-package emaaredespacio.modelo;
+package emaaredespacio.utilerias;
 
+import emaaredespacio.modelo.Grupo;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
