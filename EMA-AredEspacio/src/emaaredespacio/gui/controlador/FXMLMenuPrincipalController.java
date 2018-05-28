@@ -51,13 +51,14 @@ public class FXMLMenuPrincipalController implements Initializable {
     private JFXButton buttonAtras;
     @FXML
     private AnchorPane anchorPaneAviso;
-    List<Aviso> listaAvisos;
+    private List<Aviso> listaAvisos;
     @FXML
     private TextField tfGrupo;
     @FXML
     private JFXButton btnAvisos;
     private boolean avisosDesplegados;
     private boolean esDirector;
+    private Aviso avisos;
 
     public EMAAredEspacio getMain() {
         return main;
@@ -75,13 +76,7 @@ public class FXMLMenuPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        colaborador = new Colaborador();
-        colaborador.setNombre("Javier");
-        colaborador.setIdColaborador(1);
-        colaborador.setApellidos("Limon");
         menuDesplegado = false;
-        System.getProperties().put("colaborador", colaborador.getNombre() + " " + colaborador.getApellidos());
-        System.getProperties().put("idColaborador", "" + colaborador.getIdColaborador());
         panelPrincipal.setStyle("-fx-background-image: url('emaaredespacio/imagenes/fondo.jpg');"
                 + "-fx-background-position: center center; -fx-background-repeat: stretch;");
         btnInicio.setStyle("-fx-background-image: url('emaaredespacio/imagenes/inicio.png');"
@@ -93,12 +88,6 @@ public class FXMLMenuPrincipalController implements Initializable {
         btnAvisos.setStyle("-fx-background-image: url('emaaredespacio/imagenes/aviso.png');"
                 + "-fx-background-position: center center; -fx-background-repeat: stretch;"
                 + " -fx-background-size: 30px 30px 30px 30px;");
-        Aviso avisos = new Aviso();
-        listaAvisos = new ArrayList<>();
-        avisos.setColaborador(colaborador);
-        avisos.setVentanaPricipal(this);
-        Thread hiloAvisos = new Thread(avisos);
-        hiloAvisos.start();
         avisosDesplegados = false;
         esDirector = false;
     }
@@ -117,7 +106,17 @@ public class FXMLMenuPrincipalController implements Initializable {
 
     public void setColaborador(Colaborador colaborador) {
         this.colaborador = colaborador;
+        System.getProperties().put("colaborador", colaborador.getNombre() + " " + colaborador.getApellidos());
+        System.getProperties().put("idColaborador", "" + colaborador.getIdColaborador());
         labelNombreSesion.setText(this.colaborador.getNombre() + " " + this.colaborador.getApellidos());
+        
+        avisos = new Aviso();
+        listaAvisos = new ArrayList<>();
+        avisos.setColaborador(colaborador);
+        avisos.setVentanaPricipal(this);
+        Thread hiloAvisos = new Thread(avisos);
+        
+        hiloAvisos.start();
     }
 
     @FXML
@@ -212,7 +211,8 @@ public class FXMLMenuPrincipalController implements Initializable {
 
     @FXML
     private void limpiar(ActionEvent evento) throws IOException {
-        //main.desplegarInicioDeSesion();
+        avisos.cerrarAvisos();
+        main.desplegarInicioDeSesion();
     }
 
     @FXML
@@ -337,5 +337,41 @@ public class FXMLMenuPrincipalController implements Initializable {
     private void mostrarAvisos(ActionEvent event) {
         avisosDesplegados = !avisosDesplegados;
         anchorPaneAviso.setVisible(avisosDesplegados);
+    }
+    
+    @FXML
+    private void desplegarAdministrarEgresos() throws IOException {
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLAdministrarEgresos.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarRegistrarPagosRenta() throws IOException {
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarPagosRenta.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarGenerarRepote() throws IOException {
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLGenerarReporte.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+    
+    @FXML
+    private void desplegarTomarAsistencia() throws IOException {
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLTomarAsistencia.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
     }
 }
