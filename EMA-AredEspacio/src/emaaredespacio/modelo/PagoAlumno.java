@@ -129,12 +129,24 @@ public class PagoAlumno implements IPagoAlumno {
 
     @Override
     public boolean editarPago(PagoAlumno pago) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<PagoAlumno> cargarListaPagos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean registrado = false;
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        PagosalumnosJpaController controlador = new PagosalumnosJpaController(entityManagerFactory);
+        Pagosalumnos pagos = new Pagosalumnos();
+        Grupos grupo = new Grupos();
+        grupo.setIdGrupo(pago.getIdGrupo());
+        pagos.setIdPago(pago.getIdPagoAlumno());
+        pagos.setIdGrupo(grupo);
+        pagos.setFechaPago(EditorDeFormatos.crearFecha(pago.getFechaPago()));
+        Alumnos alumno = new Alumnos();
+        alumno.setMatricula(pago.getMatricula());
+        pagos.setMatricula(alumno);
+        pagos.setMonto(pago.getMonto());
+        pagos.setPorcentajeDescuento(pago.getPorcentajeDescuento());
+        pagos.setTipoPago(pago.getTipoPago());
+        pagos.setTotal(pago.getTotal());
+        registrado = controlador.edit(pagos);
+        return registrado;
     }
 
     @Override

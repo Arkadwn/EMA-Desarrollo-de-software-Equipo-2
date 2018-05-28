@@ -14,7 +14,6 @@ import java.util.List;
 public interface IPagoAlumno {
     public boolean registrarPago(PagoAlumno pago);
     public boolean editarPago(PagoAlumno pago);
-    public List<PagoAlumno> cargarListaPagos();
     public List<PagoAlumno> cargarListaPagosDeAlumnosDeGrupo(int matricula,int idGrupo);
     public PagoAlumno buscarUltimoPago();
     public List<PagoAlumno> buscarPagosVencidos(Colaborador colaborador);

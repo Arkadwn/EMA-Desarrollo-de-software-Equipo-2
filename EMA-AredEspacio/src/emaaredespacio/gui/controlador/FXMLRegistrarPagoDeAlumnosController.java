@@ -268,7 +268,7 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
         promocionSeleccionada = null;
     }
 
-    private String sacarFecha(Date fecha) {
+    public String sacarFecha(Date fecha) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         return formato.format(fecha);
     }
