@@ -11,7 +11,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import emaaredespacio.modelo.Cliente;
 import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.Renta;
-import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,8 +24,8 @@ import java.util.Calendar;
 public class ReciboPago {
 
     private static final String PATHUSRSISTEMA = System.getProperty("user.home");
-    private static final String PATHPDFPAGORENTA = PATHUSRSISTEMA + "/PDF/PagosRenta/";
-    private static final String PATHPDFPAGOCOLABORADOR = PATHUSRSISTEMA + "/PDF/PagosColaborador/";
+    private static final String PATHPDFPAGORENTA = PATHUSRSISTEMA + "/aredEspacio/PDF/PagosRenta/";
+    private static final String PATHPDFPAGOCOLABORADOR = PATHUSRSISTEMA + "/aredEspacio/PDF/PagosColaborador/";
 
     public static boolean generarReciboPagoRenta(Renta renta, Cliente cliente, String fecha) {
         boolean banderaGenerar = false;
@@ -44,7 +43,7 @@ public class ReciboPago {
         File file = new File(directorio + "/Renta_ID-" + renta.getId() + "-" + clienteFormat + "-ID-" + cliente.getId() + ".pdf");
 
         if (!directorio.exists()) {
-            directorio.mkdir();
+            directorio.mkdirs();
         }
         try {
 
@@ -64,9 +63,6 @@ public class ReciboPago {
             parrafo = new Paragraph("El presente recibo es por concepto de el pago de renta del "
                     + "espacio en determinadas caracteristicas que se presentan "
                     + "a continuación:\n", new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK));
-            parrafo.add("ID Renta: " + renta.getId());
-            parrafo.add(Chunk.SPACETABBING);
-            parrafo.add(Chunk.SPACETABBING);
             parrafo.add("Fecha de renta: " + renta.getFecha().get(Calendar.DAY_OF_MONTH) + "/"
                     + (renta.getFecha().get(Calendar.MONTH) + 1) + "/" + renta.getFecha().get(Calendar.YEAR) + "\n");
             parrafo.add("Horario de la renta: de las " + mapeoHoras(renta.getHoraInicio()) + " horas, a las " + mapeoHoras(renta.getHoraFin()) + " horas\n");
@@ -138,11 +134,11 @@ public class ReciboPago {
             colaboradorFormat += string + "-";
         }
         colaboradorFormat = colaboradorFormat.substring(0, colaboradorFormat.length() - 1);
-        String fechaFormat = fecha.split("/")[0] + ":" + fecha.split("/")[1] + ":" + fecha.split("/")[2];
+        String fechaFormat = fecha.split("/")[0] + "-" + fecha.split("/")[1] + "-" + fecha.split("/")[2];
         File file = new File(directorio + "/Colaborador_ID-" + colaborador.getIdColaborador() + "-" + colaboradorFormat + "-" + fechaFormat + ".pdf");
 
         if (!directorio.exists()) {
-            directorio.mkdir();
+            directorio.mkdirs();
         }
         try {
 
@@ -161,13 +157,10 @@ public class ReciboPago {
 
             parrafo = new Paragraph("El presente recibo es por concepto de el pago de la "+ colaborador.getTipoPago() +" correspondiente "
                     + "según los acuerdos para dar clases en AredEspacio del siguiente colaborador:\n", new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK));
-            parrafo.add("ID Colaborador: " + colaborador.getIdColaborador());
-            parrafo.add(Chunk.SPACETABBING);
-            parrafo.add(Chunk.SPACETABBING);
             parrafo.add("Tipo de pago: " + colaborador.getTipoPago() + "\n");
             parrafo.add("Correo del colaborador: "+colaborador.getCorreo()+"\n");
             parrafo.add("Numero de telefono:"+colaborador.getTelefono()+"\n");
-            parrafo.add("Direccion actual: "+colaborador.getDireccion());
+            parrafo.add("Direccion actual: "+colaborador.getDireccion()+"       ");
             parrafo.add("Colaborador de nombre: " + colaborador.getNombre() + " "+colaborador.getApellidos()+"\n");
             parrafo.add("El monto correspondiente a este pago es de: $" + colaborador.getMontoAPagar());
             parrafo.add(" el cual será pagado en una sola exhibición el día: " + fecha);
