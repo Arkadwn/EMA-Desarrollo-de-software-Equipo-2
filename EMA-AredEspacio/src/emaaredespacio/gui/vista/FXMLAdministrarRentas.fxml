@@ -36,7 +36,7 @@
                   <Insets left="5.0" right="70.0" />
                </GridPane.margin>
             </JFXTextField>
-            <JFXButton fx:id="btnBuscar" onAction="#buscarCliente" prefHeight="35.0" prefWidth="65.0" style="-fx-border-color: purple; -fx-border-width: 2; -fx-border-radius: 5;" text="Buscar" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <JFXButton fx:id="btnBuscar" onAction="#buscarCliente" prefHeight="35.0" prefWidth="65.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Buscar" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -71,7 +71,7 @@
                   <Insets left="15.0" right="185.0" top="125.0" />
                </GridPane.margin>
             </JFXTextField>
-            <JFXButton fx:id="btnGuardar" defaultButton="true" onAction="#guardarDatos" style="-fx-border-color: lightpink; -fx-border-width: 2; -fx-border-radius: 5;" text="Guardar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            <JFXButton fx:id="btnGuardar" defaultButton="true" onAction="#guardarDatos" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Guardar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="20.0" left="50.0" />
                </GridPane.margin>
@@ -126,7 +126,7 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <JFXButton fx:id="btnActualizarFechas" onAction="#actualizarFechas" style="-fx-border-color: lightgreen; -fx-border-radius: 5; -fx-border-width: 2;" text="Actualizar fechas" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+            <JFXButton fx:id="btnActualizarFechas" onAction="#actualizarFechas" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Actualizar fechas" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets right="35.0" top="15.0" />
                </GridPane.margin>

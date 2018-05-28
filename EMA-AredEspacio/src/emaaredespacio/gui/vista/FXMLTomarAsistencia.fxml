@@ -37,7 +37,7 @@
                         <Insets />
                      </GridPane.margin>
                   </JFXDatePicker>
-                  <JFXButton fx:id="btnGuardar" defaultButton="true" focusTraversable="false" onAction="#guardarPaseLista" style="-fx-border-radius: 10; -fx-border-color: purple; -fx-border-width: 2;" text="Guardar asistencia" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                  <JFXButton fx:id="btnGuardar" defaultButton="true" focusTraversable="false" onAction="#guardarPaseLista" style="-fx-border-radius: 5; -fx-border-color: #ff0066; -fx-border-width: 2;" text="Guardar asistencia" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
@@ -47,7 +47,7 @@
                         <Insets />
                      </GridPane.margin>
                   </JFXComboBox>
-                  <JFXButton fx:id="btnActualizarFechas" onAction="#actualizarFechas" style="-fx-border-color: green; -fx-border-radius: 10;" text="Actualizar fecha" GridPane.rowIndex="1">
+                  <JFXButton fx:id="btnActualizarFechas" onAction="#actualizarFechas" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Actualizar fecha" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="30.0" />
                      </GridPane.margin>

@@ -9,14 +9,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Observable;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Data;
@@ -117,11 +114,6 @@ public class FXMLGenerarReporteController implements Initializable {
 
         lcGrafica.getData().clear();
         lcGrafica.getData().setAll(lineaXY);
-    }
-
-    @FXML
-    private void regresarMenuPrincipal(ActionEvent event) {
-        //Insertar codigo para regresar al CU 
     }
 
     @FXML

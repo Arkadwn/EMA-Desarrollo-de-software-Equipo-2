@@ -141,6 +141,7 @@ public class FXMLAdministrarEgresosController implements Initializable {
                         new Egreso().guardarNuevoEgreso(new Egreso(txtAreaDescripcion.getText(), itemFecha.getEditor().getText(), monto));
                         creoModificoEgreso = true;
                         vaciarDatos();
+                        MensajeController.mensajeInformacion("Se ha guardado el egreso correctamente");
                     } else {
                         MensajeController.mensajeInformacion("Coloque una fecha para el egreso");
                     }
@@ -159,6 +160,7 @@ public class FXMLAdministrarEgresosController implements Initializable {
                         new Egreso().guardarCambios(new Egreso(seleccion.getIdEgreso(), txtAreaDescripcion2.getText(), itemFecha2.getEditor().getText(), monto));
                         creoModificoEgreso = true;
                         vaciarDatos();
+                        MensajeController.mensajeInformacion("Se ha guardado el egreso correctamente");
                     } else {
                         MensajeController.mensajeInformacion("Coloque una fecha para el egreso");
                     }

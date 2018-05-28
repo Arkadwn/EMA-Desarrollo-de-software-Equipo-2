@@ -61,8 +61,8 @@ public class FXMLTomarAsistenciaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        idColaborador = Integer.parseInt(System.getProperty("idColaborador") );
         cupoGrupoElegido = 51;
-        //idColaborador = 2;
         Calendar diaActual = Calendar.getInstance();
         int diaEntero = diaActual.get(Calendar.DAY_OF_MONTH);
         int mesEntero = (diaActual.get(Calendar.MONTH) + 1);
@@ -80,10 +80,6 @@ public class FXMLTomarAsistenciaController implements Initializable {
         llenarTablaAsistencia();
         llenarComboBoxGrupos();
         itemFecha.getEditor().setText(fecha);
-    }
-
-    public void pasarIdColaborador(int idColaborador) {
-        this.idColaborador = idColaborador;
     }
 
     private void llenarTablaAsistencia() {

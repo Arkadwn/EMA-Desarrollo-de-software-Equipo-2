@@ -74,7 +74,6 @@ public class FXMLAdministarRentasController implements Initializable {
     @FXML
     private JFXButton btnSeleccionarRenta;
     private Renta renta;
-    private Cliente cliente;
     @FXML
     private JFXButton btnCerrarRentaVentana;
     @FXML

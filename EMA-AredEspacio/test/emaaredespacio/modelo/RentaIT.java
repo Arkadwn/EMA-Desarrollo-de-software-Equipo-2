@@ -19,27 +19,55 @@ import static org.junit.Assert.*;
  * @author Adrián Bustamante Zarate
  */
 public class RentaIT {
-    
+
     public RentaIT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
 
-    
+    /**
+     * Test of guardarNuevaRenta method, of class Renta.
+     */
+    @Test
+    public void testGuardarNuevaRenta_CP01() {
+        System.out.println("guardarNuevaRenta CP01 Exitoso");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2018, 3, 21);
+        Renta renta = new Renta(6, 14000, calendar, 1000, 13000, new Cliente("1"), true);
+
+        boolean expResult = true;
+        boolean result = new Renta().guardarNuevaRenta(renta);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testGuardarNuevaRenta_CP_02() {
+        System.out.println("guardarNuevaRentaCP02 Fallido");
+        Renta renta = null;
+
+        boolean expResult = false;
+        boolean result = new Renta().guardarNuevaRenta(renta);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
     /**
      * Test of cancelarRenta method, of class Renta.
      */
@@ -53,7 +81,7 @@ public class RentaIT {
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
-    
+
     @Test
     public void testCancelarRenta_CP_02() {
         System.out.println("Empieza el test de CancelarRenta CP02 Fallido");
@@ -75,19 +103,16 @@ public class RentaIT {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2018, 3, 18);
         Renta objectExpResult = new Renta(7, 16000, calendar, 12000, 14000, new Cliente("2"), true);
+        new Renta().guardarNuevaRenta(objectExpResult);
         Renta objectResult = new Renta().cargarRenta(id);
         boolean expResult = true;
         boolean result = false;
-        if(objectExpResult.getId() == objectResult.getId()){
-            //if(objectExpResult.getHoraFin() == objectResult.getHoraFin() && objectExpResult.getHoraInicio() == objectResult.getHoraInicio()){
-                    result = true;
-            //}
+        if (Integer.parseInt(id) == objectResult.getId()) {
+            result = true;
         }
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
-    
+
     @Test
     public void testCargarRenta_CP_02() {
         System.out.println("Empieza el test de CargarRenta CP01 Fallido");
@@ -98,20 +123,16 @@ public class RentaIT {
         Renta objectResult = new Renta().cargarRenta(id);
         boolean expResult = false;
         boolean result = false;
-        if(objectResult != null){
-            if(objectExpResult.getId() == objectResult.getId()){
-                //if(objectExpResult.getFecha().get(Calendar.DAY_OF_YEAR) == objectResult.getFecha().get(Calendar.DAY_OF_YEAR)){
-                  //  if(objectExpResult.getHoraFin() == objectResult.getHoraFin() && objectExpResult.getHoraInicio()== objectResult.getHoraInicio())
+        if (objectResult != null) {
+            if (objectExpResult.getId() == objectResult.getId()) {
                 result = true;
-                //}
             }
-        } else{
+        } else {
             result = false;
         }
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
+
     /**
      * Test of cargarRentas method, of class Renta.
      */
@@ -120,14 +141,11 @@ public class RentaIT {
         System.out.println("cargarRentas");
         Renta instance = new Renta();
         boolean result = false;
-        boolean expResult = true;
         List<Renta> resultList = instance.cargarRentas();
-        if(resultList != null){
+        if (resultList != null) {
             result = true;
         }
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        assertEquals(true, result);
     }
 
     /**
@@ -137,28 +155,28 @@ public class RentaIT {
     public void testCargarRentas_Cliente_CP_01() {
         System.out.println("cargarRentas CP01 Fallido");
         Cliente cliente = null;
-        
+
         List<Renta> listResult = new Renta().cargarRentas(cliente);
         boolean result = false;
-        if(listResult != null)
+        if (listResult != null) {
             result = true;
+        }
         assertEquals(false, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
+
     @Test
     public void testCargarRentas_Cliente_CP_02() {
         System.out.println("cargarRentas CP02 Exitoso");
-        Cliente cliente = new Cliente("2");
-        
+        Cliente cliente = new Cliente("1");
+
         List<Renta> listResult = new Renta().cargarRentas(cliente);
         boolean result = false;
-        if(listResult != null)
+        if (listResult != null) {
             result = true;
+        }
         assertEquals(true, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
+
     /**
      * Test of guardarCambios method, of class Renta.
      */
@@ -173,6 +191,7 @@ public class RentaIT {
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
+
     @Test
     public void testGuardarCambios_CP_02() {
         System.out.println("guardarCambios CP02 Fallido");
@@ -184,31 +203,4 @@ public class RentaIT {
         //fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of guardarNuevaRenta method, of class Renta.
-     */
-    @Test
-    public void testGuardarNuevaRenta_CP01() {
-        System.out.println("guardarNuevaRenta CP01 Exitoso");
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2018, 3, 21);
-        Renta renta = new Renta(5, 14000, calendar, 1000, 13000, new Cliente("2"), true);
-        
-        boolean expResult = true;
-        boolean result = new Renta().guardarNuevaRenta(renta);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
-    @Test
-    public void testGuardarNuevaRenta_CP_02() {
-        System.out.println("guardarNuevaRentaCP02 Fallido");
-        Renta renta = null;
-        
-        boolean expResult = false;
-        boolean result = new Renta().guardarNuevaRenta(renta);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }    
 }

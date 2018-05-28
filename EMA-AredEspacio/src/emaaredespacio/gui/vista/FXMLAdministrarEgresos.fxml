@@ -58,7 +58,7 @@
                                     <Insets bottom="315.0" left="650.0" />
                                  </GridPane.margin>
                               </Label>
-                              <JFXButton fx:id="btnGuardar" onAction="#guardarDatos" style="-fx-border-color: pink; -fx-border-radius: 5; -fx-border-width: 2;" text="Guardar">
+                              <JFXButton fx:id="btnGuardar" onAction="#guardarDatos" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Guardar">
                                  <GridPane.margin>
                                     <Insets left="700.0" top="250.0" />
                                  </GridPane.margin>
@@ -98,7 +98,7 @@
                                     <Insets bottom="315.0" left="350.0" />
                                  </GridPane.margin>
                               </Label>
-                              <JFXButton fx:id="btnGuardar2" onAction="#guardarDatos" style="-fx-border-color: pink; -fx-border-radius: 5; -fx-border-width: 2;" text="Guardar" GridPane.columnIndex="1">
+                              <JFXButton fx:id="btnGuardar2" onAction="#guardarDatos" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Guardar" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="400.0" top="250.0" />
                                  </GridPane.margin>

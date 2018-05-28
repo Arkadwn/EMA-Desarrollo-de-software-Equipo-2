@@ -42,14 +42,9 @@
                   <Insets bottom="150.0" />
                </GridPane.margin>
             </JFXComboBox>
-            <JFXButton fx:id="btnRegresar" onAction="#regresarMenuPrincipal" style="-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5;" text="Regresar" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+            <JFXButton fx:id="btnGenerar" defaultButton="true" focusTraversable="false" onAction="#generarEstadisticas" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Generar" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                <GridPane.margin>
-                  <Insets right="100.0" top="250.0" />
-               </GridPane.margin>
-            </JFXButton>
-            <JFXButton fx:id="btnGenerar" defaultButton="true" focusTraversable="false" onAction="#generarEstadisticas" style="-fx-border-color: purple; -fx-border-width: 2; -fx-border-radius: 5;" text="Generar" GridPane.columnIndex="1">
-               <GridPane.margin>
-                  <Insets left="100.0" top="250.0" />
+                  <Insets top="250.0" />
                </GridPane.margin>
             </JFXButton>
             <JFXRadioButton fx:id="rdBtnEgresos" text="Egresos" GridPane.columnIndex="1" GridPane.halignment="RIGHT">

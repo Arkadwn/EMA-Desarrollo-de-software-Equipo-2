@@ -150,26 +150,32 @@ public class Renta implements IRenta {
 
     @Override
     public List<Renta> cargarRentas() {
-        List<Renta> rentasCargadas = new ArrayList<>();
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
-        List<Rentas> rentas = new RentasJpaController(entityManagerFactory).buscarTodasRentas();
-        for (Rentas renta : rentas) {
-            Renta rentaCargada = new Renta();
-            if (renta.getEstado()) {
-                rentaCargada.setCliente(new Cliente(String.valueOf(renta.getIdCliente().getIdCliente())));
-                rentaCargada.setEstado(true);
-                rentaCargada.setPagoRealizado(renta.getPagoRealizado());
-                Calendar fechaCalendar = Calendar.getInstance();
-                fechaCalendar.set(Integer.parseInt(renta.getFecha().split("/")[2]), Integer.parseInt(renta.getFecha().split("/")[1]), Integer.parseInt(renta.getFecha().split("/")[0]));
-                rentaCargada.setFecha(fechaCalendar);
-                rentaCargada.setHoraFin(renta.getHoraFin());
-                rentaCargada.setHoraInicio(renta.getHoraIni());
-                rentaCargada.setId(renta.getIdRenta());
-                rentaCargada.setMonto(renta.getMonto());
-                rentasCargadas.add(rentaCargada);
+        List<Renta> rentasCargadas = null;
+        try {
+            rentasCargadas = new ArrayList<>();
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+            List<Rentas> rentas = new RentasJpaController(entityManagerFactory).buscarTodasRentas();
+            for (Rentas renta : rentas) {
+                Renta rentaCargada = new Renta();
+                if (renta.getEstado()) {
+                    rentaCargada.setCliente(new Cliente(String.valueOf(renta.getIdCliente().getIdCliente())));
+                    rentaCargada.setEstado(true);
+                    rentaCargada.setPagoRealizado(renta.getPagoRealizado());
+                    Calendar fechaCalendar = Calendar.getInstance();
+                    fechaCalendar.set(Integer.parseInt(renta.getFecha().split("/")[2]), Integer.parseInt(renta.getFecha().split("/")[1]), Integer.parseInt(renta.getFecha().split("/")[0]));
+                    rentaCargada.setFecha(fechaCalendar);
+                    rentaCargada.setHoraFin(renta.getHoraFin());
+                    rentaCargada.setHoraInicio(renta.getHoraIni());
+                    rentaCargada.setId(renta.getIdRenta());
+                    rentaCargada.setMonto(renta.getMonto());
+                    rentasCargadas.add(rentaCargada);
+                }
             }
+            entityManagerFactory.close();
+        } catch (Exception ex) {
+            System.out.println("Excepcion al cargar rentas");
         }
-        entityManagerFactory.close();
+
         return rentasCargadas;
     }
 

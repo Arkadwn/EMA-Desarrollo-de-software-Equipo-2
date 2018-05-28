@@ -127,7 +127,6 @@ public class Ingreso implements IIngreso {
             resultado = true;
         } catch (Exception ex) {
             System.out.println("Excepcion en el metodo de guardar registro en la clase Ingreso: " + ex.getMessage());
-            ex.printStackTrace();
         }
 
         return resultado;

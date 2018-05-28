@@ -31,7 +31,7 @@
                   <Insets left="200.0" right="100.0" top="25.0" />
                </GridPane.margin>
             </JFXTextField>
-            <JFXButton fx:id="btnBuscar" defaultButton="true" onAction="#buscar" style="-fx-border-color: #9826AF; -fx-border-radius: 5; -fx-border-width: 2;" text="Buscar" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <JFXButton fx:id="btnBuscar" defaultButton="true" onAction="#buscar" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Buscar" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="15.0" top="25.0" />
                </GridPane.margin>
@@ -52,7 +52,7 @@
                   <Insets bottom="165.0" left="200.0" />
                </GridPane.margin>
             </JFXRadioButton>
-            <JFXButton fx:id="btnGuardar" defaultButton="true" onAction="#guadar" style="-fx-border-color: pink; -fx-border-radius: 5; -fx-border-width: 2;" text="Guardar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <JFXButton fx:id="btnGuardar" defaultButton="true" onAction="#guadar" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Guardar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="55.0" />
                </GridPane.margin>
