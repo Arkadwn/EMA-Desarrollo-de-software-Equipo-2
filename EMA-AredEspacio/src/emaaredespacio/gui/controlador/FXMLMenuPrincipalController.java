@@ -109,7 +109,6 @@ public class FXMLMenuPrincipalController implements Initializable {
         System.getProperties().put("colaborador", colaborador.getNombre() + " " + colaborador.getApellidos());
         System.getProperties().put("idColaborador", "" + colaborador.getIdColaborador());
         labelNombreSesion.setText(this.colaborador.getNombre() + " " + this.colaborador.getApellidos());
-        
         avisos = new Aviso();
         listaAvisos = new ArrayList<>();
         avisos.setColaborador(colaborador);
@@ -173,7 +172,6 @@ public class FXMLMenuPrincipalController implements Initializable {
         FXMLLoader cargador = new FXMLLoader(getClass().getResource("/emaaredespacio/gui/vista/FXMLRegistrarPromocion.fxml"));
         Parent fxml = (Parent) cargador.load();
         FXMLRegistrarPromocionController controler = cargador.getController();
-        controler.setSeleccion(colaborador);
         panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
         barraMenu.setVisible(false);
         menuDesplegado = false;
@@ -185,7 +183,6 @@ public class FXMLMenuPrincipalController implements Initializable {
         FXMLLoader cargador = new FXMLLoader(getClass().getResource("/emaaredespacio/gui/vista/FXMLModificarPromocion.fxml"));
         Parent fxml = (Parent) cargador.load();
         FXMLModificarPromocionController controler = cargador.getController();
-        controler.setColaborador(colaborador);
         panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
         barraMenu.setVisible(false);
         menuDesplegado = false;
@@ -370,6 +367,15 @@ public class FXMLMenuPrincipalController implements Initializable {
     private void desplegarTomarAsistencia() throws IOException {
         panelPrincipal.getChildren().clear();
         Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLTomarAsistencia.fxml"));
+        panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        barraMenu.setVisible(false);
+        menuDesplegado = false;
+    }
+
+    @FXML
+    private void desplegarHistorialPagoDeEspacio(ActionEvent event) throws IOException {
+        panelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLVisualizarHistorialDePagoDeEspacio.fxml"));
         panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
         barraMenu.setVisible(false);
         menuDesplegado = false;

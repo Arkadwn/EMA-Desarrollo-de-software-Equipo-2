@@ -98,7 +98,7 @@ public class Aviso implements Runnable {
             if (ingreso != null) {
                 Date fecha = null;
                 try {
-                    fecha = new SimpleDateFormat("yyyy-MM-dd").parse(ingreso.getFecha());
+                    fecha = new SimpleDateFormat("yyyy/MM/dd").parse(ingreso.getFecha());
                 } catch (ParseException ex) {
                     Logger.getLogger(Aviso.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -144,7 +144,7 @@ public class Aviso implements Runnable {
             actualizarListaAvisos();
             menu.actualizarAvisos(listaDeAvisos);
             try {
-                Thread.sleep(20000);
+                Thread.sleep(60000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Aviso.class.getName()).log(Level.SEVERE, null, ex);
             }

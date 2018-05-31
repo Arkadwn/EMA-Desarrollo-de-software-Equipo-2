@@ -81,21 +81,21 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
     private JFXTextField tfNombre;
     @FXML
     private ComboBox comboBoxGrupos;
-    List<Alumno> listaAlumnos;
-    List<Grupo> listaGrupos;
-    List<Promocion> listaPromociones;
-    Colaborador colaborador;
+    private List<Alumno> listaAlumnos;
+    private List<Grupo> listaGrupos;
+    private List<Promocion> listaPromociones;
+    private Colaborador colaborador;
     @FXML
     private JFXTextField tfTotal;
     @FXML
     private ComboBox comboBoxTipoPago;
-    Alumno seleccion;
-    Grupo grupoSeleccionado;
-    Promocion promocionSeleccionada;
+    private Alumno seleccion;
+    private Grupo grupoSeleccionado;
+    private Promocion promocionSeleccionada;
 
     public void setColaborador(Colaborador colaborador) {
         this.colaborador = colaborador;
-        tfNombre.setText(colaborador.getNombre() + " " + colaborador.getApellidos());
+        tfNombre.setText(System.getProperty("colaborador"));
         buscarGrupos();
     }
 
@@ -303,7 +303,6 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
-            control.setSeleccion(colaborador);
         } catch (IOException ex) {
             Logger.getLogger(FXMLRegistrarPromocionController.class.getName()).log(Level.SEVERE, null, ex);
         }

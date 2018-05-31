@@ -42,6 +42,10 @@ public class FXMLFormatoPagoController implements Initializable {
     private PagoAlumno pagoAlumno;
     @FXML
     private Label lbComentario;
+    @FXML
+    private Label lbActor;
+    @FXML
+    private Label lbAlumno;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -49,6 +53,22 @@ public class FXMLFormatoPagoController implements Initializable {
                 + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 40px 40px 40px 40px;");
         btnEntregado.setStyle("-fx-background-image: url('emaaredespacio/imagenes/aceptar.png');"
                 + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 40px 40px 40px 40px;");
+    }
+    
+    public void setTextLbActor(String label){
+        lbActor.setText(label);
+    }
+    
+    public void setTextLbAlumno(String label){
+        lbAlumno.setText(label);
+    }
+    
+    public void setVisibleElements(boolean bol){
+        lbAlumno.setVisible(bol);
+        lbNombreAlumno.setVisible(bol);
+        lbComentario.setVisible(bol);
+        tfComentario.setVisible(bol);
+        
     }
     
     public void cargarAlumno(Pago pago, FXMLAdministrarPagosAColaboradorController controlador) {

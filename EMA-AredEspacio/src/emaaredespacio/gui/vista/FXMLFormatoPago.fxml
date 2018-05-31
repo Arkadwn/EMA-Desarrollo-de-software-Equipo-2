@@ -11,7 +11,7 @@
 <AnchorPane id="AnchorPane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="126.0" prefWidth="568.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLFormatoPagoController">
    <children>
       <JFXButton fx:id="btnEditar" layoutX="516.0" layoutY="16.0" onAction="#mostrarEdicion" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="516.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="16.0" />
-      <Label alignment="CENTER_RIGHT" layoutX="11.0" layoutY="11.0" prefHeight="23.0" prefWidth="109.0" text="Colaborador:" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="448.0" AnchorPane.topAnchor="11.0">
+      <Label fx:id="lbActor" alignment="CENTER_RIGHT" layoutX="11.0" layoutY="11.0" prefHeight="23.0" prefWidth="109.0" text="Colaborador:" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="448.0" AnchorPane.topAnchor="11.0">
          <font>
             <Font name="Arial Bold" size="15.0" />
          </font>
@@ -26,7 +26,7 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Label>
-      <Label alignment="CENTER_RIGHT" layoutX="37.0" layoutY="32.0" prefHeight="30.0" prefWidth="83.0" text="Alumno:" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="448.0" AnchorPane.topAnchor="32.0">
+      <Label fx:id="lbAlumno" alignment="CENTER_RIGHT" layoutX="37.0" layoutY="32.0" prefHeight="30.0" prefWidth="83.0" text="Alumno:" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="448.0" AnchorPane.topAnchor="32.0">
          <font>
             <Font name="Arial Bold" size="15.0" />
          </font>

@@ -42,15 +42,12 @@ public class FXMLModificarPromocionController implements Initializable {
     private JFXButton btnCancelar;
     @FXML
     private Spinner spinnerDescuento;
-    @FXML
     private JFXTextField tfNombre;
-
     @FXML
     private ComboBox comboBoxPromocion;
 
     private List<Colaborador> lista;
     private List<Promocion> listaPromociones;
-    private Colaborador colaborador;
     private Promocion promocionSeleccionada;
     @FXML
     private CheckBox checkBoxEstado;
@@ -70,7 +67,6 @@ public class FXMLModificarPromocionController implements Initializable {
 
         listaPromociones = new ArrayList();
         lista = new ArrayList();
-        buscarColaborador();
         buscarPromociones();
         comboBoxPromocion.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -97,14 +93,6 @@ public class FXMLModificarPromocionController implements Initializable {
             }
         });
     }
-    
-    public Colaborador getColaborador() {
-        return colaborador;
-    }
-
-    public void setColaborador(Colaborador colaborador) {
-        this.colaborador = colaborador;
-    }
 
     private boolean validarCamposVacios() {
         return comboBoxPromocion.getValue().toString() == null;
@@ -124,7 +112,7 @@ public class FXMLModificarPromocionController implements Initializable {
                 promo.setEstado("B");
             }
             promo.setPorcentajeDescuento(spinnerDescuento.getValue().toString());
-            promo.setIdColaborador(colaborador.getIdColaborador());
+            promo.setIdColaborador(Integer.parseInt(System.getProperty("idColaborador")));
             promo.setIdPromocion(promocionSeleccionada.getIdPromocion());
             if (radioButtonMensual.isSelected()) {
                 promo.setTipoDescuento(true);
@@ -141,25 +129,10 @@ public class FXMLModificarPromocionController implements Initializable {
         }
     }
 
-    public boolean buscarColaborador() {
-        boolean encontrado = false;
-        IColaborador metodosColaborador = new Colaborador();
-        lista.clear();
-        lista = metodosColaborador.buscarColaborador(System.getProperty("colaborador"));
-        if (lista.isEmpty()) {
-            //MensajeController.mensajeInformacion("Colaborador no encontrado");
-        } else {
-            colaborador = lista.get(0);
-            tfNombre.setText(colaborador.getNombre() + " " + colaborador.getApellidos());
-            encontrado = true;
-        }
-        return encontrado;
-    }
-
     public void buscarPromociones() {
         IPromocion metodosPromocion = new Promocion();
         listaPromociones.clear();
-        listaPromociones = metodosPromocion.buscarPromocion(colaborador.getIdColaborador());
+        listaPromociones = metodosPromocion.buscarPromocion(Integer.parseInt(System.getProperty("idColaborador")));
         List<String> nombrePromociones = new ArrayList();
         for (Promocion promocion : listaPromociones) {
             nombrePromociones.add(promocion.getNombrePromocion());

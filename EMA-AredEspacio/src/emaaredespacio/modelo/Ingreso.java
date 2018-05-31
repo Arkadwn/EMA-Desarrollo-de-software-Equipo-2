@@ -149,4 +149,11 @@ public class Ingreso implements IIngreso {
         return ingreso;
     }
 
+    @Override
+    public List<Ingreso> buscarPagosPorNombre(String nombre) {
+        List<Ingreso> listaPagos = null;
+        return listaPagos;
+    }
+
+
 }

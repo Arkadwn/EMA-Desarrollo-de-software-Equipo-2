@@ -31,35 +31,21 @@ import javafx.stage.Stage;
  */
 public class FXMLRegistrarPromocionController implements Initializable {
 
-    @FXML
-    private JFXTextField tfNombre;
 
     private List<Colaborador> lista;
     @FXML
     private JFXButton btnGuardar;
     @FXML
     private JFXButton btnCancelar;
-
-    private Colaborador seleccion;
     @FXML
     private JFXTextField tfPromocion;
     @FXML
     private Spinner spinnerDescuento;
-
     @FXML
     private RadioButton radioButtonMensual;
     @FXML
     private RadioButton radioButtonInscripcion;
     private ToggleGroup group;
-
-    public Colaborador getSeleccion() {
-        return seleccion;
-    }
-
-    public void setSeleccion(Colaborador seleccion) {
-        this.seleccion = seleccion;
-        tfNombre.setText(seleccion.getNombre() + " " + seleccion.getApellidos());
-    }
 
     /**
      * Initializes the controller class.
@@ -67,7 +53,6 @@ public class FXMLRegistrarPromocionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lista = new ArrayList();
-        buscarColaborador();
         group = new ToggleGroup();
         radioButtonMensual.setToggleGroup(group);
         radioButtonInscripcion.setToggleGroup(group);
@@ -77,24 +62,10 @@ public class FXMLRegistrarPromocionController implements Initializable {
         spinnerDescuento.setValueFactory(valueFactory);
 
     }
-    
-    public boolean buscarColaborador() {
-        boolean encontrado = false;
-        IColaborador metodosColaborador = new Colaborador();
-        lista.clear();
-        lista = metodosColaborador.buscarColaborador(System.getProperty("colaborador"));
-        if (lista.isEmpty()) {
-            MensajeController.mensajeInformacion("Maestro no encontrado");
-        } else {
-            seleccion = lista.get(0);
-            tfNombre.setText(seleccion.getNombre() + " " + seleccion.getApellidos());
-            encontrado = true;
-        }
-        return encontrado;
-    }
+
 
     private boolean validarCamposVacios() {
-        return tfPromocion.getText().trim().isEmpty() || seleccion.getIdColaborador().equals(0);
+        return tfPromocion.getText().trim().isEmpty();
     }
 
     @FXML
@@ -113,8 +84,7 @@ public class FXMLRegistrarPromocionController implements Initializable {
                 }
                 promo.setPorcentajeDescuento(spinnerDescuento.getValue().toString());
                 promo.setEstado("A");
-                System.out.println(seleccion.getIdColaborador());
-                promo.setIdColaborador(seleccion.getIdColaborador());
+                promo.setIdColaborador(Integer.parseInt(System.getProperty("idColaborador")));
                 if (metodosPromocion.crearPromocion(promo)) {
                     MensajeController.mensajeInformacion("Promoción guardada");
                     limpiarCampos();
