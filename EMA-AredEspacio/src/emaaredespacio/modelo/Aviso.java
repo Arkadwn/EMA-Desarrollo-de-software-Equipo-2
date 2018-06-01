@@ -132,7 +132,10 @@ public class Aviso implements Runnable {
             aviso.setTipoDePago(pagosVencidos.get(i).getTipoPago());
             listaDeAvisos.add(aviso);
         }
-        buscarPagosVencidosDeMaestros();
+        
+        if(colaborador.getCargo().equals(1)){
+           buscarPagosVencidosDeMaestros(); 
+        }
     }
 
     @Override

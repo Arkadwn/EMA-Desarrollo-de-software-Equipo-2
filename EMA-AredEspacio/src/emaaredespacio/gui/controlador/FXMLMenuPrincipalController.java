@@ -59,6 +59,8 @@ public class FXMLMenuPrincipalController implements Initializable {
     private boolean avisosDesplegados;
     private boolean esDirector;
     private Aviso avisos;
+    @FXML
+    private Label lbGrupo;
 
     public EMAAredEspacio getMain() {
         return main;
@@ -99,7 +101,15 @@ public class FXMLMenuPrincipalController implements Initializable {
             this.listaAvisos = avisos;
             tfNombreAlumno.setText(String.valueOf(avisos.get(0).getNombre()));
             tfTipoPago.setText(avisos.get(0).getTipoDePago());
-            tfGrupo.setText(avisos.get(0).getGrupo());
+            if (avisos.get(0).getGrupo() == "") {
+                tfGrupo.setVisible(false);
+                lbGrupo.setText("Pago de colaborador");
+            } else {
+                tfGrupo.setText(avisos.get(0).getGrupo());
+                tfGrupo.setVisible(true);
+                lbGrupo.setText("Grupo");
+            }
+
         }
 
     }
@@ -114,7 +124,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         avisos.setColaborador(colaborador);
         avisos.setVentanaPricipal(this);
         Thread hiloAvisos = new Thread(avisos);
-        
+
         hiloAvisos.start();
     }
 
@@ -309,7 +319,14 @@ public class FXMLMenuPrincipalController implements Initializable {
                 if (i < listaAvisos.size() - 1) {
                     tfNombreAlumno.setText(listaAvisos.get(i + 1).getNombre());
                     tfTipoPago.setText(listaAvisos.get(i + 1).getTipoDePago());
-                    tfGrupo.setText(listaAvisos.get(i + 1).getGrupo());
+                    if (listaAvisos.get(i + 1).getGrupo() == "") {
+                        tfGrupo.setVisible(false);
+                        lbGrupo.setText("Pago de colaborador");
+                    } else {
+                        tfGrupo.setText(listaAvisos.get(i + 1).getGrupo());
+                        tfGrupo.setVisible(true);
+                        lbGrupo.setText("Grupo");
+                    }
                     break;
                 }
             }
@@ -323,7 +340,14 @@ public class FXMLMenuPrincipalController implements Initializable {
                 if (i > 0) {
                     tfNombreAlumno.setText(listaAvisos.get(i - 1).getNombre());
                     tfTipoPago.setText(listaAvisos.get(i - 1).getTipoDePago());
-                    tfGrupo.setText(listaAvisos.get(i - 1).getGrupo());
+                    if (listaAvisos.get(i - 1).getGrupo() == "") {
+                        tfGrupo.setVisible(false);
+                        lbGrupo.setText("Pago de colaborador");
+                    } else {
+                        tfGrupo.setText(listaAvisos.get(i - 1).getGrupo());
+                        tfGrupo.setVisible(true);
+                        lbGrupo.setText("Grupo");
+                    }
                     break;
                 }
             }
@@ -335,7 +359,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         avisosDesplegados = !avisosDesplegados;
         anchorPaneAviso.setVisible(avisosDesplegados);
     }
-    
+
     @FXML
     private void desplegarAdministrarEgresos() throws IOException {
         panelPrincipal.getChildren().clear();
@@ -344,7 +368,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         barraMenu.setVisible(false);
         menuDesplegado = false;
     }
-    
+
     @FXML
     private void desplegarRegistrarPagosRenta() throws IOException {
         panelPrincipal.getChildren().clear();
@@ -353,7 +377,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         barraMenu.setVisible(false);
         menuDesplegado = false;
     }
-    
+
     @FXML
     private void desplegarGenerarRepote() throws IOException {
         panelPrincipal.getChildren().clear();
@@ -362,7 +386,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         barraMenu.setVisible(false);
         menuDesplegado = false;
     }
-    
+
     @FXML
     private void desplegarTomarAsistencia() throws IOException {
         panelPrincipal.getChildren().clear();

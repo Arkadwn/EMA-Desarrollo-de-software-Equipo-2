@@ -42,7 +42,6 @@ public class FXMLModificarPromocionController implements Initializable {
     private JFXButton btnCancelar;
     @FXML
     private Spinner spinnerDescuento;
-    private JFXTextField tfNombre;
     @FXML
     private ComboBox comboBoxPromocion;
 
@@ -143,7 +142,6 @@ public class FXMLModificarPromocionController implements Initializable {
     }
     
     public void limpiar(){
-        tfNombre.setText("");
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 50,5);
         spinnerDescuento.setValueFactory(valueFactory);
         checkBoxEstado.setSelected(false);

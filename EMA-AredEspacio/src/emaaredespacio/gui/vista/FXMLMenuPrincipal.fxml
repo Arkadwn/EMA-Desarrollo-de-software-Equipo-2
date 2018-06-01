@@ -209,7 +209,7 @@
             <Label layoutX="82.0" layoutY="78.0" text="Tipo de pago" />
             <TextField fx:id="tfTipoPago" editable="false" layoutX="82.0" layoutY="103.0" />
             <JFXButton fx:id="buttonAtras" layoutX="14.0" layoutY="66.0" onAction="#anterior" prefHeight="74.0" prefWidth="33.0" text="&lt;&lt;" />
-            <Label layoutX="82.0" layoutY="141.0" text="Grupo" />
+            <Label fx:id="lbGrupo" layoutX="82.0" layoutY="141.0" text="Grupo" />
             <TextField fx:id="tfGrupo" editable="false" layoutX="82.0" layoutY="165.0" />
          </children>
       </AnchorPane>

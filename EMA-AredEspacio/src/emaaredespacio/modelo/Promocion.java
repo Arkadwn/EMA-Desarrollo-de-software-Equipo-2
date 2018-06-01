@@ -142,6 +142,7 @@ public class Promocion implements IPromocion {
             Promociones nuevapromocion = new Promociones();
             Colaboradores colaborador = new Colaboradores();
             colaborador.setIdColaborador(promocion.getIdColaborador());
+            nuevapromocion.setIdColaborador(colaborador);
             nuevapromocion.setNombrePromocion(promocion.getNombrePromocion());
             nuevapromocion.setEstado(promocion.getEstado());
             if (promocion.tipoDescuento) {
