@@ -8,6 +8,7 @@ package emaaredespacio.persistencia.controladores;
 import emaaredespacio.persistencia.controladores.exceptions.NonexistentEntityException;
 import emaaredespacio.persistencia.entidad.Ingresos;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -45,13 +46,15 @@ public class IngresosJpaController implements Serializable {
         }
     }
 
-    public void edit(Ingresos ingresos) throws NonexistentEntityException, Exception {
+    public boolean edit(Ingresos ingresos) throws NonexistentEntityException, Exception {
         EntityManager em = null;
+        boolean modificado = false;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             ingresos = em.merge(ingresos);
             em.getTransaction().commit();
+            modificado = true;
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -66,6 +69,7 @@ public class IngresosJpaController implements Serializable {
                 em.close();
             }
         }
+        return modificado;
     }
 
     public void destroy(Integer id) throws NonexistentEntityException {
@@ -146,4 +150,15 @@ public class IngresosJpaController implements Serializable {
         return ingreso;
     }
     
+    public List<Ingresos> buscarIngresoPorTipo(int id,int tipo){
+        EntityManager em = getEntityManager();
+        Ingresos ingreso = null;
+        List<Ingresos> ingresos = new ArrayList<>();
+        if(tipo==1){
+            ingresos = em.createQuery("SELECT i FROM Ingresos i Where i.pagoColaboradorID = :id ORDER BY i.fecha DESC").setParameter("id", id).getResultList();
+        }else{
+            ingresos = em.createQuery("SELECT i FROM Ingresos i Where i.pagoRentaID = :id ORDER BY i.fecha DESC").setParameter("id", id).getResultList();
+        }
+        return ingresos;
+    }
 }

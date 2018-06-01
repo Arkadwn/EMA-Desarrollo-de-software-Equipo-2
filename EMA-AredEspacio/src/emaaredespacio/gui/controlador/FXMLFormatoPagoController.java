@@ -36,6 +36,7 @@ public class FXMLFormatoPagoController implements Initializable {
     private Pago pago;
     private FXMLAdministrarPagosAColaboradorController controlador;
     private FXMLVisualizarHistorialDePagosDeAlumnoController controladorVisualizacion;
+    private FXMLVisualizarHistorialDePagoDeEspacioController controladorVisualizar;
     @FXML
     private JFXTextArea tfComentario;
     private String tipoPago;
@@ -46,6 +47,9 @@ public class FXMLFormatoPagoController implements Initializable {
     private Label lbActor;
     @FXML
     private Label lbAlumno;
+    private String idIngreso;
+    @FXML
+    private Label lbMontoPagado;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -114,6 +118,10 @@ public class FXMLFormatoPagoController implements Initializable {
             case "alumno":
                 controladorVisualizacion.cargarEdicion(pagoAlumno);
                 break;
+            case "Ingreso":
+                controladorVisualizar.cargarEdicion(idIngreso,lbMontoPagado.getText());
+                System.out.println("edicion" + idIngreso);
+                break;
         }
     }
     
@@ -130,6 +138,18 @@ public class FXMLFormatoPagoController implements Initializable {
         lbMonto.setText(pago.getTotal());
         tfComentario.setText(pago.getTipoPago());
         lbComentario.setText("Tipo Pago:");
+    }
+    
+    public void cargarIngreso(String id,String nombre, String monto, String fecha, FXMLVisualizarHistorialDePagoDeEspacioController controlador){
+        this.controladorVisualizar = controlador;
+         btnEntregado.setStyle("-fx-background-image: url('emaaredespacio/imagenes/cerrar.png');"
+                + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 40px 40px 40px 40px;");
+        lbNombreColaborador.setText(nombre);
+        lbFecha.setText(fecha);
+        tipoPago="Ingreso";
+        idIngreso = id;
+        lbMontoPagado.setText(monto);
+        lbGrupo.setText("ID ingreso: " + id);
     }
     
 }

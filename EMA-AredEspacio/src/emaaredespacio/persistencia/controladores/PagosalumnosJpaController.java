@@ -225,6 +225,7 @@ public class PagosalumnosJpaController implements Serializable {
                 pagosRealizados = conexion.createQuery("SELECT p FROM Pagosalumnos p, Inscripciones i WHERE p.idGrupo=i.idGrupo AND p.matricula = i.idAlumno AND p.tipoPago= 'Mensualidad' ORDER BY p.fechaPago DESC").getResultList();
                 if (pagosRealizados.size() > 0) {
                     date = pagosRealizados.get(0).getFechaPago().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    System.out.println("date " + date);
                     if (date.plusMonths(1).isBefore(LocalDate.now()) || date.plusMonths(1).isEqual(LocalDate.now())) {
 //                    System.out.println("Ya venció el mes");
                         pago = new PagoAlumno();

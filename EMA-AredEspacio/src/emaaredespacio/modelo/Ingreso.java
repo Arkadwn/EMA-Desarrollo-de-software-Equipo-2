@@ -9,6 +9,8 @@ import emaaredespacio.persistencia.controladores.IngresosJpaController;
 import emaaredespacio.persistencia.entidad.Ingresos;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -150,9 +152,65 @@ public class Ingreso implements IIngreso {
     }
 
     @Override
-    public List<Ingreso> buscarPagosPorNombre(String nombre) {
-        List<Ingreso> listaPagos = null;
-        return listaPagos;
+    public List<Ingreso> buscarPagosPorNombre(String nombre,int tipo) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        IngresosJpaController controlador = new IngresosJpaController(entityManagerFactory);
+        List<Ingresos> listaResult = new ArrayList<>();
+        List<Ingreso> listaReturn = new ArrayList<>();
+        if(tipo==0){
+            List<Cliente> listaClientes = new Cliente().buscarClienteRelacionado(nombre);
+            for(Cliente cliente : listaClientes){
+                List<Renta> rentas = new Renta().cargarRentas(cliente);
+                for(Renta renta : rentas){
+                    List<Ingresos> ingresosRentas = controlador.buscarIngresoPorTipo(renta.getId(), tipo);
+                    for(Ingresos ingreso : ingresosRentas){
+                        listaResult.add(ingreso);
+                    }
+                }
+            }
+        }else{
+            List<Colaborador> listaColaboradores = new Colaborador().buscarColaborador(nombre);
+            for(Colaborador colaborador : listaColaboradores){
+                List<Ingresos> ingresosColaborador = controlador.buscarIngresoPorTipo(colaborador.getIdColaborador(), tipo);
+                for(Ingresos ingreso : ingresosColaborador){
+                    listaResult.add(ingreso);
+                }
+            }
+        }
+        Ingreso ingresoInd;
+        for(Ingresos ingreso : listaResult){
+            ingresoInd = new Ingreso();
+            ingresoInd.setIdIngreso(ingreso.getIdIngreso());
+            ingresoInd.setMonto(ingreso.getMonto());
+            ingresoInd.setFecha(ingreso.getFecha());
+            ingresoInd.setPagoColaboradorID(ingreso.getPagoColaboradorID());
+            ingresoInd.setPagoRentaID(ingreso.getPagoRentaID());
+            ingresoInd.setRecibo(ingreso.getRecibo());
+            listaReturn.add(ingresoInd);
+        }
+        return listaReturn;
+    }
+
+    @Override
+    public boolean ModificarRegistro(Ingreso ingreso) {
+        boolean modificado = false;
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
+        IngresosJpaController controlador = new IngresosJpaController(entityManagerFactory);
+        Ingresos ingresoGuardar = new Ingresos();
+        ingresoGuardar.setIdIngreso(ingreso.getIdIngreso());
+        ingresoGuardar.setMonto(ingreso.getMonto());
+        ingresoGuardar.setPagoColaboradorID(ingreso.getPagoColaboradorID());
+        ingresoGuardar.setPagoRentaID(ingreso.getPagoRentaID());
+        ingresoGuardar.setRecibo(ingreso.getRecibo());
+        ingresoGuardar.setFecha(ingreso.getFecha());
+        try {
+            if(controlador.edit(ingresoGuardar)){
+                modificado = true;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Ingreso.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return modificado;
     }
 
 

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="549.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emaaredespacio.gui.controlador.FXMLVisualizarHistorialDePagoDeEspacioController">
+    <children>
+      <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="56.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="735.0" minWidth="10.0" prefWidth="618.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="585.0" minWidth="10.0" prefWidth="582.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints />
+            <RowConstraints />
+        </rowConstraints>
+         <children>
+            <JFXTextField fx:id="txtBusqueda" focusColor="#a84076" labelFloat="true" prefHeight="25.0" prefWidth="407.0" promptText="Buscar por nombre o apellidos:" unFocusColor="BLACK" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="200.0" right="100.0" top="25.0" />
+               </GridPane.margin>
+            </JFXTextField>
+            <JFXButton fx:id="btnBuscar" defaultButton="true" onAction="#buscar" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Buscar" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="15.0" top="25.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXRadioButton fx:id="rdBtnRenta" focusTraversable="false" text="Pago de renta" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="15.0" top="40.0" />
+               </GridPane.margin>
+               <toggleGroup>
+                  <ToggleGroup fx:id="groupTipoPago" />
+               </toggleGroup>
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="rdBtnColaborador" focusTraversable="false" selected="true" text="Pago de colaborador" toggleGroup="$groupTipoPago" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="15.0" top="10.0" />
+               </GridPane.margin>
+            </JFXRadioButton>
+            <JFXButton fx:id="btnGuardar" defaultButton="true" onAction="#guadar" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Guardar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="55.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <JFXTextField fx:id="txtId" disable="true" focusColor="#a84085" labelFloat="true" unFocusColor="BLACK" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="250.0" left="220.0" right="180.0" />
+               </GridPane.margin>
+            </JFXTextField>
+            <ScrollPane maxWidth="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="350.0" prefWidth="568.0" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="32.0" />
+               </GridPane.margin>
+               <content>
+                  <VBox fx:id="vboxContenedor" prefHeight="398.0" prefWidth="568.0" spacing="10.0" />
+               </content>
+            </ScrollPane>
+            <Label text="IdIngreso" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="250.0" right="210.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Monto" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="150.0" right="225.0" />
+               </GridPane.margin>
+            </Label>
+            <JFXTextField fx:id="txtMonto" focusColor="#a84085" labelFloat="true" prefHeight="25.0" prefWidth="20.0" unFocusColor="BLACK" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="150.0" left="220.0" right="180.0" />
+               </GridPane.margin>
+            </JFXTextField>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
