@@ -3,9 +3,6 @@ package emaaredespacio.gui.controlador;
 import com.jfoenix.controls.JFXButton;
 import emaaredespacio.EMAAredEspacio;
 import emaaredespacio.modelo.Colaborador;
-import emaaredespacio.modelo.IInscripcion;
-import emaaredespacio.modelo.Inscripcion;
-import emaaredespacio.modelo.PagoAlumno;
 import emaaredespacio.modelo.Aviso;
 import java.io.IOException;
 import java.net.URL;
@@ -19,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -61,6 +59,32 @@ public class FXMLMenuPrincipalController implements Initializable {
     private Aviso avisos;
     @FXML
     private Label lbGrupo;
+    @FXML
+    private Label lbPagoCorrespondiente;
+    @FXML
+    private Label lbTipoDePago;
+    @FXML
+    private JFXButton btnAdministrarPagoAColaborador;
+    @FXML
+    private JFXButton btnRegistrarPagoDeRenta;
+    @FXML
+    private JFXButton btnGenerarReporte;
+    @FXML
+    private JFXButton btnHistorialPagoDeEspacio;
+    @FXML
+    private JFXButton btnRegistrarGrupo;
+    @FXML
+    private JFXButton btnModificarGrupo;
+    @FXML
+    private JFXButton btnAdministrarHorarios;
+    @FXML
+    private JFXButton btnAdministrarRentas;
+    @FXML
+    private JFXButton btnRegistrarAlumnos;
+    @FXML
+    private JFXButton btnEditarAlumnos;
+    @FXML
+    private TitledPane titledPaneEgresos;
 
     public EMAAredEspacio getMain() {
         return main;
@@ -91,13 +115,13 @@ public class FXMLMenuPrincipalController implements Initializable {
                 + "-fx-background-position: center center; -fx-background-repeat: stretch;"
                 + " -fx-background-size: 30px 30px 30px 30px;");
         avisosDesplegados = false;
-        esDirector = false;
     }
 
     public void actualizarAvisos(List<Aviso> avisos) {
         this.listaAvisos = avisos;
         System.out.println("actualizado");
         if (!avisos.isEmpty()) {
+            mostrarCamposDeAviso();
             this.listaAvisos = avisos;
             tfNombreAlumno.setText(String.valueOf(avisos.get(0).getNombre()));
             tfTipoPago.setText(avisos.get(0).getTipoDePago());
@@ -109,9 +133,27 @@ public class FXMLMenuPrincipalController implements Initializable {
                 tfGrupo.setVisible(true);
                 lbGrupo.setText("Grupo");
             }
-
+        }else{
+            ocultarCamposDeAviso();
         }
-
+    }
+    
+    public void ocultarCamposDeAviso(){
+        lbPagoCorrespondiente.setText("No hay avisos pendientes");
+        lbTipoDePago.setVisible(false);
+        tfGrupo.setVisible(false);
+        tfTipoPago.setVisible(false);
+        lbGrupo.setVisible(false);
+        tfNombreAlumno.setVisible(false);
+    }
+    
+    public void mostrarCamposDeAviso(){
+        lbPagoCorrespondiente.setText("Pago correspondiente de");
+        lbTipoDePago.setVisible(true);
+        tfGrupo.setVisible(true);
+        tfTipoPago.setVisible(true);
+        lbGrupo.setVisible(false);
+        tfNombreAlumno.setVisible(true);
     }
 
     public void setColaborador(Colaborador colaborador) {
@@ -124,9 +166,22 @@ public class FXMLMenuPrincipalController implements Initializable {
         avisos.setColaborador(colaborador);
         avisos.setVentanaPricipal(this);
         Thread hiloAvisos = new Thread(avisos);
-
+        if(colaborador.getCargo().equals(0)){
+            btnAdministrarHorarios.setVisible(false);
+            btnAdministrarPagoAColaborador.setVisible(false);
+            btnAdministrarRentas.setVisible(false);
+            btnEditarAlumnos.setVisible(false);
+            btnGenerarReporte.setVisible(false);
+            btnHistorialPagoDeEspacio.setVisible(false);
+            btnModificarGrupo.setVisible(false);
+            btnRegistrarAlumnos.setVisible(false);
+            btnRegistrarGrupo.setVisible(false);
+            btnRegistrarPagoDeRenta.setVisible(false);
+            titledPaneEgresos.setVisible(false);
+        }
         hiloAvisos.start();
     }
+    
 
     @FXML
     private void mostrarMenu(ActionEvent evento) {

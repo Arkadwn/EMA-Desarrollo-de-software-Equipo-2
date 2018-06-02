@@ -125,6 +125,7 @@ public class FXMLRegistrarGrupoController implements Initializable {
         lista.clear();
         tbListaColaboradores.getItems().clear();        
         seleccion = null;
+        tfTipoBaile.setText("");
     }
 
     private boolean validarCamposVacios() {

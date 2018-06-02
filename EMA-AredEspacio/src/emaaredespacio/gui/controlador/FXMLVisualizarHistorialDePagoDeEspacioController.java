@@ -63,6 +63,8 @@ public class FXMLVisualizarHistorialDePagoDeEspacioController implements Initial
     private ToggleGroup groupTipoPago;
     @FXML
     private JFXRadioButton rdBtnColaborador;
+    @FXML
+    private JFXButton btnCargarTodo;
 
     /**
      * Initializes the controller class.
@@ -157,6 +159,11 @@ public class FXMLVisualizarHistorialDePagoDeEspacioController implements Initial
     public void vaciarCampos(){
         txtId.setText("");
         txtMonto.setText("");
+        cargarTodos();
+    }
+
+    @FXML
+    private void cargarTodo(ActionEvent event) {
         cargarTodos();
     }
     

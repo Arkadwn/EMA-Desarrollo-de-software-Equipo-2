@@ -92,33 +92,14 @@
                                     <JFXButton onAction="#desplegarVentanaRegistrarPromocion" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar promocion" />
                                     <JFXButton onAction="#desplegarVentanaModificarPromocion" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar promocion" GridPane.rowIndex="1" />
                                     <JFXButton onAction="#desplegarRegistrarPagoAlumno" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar pago alumno" GridPane.rowIndex="2" />
-                                    <JFXButton onAction="#desplegarAdministrarPagosAColaborador" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar pagos a colaborador" GridPane.rowIndex="4" />
+                                    <JFXButton fx:id="btnAdministrarPagoAColaborador" onAction="#desplegarAdministrarPagosAColaborador" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar pagos a colaborador" GridPane.rowIndex="4" />
                                     <JFXButton onAction="#desplegarVisualizarPagosAlumnos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Historial de pagos de alumnos" GridPane.rowIndex="3" />
-                                    <JFXButton onAction="#desplegarRegistrarPagosRenta" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar pago de renta" GridPane.rowIndex="5" />
-                                    <JFXButton onAction="#desplegarGenerarRepote" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Generar reporte" GridPane.rowIndex="6" />
-                                    <JFXButton onAction="#desplegarHistorialPagoDeEspacio" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Historial de pagos de Espacio" GridPane.rowIndex="7" />
+                                    <JFXButton fx:id="btnRegistrarPagoDeRenta" onAction="#desplegarRegistrarPagosRenta" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar pago de renta" GridPane.rowIndex="5" />
+                                    <JFXButton fx:id="btnGenerarReporte" onAction="#desplegarGenerarRepote" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Generar reporte" GridPane.rowIndex="6" />
+                                    <JFXButton fx:id="btnHistorialPagoDeEspacio" onAction="#desplegarHistorialPagoDeEspacio" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Historial de pagos de Espacio" GridPane.rowIndex="7" />
                                  </children>
                               </GridPane>
                            </children></AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane text="Egresos">
-                  <content>
-                        <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <JFXButton onAction="#desplegarRegistrarEgresoFacebook" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar egreso de facebook" />
-                              <JFXButton onAction="#desplegarEditarEgresoFacebook" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar egreso de facebook" GridPane.rowIndex="1" />
-                              <JFXButton onAction="#desplegarAdministrarEgresos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar egresos" GridPane.rowIndex="2" />
-                           </children>
-                        </GridPane>
                   </content>
                 </TitledPane>
                   <TitledPane text="Grupos y Rentas">
@@ -135,15 +116,34 @@
                               <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton onAction="#desplegarAdministrarRentas" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar rentas" />
-                              <JFXButton onAction="#desplegarVentanaRegistrarGrupo" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar grupo" GridPane.rowIndex="1" />
-                              <JFXButton onAction="#desplegarVentanaModificarGrupo" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Modificar grupo" GridPane.rowIndex="2" />
-                              <JFXButton onAction="#desplegarVentanaAdministrarHorarios" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar horarios" GridPane.rowIndex="3" />
-                              <JFXButton onAction="#desplegarAdministrarAlumnosDeGrupos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar inscripciones" GridPane.rowIndex="4" />
+                              <JFXButton fx:id="btnRegistrarGrupo" onAction="#desplegarVentanaRegistrarGrupo" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar grupo" GridPane.rowIndex="1" />
+                              <JFXButton fx:id="btnModificarGrupo" onAction="#desplegarVentanaModificarGrupo" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Modificar grupo" GridPane.rowIndex="2" />
+                              <JFXButton fx:id="btnAdministrarHorarios" onAction="#desplegarVentanaAdministrarHorarios" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar horarios" GridPane.rowIndex="3" />
+                              <JFXButton fx:id="btnAdministrarRentas" onAction="#desplegarAdministrarRentas" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar rentas" GridPane.rowIndex="4" />
+                              <JFXButton onAction="#desplegarAdministrarAlumnosDeGrupos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar inscripciones" />
                            </children>
                         </GridPane>
                     </content>
                   </TitledPane>
+                <TitledPane text="Alumnos">
+                  <content>
+                        <GridPane prefHeight="240.0" prefWidth="245.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <JFXButton fx:id="btnRegistrarAlumnos" onAction="#desplegarAdminstrarAlumnos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar alumnos" GridPane.rowIndex="1" />
+                              <JFXButton fx:id="btnEditarAlumnos" onAction="#desplegarEditarAlumno" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar alumnos" GridPane.rowIndex="2" />
+                              <JFXButton onAction="#desplegarTomarAsistencia" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Tomar asistencia" />
+                           </children>
+                        </GridPane>
+                  </content>
+                </TitledPane>
                   <TitledPane text="Cliente y Colaboradores">
                     <content>
                         <GridPane prefHeight="240.0" prefWidth="247.0">
@@ -165,23 +165,21 @@
                         </GridPane>
                     </content>
                   </TitledPane>
-                <TitledPane text="Alumnos">
+                <TitledPane fx:id="titledPaneEgresos" text="Egresos">
                   <content>
-                        <GridPane prefHeight="240.0" prefWidth="245.0">
+                        <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="28.0" minHeight="28.0" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="28.0" valignment="TOP" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton onAction="#desplegarAdminstrarAlumnos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar alumnos" />
-                              <JFXButton onAction="#desplegarEditarAlumno" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar alumnos" GridPane.rowIndex="1" />
-                              <JFXButton onAction="#desplegarVisualizarPagosAlumnos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Visualizar historial de pagos de alumnos" GridPane.rowIndex="2" />
-                              <JFXButton onAction="#desplegarTomarAsistencia" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Tomar asistencia" GridPane.rowIndex="3" />
+                              <JFXButton onAction="#desplegarRegistrarEgresoFacebook" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Registrar egreso de facebook" />
+                              <JFXButton onAction="#desplegarEditarEgresoFacebook" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Editar egreso de facebook" GridPane.rowIndex="1" />
+                              <JFXButton onAction="#desplegarAdministrarEgresos" prefHeight="9.0" prefWidth="227.0" style="-fx-background-color: white;" text="Administrar egresos" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                   </content>
@@ -205,8 +203,8 @@
          <children>
             <JFXButton fx:id="buttonSiguiente" layoutX="257.0" layoutY="66.0" onAction="#siguiente" prefHeight="74.0" prefWidth="33.0" text="&gt;&gt;" />
             <TextField fx:id="tfNombreAlumno" editable="false" layoutX="82.0" layoutY="41.0" />
-            <Label layoutX="82.0" layoutY="14.0" text="Pago correspondiente de" />
-            <Label layoutX="82.0" layoutY="78.0" text="Tipo de pago" />
+            <Label fx:id="lbPagoCorrespondiente" layoutX="82.0" layoutY="14.0" text="Pago correspondiente de" />
+            <Label fx:id="lbTipoDePago" layoutX="82.0" layoutY="78.0" text="Tipo de pago" />
             <TextField fx:id="tfTipoPago" editable="false" layoutX="82.0" layoutY="103.0" />
             <JFXButton fx:id="buttonAtras" layoutX="14.0" layoutY="66.0" onAction="#anterior" prefHeight="74.0" prefWidth="33.0" text="&lt;&lt;" />
             <Label fx:id="lbGrupo" layoutX="82.0" layoutY="141.0" text="Grupo" />

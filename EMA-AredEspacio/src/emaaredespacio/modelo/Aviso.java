@@ -1,6 +1,7 @@
 package emaaredespacio.modelo;
 
 import emaaredespacio.gui.controlador.FXMLMenuPrincipalController;
+import emaaredespacio.utilerias.EditorDeFormatos;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -97,18 +98,13 @@ public class Aviso implements Runnable {
             ingreso = new Ingreso().buscarUltimoPagoColaborador(colaboradoresActivos.get(i).getIdColaborador());
             if (ingreso != null) {
                 Date fecha = null;
-                try {
-                    fecha = new SimpleDateFormat("yyyy/MM/dd").parse(ingreso.getFecha());
-                } catch (ParseException ex) {
-                    Logger.getLogger(Aviso.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                fecha = EditorDeFormatos.crearFecha(ingreso.getFecha());
                 LocalDate date = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 if (date.plusMonths(1).isBefore(LocalDate.now()) || date.plusMonths(1).isEqual(LocalDate.now())) {
                     aviso = new Aviso();
                     aviso.setNombre(colaboradoresActivos.get(i).getNombreCompleto());
                     aviso.setTipoDePago("Mensualidad");
                     listaDeAvisos.add(aviso);
-                    System.out.println(aviso.getNombre());
                 }
             }
 

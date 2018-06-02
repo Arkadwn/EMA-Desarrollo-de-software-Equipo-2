@@ -56,7 +56,7 @@
                   <Insets left="10.0" right="10.0" top="30.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="btnCancelar" onAction="#accionGuardar" prefHeight="33.0" prefWidth="114.0" style="-fx-border-radius: 5; -fx-border-color: #ff0066; -fx-border-width: 2;" text="Cancelar" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="9">
+            <JFXButton fx:id="btnCancelar" onAction="#accionCancelar" prefHeight="33.0" prefWidth="114.0" style="-fx-border-radius: 5; -fx-border-color: #ff0066; -fx-border-width: 2;" text="Cancelar" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="9">
                <GridPane.margin>
                   <Insets top="30.0" />
                </GridPane.margin>
@@ -140,7 +140,7 @@
           <RowConstraints maxHeight="443.0" minHeight="10.0" prefHeight="420.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TableView fx:id="tbListaAlumnos" editable="true" onMouseClicked="#posicion" onMouseExited="#quitaSeleccion" GridPane.columnSpan="2" GridPane.rowIndex="4">
+            <TableView fx:id="tbListaAlumnos" editable="true" onMouseClicked="#posicion" onMouseExited="#quitaSeleccion" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="2">
                <columns>
                   <TableColumn fx:id="columnaNombre" editable="false" prefWidth="218.99996948242188" sortable="false" text="Nombre" />
                   <TableColumn fx:id="columnaApellidos" prefWidth="213.0" text="Apellidos" />
@@ -152,7 +152,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" />
                </GridPane.margin>
             </TableView>
-            <Label text="Colaborador a cargo:" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Label text="Grupo:" GridPane.halignment="LEFT" GridPane.rowIndex="1">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -160,20 +160,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <JFXTextField fx:id="tfNombre" disable="true" prefHeight="25.0" prefWidth="288.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
-            </JFXTextField>
-            <Label text="Grupo:" GridPane.halignment="LEFT" GridPane.rowIndex="2">
-               <font>
-                  <Font name="Arial" size="15.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </Label>
-            <ComboBox fx:id="comboBoxGrupos" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <ComboBox fx:id="comboBoxGrupos" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>

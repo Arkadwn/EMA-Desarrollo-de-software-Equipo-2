@@ -208,10 +208,8 @@ public class PagosalumnosJpaController implements Serializable {
     }
 
     public List<PagoAlumno> buscarPagosVencidos(Colaborador colaborador) {
-        List<Inscripciones> inscripcionesVencidas = null;
         List<Inscripciones> inscripciones = null;
         List<Pagosalumnos> pagosRealizados = null;
-        List<PagoAlumno> pagosVencidosInscripcion = null;
         List<PagoAlumno> pagos = new ArrayList<>();
         List<Grupos> grupos = null;
         PagoAlumno pago = null;
