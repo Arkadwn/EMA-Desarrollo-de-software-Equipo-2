@@ -83,6 +83,12 @@ public class FXMLVisualizarHistorialDePagosDeAlumnoController implements Initial
             } catch (IOException ex) {
                 Logger.getLogger(FXMLVisualizarHistorialDePagosDeAlumnoController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }else{
+            if(cbGrupos.getValue() == null){
+                MensajeController.mensajeAdvertencia("No ha seleccionado el grupo ni el alumno");
+            }else{
+                MensajeController.mensajeAdvertencia("No ha seleccionado el alumno");
+            }
         }
     }
 
@@ -184,6 +190,8 @@ public class FXMLVisualizarHistorialDePagosDeAlumnoController implements Initial
                 controlador.cargarPagoAlumno(pago, cbAlumnos.getValue().getNombreCompleto(), cbGrupos.getValue().getTipoDeBaile(), System.getProperty("colaborador"), this);
                 vboxContenedor.getChildren().addAll(fxml);
             }
+        }else if(lista.isEmpty()){
+            MensajeController.mensajeInformacion("No hay pagos de ese alumno");
         }
     }
 
@@ -199,5 +207,10 @@ public class FXMLVisualizarHistorialDePagosDeAlumnoController implements Initial
         cbTipoPago.getSelectionModel().select(null);
         cbGrupos.getSelectionModel().select(null);
         cbEdicionGrupo.getSelectionModel().select(null);
+    }
+
+    @FXML
+    private void accionCancelar(ActionEvent event) {
+        vaciarCampos();
     }
 }

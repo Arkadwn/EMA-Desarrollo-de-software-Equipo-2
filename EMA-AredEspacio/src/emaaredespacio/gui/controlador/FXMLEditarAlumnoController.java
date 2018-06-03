@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Alumno;
 import emaaredespacio.modelo.IAlumno;
+import emaaredespacio.utilerias.Imagen;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -54,7 +55,6 @@ public class FXMLEditarAlumnoController implements Initializable {
     private TableColumn<Alumno, String> columnaNombre;
     @FXML
     private TableColumn<Alumno, String> columnaApellidos;
-    private String nombreImagen;
     private List<Alumno> lista;
     @FXML
     private JFXButton btnGuardar;
@@ -65,6 +65,7 @@ public class FXMLEditarAlumnoController implements Initializable {
     @FXML
     private JFXButton btnBuscar;
     private Alumno seleccion;
+    private File imagen;
 
     /**
      * Initializes the controller class.
@@ -75,7 +76,6 @@ public class FXMLEditarAlumnoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         columnaApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        nombreImagen = "No";
         lista = new ArrayList();
         Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
         imgPerfil.setImage(imagen);
@@ -105,14 +105,17 @@ public class FXMLEditarAlumnoController implements Initializable {
             tfDireccion.setText(seleccion.getDireccion());
             tfCorreo.setText(seleccion.getCorreo());
 
-            File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos\\" + seleccion.getImagenPerfil());
+            File rutaImagen = new File(System.getProperty("user.home") + "/aredEspacio/imagenesAlumnos/" + seleccion.getImagenPerfil());
             try {
-                imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
+                if(rutaImagen.exists()){
+                    imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
+                }else{
+                    imagen = new Image("emaaredespacio/imagenes/User.jpg", 225, 225, false, true, true);
+                }
             } catch (MalformedURLException ex) {
                 Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
             }
             imgPerfil.setImage(imagen);
-            nombreImagen = rutaImagen.getName();
             checkEstado.setSelected(seleccion.getEstado().equals("A"));
         }
     }
@@ -141,7 +144,7 @@ public class FXMLEditarAlumnoController implements Initializable {
                 alumno.setApellidos(tfApellidos.getText());
                 alumno.setCorreo(tfCorreo.getText());
                 alumno.setDireccion(tfDireccion.getText());
-                alumno.setImagenPerfil(nombreImagen);
+                alumno.setImagenPerfil(seleccion.getImagenPerfil());
                 alumno.setTelefono(tfTelefono.getText());
                 alumno.setMatricula(seleccion.getMatricula());
                 if (checkEstado.isSelected()) {
@@ -153,6 +156,7 @@ public class FXMLEditarAlumnoController implements Initializable {
                 boolean[] validacion = metodosAlumnos.validarCampos(alumno);
                 if (validacion[5]) {
                     if (metodosAlumnos.editarAlumo(alumno)) {
+                        Imagen.moverImagen(imagen, ""+alumno.getMatricula(), Imagen.ALUMNO);
                         MensajeController.mensajeInformacion("Cambios guardados");
                         limpiarCampos();
                     } else {
@@ -177,25 +181,17 @@ public class FXMLEditarAlumnoController implements Initializable {
         elegir.getExtensionFilters().add(extensionPNG);
         elegir.getExtensionFilters().add(extensionJPEG);
         File rutaImagen = elegir.showOpenDialog(null);
-//    File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\perfil.jpg");
         if (rutaImagen == null) {
-            System.out.println("no es imagen");
+            MensajeController.mensajeAdvertencia("No es una imagen");
         } else {
             Image image = null;
-            String rutaNueva = System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos";
-            String rutaOringen = rutaImagen.getAbsolutePath();
-            StringBuilder comando = new StringBuilder();
-            comando.append("copy ").append('"' + rutaOringen + '"').append(" ").append('"' + rutaNueva + '"');
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", comando.toString());
-            builder.redirectErrorStream(true);
-            Process proceso = builder.start();
+            imagen = rutaImagen;
             try {
                 image = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
             }
             imgPerfil.setImage(image);
-            nombreImagen = rutaImagen.getName();
         }
     }
 
@@ -251,9 +247,9 @@ public class FXMLEditarAlumnoController implements Initializable {
         tfTelefono.setText("");
         Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 400, 400, false, true, true);
         imgPerfil.setImage(imagen);
-        nombreImagen = "No";
         tbListaAlumnos.getItems().clear();
         tfPalabraClave.setText("");
         lista.clear();
+        this.imagen = null;
     }
 }

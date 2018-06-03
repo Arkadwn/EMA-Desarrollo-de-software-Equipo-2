@@ -30,6 +30,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
 import emaaredespacio.modelo.IPago;
 import java.util.Iterator;
+import javafx.scene.input.KeyEvent;
 
 /**
  * FXML Controller class
@@ -54,13 +55,18 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
     @FXML
     private JFXButton btnCancelar;
     private List<Colaborador> colaboradores;
+    @FXML
+    private JFXButton btnGuardar;
+    @FXML
+    private JFXButton btnAgregar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         IColaborador metodos = new Colaborador();
         colaboradores = metodos.buscarColaboradoresEstados("A");
         cargarColaboradores(colaboradores);
-        
+        btnAgregar.setStyle("-fx-background-image: url('emaaredespacio/imagenes/plus.png');"
+                + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 40px 40px 40px 40px;");
         IPago metodosPago = new Pago();
         
         try {
@@ -120,7 +126,7 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
 
     @FXML
     private void accionGuardar() {
-        if (pago != null) {
+        if (pago == null) {
             if (validarCampos()) {
                 MensajeController.mensajeAdvertencia("Hay campos vacios");
             } else {
@@ -140,7 +146,13 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
 
                 if (metodos.guardarPagoAColaborador(pago)) {
                     MensajeController.mensajeInformacion("Se ha guardado el pago");
-                    vaciarCampos();
+                    vboxContenedor.setDisable(false);
+                    try {
+                        cargarPagos(metodos.buscarPagoAColaborador("", false));
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLAdministrarPagosAColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    desactivarCampos();
                 } else {
                     MensajeController.mensajeAdvertencia("No se ha podido guardar el pago");
                 }
@@ -164,8 +176,12 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
                 
                 if(metodos.editarPagoAColaborador(pago)){
                     MensajeController.mensajeInformacion("Se han guadado los cambios");
-                    vaciarCampos();
+                    desactivarCampos();
+                }else{
+                    MensajeController.mensajeAdvertencia("No se han guardado los cambios");
                 }
+            }else{
+                MensajeController.mensajeAdvertencia("Hay campos vacios o opciones sin seleccionar");
             }
         }
     }
@@ -185,12 +201,12 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
 
     @FXML
     private void accionCancelarEdicion(ActionEvent event) {
-        pago = null;
-        btnCancelar.setVisible(false);
+        desactivarCampos();
     }
     
     public void cargarPago(Pago pago){
-        btnCancelar.setVisible(true);
+        activarCampos();
+        vboxContenedor.setDisable(false);
         IGrupo metodosGrupos = new Grupo();
         IAlumno metodo = new Alumno();
         Alumno alumno = metodo.buscarAlumnoPorId(pago.getIdAlumno());
@@ -213,5 +229,38 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
 
     public void quitarPago(Parent pago) {
         vboxContenedor.getChildren().removeAll(pago);
+    }
+
+    @FXML
+    private void activarGuardado(ActionEvent event) {
+        activarCampos();
+    }
+    
+    private void desactivarCampos(){
+        tfComentario.setDisable(true);
+        tfPago.setDisable(true);
+        cbAlumno.setDisable(true);
+        cbGrupoColaborador.setDisable(true);
+        vaciarCampos();
+    }
+    
+    private void activarCampos(){
+        tfComentario.setDisable(false);
+        tfPago.setDisable(false);
+        cbAlumno.setDisable(false);
+        cbGrupoColaborador.setDisable(false);
+        vboxContenedor.setDisable(true);
+        vaciarCampos();
+    }
+
+    @FXML
+    private void filtrarLetras(KeyEvent evento) {
+        char cadena = evento.getCharacter().charAt(0);
+        
+        if(Character.isDigit(cadena) && tfPago.getText().length() < 6){
+            
+        }else{
+            evento.consume();
+        }
     }
 }

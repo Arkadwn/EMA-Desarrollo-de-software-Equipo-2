@@ -64,17 +64,17 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </ChoiceBox>
-            <ChoiceBox fx:id="cbGrupoColaborador" prefHeight="25.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <ChoiceBox fx:id="cbGrupoColaborador" disable="true" prefHeight="25.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </ChoiceBox>
-            <ChoiceBox fx:id="cbAlumno" prefHeight="25.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <ChoiceBox fx:id="cbAlumno" disable="true" prefHeight="25.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </ChoiceBox>
-            <JFXTextField fx:id="tfPago" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <JFXTextField fx:id="tfPago" disable="true" onKeyTyped="#filtrarLetras" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="20.0" right="50.0" />
                </GridPane.margin>
@@ -82,7 +82,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextArea fx:id="tfComentario" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <JFXTextArea fx:id="tfComentario" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets bottom="10.0" left="20.0" right="50.0" top="10.0" />
                </GridPane.margin>
@@ -95,12 +95,17 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnCancelar" onAction="#accionCancelarEdicion" prefHeight="34.0" prefWidth="140.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Cancelar Inscripcion" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <JFXButton fx:id="btnCancelar" onAction="#accionCancelarEdicion" prefHeight="34.0" prefWidth="104.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Cancelar" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
                <GridPane.margin>
                   <Insets left="20.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <JFXButton fx:id="btnAgregar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#activarGuardado" prefHeight="40.0" prefWidth="40.0" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="300.0" />
                </GridPane.margin>
             </JFXButton>
          </children>

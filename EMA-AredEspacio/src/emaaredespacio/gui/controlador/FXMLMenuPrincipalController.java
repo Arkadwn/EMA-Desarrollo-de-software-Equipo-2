@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.WindowEvent;
 
 /**
  * FXML Controller class
@@ -92,6 +94,12 @@ public class FXMLMenuPrincipalController implements Initializable {
 
     public void setMain(EMAAredEspacio main) {
         this.main = main;
+        this.main.getVentana().setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                System.exit((0));
+            }
+        });
     }
 
     /**
@@ -133,12 +141,12 @@ public class FXMLMenuPrincipalController implements Initializable {
                 tfGrupo.setVisible(true);
                 lbGrupo.setText("Grupo");
             }
-        }else{
+        } else {
             ocultarCamposDeAviso();
         }
     }
-    
-    public void ocultarCamposDeAviso(){
+
+    public void ocultarCamposDeAviso() {
         lbPagoCorrespondiente.setText("No hay avisos pendientes");
         lbTipoDePago.setVisible(false);
         tfGrupo.setVisible(false);
@@ -146,8 +154,8 @@ public class FXMLMenuPrincipalController implements Initializable {
         lbGrupo.setVisible(false);
         tfNombreAlumno.setVisible(false);
     }
-    
-    public void mostrarCamposDeAviso(){
+
+    public void mostrarCamposDeAviso() {
         lbPagoCorrespondiente.setText("Pago correspondiente de");
         lbTipoDePago.setVisible(true);
         tfGrupo.setVisible(true);
@@ -166,7 +174,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         avisos.setColaborador(colaborador);
         avisos.setVentanaPricipal(this);
         Thread hiloAvisos = new Thread(avisos);
-        if(colaborador.getCargo().equals(0)){
+        if (colaborador.getCargo().equals(0)) {
             btnAdministrarHorarios.setVisible(false);
             btnAdministrarPagoAColaborador.setVisible(false);
             btnAdministrarRentas.setVisible(false);
@@ -181,7 +189,6 @@ public class FXMLMenuPrincipalController implements Initializable {
         }
         hiloAvisos.start();
     }
-    
 
     @FXML
     private void mostrarMenu(ActionEvent evento) {

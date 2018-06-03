@@ -128,7 +128,7 @@ public class FXMLFormatoPagoController implements Initializable {
     public void cargarPagoAlumno(PagoAlumno pago, String nombreAlumno, String nombreGrupo, String nombreColaborador, FXMLVisualizarHistorialDePagosDeAlumnoController controlador) {
         this.controladorVisualizacion = controlador;
         this.pagoAlumno = pago;
-        btnEntregado.setStyle("-fx-background-image: url('emaaredespacio/imagenes/cerrar.png');"
+        btnEntregado.setStyle("-fx-background-image: url('emaaredespacio/imagenes/ojo.png');"
                 + "-fx-background-position: center center; -fx-background-repeat: stretch; -fx-background-size: 40px 40px 40px 40px;");
         tipoPago = "alumno";
         lbFecha.setText(pago.getFechaPago());

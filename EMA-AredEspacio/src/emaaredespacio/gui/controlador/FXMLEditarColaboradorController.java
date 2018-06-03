@@ -321,6 +321,7 @@ public class FXMLEditarColaboradorController implements Initializable {
         }
     }
     
+    @FXML
     private void limpiarCampos(){
         tfTelefono.setText("");
         tfCorreo.setText("");
@@ -336,7 +337,7 @@ public class FXMLEditarColaboradorController implements Initializable {
         seleccion = null;
         tbListaColaboradores.getItems().clear();
         tfPalabraClave.setText("");
-        imagen = null;
+        this.imagen = null;
     }
 
     @FXML

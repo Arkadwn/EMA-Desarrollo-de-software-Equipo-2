@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -32,6 +33,7 @@ public class EMAAredEspacio extends Application {
         FXMLLoader cargador = new FXMLLoader(getClass().getResource("/emaaredespacio/gui/vista/FXMLIniciarSesion.fxml"));
         Parent root = (Parent) cargador.load();
         Scene scene = new Scene(root);
+        stage.getIcons().add(new Image("emaaredespacio/imagenes/icono.png"));
         
         FXMLIniciarSesionController contrlador = cargador.getController();
         contrlador.setMain(this);

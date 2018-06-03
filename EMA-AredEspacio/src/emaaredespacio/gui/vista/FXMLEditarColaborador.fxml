@@ -109,7 +109,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></JFXButton>
-            <JFXButton fx:id="btnCancelar" prefHeight="33.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Cancelar" GridPane.columnIndex="2" GridPane.rowIndex="12">
+            <JFXButton onAction="#limpiarCampos" prefHeight="33.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Cancelar" GridPane.columnIndex="2" GridPane.rowIndex="12">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
