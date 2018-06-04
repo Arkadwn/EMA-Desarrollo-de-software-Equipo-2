@@ -10,6 +10,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import emaaredespacio.modelo.Cliente;
 import emaaredespacio.modelo.Colaborador;
+import emaaredespacio.modelo.PagoAlumno;
 import emaaredespacio.modelo.Renta;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +27,8 @@ public class ReciboPago {
     private static final String PATHUSRSISTEMA = System.getProperty("user.home");
     private static final String PATHPDFPAGORENTA = PATHUSRSISTEMA + "/aredEspacio/PDF/PagosRenta/";
     private static final String PATHPDFPAGOCOLABORADOR = PATHUSRSISTEMA + "/aredEspacio/PDF/PagosColaborador/";
-
+    private static final String PATHPDFPAGOALUMNO = PATHUSRSISTEMA + "/aredEspacio/PDF/PagosAlumnos/";
+    
     public static boolean generarReciboPagoRenta(Renta renta, Cliente cliente, String fecha) {
         boolean banderaGenerar = false;
         FileOutputStream archivo = null;
@@ -199,7 +201,74 @@ public class ReciboPago {
         } catch (IOException ex) {
             System.out.println("Error al abrir o cerrar el archivo");
         }
+        return banderaGeneracion;
+    }
+    
+    public static boolean generarReciboPagoAlumno(int idPago,String alumno, PagoAlumno pago, String grupo, Colaborador colaborador){
+        boolean banderaGeneracion = false;
+        FileOutputStream archivo = null;
 
+        File directorio = new File(PATHPDFPAGOALUMNO);
+        String[] fecha = pago.getFechaPago().split("/");
+        File file = new File(directorio + "/Alumno_ID-" + pago.getMatricula() + "-" + alumno + "-" + fecha[0] + "-" + fecha[1] + "-" + fecha[2] + ".pdf");
+
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+        try {
+
+            archivo = new FileOutputStream(file);
+            Document doc = new Document();
+            PdfWriter.getInstance(doc, archivo);
+            doc.open();
+
+            Paragraph parrafo = new Paragraph("Ared Espacio", new Font(Font.FontFamily.TIMES_ROMAN, 6, Font.ITALIC, BaseColor.LIGHT_GRAY));
+            doc.add(parrafo);
+
+            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD, BaseColor.BLACK);
+            parrafo = new Paragraph("== RECIBO DE PAGO DE ALUMNO ==", negrita);
+            parrafo.setAlignment(Element.ALIGN_LEFT);
+            doc.add(parrafo);
+
+            parrafo = new Paragraph("El presente recibo es por concepto del pago de la "+ pago.getTipoPago() +" correspondiente "
+                    + "al alumno " + alumno + " con matrícula " + pago.getMatricula() + ", perteneciente al grupo " + grupo + ", realizado "
+                            + "el día " + pago.getFechaPago() + " por la cantidad de " + pago.getMonto() + ", aplicando un descuento de " + 
+                    pago.getPorcentajeDescuento() +"%, quedando así un total de $" + pago.getTotal() + ".", new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK));
+            parrafo.add(Chunk.NEWLINE);
+            parrafo.add(Chunk.NEWLINE);
+            parrafo.add(Chunk.NEWLINE);
+            parrafo.add(Chunk.NEWLINE);
+            parrafo.add(Chunk.NEWLINE);
+            parrafo.add(Chunk.NEWLINE);
+            parrafo.add(Chunk.NEWLINE);
+            parrafo.add(Chunk.NEWLINE);
+            parrafo.setAlignment(Chunk.ALIGN_JUSTIFIED);
+            doc.add(parrafo);
+            //Firmas o sellos
+            parrafo = new Paragraph(10);
+            parrafo.setFont(new Font(Font.FontFamily.TIMES_ROMAN, 8, Font.UNDERLINE, BaseColor.BLACK));
+            parrafo.add("Firma del Maestro" + "\n");
+            parrafo.setAlignment(Chunk.ALIGN_CENTER);
+            parrafo.add(Chunk.SPACETABBING);
+            parrafo.add(Chunk.SPACETABBING);
+            parrafo.add(Chunk.SPACETABBING);
+            parrafo.add(Chunk.SPACETABBING);
+            parrafo.add(Chunk.SPACETABBING);
+            parrafo.add(Chunk.SPACETABBING);
+            parrafo.add(Chunk.SPACETABBING);
+            parrafo.add(Chunk.SPACETABBING);   
+            doc.add(parrafo);
+
+            doc.close();
+            archivo.close();
+
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error al crear el archivo: " + ex.getMessage());
+        } catch (DocumentException ex) {
+            System.out.println("Error al instanciar el documento con el archivo: " + ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println("Error al abrir o cerrar el archivo");
+        }
         return banderaGeneracion;
     }
 }

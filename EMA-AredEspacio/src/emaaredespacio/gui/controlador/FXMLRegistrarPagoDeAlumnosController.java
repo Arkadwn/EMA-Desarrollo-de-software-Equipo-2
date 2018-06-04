@@ -18,6 +18,7 @@ import emaaredespacio.modelo.Inscripcion;
 import emaaredespacio.modelo.PagoAlumno;
 import emaaredespacio.modelo.Promocion;
 import emaaredespacio.utilerias.ReciboDePagoAlumno;
+import emaaredespacio.utilerias.ReciboPago;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -104,8 +105,7 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
         listaAlumnos = new ArrayList<>();
         listaGrupos = new ArrayList<>();
         listaPromociones = new ArrayList<>();
-        Colaborador colaborador = new Colaborador();
-        colaborador.setIdColaborador(Integer.parseInt(System.getProperty("idColaborador")));
+        Colaborador colaborador = new Colaborador().buscarColaboradorSegunID(Integer.parseInt(System.getProperty("idColaborador")));
         this.setColaborador(colaborador);
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         columnaApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
@@ -218,6 +218,12 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
                 System.out.println(listaAlumnos.get(i).getNombre());
             }
             llenarTabla();
+        }else{
+            tbListaAlumnos.getItems().clear();
+            tfAlumno.setText("");
+            comboBoxTipoPago.setDisable(true);
+            tfMonto.setText("");
+            tfTotal.setText("");
         }
 
     }
@@ -252,7 +258,7 @@ public class FXMLRegistrarPagoDeAlumnosController implements Initializable {
             if (metodosPago.registrarPago(pago)) {
                 MensajeController.mensajeInformacion("Pago de alumno registrado correctamente");
                 int pagoBuscado = metodosPago.buscarUltimoPago().getIdPagoAlumno();
-                ReciboDePagoAlumno.generarRecibo(pagoBuscado);
+                ReciboPago.generarReciboPagoAlumno(pagoBuscado, seleccion.getNombreCompleto(), pago, comboBoxGrupos.getValue().toString(), colaborador);
                 limpiar();
             }
         } else {

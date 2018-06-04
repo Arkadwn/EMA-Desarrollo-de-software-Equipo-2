@@ -13,11 +13,11 @@ import java.util.logging.Logger;
 /**
  *
  * @author Jesús Enrique Flores Nestozo
- * @date 25/05/2018
+ * @date 03/06/2018
  * @time 05:43:28 PM
  */
 public class Aviso implements Runnable {
-    
+
     private String nombre = "";
     private String grupo = "";
     private String tipoDePago = "";
@@ -32,8 +32,8 @@ public class Aviso implements Runnable {
     public String getNombre() {
         return nombre;
     }
-    
-    public Aviso(){
+
+    public Aviso() {
         activo = false;
     }
 
@@ -62,7 +62,8 @@ public class Aviso implements Runnable {
     }
 
     /**
-     * Busca los pagos vencidos de los alumnos que pertenecen a algun grupo del colaborador autenticado
+     * Busca los pagos vencidos de los alumnos que pertenecen a algun grupo del
+     * colaborador autenticado
      */
     public void buscarPagosVencidos() {
         PagoAlumno controlador = new PagoAlumno();
@@ -72,7 +73,7 @@ public class Aviso implements Runnable {
             buscarNombreDePagosVencidos();
         }
     }
-    
+
     /**
      * Busca los nombres a los que pertenecen los pagos vencidos
      */
@@ -98,9 +99,10 @@ public class Aviso implements Runnable {
             nombreGruposDePagos.add(NombreGrupo.getTipoDeBaile());
         }
     }
-    
+
     /**
-     * Busca los pagos vencidos de maestros/colaboradores en caso de que el usuario autenticado sea director
+     * Busca los pagos vencidos de maestros/colaboradores en caso de que el
+     * usuario autenticado sea director
      */
     public void buscarPagosVencidosDeMaestros() {
         List<Colaborador> colaboradoresActivos = new Colaborador().buscarColaboradoresEstados("A");
@@ -118,15 +120,35 @@ public class Aviso implements Runnable {
                     aviso.setTipoDePago("Mensualidad");
                     listaDeAvisos.add(aviso);
                 }
+            } else {
+                aviso = new Aviso();
+                aviso.setNombre(colaboradoresActivos.get(i).getNombreCompleto());
+                aviso.setTipoDePago("Mensualidad");
+                listaDeAvisos.add(aviso);
             }
 
+        }
+    }
+    
+    /**
+     * Se dan de baja las rentas que ya han pasado de la base de datos
+     */
+    public void darDeBajaRentasVencidas() {
+        List<Renta> rentasVencidas = new Renta().cargarRentas();
+        IRenta rentaControlador = new Renta();
+        for (Renta renta : rentasVencidas) {
+            LocalDate date = renta.getFecha().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if (date.plusMonths(1).isBefore(LocalDate.now()) || date.plusMonths(1).isEqual(LocalDate.now())) {
+                renta.setEstado(false);
+                rentaControlador.guardarCambios(renta);
+            }
         }
     }
 
     public void setVentanaPricipal(FXMLMenuPrincipalController menu) {
         this.menu = menu;
     }
-    
+
     /**
      * Actualiza la lista de avisos en el menú principal
      */
@@ -143,18 +165,19 @@ public class Aviso implements Runnable {
             aviso.setTipoDePago(pagosVencidos.get(i).getTipoPago());
             listaDeAvisos.add(aviso);
         }
-        
-        if(colaborador.getCargo().equals(0)){
-           buscarPagosVencidosDeMaestros(); 
+
+        if (colaborador.getCargo().equals(0)) {
+            buscarPagosVencidosDeMaestros();
         }
     }
 
     @Override
     public void run() {
         while (true) {
-            if(activo){
+            if (activo) {
                 break;
             }
+            darDeBajaRentasVencidas();
             actualizarListaAvisos();
             menu.actualizarAvisos(listaDeAvisos);
             try {
@@ -164,8 +187,8 @@ public class Aviso implements Runnable {
             }
         }
     }
-    
-    public void cerrarAvisos(){
+
+    public void cerrarAvisos() {
         activo = true;
     }
 

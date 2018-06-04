@@ -220,7 +220,7 @@ public class PagosalumnosJpaController implements Serializable {
             for (Inscripciones inscripcion : inscripciones) {
                 //pagos mensuales vencidos
                 LocalDate date = null;
-                pagosRealizados = conexion.createQuery("SELECT p FROM Pagosalumnos p, Inscripciones i WHERE p.idGrupo=i.idGrupo AND p.matricula = i.idAlumno AND p.tipoPago= 'Mensualidad' ORDER BY p.fechaPago DESC").getResultList();
+                pagosRealizados = conexion.createQuery("SELECT p FROM Pagosalumnos p, Inscripciones i WHERE p.idGrupo=i.idGrupo AND p.matricula = i.idAlumno AND p.tipoPago= 'Mensualidad' AND p.matricula= :matricula ORDER BY p.fechaPago DESC").setParameter("matricula", inscripcion.getIdAlumno()).getResultList();
                 if (pagosRealizados.size() > 0) {
                     date = pagosRealizados.get(0).getFechaPago().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     System.out.println("date " + date);
@@ -237,11 +237,18 @@ public class PagosalumnosJpaController implements Serializable {
                         pagos.add(pago);
 //                    System.out.println("pago añadido");
                     }
+                }else{
+                    pago = new PagoAlumno();
+                    pago.setMatricula(inscripcion.getIdAlumno().getMatricula());
+                    pago.setMonto(inscripcion.getPagoMensual().toString());
+                    pago.setIdGrupo(inscripcion.getIdGrupo().getIdGrupo());
+                    pago.setTipoPago("Mensualidad");
+                    pagos.add(pago);
                 }
                 //pagos inscripcion vencida
                 pagosRealizados.clear();
 
-                pagosRealizados = conexion.createQuery("SELECT p FROM Pagosalumnos p, Inscripciones i WHERE p.idGrupo=i.idGrupo AND p.matricula = i.idAlumno AND p.tipoPago= 'Inscripcion' ORDER BY p.fechaPago DESC").getResultList();
+                pagosRealizados = conexion.createQuery("SELECT p FROM Pagosalumnos p, Inscripciones i WHERE p.idGrupo=i.idGrupo AND p.matricula = i.idAlumno AND p.tipoPago= 'Inscripcion' AND p.matricula= :matricula ORDER BY p.fechaPago DESC").setParameter("matricula", inscripcion.getIdAlumno()).getResultList();
                 if (pagosRealizados.size() > 0) {
                     date = pagosRealizados.get(0).getFechaPago().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     System.out.println(date);
@@ -258,6 +265,13 @@ public class PagosalumnosJpaController implements Serializable {
                         pago.setFechaPago(EditorDeFormatos.crearFormatoFecha(pagosRealizados.get(0).getFechaPago()));
                         pagos.add(pago);
                     }
+                }else{
+                    pago = new PagoAlumno();
+                    pago.setMatricula(inscripcion.getIdAlumno().getMatricula());
+                    pago.setMonto(inscripcion.getPagoMensual().toString());
+                    pago.setIdGrupo(inscripcion.getIdGrupo().getIdGrupo());
+                    pago.setTipoPago("Inscripcion");
+                    pagos.add(pago);
                 }
 //              
             }
