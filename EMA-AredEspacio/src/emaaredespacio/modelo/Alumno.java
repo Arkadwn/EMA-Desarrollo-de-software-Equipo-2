@@ -28,6 +28,7 @@ public class Alumno implements IAlumno{
     public Alumno(){
         estado="A";
         matricula = null;
+        imagenPerfil = "";
     }
     public String getNombre() {
         return nombre;

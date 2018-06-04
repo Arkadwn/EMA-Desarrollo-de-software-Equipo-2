@@ -72,6 +72,7 @@ public class Colaborador implements IColaborador {
         idColaborador = null;
         idUsuario = null;
         cargo = 1;
+        imagenPerfil = "";
     }
 
     public String getEstado() {

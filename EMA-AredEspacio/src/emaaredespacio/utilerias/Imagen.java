@@ -21,46 +21,61 @@ public class Imagen {
     public final static String ALUMNO = "alumno";
 
     public static void moverImagen(File rutaImagen, String nombreUsuario, String tipo) {
-        String ruta = "";
-        switch (tipo) {
-            case COLABORADOR:
-                ruta = System.getProperty("user.home") + "/aredEspacio/imagenesColaboradores/" + nombreUsuario + ".jpg";
-                break;
-            case ALUMNO:
-                ruta = System.getProperty("user.home") + "/aredEspacio/imagenesAlumnos/" + nombreUsuario + ".jpg";
-                break;
-            case CLIENTE:
-                ruta = System.getProperty("user.home") + "/aredEspacio/imagenesClientes/" + nombreUsuario + ".jpg";
-                break;
-        }
-
-        FileInputStream entrada = null;
-        FileOutputStream escritor = null;
-        try {
-            entrada = new FileInputStream(rutaImagen);
-            int tamaño = (int) rutaImagen.length();
-            byte[] bits = new byte[tamaño];
-            entrada.read(bits, 0, tamaño);
-            escritor = new FileOutputStream(ruta);
-            escritor.write(bits, 0, tamaño);
-            escritor.flush();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (entrada != null) {
-                try {
-                    entrada.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        if (rutaImagen != null) {
+            String ruta = "";
+            File directorio = null;
+            switch (tipo) {
+                case COLABORADOR:
+                    directorio = new File(System.getProperty("user.home")+"/aredEspacio/imagenesColaboradores");
+                    if (!directorio.exists()) {
+                        directorio.mkdirs();
+                    }
+                    ruta = System.getProperty("user.home") + "/aredEspacio/imagenesColaboradores/" + nombreUsuario + ".jpg";
+                    break;
+                case ALUMNO:
+                    directorio = new File(System.getProperty("user.home")+"/aredEspacio/imagenesAlumnos");
+                    if (!directorio.exists()) {
+                        directorio.mkdirs();
+                    }
+                    ruta = System.getProperty("user.home") + "/aredEspacio/imagenesAlumnos/" + nombreUsuario + ".jpg";
+                    break;
+                case CLIENTE:
+                    directorio = new File(System.getProperty("user.home")+"/aredEspacio/imangesClientes");
+                    if (!directorio.exists()) {
+                        directorio.mkdirs();
+                    }
+                    ruta = System.getProperty("user.home") + "/aredEspacio/imagenesClientes/" + nombreUsuario + ".jpg";
+                    break;
             }
-            if (escritor != null) {
-                try {
-                    escritor.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
+
+            FileInputStream entrada = null;
+            FileOutputStream escritor = null;
+            try {
+                entrada = new FileInputStream(rutaImagen);
+                int tamaño = (int) rutaImagen.length();
+                byte[] bits = new byte[tamaño];
+                entrada.read(bits, 0, tamaño);
+                escritor = new FileOutputStream(ruta);
+                escritor.write(bits, 0, tamaño);
+                escritor.flush();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (entrada != null) {
+                    try {
+                        entrada.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                if (escritor != null) {
+                    try {
+                        escritor.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }

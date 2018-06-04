@@ -145,7 +145,7 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
     @FXML
     private void accionIncripcion(ActionEvent evento) {
         if (inscribir) {
-            if (alumnoSeleccionado != null && validarCampos()) {
+            if (alumnoSeleccionado == null || validarCampos()) {
                 MensajeController.mensajeAdvertencia("Hay campos vacios o no a seleccionado un alumno");
             } else {
                 IInscripcion metodos = new Inscripcion();
@@ -184,6 +184,7 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
         return formato.format(fecha);
     }
 
+    @FXML
     private void vaciarCampos() {
         tfMensualidad.setText("");
         tfNombreAlumno.setText("");

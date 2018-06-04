@@ -3,6 +3,7 @@ package emaaredespacio.gui.controlador;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Alumno;
 import emaaredespacio.modelo.IAlumno;
+import emaaredespacio.utilerias.Imagen;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -37,7 +38,7 @@ public class FXMLRegistrarAlumnoController implements Initializable {
     private JFXTextField tfDireccion;
     @FXML
     private ImageView imgPerfil;
-    private String nombreImagen;
+    private File imagen;
 
     /**
      * Initializes the controller class.
@@ -49,7 +50,6 @@ public class FXMLRegistrarAlumnoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 400, 400, false, true, true);
         imgPerfil.setImage(imagen);
-        nombreImagen = "No";
     }
 
     @FXML
@@ -63,12 +63,13 @@ public class FXMLRegistrarAlumnoController implements Initializable {
             alumno.setApellidos(tfApellidos.getText());
             alumno.setCorreo(tfCorreo.getText());
             alumno.setDireccion(tfDireccion.getText());
-            alumno.setImagenPerfil(nombreImagen);
             alumno.setTelefono(tfTelefono.getText());
 
             boolean[] validacion = metodosAlumnos.validarCampos(alumno);
             if (validacion[5]) {
+                alumno.setImagenPerfil(alumno.getMatricula()+".jpg");
                 if (metodosAlumnos.guardarAlumno(alumno)) {
+                    Imagen.moverImagen(imagen, ""+alumno.getMatricula(), Imagen.ALUMNO);
                     MensajeController.mensajeInformacion("El alumno ha sido guardado exitosamente");
                     limpiarCampos();
                 } else {
@@ -82,7 +83,7 @@ public class FXMLRegistrarAlumnoController implements Initializable {
 
     private boolean validarCamposVacios() {
         return tfNombre.getText().isEmpty() || tfApellidos.getText().isEmpty() || tfTelefono.getText().isEmpty()
-                || tfDireccion.getText().isEmpty() || tfCorreo.getText().isEmpty() || nombreImagen.equals("No");
+                || tfDireccion.getText().isEmpty() || tfCorreo.getText().isEmpty();
     }
 
     @FXML
@@ -95,25 +96,17 @@ public class FXMLRegistrarAlumnoController implements Initializable {
         elegir.getExtensionFilters().add(extensionPNG);
         elegir.getExtensionFilters().add(extensionJPEG);
         File rutaImagen = elegir.showOpenDialog(null);
-//    File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\perfil.jpg");
         if (rutaImagen == null) {
-            System.out.println("no es imagen");
+            MensajeController.mensajeAdvertencia("No es una imagen");
         } else {
             Image image = null;
-            String rutaNueva = System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos";
-            String rutaOringen = rutaImagen.getAbsolutePath();
-            StringBuilder comando = new StringBuilder();
-            comando.append("copy ").append('"' + rutaOringen + '"').append(" ").append('"' + rutaNueva + '"');
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", comando.toString());
-            builder.redirectErrorStream(true);
-            Process proceso = builder.start();
+            imagen = rutaImagen;
             try {
                 image = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
             }
             imgPerfil.setImage(image);
-            nombreImagen = rutaImagen.getName();
         }
     }
 
@@ -164,6 +157,6 @@ public class FXMLRegistrarAlumnoController implements Initializable {
         tfTelefono.setText("");
         Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 400, 400, false, true, true);
         imgPerfil.setImage(imagen);
-        nombreImagen = "No";
+        this.imagen = null;
     }
 }

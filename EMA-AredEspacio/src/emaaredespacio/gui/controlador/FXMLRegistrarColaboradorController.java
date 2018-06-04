@@ -1,6 +1,5 @@
 package emaaredespacio.gui.controlador;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -52,10 +51,6 @@ public class FXMLRegistrarColaboradorController implements Initializable {
     private JFXPasswordField tfRecontrasena;
     @FXML
     private JFXTextField tfMonto;
-    @FXML
-    private JFXButton btnCancelar;
-    @FXML
-    private JFXButton btnRegistrar;
     @FXML
     private JFXComboBox<String> cbTipoPago;
     private Stage stage;
@@ -228,6 +223,6 @@ public class FXMLRegistrarColaboradorController implements Initializable {
         tfDireccion.setText("");
         Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
         imgPerfil.setImage(imagen);
-        imagen = null;
+        this.imagen = null;
     }
 }

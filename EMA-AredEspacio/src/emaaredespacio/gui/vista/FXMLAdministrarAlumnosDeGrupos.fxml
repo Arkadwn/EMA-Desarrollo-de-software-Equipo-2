@@ -85,7 +85,7 @@
                   <Font name="Arial" size="16.0" />
                </font>
             </Label>
-            <ImageView fx:id="imgPerfil" fitHeight="170.0" fitWidth="196.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+            <ImageView fx:id="imgPerfil" fitHeight="155.0" fitWidth="181.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="65.0" />
                </GridPane.margin>
@@ -122,7 +122,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXButton fx:id="btnInscribir" onAction="#accionIncripcion" prefHeight="29.0" prefWidth="144.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Inscribir" GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <JFXButton fx:id="btnInscribir" onAction="#accionIncripcion" prefHeight="29.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Inscribir" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets left="10.0" top="30.0" />
                </GridPane.margin>
@@ -161,6 +161,14 @@
                   <Insets left="20.0" right="30.0" />
                </GridPane.margin>
             </JFXTextField>
+            <JFXButton fx:id="btnInscribir1" onAction="#vaciarCampos" prefHeight="29.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Cancelar" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="140.0" top="30.0" />
+               </GridPane.margin>
+            </JFXButton>
          </children>
       </GridPane>
    </children>
