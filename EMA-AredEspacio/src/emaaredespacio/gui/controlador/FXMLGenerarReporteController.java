@@ -67,53 +67,56 @@ public class FXMLGenerarReporteController implements Initializable {
     }
 
     private void cargarEstadisticasGrafica(boolean eleccion) {
-        lcGrafica.setTitle("Grafica lineal " + cbAnio.getValue() + " - " + cbMes.getValue());
-        Series<String, Number> lineaXY = new Series<String, Number>();
-        if (eleccion) {
-            List<Ingreso> ingresos = new Ingreso().cargarIngresos();
-            List<Ingreso> ingresosPrueba = new ArrayList<>();
-            for (Ingreso ingreso : ingresos) {
-                String fechaIngreso = ingreso.getFecha();
-                String mes = fechaIngreso.split("/")[1];
-                String anio = fechaIngreso.split("/")[2];
-
-                if (Integer.parseInt(cbAnio.getValue()) == Integer.parseInt(anio) && Integer.parseInt(mes) == cbMes.getSelectionModel().getSelectedIndex() + 1) {
-                    ingresosPrueba.add(ingreso);
+        if (cbAnio.getValue() != null && cbMes.getValue() != null) {
+            lcGrafica.setTitle("Grafica lineal " + cbAnio.getValue() + " - " + cbMes.getValue());
+            Series<String, Number> lineaXY = new Series<String, Number>();
+            if (eleccion) {
+                List<Ingreso> ingresos = new Ingreso().cargarIngresos();
+                List<Ingreso> ingresosPrueba = new ArrayList<>();
+                for (Ingreso ingreso : ingresos) {
+                    String fechaIngreso = ingreso.getFecha();
+                    String mes = fechaIngreso.split("/")[1];
+                    String anio = fechaIngreso.split("/")[2];
+                    if (Integer.parseInt(cbAnio.getValue()) == Integer.parseInt(anio) && Integer.parseInt(mes) == cbMes.getSelectionModel().getSelectedIndex() + 1) {
+                        ingresosPrueba.add(ingreso);
+                    }
                 }
-            }
-            lineaXY.setName("Ingresos");
-            for (int i = 1; i < 32; i++) {
-                for (int j = 0; j < ingresosPrueba.size(); j++) {
-                    if (ingresosPrueba.get(j).getFecha().split("/")[0].equals(Integer.toString(i))) {
-                        lineaXY.getData().add(new Data<String, Number>(ingresosPrueba.get(j).getFecha().split("/")[0], ingresosPrueba.get(j).getMonto()));
+                lineaXY.setName("Ingresos");
+                for (int i = 1; i < 32; i++) {
+                    for (int j = 0; j < ingresosPrueba.size(); j++) {
+                        if (ingresosPrueba.get(j).getFecha().split("/")[0].equals(Integer.toString(i))) {
+                            lineaXY.getData().add(new Data<String, Number>((j + 1) + "-" + ingresosPrueba.get(j).getFecha().split("/")[0], ingresosPrueba.get(j).getMonto()));
+                        }
+                    }
+                }
+            } else {
+                List<Egreso> egresos = new Egreso().cargarEgresos();
+                List<Egreso> egresosPrueba = new ArrayList<>();
+                for (Egreso egreso : egresos) {
+                    String fechaEgreso = egreso.getFecha();
+                    String mes = fechaEgreso.split("/")[1];
+                    String anio = fechaEgreso.split("/")[2];
+
+                    if (Integer.parseInt(cbAnio.getValue()) == Integer.parseInt(anio) && Integer.parseInt(mes) == cbMes.getSelectionModel().getSelectedIndex() + 1) {
+                        egresosPrueba.add(egreso);
+                    }
+
+                }
+                lineaXY.setName("Egresos");
+                for (int i = 1; i < 32; i++) {
+                    for (int j = 0; j < egresosPrueba.size(); j++) {
+                        if (egresosPrueba.get(j).getFecha().split("/")[0].equals(Integer.toString(i))) {
+                            lineaXY.getData().add(new Data<String, Number>((j + 1) + "-" + egresosPrueba.get(j).getFecha().split("/")[0], egresosPrueba.get(j).getMonto()));
+                        }
                     }
                 }
             }
+
+            lcGrafica.getData().clear();
+            lcGrafica.getData().setAll(lineaXY);
         } else {
-            List<Egreso> egresos = new Egreso().cargarEgresos();
-            List<Egreso> egresosPrueba = new ArrayList<>();
-            for (Egreso egreso : egresos) {
-                String fechaEgreso = egreso.getFecha();
-                String mes = fechaEgreso.split("/")[1];
-                String anio = fechaEgreso.split("/")[2];
-
-                if (Integer.parseInt(cbAnio.getValue()) == Integer.parseInt(anio) && Integer.parseInt(mes) == cbMes.getSelectionModel().getSelectedIndex() + 1) {
-                    egresosPrueba.add(egreso);
-                }
-
-            }
-            lineaXY.setName("Egresos");
-            for (int i = 1; i < 32; i++) {
-                for (int j = 0; j < egresosPrueba.size(); j++) {
-                    if (egresosPrueba.get(j).getFecha().split("/")[0].equals(Integer.toString(i))) {
-                        lineaXY.getData().add(new Data<String, Number>(egresosPrueba.get(j).getFecha().split("/")[0], egresosPrueba.get(j).getMonto()));
-                    }
-                }
-            }
+            MensajeController.mensajeInformacion("Se debe seleccionar primero un año y un mes, para generar estadisticas");
         }
-
-        lcGrafica.getData().clear();
-        lcGrafica.getData().setAll(lineaXY);
     }
 
     @FXML

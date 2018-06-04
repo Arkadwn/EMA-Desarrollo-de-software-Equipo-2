@@ -57,12 +57,12 @@
                   <Insets bottom="55.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXTextField fx:id="txtMonto" disable="true" focusColor="#a84085" labelFloat="true" promptText="Monto:" unFocusColor="BLACK" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <JFXTextField fx:id="txtMonto" editable="false" focusColor="#a84085" labelFloat="true" promptText="Monto:" unFocusColor="BLACK" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                <GridPane.margin>
                   <Insets bottom="250.0" left="200.0" right="200.0" />
                </GridPane.margin>
             </JFXTextField>
-            <TableView fx:id="tbClientes" onMouseClicked="#posicion" onMouseExited="#quitaSeleccion" prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="tbClientes" onMouseClicked="#posicion" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="columnIDClientes" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="ID" />
                 <TableColumn fx:id="columnNombreClientes" editable="false" prefWidth="524.0" resizable="false" sortable="false" text="Nombre" />
@@ -74,31 +74,41 @@
                   <Insets bottom="15.0" left="15.0" right="15.0" top="80.0" />
                </GridPane.margin>
             </TableView>
-            <JFXListView fx:id="listRentas" visible="false" GridPane.columnSpan="2147483647">
-               <GridPane.margin>
-                  <Insets bottom="60.0" left="400.0" right="400.0" top="50.0" />
-               </GridPane.margin>
-               <effect>
-                  <DropShadow offsetX="3.0" offsetY="3.0" />
-               </effect>
-            </JFXListView>
-            <JFXButton fx:id="btnCerrarLista" cancelButton="true" onAction="#cerrarLista" style="-fx-background-color: red;" text="X" visible="false" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER">
-               <GridPane.margin>
-                  <Insets bottom="416.0" left="425.0" />
-               </GridPane.margin>
-               <effect>
-                  <DropShadow offsetX="3.0" offsetY="3.0" spread="0.05" />
-               </effect>
-            </JFXButton>
-            <JFXButton fx:id="btnSeleccionRenta" cancelButton="true" onAction="#guardarSeleccionLista" style="-fx-background-color: lightblue;" text="Seleccionar renta" visible="false" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="275.0" top="450.0" />
-               </GridPane.margin>
-               <effect>
-                  <DropShadow offsetX="3.0" offsetY="3.0" spread="0.01" />
-               </effect>
-            </JFXButton>
-            <TableView fx:id="tbColaboradores" onMouseClicked="#posicion" onMouseExited="#quitaSeleccion" prefHeight="200.0" prefWidth="200.0">
+            <GridPane fx:id="gridLista" maxHeight="484.0" maxWidth="487.0" visible="false" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowSpan="2147483647">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <JFXListView fx:id="listRentas" visible="false">
+                     <GridPane.margin>
+                        <Insets bottom="32.0" right="30.0" />
+                     </GridPane.margin>
+                     <effect>
+                        <DropShadow offsetX="3.0" offsetY="3.0" />
+                     </effect>
+                  </JFXListView>
+                  <JFXButton fx:id="btnCerrarLista" cancelButton="true" onAction="#cerrarLista" prefHeight="28.0" prefWidth="26.0" style="-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5;" text="X" visible="false" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowSpan="2147483647" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets left="425.0" />
+                     </GridPane.margin>
+                     <effect>
+                        <DropShadow offsetX="3.0" offsetY="3.0" spread="0.05" />
+                     </effect>
+                  </JFXButton>
+                  <JFXButton fx:id="btnSeleccionRenta" cancelButton="true" onAction="#guardarSeleccionLista" prefHeight="28.0" prefWidth="128.0" style="-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 2;" text="Seleccionar renta" visible="false" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowSpan="2147483647" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets right="26.0" />
+                     </GridPane.margin>
+                     <effect>
+                        <DropShadow offsetX="3.0" offsetY="3.0" spread="0.01" />
+                     </effect>
+                  </JFXButton>
+               </children>
+            </GridPane>
+            <TableView fx:id="tbColaboradores" onMouseClicked="#posicion" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="columnIDColaborador" editable="false" prefWidth="54.0" resizable="false" sortable="false" text="ID" />
                 <TableColumn fx:id="columnNombreColaborador" editable="false" prefWidth="167.0" resizable="false" sortable="false" text="Nombre" />

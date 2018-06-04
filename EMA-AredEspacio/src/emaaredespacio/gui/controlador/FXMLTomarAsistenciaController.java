@@ -180,6 +180,7 @@ public class FXMLTomarAsistenciaController implements Initializable {
 
                 }
                 AlumnoXML.guardarAsistencia(asistencias, String.valueOf(idColaborador), alumnos, fecha);
+                MensajeController.mensajeInformacion("Se ha guardado el pase de lista correctamente");
             } else {
                 int i = 1;
                 asistencias.clear();
@@ -195,6 +196,7 @@ public class FXMLTomarAsistenciaController implements Initializable {
 
                 }
                 AlumnoXML.modificarAsistencia(asistencias, alumnos, fecha, String.valueOf(idColaborador));
+                MensajeController.mensajeInformacion("Se ha modificado el pase de lista correctamente");
             }
             vaciarCampos();
         } else {

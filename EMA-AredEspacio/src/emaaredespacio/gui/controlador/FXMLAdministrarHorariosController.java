@@ -10,6 +10,7 @@ import emaaredespacio.utilerias.GrupoXML;
 import emaaredespacio.modelo.Renta;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -123,6 +124,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
     private JFXComboBox<Grupo> cbxGrupos;
     @FXML
     private JFXButton btnAsignarHorario;
+    private AnchorPane panelPrincipal;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -289,12 +291,27 @@ public class FXMLAdministrarHorariosController implements Initializable {
 
     private void colocarGrupo(int j, Grupo grupo) {
         float ini = Float.valueOf(grupo.getHoraInicio());
-        float fin = Float.valueOf(grupo.getHoraFin());
-        String textoBtn = "G" + grupo.getIdGrupo();
-        ini = ((ini / 100) * 2) + 1;
-        fin = (fin / 100) * 2;
+        float fin = 0;
+        String finString;
+        finString = grupo.getHoraFin();
+        if (!"null".equals(finString)) {
+            String textoBtn = "G" + grupo.getIdGrupo();
+            ini = ((ini / 100) * 2) + 1;
+            fin = Float.valueOf(finString);
+            fin = (fin / 100) * 2;
+            for (int i = (int) ini; i < fin + 1; i++) {
+                JFXButton button = new JFXButton(textoBtn);
 
-        for (int i = (int) ini; i < fin + 1; i++) {
+                button.setPrefWidth(74.1327);
+                button.setPrefHeight(5.0);
+                button.setOnAction((event) -> {
+                    actionBtnGrupo(button);
+                });
+                gridHorario.add(button, j, i);
+            }
+        } else {
+            String textoBtn = "G" + grupo.getIdGrupo();
+            ini = ((ini / 100) * 2) + 1;
             JFXButton button = new JFXButton(textoBtn);
 
             button.setPrefWidth(74.1327);
@@ -302,8 +319,9 @@ public class FXMLAdministrarHorariosController implements Initializable {
             button.setOnAction((event) -> {
                 actionBtnGrupo(button);
             });
-            gridHorario.add(button, j, i);
+            gridHorario.add(button, j, (int) ini);
         }
+
     }
 
     public static String convertirHora(String horaBase) {
@@ -343,11 +361,12 @@ public class FXMLAdministrarHorariosController implements Initializable {
     }
 
     private void cargarGrupos() {
-        List<Grupo> gruposNoAsignados = new Grupo().buscarGrupos();
-        if (!gruposNoAsignados.isEmpty()) {
-            for (int i = 0; i < gruposNoAsignados.size(); i++) {
-                if (gruposNoAsignados.get(i).getHorario_asignado() == 1) {
-                    gruposNoAsignados.remove(i);
+        List<Grupo> grupos = new Grupo().buscarGrupos();
+        List<Grupo> gruposNoAsignados = new ArrayList<>();
+        if (!grupos.isEmpty()) {
+            for (int i = 0; i < grupos.size(); i++) {
+                if (grupos.get(i).getHorarioAsignado() != 1) {
+                    gruposNoAsignados.add(grupos.get(i));
                 }
             }
         }
@@ -400,8 +419,12 @@ public class FXMLAdministrarHorariosController implements Initializable {
         for (int i = 0; i < diasGrupo.length; i++) {
 
             String[] horarioGrupo = horasGrupos[i].split("-");
-            if (horarioGrupo.length > 1) {
-                horario += mapaDias[Integer.parseInt(diasGrupo[i])] + " de " + convertirHora(horarioGrupo[0]) + " a " + convertirHora(horarioGrupo[1]) + "\n";
+            if (!"null".equals(horarioGrupo[1])) {
+                if (horarioGrupo.length > 1) {
+                    horario += mapaDias[Integer.parseInt(diasGrupo[i])] + " de " + convertirHora(horarioGrupo[0]) + " a " + convertirHora(horarioGrupo[1]) + "\n";
+                } else {
+                    horario += mapaDias[Integer.parseInt(diasGrupo[i])] + " a las " + convertirHora(horarioGrupo[0]) + "\n";
+                }
             } else {
                 horario += mapaDias[Integer.parseInt(diasGrupo[i])] + " a las " + convertirHora(horarioGrupo[0]) + "\n";
             }
@@ -471,16 +494,17 @@ public class FXMLAdministrarHorariosController implements Initializable {
                 }
             } else {
                 try {
-                    panelFondo.getChildren().clear();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/emaaredespacio/gui/vista/FXMLAdministrarRentas.fxml"));
                     Parent parent = (Parent) loader.load();
                     FXMLAdministarRentasController control = loader.getController();
                     Renta nuevaRenta = new Renta().cargarRenta(lbIdentificador.getText().split("R")[1]);
                     control.setRentaLlegada(nuevaRenta);
-                    panelFondo.getChildren().addAll(parent.getChildrenUnmodifiable());
+                    control.setPanelPrincipal(panelPrincipal);
+                    panelPrincipal.getChildren().clear();
+                    panelPrincipal.getChildren().addAll(parent.getChildrenUnmodifiable());
                 } catch (IOException ex) {
                     System.out.println("Error al cargar rentas");
-                    Alert alerta = new Alert(Alert.AlertType.ERROR, "Error no verificado?", ButtonType.OK);
+                    Alert alerta = new Alert(Alert.AlertType.ERROR, "¿Error no verificado?", ButtonType.OK);
                     alerta.show();
                 }
             }
@@ -587,18 +611,27 @@ public class FXMLAdministrarHorariosController implements Initializable {
             if (y - 1 != 0 && y + 1 < 49) {
                 if (checkArriba.isSelected()) {
                     if (checkArriba.getText().equals(textoGrupo)) {
-                        checkAbajo.setDisable(false);
-                        checkArriba.setDisable(true);
-                        check.setText(textoGrupo);
+                        if ("     ".equals(checkAbajo.getText())) {
+                            checkAbajo.setDisable(false);
+                            checkArriba.setDisable(true);
+                            check.setText(textoGrupo);
+                        }else{
+                            check.setText(textoGrupo);
+                        }
+                        
                     } else {
                         checkAbajo.setDisable(false);
                         check.setText(textoGrupo);
                     }
                 } else {
                     if (checkAbajo.getText().equals(textoGrupo)) {
-                        checkArriba.setDisable(false);
-                        checkAbajo.setDisable(true);
-                        check.setText(textoGrupo);
+                        if ("     ".equals(checkArriba.getText())) {
+                            checkArriba.setDisable(false);
+                            checkAbajo.setDisable(true);
+                            check.setText(textoGrupo);
+                        }else{
+                            check.setText(textoGrupo);
+                        }
                     } else {
                         check.setText(textoGrupo);
                     }
@@ -664,10 +697,18 @@ public class FXMLAdministrarHorariosController implements Initializable {
 
     private void colocarGrupoHorarioFlotante(int j, Grupo grupo, boolean bandera) {
         float ini = Float.valueOf(grupo.getHoraInicio());
-        float fin = Float.valueOf(grupo.getHoraFin());
+        float fin = 0;
+        String finString = grupo.getHoraFin();
         String textCheck = "G" + grupo.getIdGrupo();
-        ini = ((ini / 100) * 2) + 1;
-        fin = (fin / 100) * 2;
+        if (!"null".equals(finString)) {
+            fin = Float.valueOf(finString);
+            ini = ((ini / 100) * 2) + 1;
+            fin = (fin / 100) * 2;
+        } else {
+            ini = ((ini / 100) * 2) + 1;
+            fin = ini;
+        }
+
         if (bandera) {
             for (int i = (int) ini; i < fin + 1; i++) {
                 JFXCheckBox check = (JFXCheckBox) gridHorario1.lookup("#" + j + "," + i);
@@ -738,7 +779,6 @@ public class FXMLAdministrarHorariosController implements Initializable {
         }
     }
 
-
     @FXML
     private void guardarCambios(ActionEvent event) {
         actualizarHoras(null);
@@ -757,7 +797,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
 
         if (validacion) {
             if ("Sin asignar".equals(lbHorario.getText())) {
-                
+
                 Grupo grupo = cbxGrupos.getSelectionModel().getSelectedItem();
                 String dias = "";
                 String horas = "";
@@ -784,15 +824,15 @@ public class FXMLAdministrarHorariosController implements Initializable {
                         }
                     }
                 }
-                if(!dias.equals("")){
-                GrupoXML.eliminarGrupoSegunID(String.valueOf(grupo.getIdGrupo()));
-                GrupoXML.guardarGrupo(grupo, dias, horas, "Agregar", "Agregar");
-                MensajeController.mensajeInformacion("Se guardaron los cambios correctamente");
-                grupo.setHorario_asignado(1);
-                new Grupo().guardarCambios(grupo);
-                cerrarGridFlotante(null);
-                actualizarTablaHorario(null);
-                }else{
+                if (!dias.equals("")) {
+                    GrupoXML.eliminarGrupoSegunID(String.valueOf(grupo.getIdGrupo()));
+                    GrupoXML.guardarGrupo(grupo, dias, horas, " ", " ");
+                    MensajeController.mensajeInformacion("Se guardaron los cambios correctamente");
+                    grupo.setHorarioAsignado(1);
+                    new Grupo().guardarCambios(grupo);
+                    cerrarGridFlotante(null);
+                    actualizarTablaHorario(null);
+                } else {
                     MensajeController.mensajeInformacion("Lo lamento, no se pudo guardar el horario de este grupo, no hay horas asignadas");
                 }
             } else {
@@ -824,7 +864,7 @@ public class FXMLAdministrarHorariosController implements Initializable {
                     }
                 }
                 GrupoXML.eliminarGrupoSegunID(lbIdentificador.getText().split("G")[1]);
-                GrupoXML.guardarGrupo(grupo, dias, horas, "Agregar", "Agregar");
+                GrupoXML.guardarGrupo(grupo, dias, horas, " ", " ");
                 MensajeController.mensajeInformacion("Se guardaron los cambios correctamente");
                 cerrarGridFlotante(null);
                 actualizarTablaHorario(null);
@@ -982,5 +1022,9 @@ public class FXMLAdministrarHorariosController implements Initializable {
         } else {
 
         }
+    }
+
+    void setPanelPrincipal(AnchorPane panelPrincipal) {
+        this.panelPrincipal = panelPrincipal;
     }
 }

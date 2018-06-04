@@ -27,7 +27,7 @@ import org.dom4j.io.XMLWriter;
 public class AlumnoXML {
 
     private static final String PATHUSRSISTEMA = System.getProperty("user.home");
-    private static final String PATHARED = PATHUSRSISTEMA + "/AredEspacio";
+    private static final String PATHARED = PATHUSRSISTEMA + "/aredEspacio";
     private static final String PATHUSRXML = PATHARED + "/XML";
 
     public static boolean guardarAsistencia(List<String> asistencia, String idGrupo, List<Alumno> alumnos, String dia) {

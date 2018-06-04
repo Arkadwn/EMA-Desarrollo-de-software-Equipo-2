@@ -28,6 +28,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 
 /**
  * FXML Controller class
@@ -81,6 +82,8 @@ public class FXMLRegistrarPagosRentaController implements Initializable {
     private JFXRadioButton rdBtnNoGenerar;
     @FXML
     private JFXRadioButton rdBtnGenerar;
+    @FXML
+    private GridPane gridLista;
 
     /**
      * Initializes the controller class.
@@ -133,7 +136,7 @@ public class FXMLRegistrarPagosRentaController implements Initializable {
                     Calendar fechaCalendar = Calendar.getInstance();
                     String fechaActual = fechaCalendar.get(Calendar.DAY_OF_MONTH) + "/" + (fechaCalendar.get(Calendar.MONTH) + 1) + "/" + fechaCalendar.get(Calendar.YEAR);
                     ReciboPago.generarReciboPagoRenta(seleccionRenta, ((Cliente) seleccion), fechaActual);
-                    
+
                     new Ingreso().guardarRegistro(new Ingreso(null, seleccionRenta.getId(), Double.valueOf(txtMonto.getText()), false, fechaActual));
                     seleccionRenta.setPagoRealizado(true);
                     new Renta().guardarCambios(seleccionRenta);
@@ -180,6 +183,7 @@ public class FXMLRegistrarPagosRentaController implements Initializable {
         btnSeleccionRenta.setVisible(false);
         listRentas.getItems().clear();
         listRentas.setVisible(false);
+        gridLista.setVisible(false);
     }
 
     @FXML
@@ -232,11 +236,6 @@ public class FXMLRegistrarPagosRentaController implements Initializable {
     }
 
     @FXML
-    private void quitaSeleccion(MouseEvent event) {
-        ((TableView) event.getSource()).getSelectionModel().clearSelection();
-    }
-
-    @FXML
     private void posicion(MouseEvent event) {
         if (((TableView) event.getSource()).getSelectionModel().getSelectedIndex() >= 0) {
             if (tipoPago) {
@@ -250,6 +249,7 @@ public class FXMLRegistrarPagosRentaController implements Initializable {
                 //Renta
                 listRentas.setVisible(true);
                 btnCerrarLista.setVisible(true);
+                gridLista.setVisible(true);
                 btnSeleccionRenta.setVisible(true);
                 seleccion = tbClientes.getSelectionModel().getSelectedItem();
                 List<Renta> lista = new Renta().cargarRentas((Cliente) seleccion);
@@ -259,8 +259,12 @@ public class FXMLRegistrarPagosRentaController implements Initializable {
                         listaNoPago.add(renta);
                     }
                 }
-                listRentas.getItems().clear();
-                listRentas.setItems(FXCollections.observableArrayList(listaNoPago));
+                if (listaNoPago.isEmpty()) {
+                    listRentas.getItems().clear();
+                    listRentas.setItems(FXCollections.observableArrayList(listaNoPago));
+                } else {
+                    MensajeController.mensajeInformacion("No hay algunas renta asociadas a este cliente para pagar");
+                }
             }
         }
     }

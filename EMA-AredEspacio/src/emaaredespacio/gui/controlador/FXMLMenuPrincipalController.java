@@ -176,7 +176,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         Thread hiloAvisos = new Thread(avisos);
 
 
-        if (colaborador.getCargo().equals(0)) {
+        if (colaborador.getCargo().equals(1)) {
 
             btnAdministrarHorarios.setVisible(false);
             btnAdministrarPagoAColaborador.setVisible(false);
@@ -217,7 +217,10 @@ public class FXMLMenuPrincipalController implements Initializable {
     @FXML
     private void desplegarVentanaAdministrarHorarios(ActionEvent evento) throws IOException {
         panelPrincipal.getChildren().clear();
-        Parent fxml = FXMLLoader.load(getClass().getResource("/emaaredespacio/gui/vista/FXMLAdministrarHorarios.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/emaaredespacio/gui/vista/FXMLAdministrarHorarios.fxml"));
+        Parent fxml = (Parent) loader.load();
+        FXMLAdministrarHorariosController control = loader.getController();
+        control.setPanelPrincipal(panelPrincipal);
         panelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
         barraMenu.setVisible(false);
         menuDesplegado = false;
