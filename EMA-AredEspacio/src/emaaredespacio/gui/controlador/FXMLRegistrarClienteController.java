@@ -65,7 +65,7 @@ public class FXMLRegistrarClienteController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Image imagen = new Image("emaaredespacio/imagenes/perfil.jpg", 300, 300, false, true, true);
+        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
         imgPerfil.setImage(imagen);
         nombreImagen = "No";
         anchorPane.setStyle("-fx-background-image: url('emaaredespacio/imagenes/fondo.jpg')");
@@ -147,7 +147,6 @@ public class FXMLRegistrarClienteController implements Initializable {
             cliente.setNombre(tfNombre.getText() + " " + tfApellidos.getText());
             cliente.setCorreoElectronico(tfCorreo.getText());
             cliente.setDireccion(tfDireccion.getText());
-            cliente.setImagenPerfil(nombreImagen);
             cliente.setTelefono(tfTelefono.getText());
             cliente.setImagenPerfil(cliente.getNombre()+ ".jpg");
             if (tfCorreo.getText().isEmpty()) {
@@ -163,6 +162,7 @@ public class FXMLRegistrarClienteController implements Initializable {
                 if (validarFormatoCorreo(tfCorreo.getText())) {
                     if (metodosCliente.guardarCliente(cliente)) {
                         MensajeController.mensajeInformacion("Cliente guardado exitosamente");
+                        Imagen.moverImagen(imagen, cliente.getNombre(), Imagen.CLIENTE);
                         limpiarCampos();
                     } else {
                         MensajeController.mensajeAdvertencia("No se pudo guardar el cliente");
@@ -171,7 +171,6 @@ public class FXMLRegistrarClienteController implements Initializable {
                     MensajeController.mensajeAdvertencia("El correo no tiene un formato correcto");
                 }
             }
-
         }
     }
 
@@ -205,7 +204,7 @@ public class FXMLRegistrarClienteController implements Initializable {
         tfCorreo.setText("");
         tfDireccion.setText("");
         tfTelefono.setText("");
-        Image imagen = new Image("emaaredespacio/imagenes/perfil.jpg", 300, 300, false, true, true);
+        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
         imgPerfil.setImage(imagen);
         imagen = null;
     }
@@ -213,6 +212,7 @@ public class FXMLRegistrarClienteController implements Initializable {
     @FXML
     private void salir(ActionEvent event) {
         anchorPane.getChildren().remove(this);
+        limpiarCampos();
     }
 
 }

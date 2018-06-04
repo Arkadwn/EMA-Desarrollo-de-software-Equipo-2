@@ -156,7 +156,8 @@ public class FXMLEditarColaboradorController implements Initializable {
         tbListaColaboradores.setItems(FXCollections.observableArrayList(lista));
     }
 
-    public void elegirImagen(ActionEvent elegirImagen) throws IOException {
+    @FXML
+    public void elegirImagen() throws IOException {
         FileChooser elegir = new FileChooser();
         FileChooser.ExtensionFilter extension = new FileChooser.ExtensionFilter("Add Files(*.jpg)", "*.jpg");
         FileChooser.ExtensionFilter extensionPNG = new FileChooser.ExtensionFilter("Add Files(*.png)", "*.png");

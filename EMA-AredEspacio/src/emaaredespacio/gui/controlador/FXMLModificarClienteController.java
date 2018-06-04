@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Alumno;
 import emaaredespacio.modelo.Cliente;
 import emaaredespacio.modelo.ICliente;
+import emaaredespacio.utilerias.Imagen;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -35,6 +36,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -60,8 +62,6 @@ public class FXMLModificarClienteController implements Initializable {
     private TableView<Cliente> tbListaClientes;
     @FXML
     private TableColumn<Cliente, String> columnaNombre;
-
-    private String nombreImagen;
     private List<Cliente> lista;
     @FXML
     private JFXButton btnGuardar;
@@ -73,6 +73,8 @@ public class FXMLModificarClienteController implements Initializable {
     private JFXButton btnBuscar;
     private Cliente seleccion;
     private static final String PATRON_CORREO = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private Stage stage;
+    private File imagen;
 
     /**
      * Initializes the controller class.
@@ -80,9 +82,8 @@ public class FXMLModificarClienteController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        nombreImagen = "No";
         lista = new ArrayList();
-        Image imagen = new Image("emaaredespacio/imagenes/perfil.jpg", 300, 300, false, true, true);
+        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
         imgPerfil.setImage(imagen);
         tfTelefono.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -160,20 +161,17 @@ public class FXMLModificarClienteController implements Initializable {
             if (seleccion.getCorreoElectronico() != null) {
                 tfCorreo.setText(seleccion.getCorreoElectronico());
             }
-            if (!seleccion.getImagenPerfil().equals("No")) {
-                File rutaImagen = new File(System.getProperty("user.home") + "/aredEspacio/imagenesClientes/" + seleccion.getImagenPerfil());
-                try {
-                    if (rutaImagen.exists()) {
-                        imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
-                    } else {
-                        imagen = new Image("emaaredespacio/imagenes/User.jpg", 225, 225, false, true, true);
-                    }
-                } catch (MalformedURLException ex) {
-                    Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
+            File rutaImagen = new File(System.getProperty("user.home") + "/aredEspacio/imagenesClientes/" + seleccion.getImagenPerfil());
+            try {
+                if (rutaImagen.exists()) {
+                    imagen = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
+                } else {
+                    imagen = new Image("emaaredespacio/imagenes/User.jpg", 225, 225, false, true, true);
                 }
-                imgPerfil.setImage(imagen);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            //nombreImagen = rutaImagen.getName();
+            imgPerfil.setImage(imagen);
             checkEstado.setSelected(seleccion.getEstado().equals("A"));
         }
     }
@@ -222,7 +220,7 @@ public class FXMLModificarClienteController implements Initializable {
             cliente.setNombre(tfNombre.getText());
             cliente.setCorreoElectronico(tfCorreo.getText());
             cliente.setDireccion(tfDireccion.getText());
-            cliente.setImagenPerfil(nombreImagen);
+            cliente.setImagenPerfil(cliente.getNombre()+".jpg");
             cliente.setTelefono(tfTelefono.getText());
             if (checkEstado.isSelected()) {
                 cliente.setEstado("A");
@@ -233,6 +231,9 @@ public class FXMLModificarClienteController implements Initializable {
             if (tfCorreo.getText().isEmpty()) {
                 if (metodosCliente.guardarDatos(cliente)) {
                     MensajeController.mensajeInformacion("Cliente modificado exitosamente");
+                    if (imagen != null) {
+                        Imagen.moverImagen(imagen, cliente.getNombre(), Imagen.CLIENTE);
+                    }
                     vaciarCampos();
                 } else {
                     MensajeController.mensajeAdvertencia("No se pudo modificar el cliente");
@@ -242,6 +243,9 @@ public class FXMLModificarClienteController implements Initializable {
                 if (validarFormatoCorreo(tfCorreo.getText())) {
                     if (metodosCliente.guardarDatos(cliente)) {
                         MensajeController.mensajeInformacion("Cliente modificado exitosamente");
+                        if (imagen != null) {
+                            Imagen.moverImagen(imagen, cliente.getNombre(), Imagen.CLIENTE);
+                        }
                         vaciarCampos();
                     } else {
                         MensajeController.mensajeAdvertencia("No se pudo modificar el cliente");
@@ -259,7 +263,8 @@ public class FXMLModificarClienteController implements Initializable {
         tfDireccion.setText("");
         tfTelefono.setText("");
         checkEstado.setSelected(false);
-        Image imagen = new Image("emaaredespacio/imagenes/perfil.jpg", 300, 300, false, true, true);
+        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
+        this.imagen = null;
         imgPerfil.setImage(imagen);
         seleccion = null;
         lista.clear();
@@ -276,26 +281,18 @@ public class FXMLModificarClienteController implements Initializable {
         elegir.getExtensionFilters().add(extension);
         elegir.getExtensionFilters().add(extensionPNG);
         elegir.getExtensionFilters().add(extensionJPEG);
-        File rutaImagen = elegir.showOpenDialog(null);
-//    File rutaImagen = new File(System.getProperty("user.home") + "\\imagenesAredEspacio\\perfil.jpg");
+        File rutaImagen = elegir.showOpenDialog(stage);
         if (rutaImagen == null) {
             MensajeController.mensajeAdvertencia("No es una imagen");
         } else {
             Image image = null;
-            String rutaNueva = System.getProperty("user.home") + "\\imagenesAredEspacio\\imagenesAlumnos";
-            String rutaOringen = rutaImagen.getAbsolutePath();
-            StringBuilder comando = new StringBuilder();
-            comando.append("copy ").append('"' + rutaOringen + '"').append(" ").append('"' + rutaNueva + '"');
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", comando.toString());
-            builder.redirectErrorStream(true);
-            Process proceso = builder.start();
+            imagen = rutaImagen;
             try {
                 image = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(FXMLEditarColaboradorController.class.getName()).log(Level.SEVERE, null, ex);
             }
             imgPerfil.setImage(image);
-            nombreImagen = rutaImagen.getName();
         }
     }
 }

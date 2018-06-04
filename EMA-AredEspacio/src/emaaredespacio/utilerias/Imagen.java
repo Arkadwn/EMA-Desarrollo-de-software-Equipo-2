@@ -40,7 +40,7 @@ public class Imagen {
                     ruta = System.getProperty("user.home") + "/aredEspacio/imagenesAlumnos/" + nombreUsuario + ".jpg";
                     break;
                 case CLIENTE:
-                    directorio = new File(System.getProperty("user.home")+"/aredEspacio/imangesClientes");
+                    directorio = new File(System.getProperty("user.home")+"/aredEspacio/imagenesClientes");
                     if (!directorio.exists()) {
                         directorio.mkdirs();
                     }

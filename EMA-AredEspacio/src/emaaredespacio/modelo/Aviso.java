@@ -2,8 +2,6 @@ package emaaredespacio.modelo;
 
 import emaaredespacio.gui.controlador.FXMLMenuPrincipalController;
 import emaaredespacio.utilerias.EditorDeFormatos;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -14,10 +12,12 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author enriq
+ * @author Jesús Enrique Flores Nestozo
+ * @date 25/05/2018
+ * @time 05:43:28 PM
  */
 public class Aviso implements Runnable {
-
+    
     private String nombre = "";
     private String grupo = "";
     private String tipoDePago = "";
@@ -61,6 +61,9 @@ public class Aviso implements Runnable {
         this.colaborador = colaborador;
     }
 
+    /**
+     * Busca los pagos vencidos de los alumnos que pertenecen a algun grupo del colaborador autenticado
+     */
     public void buscarPagosVencidos() {
         PagoAlumno controlador = new PagoAlumno();
         pagosVencidos.clear();
@@ -69,7 +72,10 @@ public class Aviso implements Runnable {
             buscarNombreDePagosVencidos();
         }
     }
-
+    
+    /**
+     * Busca los nombres a los que pertenecen los pagos vencidos
+     */
     public void buscarNombreDePagosVencidos() {
         IAlumno controlador = new Alumno();
         Alumno alumno = null;
@@ -80,6 +86,9 @@ public class Aviso implements Runnable {
         }
     }
 
+    /**
+     * Busca los nombres de los grupos de los pagos vencidos
+     */
     public void buscarGruposDePagosVencidos() {
         IGrupo controller = new Grupo();
         Grupo NombreGrupo = null;
@@ -89,7 +98,10 @@ public class Aviso implements Runnable {
             nombreGruposDePagos.add(NombreGrupo.getTipoDeBaile());
         }
     }
-
+    
+    /**
+     * Busca los pagos vencidos de maestros/colaboradores en caso de que el usuario autenticado sea director
+     */
     public void buscarPagosVencidosDeMaestros() {
         List<Colaborador> colaboradoresActivos = new Colaborador().buscarColaboradoresEstados("A");
         Aviso aviso;
@@ -114,7 +126,10 @@ public class Aviso implements Runnable {
     public void setVentanaPricipal(FXMLMenuPrincipalController menu) {
         this.menu = menu;
     }
-
+    
+    /**
+     * Actualiza la lista de avisos en el menú principal
+     */
     public void actualizarListaAvisos() {
         listaDeAvisos.clear();
         Aviso aviso;

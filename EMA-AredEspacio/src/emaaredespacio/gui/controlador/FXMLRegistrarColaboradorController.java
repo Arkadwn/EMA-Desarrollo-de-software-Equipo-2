@@ -225,4 +225,10 @@ public class FXMLRegistrarColaboradorController implements Initializable {
         imgPerfil.setImage(imagen);
         this.imagen = null;
     }
+    
+    
+    @FXML
+    private void limpiarCampos(ActionEvent evento) {
+        limpiarCampos();
+    }
 }
