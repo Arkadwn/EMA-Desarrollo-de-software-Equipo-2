@@ -166,7 +166,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         avisos.setColaborador(colaborador);
         avisos.setVentanaPricipal(this);
         Thread hiloAvisos = new Thread(avisos);
-        if(colaborador.getCargo().equals(0)){
+        if(colaborador.getCargo().equals(1)){
             btnAdministrarHorarios.setVisible(false);
             btnAdministrarPagoAColaborador.setVisible(false);
             btnAdministrarRentas.setVisible(false);

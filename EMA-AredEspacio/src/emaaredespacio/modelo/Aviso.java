@@ -129,7 +129,7 @@ public class Aviso implements Runnable {
             listaDeAvisos.add(aviso);
         }
         
-        if(colaborador.getCargo().equals(1)){
+        if(colaborador.getCargo().equals(0)){
            buscarPagosVencidosDeMaestros(); 
         }
     }
