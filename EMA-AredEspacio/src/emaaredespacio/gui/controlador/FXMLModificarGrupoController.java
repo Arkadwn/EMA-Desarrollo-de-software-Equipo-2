@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Colaborador;
 import emaaredespacio.modelo.Grupo;
 import emaaredespacio.modelo.Inscripcion;
+import emaaredespacio.utilerias.GrupoXML;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +102,7 @@ public class FXMLModificarGrupoController implements Initializable {
                         MensajeController.mensajeInformacion("Grupo modificado exitosamente");
                         if(grupoModificado.getEstado().equals("B")){
                             new Grupo().darDeBajaAlumnosDeGrupo(grupoSeleccionado);
+                            GrupoXML.eliminarGrupoSegunID(String.valueOf(grupoSeleccionado.getIdGrupo()));
                         }
                         limpiar();
                     } else {
