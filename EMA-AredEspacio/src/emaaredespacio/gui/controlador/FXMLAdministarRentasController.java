@@ -278,12 +278,13 @@ public class FXMLAdministarRentasController implements Initializable {
         if (seleccion != null) {
             String[] parts = seleccion.split("|");
             new Renta().cancelarRenta(Integer.parseInt(parts[0]));
+            MensajeController.mensajeInformacion("se ha cancelado la renta correctamente");
             vaciarCampos();
             vaciarHorarioCheckBox();
             cargarGruposHorario();
             cargarRentasHorario();
         } else {
-            Alert alerta = new Alert(Alert.AlertType.ERROR, "Debe seleccionar una renta primero", ButtonType.OK);
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Debe seleccionar una renta primero de la lista", ButtonType.OK);
             alerta.show();
         }
     }

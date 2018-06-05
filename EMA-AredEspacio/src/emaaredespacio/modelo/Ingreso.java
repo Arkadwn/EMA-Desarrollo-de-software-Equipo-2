@@ -192,7 +192,7 @@ public class Ingreso implements IIngreso {
     }
 
     @Override
-    public boolean ModificarRegistro(Ingreso ingreso) {
+    public boolean modificarRegistro(Ingreso ingreso) {
         boolean modificado = false;
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMA-AredEspacioPU", null);
         IngresosJpaController controlador = new IngresosJpaController(entityManagerFactory);

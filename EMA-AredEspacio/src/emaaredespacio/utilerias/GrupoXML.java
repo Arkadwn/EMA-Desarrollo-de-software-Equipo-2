@@ -16,6 +16,8 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 /**
+ * Clase que guarda y hace consultas a los archivos XML que contienen los
+ * horarios de los grupos
  *
  * @author Adrián Bustamante Zarate
  * @date 17/04/2018
@@ -27,6 +29,19 @@ public class GrupoXML {
     private static final String PATHARED = PATHUSRSISTEMA + "/aredEspacio";
     private static final String PATHUSRXML = PATHARED + "/XML";
 
+    /**
+     * Guarda el horario de un grupo
+     *
+     * @param grupoGuardar grupo del que se guardará el horario en el XML
+     * @param dias Cadena que tiene los días en los que estará asignado el
+     * horario
+     * @param horas Cadena que tiene las horas en los que estará asignado el
+     * horario
+     * @param fechaIni Cadena para indicar la fecha cuando dará inicio el grupo
+     * en el horario
+     * @param fechaFin Cadena para indicar la fecha cuando dará fin el curso
+     * @return true si se guardo correctamente, false si no.
+     */
     public static boolean guardarGrupo(Grupo grupoGuardar, String dias, String horas, String fechaIni, String fechaFin) {
         String[] diasGrupo = dias.split("/");
         String[] horasGrupo = horas.split("/");
@@ -76,6 +91,13 @@ public class GrupoXML {
         return bandera;
     }
 
+    /**
+     * Retorna el horario de un grupo en un objeto de tipo Grupo, según su ID
+     *
+     * @param id ID del grupo a obtener
+     * @return objeto de tipo grupo, con los atributos horarios, con información
+     * obtenida de la consulta al XML
+     */
     public static Grupo obtenerGrupoSegunID(String id) {
         Grupo resultado = new Grupo();
         boolean banderaID = false;
@@ -136,6 +158,11 @@ public class GrupoXML {
         return resultado;
     }
 
+    /**
+     * Elimina un grupo de los horarios registrados en el XML
+     *
+     * @param id ID del grupo a eliminar
+     */
     public static void eliminarGrupoSegunID(String id) {
         File directorio = new File(PATHUSRXML);
         File file = new File(directorio.getAbsolutePath() + "/horario.xml");
@@ -161,6 +188,14 @@ public class GrupoXML {
         }
     }
 
+    /**
+     * Retorna una lista de los grupos en los que su horario colinda con un día
+     * de la semana en especifico
+     *
+     * @param diaSemana numero del dia de la semana Lunes = 1, Domingo = 7
+     * @return lista de grupos donde su horario colinda con este día de la
+     * semana
+     */
     public static List<Grupo> obtenerGruposDiaSemana(int diaSemana) {
         List<Grupo> lista = new ArrayList();
         File directorio = new File(PATHUSRXML);

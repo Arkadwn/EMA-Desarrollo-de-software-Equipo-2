@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="EMA-AredEspacioPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>emaaredespacio.persistencia.entidad.Alumnos</class>
+    <class>emaaredespacio.persistencia.entidad.Clientes</class>
+    <class>emaaredespacio.persistencia.entidad.Colaboradores</class>
+    <class>emaaredespacio.persistencia.entidad.Egresos</class>
+    <class>emaaredespacio.persistencia.entidad.Egresosfacebook</class>
+    <class>emaaredespacio.persistencia.entidad.Grupos</class>
+    <class>emaaredespacio.persistencia.entidad.Ingresos</class>
+    <class>emaaredespacio.persistencia.entidad.Inscripciones</class>
+    <class>emaaredespacio.persistencia.entidad.Pagos</class>
+    <class>emaaredespacio.persistencia.entidad.Pagosalumnos</class>
+    <class>emaaredespacio.persistencia.entidad.Promociones</class>
+    <class>emaaredespacio.persistencia.entidad.Rentas</class>
+    <class>emaaredespacio.persistencia.entidad.Usuarios</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/aredEspacio?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="userAredEspacio"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="limonhj2018"/>
+    </properties>
+  </persistence-unit>
+</persistence>

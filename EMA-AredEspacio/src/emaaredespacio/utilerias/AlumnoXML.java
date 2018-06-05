@@ -21,8 +21,11 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 /**
- *
- * @author arkadwn
+ * Clase que realiza consultas y guarda registros a los archivos XML para la 
+ * obtención de datos de los alumnos.
+ * @author Adrian Bustamante Zarate
+ * @date 17/04/2018
+ * @time 06:44:59 PM
  */
 public class AlumnoXML {
 
@@ -30,6 +33,14 @@ public class AlumnoXML {
     private static final String PATHARED = PATHUSRSISTEMA + "/aredEspacio";
     private static final String PATHUSRXML = PATHARED + "/XML";
 
+    /**
+     * Guarda la asistencia de un día, de un grupo, de alumnos en el archivo XML
+     * @param asistencia listado de tipos de asistencia en forma de cadena
+     * @param idGrupo ID del grupo del que se tomara la asistencia
+     * @param alumnos listado de alumnos a los que se le tomo asistencia
+     * @param dia cadena de caracteres con el dia en el que se tomo la asistencia
+     * @return true si se pudo guardar correctamente y false si no.
+     */
     public static boolean guardarAsistencia(List<String> asistencia, String idGrupo, List<Alumno> alumnos, String dia) {
         boolean bandera;
 
@@ -39,10 +50,10 @@ public class AlumnoXML {
             try {
                 SAXReader reader = new SAXReader();
                 Document document = reader.read(file);
-                
+
                 Node node = document.selectSingleNode("//dia[@fecha='" + dia + "']");
                 if (node != null) {
-                    
+
                     Element elementoDia = (Element) node;
                     Element elementoGrupo = elementoDia.addElement("grupo");
                     elementoGrupo.addAttribute("id", idGrupo);
@@ -88,6 +99,14 @@ public class AlumnoXML {
         return bandera;
     }
 
+    /**
+     * Retorna un arreglo de objetos de dos pocisiones donde se guarda una
+     * lista de alumnos y una lista de asistencia de tipo cadena
+     * @param dia cadena que indica el día por el que se filtrará el grupo
+     * @param idGrupo el grupo del que se desea obtener la cadena
+     * @return arrego de objetos que retorna la lista de asistencia y una lista
+     * de alumnos a los que se tomo asistencia.
+     */
     public static Object[] obtenerListaAsistenciaSegunGrupoFecha(String dia, String idGrupo) {
         Object[] resultado = null;
         List<Alumno> alumnos = null;
@@ -112,15 +131,15 @@ public class AlumnoXML {
                         asistencia = new ArrayList<>();
                         for (Node nodeAlumno : nodeAlumnos) {
                             Element elementoAlumno = (Element) nodeAlumno;
-                            
+
                             Iterator<Element> iteratorMatricula = elementoAlumno.elementIterator("matricula");
                             Iterator<Element> iteratorAsistencia = elementoAlumno.elementIterator("asistencia");
                             Iterator<Element> iteratorNombre = elementoAlumno.elementIterator("nombre");
-                            
+
                             Element elementAsistencia = (Element) iteratorAsistencia.next();
                             Element elementMatricula = (Element) iteratorMatricula.next();
                             Element elementNombre = (Element) iteratorNombre.next();
-                                                        
+
                             Alumno alumno = new Alumno();
                             String nombre = elementNombre.getText();
                             alumno.setMatricula(Integer.parseInt(elementMatricula.getText()));
@@ -205,6 +224,12 @@ public class AlumnoXML {
         return bandera;
     }
 
+    /**
+     * Borra la asistencia de un día de un grupo
+     * @param dia indica el día en que se guardo la asistencia
+     * @param idGrupo ID del grupo del que se tomo asistencia
+     * @return true si se borro correctamente la asistencia, false si no.
+     */
     public static boolean borrarAsistencia(String dia, String idGrupo) {
         boolean resultado;
 
@@ -232,6 +257,14 @@ public class AlumnoXML {
         return resultado;
     }
 
+    /**
+     * Modifica una asistencia registrada
+     * @param asistencia listado de tipos de asistencia en forma de cadena 
+     * @param alumnos listado de alumnos a los que se le tomo asistencia
+     * @param dia fecha en la que se registra la asistencia
+     * @param idGrupo ID del grupo del que se guardará la toma de asistencia
+     * @return true si se modifico correctamente la asistencia, false si no.
+     */
     public static boolean modificarAsistencia(List<String> asistencia, List<Alumno> alumnos, String dia, String idGrupo) {
         boolean resultado;
 

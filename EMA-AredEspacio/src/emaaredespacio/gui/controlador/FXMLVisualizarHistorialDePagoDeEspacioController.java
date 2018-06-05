@@ -144,7 +144,7 @@ public class FXMLVisualizarHistorialDePagoDeEspacioController implements Initial
                 ingreso.setPagoColaboradorID(ingresos.get(i).getPagoColaboradorID());
                 ingreso.setPagoRentaID(ingresos.get(i).getPagoRentaID());
                 ingreso.setRecibo(ingresos.get(i).getRecibo());
-                if(ingreso.ModificarRegistro(ingreso)){
+                if(ingreso.modificarRegistro(ingreso)){
                     MensajeController.mensajeInformacion("El ingreso a sido modificado correctamente");
                     vaciarCampos();
                 }else{
