@@ -56,6 +56,7 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
         tfCreador.setText(System.getProperty("colaborador"));
     }
 
+    @FXML
     private void accionRegistrarEgreso(ActionEvent evento) {
         if (validarCampos()) {
             MensajeController.mensajeAdvertencia("Hay campos vacios");
@@ -166,7 +167,7 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
     
     @FXML
     private void limpiarCampos(){
-        tfCosto.setText("");
+        tfCosto.setText("");    
         tfCreador.setText(System.getProperty("colaborador"));
         tfDescripcion.setText("");
         tfLink.setText("");
