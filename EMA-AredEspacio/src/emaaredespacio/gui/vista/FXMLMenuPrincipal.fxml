@@ -144,7 +144,7 @@
                         </GridPane>
                   </content>
                 </TitledPane>
-                  <TitledPane text="Cliente y Colaboradores">
+                  <TitledPane fx:id="titleCilenteColaborador" text="Cliente y Colaboradores">
                     <content>
                         <GridPane prefHeight="240.0" prefWidth="247.0">
                           <columnConstraints>

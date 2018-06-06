@@ -1,6 +1,8 @@
 package emaaredespacio.persistencia.controladores;
 
 import emaaredespacio.persistencia.entidad.Alumnos;
+import emaaredespacio.utilerias.Imagen;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,7 +36,7 @@ public class AlumnosJpaController implements IControladorAlumnos {
     }
 
     @Override
-    public boolean guardarAlumno(Alumnos alumno) {
+    public boolean guardarAlumno(Alumnos alumno, File imagen) {
         boolean validacion = true;
 
         EntityManager conexion = getEntityManager();
@@ -47,6 +49,14 @@ public class AlumnosJpaController implements IControladorAlumnos {
             conexion.persist(alumno);
 
             transaccion.commit();
+            
+            transaccion = conexion.getTransaction();
+            transaccion.begin();
+            alumno.setImagen(alumno.getMatricula()+".jpg");
+            transaccion.commit();
+            
+            Imagen.moverImagen(imagen, ""+alumno.getImagen(), Imagen.ALUMNO);
+            
         } catch (RollbackException ex) {
             Logger.getLogger(AlumnosJpaController.class.getName()).log(Level.SEVERE, null, ex);
             if (transaccion.isActive()) {

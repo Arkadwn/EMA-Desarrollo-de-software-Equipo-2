@@ -248,6 +248,7 @@ public class FXMLEditarEgresoFacebookController implements Initializable {
         }
     }
     
+    @FXML
     private void limpiarCampos(){
         tfCosto.setText("");
         tfCreador.setText("");

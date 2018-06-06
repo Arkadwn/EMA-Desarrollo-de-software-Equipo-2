@@ -87,6 +87,8 @@ public class FXMLMenuPrincipalController implements Initializable {
     private JFXButton btnEditarAlumnos;
     @FXML
     private TitledPane titledPaneEgresos;
+    @FXML
+    private TitledPane titleCilenteColaborador;
 
     public EMAAredEspacio getMain() {
         return main;
@@ -189,6 +191,7 @@ public class FXMLMenuPrincipalController implements Initializable {
             btnRegistrarGrupo.setVisible(false);
             btnRegistrarPagoDeRenta.setVisible(false);
             titledPaneEgresos.setVisible(false);
+            titleCilenteColaborador.setVisible(false);
         }
         hiloAvisos.start();
     }

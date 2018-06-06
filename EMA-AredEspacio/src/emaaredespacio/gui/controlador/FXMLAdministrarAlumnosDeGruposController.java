@@ -72,6 +72,8 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
     private TableColumn<Grupo, Integer> clCupo;
     @FXML
     private JFXTextField tfCupo;
+    @FXML
+    private JFXButton btnCancelar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -114,6 +116,7 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
             }else{
                 IInscripcion metodos = new Inscripcion();
                 llenarTablaAlumnos(metodos.sacarInscripcionesDeGrupo(grupoSeleccionado.getIdGrupo()));
+                tfCupo.setText(""+grupoSeleccionado.getEspacioDisponible());
             }
 
             tfNombreGrupo.setText(grupoSeleccionado.getTipoDeBaile());
@@ -126,7 +129,7 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
             alumnoSeleccionado = tbAlumnos.getSelectionModel().getSelectedItem();
 
             tfNombreAlumno.setText(alumnoSeleccionado.getNombreCompleto());
-            File rutaImagen = new File(System.getProperty("user.home") + "/imagenesAredEspacio/imagenesAlumnos/" + alumnoSeleccionado.getImagenPerfil());
+            File rutaImagen = new File(System.getProperty("user.home") + "/aredEspacio/imagenesAlumnos/" + alumnoSeleccionado.getImagenPerfil());
             Image imagen = null;
             if (rutaImagen.exists()) {
                 try {
@@ -136,7 +139,7 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
                 }
                 imgPerfil.setImage(imagen);
             } else {
-                imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
+                imagen = new Image("emaaredespacio/imagenes/User.jpg", 225, 225, false, true, true);
                 imgPerfil.setImage(imagen);
             }
         }
@@ -208,6 +211,7 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
         btnActivarInscripcion.setDisable(false);
         tfMensualidad.setVisible(false);
         tfPrecio.setVisible(false);
+        btnCancelar.setVisible(false);
         inscribir = false;
         vaciarCampos();
     }
@@ -222,6 +226,7 @@ public class FXMLAdministrarAlumnosDeGruposController implements Initializable {
         btnActivarInscripcion.setDisable(true);
         tfMensualidad.setVisible(true);
         tfPrecio.setVisible(true);
+        btnCancelar.setVisible(true);
         inscribir = true;
         vaciarCampos();
     }

@@ -202,6 +202,7 @@ public class FXMLAdministrarPagosAColaboradorController implements Initializable
     @FXML
     private void accionCancelarEdicion(ActionEvent event) {
         desactivarCampos();
+        vboxContenedor.setDisable(false);
     }
     
     public void cargarPago(Pago pago){

@@ -3,6 +3,7 @@ package emaaredespacio.modelo;
 import emaaredespacio.persistencia.controladores.AlumnosJpaController;
 import emaaredespacio.persistencia.controladores.IControladorAlumnos;
 import emaaredespacio.persistencia.entidad.Alumnos;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -105,7 +106,7 @@ public class Alumno implements IAlumno{
     }
 
     @Override
-    public boolean guardarAlumno(Alumno alumno) {
+    public boolean guardarAlumno(Alumno alumno, File imagen) {
         boolean validacion = false;
         IControladorAlumnos controlador = new AlumnosJpaController();
         
@@ -120,7 +121,7 @@ public class Alumno implements IAlumno{
         nuevoAlumno.setMatricula(alumno.getMatricula());
         nuevoAlumno.setTelefono(alumno.getTelefono());
         
-        validacion = controlador.guardarAlumno(nuevoAlumno);
+        validacion = controlador.guardarAlumno(nuevoAlumno, imagen);
         
         return validacion;
     }

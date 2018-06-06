@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -165,6 +164,7 @@ public class FXMLRegistrarEgresoFacebookController implements Initializable {
         }
     }
     
+    @FXML
     private void limpiarCampos(){
         tfCosto.setText("");
         tfCreador.setText(System.getProperty("colaborador"));

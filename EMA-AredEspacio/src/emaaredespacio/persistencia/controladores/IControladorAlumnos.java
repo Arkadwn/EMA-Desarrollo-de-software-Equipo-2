@@ -1,6 +1,7 @@
 package emaaredespacio.persistencia.controladores;
 
 import emaaredespacio.persistencia.entidad.Alumnos;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @time 07:09:03 PM
  */
 public interface IControladorAlumnos {
-    public boolean guardarAlumno(Alumnos alumno);
+    public boolean guardarAlumno(Alumnos alumno, File imagen);
     public boolean editarAlumno(Alumnos alumno);
     public List<Alumnos> buscarAlumno(String palabraClave);
 }

@@ -96,6 +96,8 @@ public class FXMLEditarColaboradorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         edicionContraseña = false;
+        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 225, 225, false, true, true);
+        imgPerfil.setImage(imagen);
         columnaApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         lista = new ArrayList();
@@ -333,7 +335,7 @@ public class FXMLEditarColaboradorController implements Initializable {
         tfApellidos.setText("");
         tfUsuario.setText("");
         tfDireccion.setText("");
-        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 300, 300, false, true, true);
+        Image imagen = new Image("emaaredespacio/imagenes/User.jpg", 225, 225, false, true, true);
         imgPerfil.setImage(imagen);
         seleccion = null;
         tbListaColaboradores.getItems().clear();

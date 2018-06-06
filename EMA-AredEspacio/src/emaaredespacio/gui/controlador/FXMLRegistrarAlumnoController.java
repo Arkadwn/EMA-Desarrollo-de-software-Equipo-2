@@ -3,7 +3,6 @@ package emaaredespacio.gui.controlador;
 import com.jfoenix.controls.JFXTextField;
 import emaaredespacio.modelo.Alumno;
 import emaaredespacio.modelo.IAlumno;
-import emaaredespacio.utilerias.Imagen;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -67,9 +66,7 @@ public class FXMLRegistrarAlumnoController implements Initializable {
 
             boolean[] validacion = metodosAlumnos.validarCampos(alumno);
             if (validacion[5]) {
-                alumno.setImagenPerfil(alumno.getMatricula()+".jpg");
-                if (metodosAlumnos.guardarAlumno(alumno)) {
-                    Imagen.moverImagen(imagen, ""+alumno.getMatricula(), Imagen.ALUMNO);
+                if (metodosAlumnos.guardarAlumno(alumno,imagen)) {
                     MensajeController.mensajeInformacion("El alumno ha sido guardado exitosamente");
                     limpiarCampos();
                 } else {
@@ -100,7 +97,7 @@ public class FXMLRegistrarAlumnoController implements Initializable {
             MensajeController.mensajeAdvertencia("No es una imagen");
         } else {
             Image image = null;
-            imagen = rutaImagen;
+            this.imagen = rutaImagen;
             try {
                 image = new Image(rutaImagen.toURI().toURL().toString(), 225, 225, false, true, true);
             } catch (MalformedURLException ex) {

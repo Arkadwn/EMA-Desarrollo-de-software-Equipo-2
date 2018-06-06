@@ -6,6 +6,7 @@
 package emaaredespacio.modelo;
 
 
+import java.io.File;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -34,9 +35,9 @@ public class AlumnoTest {
         alumno.setTelefono("2282270732");
         alumno.setDireccion("Rancho Viejo");
         alumno.setImagenPerfil("41109390.jpg");
-        
+        File archivo = null;
         boolean resultadoEsperado = true;
-        boolean resultado = controlador.guardarAlumno(alumno);
+        boolean resultado = controlador.guardarAlumno(alumno,archivo);
         assertEquals(resultadoEsperado, resultado);
         System.out.println(resultadoEsperado+" - " + resultado);
     }
@@ -76,9 +77,9 @@ public class AlumnoTest {
         alumno.setTelefono("2282270732");
         alumno.setDireccion("Xalapa");
         alumno.setImagenPerfil("41109390.jpg");
-        
+        File archivo = null;
         boolean resultadoEsperado = true;
-        boolean resultado = controlador.guardarAlumno(alumno);
+        boolean resultado = controlador.guardarAlumno(alumno,archivo);
         assertEquals(resultadoEsperado, resultado);
         System.out.println(resultadoEsperado+" - " + resultado);
     }

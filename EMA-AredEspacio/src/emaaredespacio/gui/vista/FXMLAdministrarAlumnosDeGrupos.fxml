@@ -161,7 +161,7 @@
                   <Insets left="20.0" right="30.0" />
                </GridPane.margin>
             </JFXTextField>
-            <JFXButton fx:id="btnInscribir1" onAction="#vaciarCampos" prefHeight="29.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Cancelar" GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <JFXButton fx:id="btnCancelar" onAction="#vaciarCampos" prefHeight="29.0" prefWidth="114.0" style="-fx-border-color: #ff0066; -fx-border-width: 2; -fx-border-radius: 5;" text="Cancelar" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>

@@ -1,5 +1,6 @@
 package emaaredespacio.modelo;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -14,9 +15,10 @@ public interface IAlumno {
      * Guarda un alumno en la base de datos.
      * 
      * @param alumno Alumno a guardar.
+     * @param imagen archivo de la imagen.
      * @return True si fue guardado, false si no fue guardado.
      */
-    public boolean guardarAlumno(Alumno alumno);
+    public boolean guardarAlumno(Alumno alumno, File imagen);
 
     /**
      * Valida los campos de un alumno de acuerdo la restricciones de la base de datos
